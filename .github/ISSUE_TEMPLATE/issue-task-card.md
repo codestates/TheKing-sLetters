@@ -39,5 +39,5 @@ Pick one
 
 - Estimated time: E: 1h
 - Group : client, server
-- Sprint: FourmenAir Project
+- Sprint: TheKing-sLetters
 - Urgency: High, Middle, Low

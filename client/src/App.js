@@ -1,7 +1,10 @@
+import React from 'react';
+import Header from './Menu/Header';
+
 function App() {
   return (
     <>
-    <p>HELLO WORLD!</p>
+      <Header />
     </>
   );
 }

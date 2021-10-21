@@ -1,9 +1,10 @@
 import React from 'react';
+import Header from './Menu/Header';
 
 function App() {
   return (
     <>
-      <div>h1</div>
+      <Header />
     </>
   );
 }

@@ -5,7 +5,7 @@ module.exports = async (req, res) => {
   const { quizzes } = req.body
   const accessTokenData = adminAuthorized(req, res);
   
-  if(!adminAuthorized) {
+  if(!accessTokenData) {
     res.status(404).send("not admin")
   } else {
     await quiz.findAll({

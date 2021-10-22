@@ -30,6 +30,10 @@ module.exports = async (req, res) => {
     where: { id: id }
   })
 
+  if(!quizzes) {
+    res.status(404).send("quiz does not exist")
+  }
+
   const selectedQuiz = {
     id: quizzes.id,
     title: quizzes.title,
@@ -48,10 +52,6 @@ module.exports = async (req, res) => {
       mileage: quizzes.user.mileages[0].mileage
     }
   };
-
-  if(!quizzes) {
-    res.status(404).send("quiz does not exist")
-  }
 
   res.status(200).json({ data: { selectedQuiz } })
 }

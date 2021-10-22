@@ -1,4 +1,5 @@
-const { user, quiz, user_quiz } = require('../../models')
+const { user, quiz, user_quiz } = require('../../models');
+const { isAuthorized } = require('../tokenFunction');
 
 module.exports = async (req, res) => {
   const quizId = req.body.quizId

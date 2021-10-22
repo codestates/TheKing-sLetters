@@ -31,13 +31,13 @@ app.get('/users/rank', controllers.rank)
 app.get('/confirmEmail', controllers.emailAuth)
 
 // quiz API
+app.get('/mynote', controllers.mynote)
+app.get('/mypublish', controllers.myPublish)  // GET으로 변경
+app.post('/mynote/add', controllers.addMyNote)
+app.post('/mynote/delete', controllers.deleteMyNote)
 app.get('/quizzes/all', controllers.quizzesAll)  // GET으로 변경
 app.get('/quizzes/:id', controllers.quizId)
-app.get('/quizzes/mynote', controllers.myNote)
-app.post('/quizzes/mynote/add', controllers.addMyNote)
-app.post('/quizzes/mynote/delete', controllers.deleteMyNote)
 app.post('/quizzes/newquiz', controllers.newQuiz)
-app.get('/quizzes/mypublish', controllers.myPublish)  // GET으로 변경
 app.post('/quizzes/submit', controllers.submit)
 app.post('/quizzes/recommend', controllers.recommend)
 

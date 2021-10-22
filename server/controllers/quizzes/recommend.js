@@ -4,6 +4,14 @@ const { isAuthorized } = require('../tokenFunction')
 module.exports = async (req, res) => {
   const { quizId } = req.body
   const accessTokenData = isAuthorized(req, res);
+  
+  const quizExist = await quiz.findOne({
+    where: { id: quizId }
+  })
+
+  if(!quizExist) {
+    res.status(404).send("there is no quiz")
+  }
 
   const data = await accessTokenData
   .then(user => { return user })

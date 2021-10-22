@@ -8,6 +8,15 @@ module.exports = async (req, res) => {
   if(!accessTokenData) {
     res.status(404).send("you have to login")
   } else {
+
+    const quizExist = await quiz.findOne({
+      where: { id: quizId }
+    })
+  
+    if(!quizExist) {
+      res.status(404).send("there is no quiz")
+    }
+
     const data = await accessTokenData
     .then(user => { return user })
 

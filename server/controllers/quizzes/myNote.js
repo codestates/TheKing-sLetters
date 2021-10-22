@@ -1,4 +1,5 @@
 const { quiz, user, user_quiz, quiz_type, quizContent, answer_type, answerContent, category, user_recommend_quiz } = require('../../models')
+const { isAuthorized } = require('../tokenFunction');
 
 module.exports = async (req, res) => {
   const accessTokenData = isAuthorized(req, res);

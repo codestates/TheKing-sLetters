@@ -55,21 +55,20 @@ module.exports = async (req, res) => {
 
 
     console.log("정답 코드 생성")
-      // answerContent 테이블 생성
-    const createdAnswerContent = await answerContent.create({
-      answerCode: answerContents,
-      answerComment: answerComments,
-      answerType: answerTypes,
-      correctAnswer: answerCorrects
-    });
-
-
-
-    console.log("정답 코드 조인 생성")
-      // answer_type 테이블 생성
-    const createdAnswer_type = await answer_type.create({
-      answerContentId: createdAnswerContent.id,
-      quizId: createdQuiz.id
+      // answerContent, answer_tyoe 테이블 생성
+    answerContents.map( async (answerExample) => {
+      await answerContent.create({
+        answerCode: answerExample,
+        answerComment: answerComments,
+        answerType: answerTypes,
+        correctAnswer: answerCorrects
+      })
+      .then( async (created) => {
+        await answer_type.create({
+          answerContentId: created.id,
+          quizId: createdQuiz.id
+        })
+      })
     })
 
     res.status(201).redirect(`http://${req.get('host')}`)

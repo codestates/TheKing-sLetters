@@ -7,13 +7,13 @@ const MainContainer = styled.div`
   display: flex;
   justify-content: space-evenly;
   width: 100%;
-  height: 550px;
   background-color: #d7dbd1;
   z-index: -3;
   padding: 2em 0;
 
   @media (max-width: 768px) {
     flex-direction: column-reverse;
+    padding: 0;
   }
 `;
 const MainTitle = styled.div`
@@ -26,6 +26,7 @@ const MainTitle = styled.div`
     font-size: 100px;
     font-weight: 700;
     letter-spacing: 2px;
+    text-shadow: 5px 5px 1px rgba(0, 0, 0, 0.3);
   }
   h2 {
     font-family: 'EBSHunminjeongeumSBA';
@@ -52,7 +53,7 @@ const MainTitle = styled.div`
     font-size: 20px;
     font-weight: bold;
     z-index: 1;
-    box-shadow: 0 0 2px rgba(0, 0, 0, 0.45);
+    box-shadow: 5px 5px 1px rgba(0, 0, 0, 0.3);
     transition: all 0.3s ease;
   }
 
@@ -86,7 +87,6 @@ const MainTitle = styled.div`
   }
   @media (max-width: 768px) {
     justify-content: center;
-    margin-top: 6rem;
     h1 {
       font-size: 90px;
       margin-left: 10px;
@@ -107,8 +107,8 @@ const MainImg = styled.div`
   height: 500px;
   > img {
     height: inherit;
-    border-radius: 15px;
-    box-shadow: 2px 2px 2px 1px rgb(0 0 0 / 10%);
+    border-radius: 5px;
+    box-shadow: 7px 7px 1px rgba(0, 0, 0, 0.3);
     width: 100%;
   }
   @media (max-width: 1280px) {
@@ -129,8 +129,6 @@ const MainImg = styled.div`
     align-items: center;
     img {
       width: 80%;
-      margin-top: 15rem;
-      height: 450px;
     }
   }
 `;

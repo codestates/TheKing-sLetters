@@ -94,7 +94,7 @@ const NavBarUser = styled.ul`
   }
 `;
 
-const NavBarToggle = styled.a`
+const NavBarToggle = styled.div`
   display: none;
   position: absolute;
   font-family: 'EBSHunminjeongeumSBA';

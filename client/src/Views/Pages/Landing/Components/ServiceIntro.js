@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import './ServiceIntro.scss';
 
 const ServiceIntroContainer = styled.div`
   display: flex;
@@ -10,9 +11,10 @@ const ServiceIntroContainer = styled.div`
   background-color: #fff;
   flex-direction: column;
   font-family: 'EBSHMJESaeronRA';
+  position: relative;
 
   > h1 {
-    margin-top: 6em;
+    margin-top: 4em;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -33,6 +35,30 @@ const ServiceIntroContainer = styled.div`
     letter-spacing: 3px;
     margin-bottom: 1.5em;
   }
+  @media (max-width: 1280px) {
+    > h1 {
+      margin-top: 3em;
+    }
+    > h2 {
+      font-size: 2.8em;
+    }
+  }
+  @media (max-width: 960px) {
+    > h1 {
+      margin-top: 2.5em;
+    }
+    > h2 {
+      font-size: 2.5em;
+    }
+  }
+  @media (max-width: 768px) {
+    > h1 {
+      margin-top: 2em;
+    }
+    > h2 {
+      font-size: 2.2em;
+    }
+  }
 `;
 
 const BoxContainer = styled.div`
@@ -40,9 +66,11 @@ const BoxContainer = styled.div`
   width: 100%;
   padding: 3em 0;
   box-sizing: border-box;
-  height: 60vh;
+  height: 75vh;
   background-color: #93aca0;
-
+  @media (max-width: 1280px) {
+    flex: 1 1 100%;
+  }
   > .box {
     flex: 1;
     overflow: hidden;
@@ -52,6 +80,7 @@ const BoxContainer = styled.div`
     line-height: 0;
     border-radius: 5px;
     background-color: #99a89e;
+
     &:hover {
       flex: 1 1 30%;
       > img {
@@ -62,11 +91,8 @@ const BoxContainer = styled.div`
   }
   > .box > img {
     width: 100%;
-    background-size: cover;
     height: calc(100% - 6vh);
-    -o-object-fit: cover;
-    object-fit: cover;
-    transition: 0.5s;
+    transition: 0.5s ease-in-out;
   }
 
   > .box > span {
@@ -77,6 +103,12 @@ const BoxContainer = styled.div`
     height: 6vh;
     line-height: 1.8;
     text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.5);
+  }
+  @media (max-width: 600px) {
+    > .box > span {
+      font-size: 2.5vh;
+      line-height: 2.5;
+    }
   }
 `;
 
@@ -90,21 +122,20 @@ const TextContainer = styled.div`
   &.active {
     display: flex;
   }
-  > div > h3 {
-    transition: all 5s ease;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 40px;
-    letter-spacing: 3px;
-    margin-bottom: 0.5em;
-  }
-  > div > p {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 28px;
-    letter-spacing: 3px;
+
+  @media (max-width: 768px) {
+    .container {
+      padding: 0;
+    }
+    .title {
+      font-size: 3em;
+      font-weight: 900;
+      letter-spacing: -1px;
+    }
+    .container > span {
+      font-size: 1.6em;
+      letter-spacing: -1px;
+    }
   }
 `;
 
@@ -114,26 +145,56 @@ const ServiceIntro = () => {
     const animated1 = hover1.getAttribute('data-animated');
     hover1.setAttribute('src', animated1);
 
-    const problem = document.querySelector('.problem');
-    problem.classList.add('active');
+    const problem1 = document.querySelector('.problem1');
+    problem1.classList.add('active');
+    const problem2 = document.querySelector('.problem2');
+    problem2.classList.remove('active');
+    const problem3 = document.querySelector('.problem3');
+    problem3.classList.remove('active');
+    const problem4 = document.querySelector('.problem4');
+    problem4.classList.remove('active');
   };
   const handleMouseOver2 = () => {
     const hover2 = document.querySelector('.hov-ani2');
     const animated2 = hover2.getAttribute('data-animated');
     hover2.setAttribute('src', animated2);
 
-    const problem = document.querySelector('.problem');
-    problem.classList.remove('active');
+    const problem1 = document.querySelector('.problem1');
+    problem1.classList.remove('active');
+    const problem2 = document.querySelector('.problem2');
+    problem2.classList.add('active');
+    const problem3 = document.querySelector('.problem3');
+    problem3.classList.remove('active');
+    const problem4 = document.querySelector('.problem4');
+    problem4.classList.remove('active');
   };
   const handleMouseOver3 = () => {
     const hover3 = document.querySelector('.hov-ani3');
     const animated3 = hover3.getAttribute('data-animated');
     hover3.setAttribute('src', animated3);
+
+    const problem1 = document.querySelector('.problem1');
+    problem1.classList.remove('active');
+    const problem2 = document.querySelector('.problem2');
+    problem2.classList.remove('active');
+    const problem3 = document.querySelector('.problem3');
+    problem3.classList.add('active');
+    const problem4 = document.querySelector('.problem4');
+    problem4.classList.remove('active');
   };
   const handleMouseOver4 = () => {
     const hover4 = document.querySelector('.hov-ani4');
     const animated4 = hover4.getAttribute('data-animated');
     hover4.setAttribute('src', animated4);
+
+    const problem1 = document.querySelector('.problem1');
+    problem1.classList.remove('active');
+    const problem2 = document.querySelector('.problem2');
+    problem2.classList.remove('active');
+    const problem3 = document.querySelector('.problem3');
+    problem3.classList.remove('active');
+    const problem4 = document.querySelector('.problem4');
+    problem4.classList.add('active');
   };
   const handleMouseOut1 = () => {
     const hover1 = document.querySelector('.hov-ani1');
@@ -157,6 +218,19 @@ const ServiceIntro = () => {
   };
   return (
     <ServiceIntroContainer>
+      <div className="custom-shape-divider-bottom-1634990087">
+        <svg
+          data-name="Layer 1"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 1200 120"
+          preserveAspectRatio="none"
+        >
+          <path
+            d="M649.97 0L550.03 0 599.91 54.12 649.97 0z"
+            className="shape-fill"
+          ></path>
+        </svg>
+      </div>
       <h1 className="h1">
         <span>성균관 유생</span>이 되면,
       </h1>
@@ -211,34 +285,36 @@ const ServiceIntro = () => {
           <span>마일리지</span>
         </div>
       </BoxContainer>
-      <TextContainer className="problem">
-        <div>
-          <h3>문제를 풀어보아요!</h3>
-          <p>한글문제 풀이활동에 대한 재미 기능 제공</p>
-          <p>한글문제 풀이활동에 대한 리워드 마일리지 제공</p>
-          <p>한글문제 풀이활동에 대한 마일리지 별 랭킹 제공</p>
+      <TextContainer className="problem1">
+        <div className="container">
+          <h3 className="title">문제를 풀어보아요!</h3>
+          <span>한글문제 풀이활동에 대한 재미 기능 제공</span>
+          <span>한글문제 풀이활동에 대한 리워드 마일리지 제공</span>
+          <span>한글문제 풀이활동에 대한 마일리지 별 랭킹 제공</span>
         </div>
       </TextContainer>
-      <TextContainer className="problem">
-        <div>
-          <h3>문제를 만들어 보아요!</h3>
-          <p>한글문제 생성활동에 대한 재미 기능 제공</p>
-          <p>한글문제 생성활동에 대한 다양한 문제 출제 유형 제공</p>
-          <p>한글 문제 출제에 다른 리워드 제공</p>
+      <TextContainer className="problem2">
+        <div className="container">
+          <h3 className="title">문제를 만들어 보아요!</h3>
+          <span>한글문제 생성활동에 대한 재미 기능 제공</span>
+          <span>한글문제 생성활동에 대한 다양한 문제 출제 유형 제공</span>
+          <span>한글 문제 출제에 다른 리워드 제공</span>
         </div>
       </TextContainer>
-      <TextContainer className="problem">
-        <div>
-          <h3>문제를 보관해 보아요!</h3>
-          <p>한글문제 풀이활동에 대한 나만의 노트 기능 제공</p>
+      <TextContainer className="problem3">
+        <div className="container">
+          <h3 className="title">문제를 보관해 보아요!</h3>
+          <span>한글문제 풀이활동에 대한 나만의 노트 기능 제공</span>
+          <span>뭐라도</span>
+          <span>넣어야한다</span>
         </div>
       </TextContainer>
-      <TextContainer className="problem">
-        <div>
-          <h3>마일리지를 쿠폰으로 바꿔요!</h3>
-          <p>한글문제 풀이활동에 대한 마일리지 획득 시,</p>
-          <p>쿠폰 교환기능 제공</p>
-          <p>마일리지 보유를 기준으로 랭킹 제도 제공</p>
+      <TextContainer className="problem4">
+        <div className="container">
+          <h3 className="title">마일리지를 쿠폰으로 바꿔요! </h3>
+          <span>한글문제 풀이활동에 대한 마일리지 획득 시,</span>
+          <span>쿠폰 교환기능 제공</span>
+          <span>마일리지 보유를 기준으로 랭킹 제도 제공</span>
         </div>
       </TextContainer>
     </ServiceIntroContainer>

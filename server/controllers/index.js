@@ -6,9 +6,11 @@ module.exports = {
   info: require('./users/info'),
   rank: require('./users/rank'),
   edit: require('./users/edit'),
+  userDeleteQuiz: require('./users/deleteQuiz'),
 
   adminSignup: require('./admin/signup'),
   adminLogin: require('./admin/login'),
+  adminSignout: require('./admin/signout'),
   approvalPage: require('./admin/approvalPage'),
   approve: require('./admin/approve'),
   deleteQuiz: require('./admin/deleteQuiz'),

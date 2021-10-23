@@ -1,8 +1,8 @@
-const { isAuthorized } = require('../tokenFunction')
+const { adminAuthorized } = require('../tokenFunction')
 
 module.exports = async (req, res) => {
-  const accessTokenData = isAuthorized(req, res);
-
+  const accessTokenData = adminAuthorized(req, res);
+  
   if(!accessTokenData) {
     res.status(404).json({ data: { message: "you're currently not logined" } })
   } else {

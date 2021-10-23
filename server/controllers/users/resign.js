@@ -1,4 +1,4 @@
-const { user } = require('../../models');
+const { user, user_usedItem, usedItem, quiz } = require('../../models');
 const { sign } = require('jsonwebtoken');
 const { isAuthorized } = require('../tokenFunction');
 
@@ -9,8 +9,35 @@ module.exports = async (req, res) => {
     const data = await accessTokenData
     .then(user => { return user })
 
-    await user.destroy({
+    const userData = await user.findOne({
       where: { email: data.email }
+    })
+
+    const madedQuiz = await quiz.findAll({
+      where: { userId: userData.id }
+    })
+
+    madedQuiz.map( async (quiz) => {
+      await quiz.update({
+        userId: 4
+      })
+    })
+
+    const usedItemList = await user_usedItem.findAll({
+      where: { userId: userData.id }
+    })
+    
+    const bucket = []
+    usedItemList.map((item) => {
+      bucket.push(item.id)
+    })
+
+    await usedItem.destroy({
+      where: { id: bucket }
+    })
+
+    await user.destroy({
+      where: { email: userData.email }
     })
 
     // const expiredToken = sign({}, process.env.ACCESS_SECRET, {expiresIn: 0});

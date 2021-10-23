@@ -1,19 +1,26 @@
-const { admin, quiz, user_quiz, user_clearQuiz, user_recommend_quiz, category, quiz_type, quizContent, answer_type, answerContent } = require('../../models')
-const { adminAuthorized } = require('../tokenFunction')
+const { user, quiz, user_quiz, user_clearQuiz, user_recommend_quiz, category, quiz_type, quizContent, answer_type, answerContent } = require('../../models')
+const { isAuthorized } = require('../tokenFunction')
 
 module.exports = async (req, res) => {
   const { quizId } = req.body
-  const accessTokenData = adminAuthorized(req, res);
+  const accessTokenData = isAuthorized(req, res);
   
   if(!accessTokenData) {
-    res.status(404).send("not admin")
+    res.status(404).send("please login")
   } else {
+    const data = await accessTokenData
+    .then(user => { return user })
+
+    const userData = await user.findOne({
+      where: { email: data.email }
+    })
+
     const quizExist = await quiz.findOne({
-      where: { id: quizId }
+      where: { id: quizId, userId: userData.id }
     })
     
     if(!quizExist) {
-      res.status(404).send("quiz not exist")
+      res.status(404).send("you don't have permission")
     } else {
       const quizType = await quiz_type.findOne({
         include: [

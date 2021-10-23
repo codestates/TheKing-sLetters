@@ -28,6 +28,7 @@ app.post('/signout', controllers.signout)
 app.delete('/resign', controllers.resign)
 app.get('/users/info', controllers.info)  // GET으로 변경
 app.get('/users/rank', controllers.rank)
+app.delete('/users/deletequiz', controllers.userDeleteQuiz)
 // email auth API
 app.get('/confirmEmail', controllers.emailAuth)
 
@@ -51,6 +52,7 @@ app.get('/myitems', controllers.myItem)  // GET으로 변경
 // admin API
 app.post('/admin/signup', controllers.adminSignup)
 app.post('/admin/login', controllers.adminLogin)
+app.post('/admin/signout', controllers.adminSignout)
 app.get('/approvalpage', controllers.approvalPage)  // GET으로 변경
 app.post('/approve', controllers.approve)
 app.delete('/admin/deletequiz', controllers.deleteQuiz)

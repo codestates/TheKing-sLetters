@@ -7,20 +7,19 @@ module.exports = async (req, res) => {
   if (!header) {
     const quizzes = await quiz.findAll({
       include: [
-        { model: category, attributes: ["category"] },
+        { model: category, attributes: ["id", "category"] },
         { model: quiz_type,
           include: [
-            { model: quizContent, attributes: ["quizType"] }
+            { model: quizContent, attributes: ["id", "quizType", "quizCode"] }
           ],
-          attributes: ["quizId"]
+          attributes: ["id", "quizId", "quizContentId"]
         },
         { model: answer_type,
           include: [
-            { model: answerContent, attributes: ["answerType"] }
+            { model: answerContent, attributes: ["id", "answerType"] }
           ],
-          attributes: ["quizId"]
-        },
-        { model: user_recommend_quiz, attributes: ["userId"] }
+          attributes: ["id", "quizId", "answerContentId"]
+        }
       ],
       attributes: ["id", "title", "thumbnail", "rewardPoint", "heart" ],
       where: { valid: true }
@@ -33,10 +32,36 @@ module.exports = async (req, res) => {
         title: quiz.title,
         thumbnail: quiz.thumbnail,
         rewardPoint: quiz.rewardPoint,
-        heart: quiz.user_recommend_quizzes.length,
-        category: quiz.categories[0].category,
-        quizType: quiz.quiz_types[0].quizContent.quizType,
-        answerType: quiz.answer_types[0].answerContent.answerType
+        heart: quiz.heart,
+        categories: [
+          {
+            id: quiz.categories[0].id,
+            category: quiz.categories[0].category,
+          }
+        ],
+        quiz_types: [
+          {
+            id: quiz.quiz_types[0].id,
+            quizId: quiz.quiz_types[0].quizId,
+            quizContentId: quiz.quiz_types[0].quizContentId,
+            quizContent: {
+              id: quiz.quiz_types[0].quizContent.id,
+              quizType: quiz.quiz_types[0].quizContent.quizType,
+              quizCode: quiz.quiz_types[0].quizContent.quizCode
+            }
+          }
+        ],
+        answer_types: [
+          {
+            id: quiz.answer_types[0].id,
+            quizId: quiz.answer_types[0].quizId,
+            answerContentId: quiz.answer_types[0].answerContentId,
+            answerContent: {
+              id: quiz.answer_types[0].answerContent.id,
+              answerType: quiz.answer_types[0].answerContent.answerType
+            }
+          }
+        ]
       })
     })
   
@@ -53,20 +78,19 @@ module.exports = async (req, res) => {
   
     const quizzes = await quiz.findAll({
       include: [
-        { model: category, attributes: ["category"] },
+        { model: category, attributes: ["id", "category"] },
         { model: quiz_type,
           include: [
-            { model: quizContent, attributes: ["quizType"] }
+            { model: quizContent, attributes: ["id", "quizType", "quizCode"] }
           ],
-          attributes: ["quizId"]
+          attributes: ["id", "quizId", "quizContentId"]
         },
         { model: answer_type,
           include: [
             { model: answerContent, attributes: ["answerType"] }
           ],
-          attributes: ["quizId"]
-        },
-        { model: user_recommend_quiz, attributes: ["userId"] }
+          attributes: ["id", "quizId", "answerContentId"]
+        }
       ],
       attributes: ["id", "title", "thumbnail", "rewardPoint", "heart" ],
       where: { valid: true }
@@ -90,10 +114,36 @@ module.exports = async (req, res) => {
           title: quiz.title,
           thumbnail: quiz.thumbnail,
           rewardPoint: quiz.rewardPoint,
-          heart: quiz.user_recommend_quizzes.length,
-          category: quiz.categories[0].category,
-          quizType: quiz.quiz_types[0].quizContent.quizType,
-          answerType: quiz.answer_types[0].answerContent.answerType,
+          heart: quiz.heart,
+          categories: [
+            {
+              id: quiz.categories[0].id,
+              category: quiz.categories[0].category,
+            }
+          ],
+          quiz_types: [
+            {
+              id: quiz.quiz_types[0].id,
+              quizId: quiz.quiz_types[0].quizId,
+              quizContentId: quiz.quiz_types[0].quizContentId,
+              quizContent: {
+                id: quiz.quiz_types[0].quizContent.id,
+                quizType: quiz.quiz_types[0].quizContent.quizType,
+                quizCode: quiz.quiz_types[0].quizContent.quizCode
+              }
+            }
+          ],
+          answer_types: [
+            {
+              id: quiz.answer_types[0].id,
+              quizId: quiz.answer_types[0].quizId,
+              answerContentId: quiz.answer_types[0].answerContentId,
+              answerContent: {
+                id: quiz.answer_types[0].answerContent.id,
+                answerType: quiz.answer_types[0].answerContent.answerType
+              }
+            }
+          ],
           recommended: true
         })
       } else {
@@ -102,10 +152,36 @@ module.exports = async (req, res) => {
           title: quiz.title,
           thumbnail: quiz.thumbnail,
           rewardPoint: quiz.rewardPoint,
-          heart: quiz.user_recommend_quizzes.length,
-          category: quiz.categories[0].category,
-          quizType: quiz.quiz_types[0].quizContent.quizType,
-          answerType: quiz.answer_types[0].answerContent.answerType,
+          heart: quiz.heart,
+          categories: [
+            {
+              id: quiz.categories[0].id,
+              category: quiz.categories[0].category,
+            }
+          ],
+          quiz_types: [
+            {
+              id: quiz.quiz_types[0].id,
+              quizId: quiz.quiz_types[0].quizId,
+              quizContentId: quiz.quiz_types[0].quizContentId,
+              quizContent: {
+                id: quiz.quiz_types[0].quizContent.id,
+                quizType: quiz.quiz_types[0].quizContent.quizType,
+                quizCode: quiz.quiz_types[0].quizContent.quizCode
+              }
+            }
+          ],
+          answer_types: [
+            {
+              id: quiz.answer_types[0].id,
+              quizId: quiz.answer_types[0].quizId,
+              answerContentId: quiz.answer_types[0].answerContentId,
+              answerContent: {
+                id: quiz.answer_types[0].answerContent.id,
+                answerType: quiz.answer_types[0].answerContent.answerType
+              }
+            }
+          ],
           recommended: false
         })
       }

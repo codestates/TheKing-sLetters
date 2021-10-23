@@ -5,11 +5,13 @@ module.exports = {
   resign: require('./users/resign'),
   info: require('./users/info'),
   rank: require('./users/rank'),
+  edit: require('./users/edit'),
 
   adminSignup: require('./admin/signup'),
   adminLogin: require('./admin/login'),
   approvalPage: require('./admin/approvalPage'),
   approve: require('./admin/approve'),
+  deleteQuiz: require('./admin/deleteQuiz'),
 
   emailAuth: require('./emailAuth/emailAuth'),
 

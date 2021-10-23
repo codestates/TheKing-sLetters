@@ -23,45 +23,44 @@ module.exports = async (req, res) => {
       myNotesList.push(myNote.quizId)
     })
   
-    const quizzes = await quiz.findAll({
+    const myNote = await quiz.findAll({
       include: [
-        { model: category, attributes: ["category"] },
+        { model: category, attributes: ["id", "category"] },
         { model: quiz_type,
           include: [
-            { model: quizContent, attributes: ["quizType"] }
+            { model: quizContent, attributes: ["id", "quizType", "quizCode"] }
           ],
-          attributes: ["quizId"]
+          attributes: ["id", "quizId", "quizContentId"]
         },
         { model: answer_type,
           include: [
-            { model: answerContent, attributes: ["answerType"] }
+            { model: answerContent, attributes: ["id", "answerType", "answerCode"] }
           ],
-          attributes: ["quizId"]
-        },
-        { model: user_recommend_quiz, attributes: ["userId"] }
+          attributes: ["id", "quizId", "answerContentId"]
+        }
       ],
       attributes: ["id", "title", "thumbnail", "rewardPoint", "heart" ],
       where: { id: myNotesList }
     })
   
-    const myNoteList = [];
-    quizzes.map((quiz) => {
-      myNoteList.push({
-        id: quiz.id,
-        title: quiz.title,
-        thumbnail: quiz.thumbnail,
-        rewardPoint: quiz.rewardPoint,
-        heart: quiz.user_recommend_quizzes.length,
-        category: quiz.categories[0].category,
-        quizType: quiz.quiz_types[0].quizContent.quizType,
-        answerType: quiz.answer_types[0].answerContent.answerType
-      })
-    })
+    // const myNoteList = [];
+    // quizzes.map((quiz) => {
+    //   myNoteList.push({
+    //     id: quiz.id,
+    //     title: quiz.title,
+    //     thumbnail: quiz.thumbnail,
+    //     rewardPoint: quiz.rewardPoint,
+    //     heart: quiz.user_recommend_quizzes.length,
+    //     category: quiz.categories[0].category,
+    //     quizType: quiz.quiz_types[0].quizContent.quizType,
+    //     answerType: quiz.answer_types[0].answerContent.answerType
+    //   })
+    // })
   
-    if(myNoteList === []) {
+    if(myNote.length <= 0) {
       res.status(200).send("my note is empty")
     }
   
-    res.status(200).json({ data: { myNoteList } })
+    res.status(200).json({ data: { myNote } })
   }
 }

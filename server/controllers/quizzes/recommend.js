@@ -33,13 +33,25 @@ module.exports = async (req, res) => {
         userId: userData.id,
         quizId: Number(quizId)
       })
-    
-      console.log(newRecommend)
+
+      await quiz.findOne({
+        where: { id: quizId }
+      })
+      .then((quiz) => {
+        quiz.increment('heart', { by: 1 });
+      })
     
       res.status(200).send("add recommend")
     } else if (accessTokenData && exist) {
       await user_recommend_quiz.destroy({
         where: { userId: userData.id, quizId: Number(quizId) }
+      })
+
+      await quiz.findOne({
+        where: { id: quizId }
+      })
+      .then((quiz) => {
+        quiz.decrement('heart', { by: 1 });
       })
 
       res.status(200).send("cancel recommend")

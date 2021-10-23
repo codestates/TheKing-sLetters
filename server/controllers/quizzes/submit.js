@@ -76,7 +76,7 @@ module.exports = async (req, res) => {
 
         res.status(200).json({ message: "correct answer!", comment: realAnswer.answerComment })
       }
-    } else if(realAnswer.correctAnswer === answer && outUserData && isCleared || isPublished) {
+    } else if(realAnswer.correctAnswer === answer && outUserData && (isCleared || isPublished)) {
       res.status(200).json({ message: "correct answer! but can't gain point", comment: realAnswer.answerComment })
     } else {
       res.status(200).json({ message: "incorrect answer!", comment: realAnswer.answerComment })

@@ -4,7 +4,7 @@ const { adminAuthorized } = require('../tokenFunction')
 module.exports = async (req, res) => {
   const accessTokenData = adminAuthorized(req, res);
   
-  if(!adminAuthorized) {
+  if(!accessTokenData) {
     res.status(404).send("not admin")
   } else {
     const { company, itemName, barcodeNum, cost, itemImage, deadline } = req.body

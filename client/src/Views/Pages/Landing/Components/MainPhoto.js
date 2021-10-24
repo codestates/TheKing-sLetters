@@ -8,7 +8,6 @@ const MainContainer = styled.div`
   justify-content: space-evenly;
   width: 100%;
   background-color: #d7dbd1;
-  z-index: -3;
   padding: 2em 0;
 
   @media (max-width: 768px) {
@@ -20,7 +19,6 @@ const MainTitle = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  z-index: 2;
   h1 {
     font-family: 'EBSHunminjeongeumSBA';
     font-size: 100px;
@@ -35,6 +33,7 @@ const MainTitle = styled.div`
     margin-top: -25px;
     margin-bottom: 20px;
     letter-spacing: 2px;
+    text-shadow: 3px 3px 1px rgba(0, 0, 0, 0.3);
   }
   p {
     font-family: 'EBSHMJESaeronRA';
@@ -43,18 +42,28 @@ const MainTitle = styled.div`
   }
 
   button {
+    text-align: center;
     margin-top: 20px;
     font-family: 'EBSHMJESaeronRA';
     padding: 8px 12px;
-    border-radius: 5px;
-    background: #99a89e;
+    border-radius: 10px;
+    background-color: #43493a;
     color: #fff;
     letter-spacing: 2px;
     font-size: 20px;
     font-weight: bold;
-    z-index: 1;
     box-shadow: 5px 5px 1px rgba(0, 0, 0, 0.3);
-    transition: all 0.3s ease;
+    z-index: 2;
+    cursor: pointer;
+  }
+  > button:focus {
+    outline: 0;
+  }
+  > button:hover {
+    color: #000;
+    transition: all 0.4s;
+    background-color: #fff;
+    box-shadow: 3px 3px 1px rgba(0, 0, 0, 0.5);
   }
 
   @media (max-width: 1280px) {
@@ -155,7 +164,7 @@ const MainPhoto = () => {
         <h2>바르게 쓸 때 가장 매력적이다.</h2>
         <p>SNS로 빠르게 소통하는 시대, 당신의 맞춤법은 안녕하신가요?</p>
         <p>올바른 맞춤법을 쓰는 그날까지, 나랏말싸미가 함께합니다.</p>
-        <button type="button">누르거라!</button>
+        <button>누르거라!</button>
       </MainTitle>
       <MainImg className="image">
         <img src="https://cdn.discordapp.com/attachments/830706676852064307/900261146479702056/-_-001.png" />

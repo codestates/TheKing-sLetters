@@ -14,7 +14,7 @@
     margin-bottom: .5em;
     width: 100%;
     float: left;
-    color: #000;
+    color: #303030;
     -webkit-clip-path: polygon(100% 0, 100% 100%, 0 100%, 0 80%);
     clip-path: polygon(100% 0, 100% 100%, 0 100%, 0 80%);
     transform: translateY(-50px);
@@ -27,7 +27,7 @@
   .container > span{
     width: 100%;
     float: left;
-    color: #000;
+    color: #303030;
     -webkit-clip-path: polygon(100% 0, 100% 100%, 0 100%, 0 80%);
     clip-path: polygon(100% 0, 100% 100%, 0 100%, 0 80%);
     transform: translateY(-50px);
@@ -46,7 +46,6 @@
       animation-delay: 0.7s;
     } 
     &:last-child{
-      color: #000;
       animation-delay: 0.5s;
     }
   }

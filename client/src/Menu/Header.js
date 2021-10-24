@@ -33,12 +33,15 @@ const NavBarMenu = styled.ul`
     }
   }
   > li:hover {
-    background-color: #99a89e;
+    background-color: #8f8453;
     border-radius: 4px;
     transition: all 0.4s;
     &::after {
       width: 0;
       height: 0;
+    }
+    > a {
+      color: #fff;
     }
   }
   > li::after {
@@ -62,6 +65,7 @@ const NavBarMenu = styled.ul`
 const NavBarUser = styled.ul`
   display: flex;
   padding-left: 0px;
+  cursor: pointer;
   > li {
     padding: 8px 12px;
     color: #000000;

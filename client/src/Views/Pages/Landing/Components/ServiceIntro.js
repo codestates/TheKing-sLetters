@@ -79,8 +79,7 @@ const BoxContainer = styled.div`
     box-shadow: 7px 7px 7px rgba(0, 0, 0, 0.3);
     line-height: 0;
     border-radius: 5px;
-    background-color: #99a89e;
-
+    background-color: #303030;
     &:hover {
       flex: 1 1 30%;
       > img {
@@ -100,9 +99,11 @@ const BoxContainer = styled.div`
     font-size: 3.8vh;
     display: block;
     text-align: center;
+    color: #fff;
     height: 6vh;
     line-height: 1.8;
     text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.5);
+    letter-spacing: 0.07em;
   }
   @media (max-width: 600px) {
     > .box > span {
@@ -128,12 +129,12 @@ const TextContainer = styled.div`
       padding: 0;
     }
     .title {
-      font-size: 3em;
+      font-size: 2.8em;
       font-weight: 900;
       letter-spacing: -1px;
     }
     .container > span {
-      font-size: 1.6em;
+      font-size: 1.5em;
       letter-spacing: -1px;
     }
   }
@@ -246,7 +247,7 @@ const ServiceIntro = () => {
             data-static="https://cdn.discordapp.com/attachments/830706676852064307/901416133486333992/003.png"
             className="hov-ani1"
           />
-          <span>문제 풀이</span>
+          <span>문 제 풀 이</span>
         </div>
         <div className="box">
           <img
@@ -258,7 +259,7 @@ const ServiceIntro = () => {
             data-static="https://cdn.discordapp.com/attachments/830706676852064307/901416130562887690/001.png"
             className="hov-ani2"
           />
-          <span>문제 출제</span>
+          <span>문 제 출 제</span>
         </div>
         <div className="box">
           <img
@@ -270,7 +271,7 @@ const ServiceIntro = () => {
             data-static="https://cdn.discordapp.com/attachments/830706676852064307/901416134874628136/002.png"
             className="hov-ani3"
           />
-          <span>문제 보관</span>
+          <span>문 제 보 관</span>
         </div>
         <div className="box">
           <img
@@ -282,7 +283,7 @@ const ServiceIntro = () => {
             data-static="https://cdn.discordapp.com/attachments/830706676852064307/901416136355221504/004.png"
             className="hov-ani4"
           />
-          <span>마일리지</span>
+          <span>마 일 리 지</span>
         </div>
       </BoxContainer>
       <TextContainer className="problem1">

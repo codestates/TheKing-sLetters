@@ -39,6 +39,7 @@ const MainTitle = styled.div`
     font-family: 'EBSHMJESaeronRA';
     font-size: 20px;
     letter-spacing: 2px;
+    z-index: 1;
   }
 
   button {
@@ -47,23 +48,40 @@ const MainTitle = styled.div`
     font-family: 'EBSHMJESaeronRA';
     padding: 8px 12px;
     border-radius: 10px;
-    background-color: #43493a;
-    color: #fff;
+    background-color: transparent;
+    border: 1px solid #303030;
+    color: #000;
     letter-spacing: 2px;
     font-size: 20px;
     font-weight: bold;
     box-shadow: 5px 5px 1px rgba(0, 0, 0, 0.3);
     z-index: 2;
     cursor: pointer;
+    letter-spacing: 5px;
+    position: relative;
+    transition: all 0.4s;
+    overflow: hidden;
   }
   > button:focus {
     outline: 0;
   }
-  > button:hover {
-    color: #000;
+  > button::before {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #303030;
+    border-radius: 10px;
     transition: all 0.4s;
-    background-color: #fff;
-    box-shadow: 3px 3px 1px rgba(0, 0, 0, 0.5);
+    z-index: -1;
+  }
+  > button:hover::before {
+    transform: translateY(-100%);
+  }
+  > button:hover {
+    color: #fff;
   }
 
   @media (max-width: 1280px) {
@@ -164,10 +182,10 @@ const MainPhoto = () => {
         <h2>바르게 쓸 때 가장 매력적이다.</h2>
         <p>SNS로 빠르게 소통하는 시대, 당신의 맞춤법은 안녕하신가요?</p>
         <p>올바른 맞춤법을 쓰는 그날까지, 나랏말싸미가 함께합니다.</p>
-        <button>누르거라!</button>
+        <button>성균관 입학하기!</button>
       </MainTitle>
       <MainImg className="image">
-        <img src="https://cdn.discordapp.com/attachments/830706676852064307/900261146479702056/-_-001.png" />
+        <img src="https://user-images.githubusercontent.com/85022657/137096188-09bfc7e8-a886-4ae1-9bd5-fe7c6f022b98.gif" />
       </MainImg>
     </MainContainer>
   );

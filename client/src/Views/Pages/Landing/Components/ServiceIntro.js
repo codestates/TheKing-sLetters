@@ -5,10 +5,10 @@ import './ServiceIntro.scss';
 const ServiceIntroContainer = styled.div`
   display: flex;
   width: 100%;
-  padding: 2em 0;
+  padding: 2em 0 0 0;
   justify-content: space-evenly;
   box-sizing: border-box;
-  background-color: #fff;
+  background-color: #fafafa;
   flex-direction: column;
   font-family: 'EBSHMJESaeronRA';
   position: relative;
@@ -66,7 +66,7 @@ const BoxContainer = styled.div`
   width: 100%;
   padding: 3em 0;
   box-sizing: border-box;
-  height: 75vh;
+  height: 70vh;
   background-color: #93aca0;
   @media (max-width: 1280px) {
     flex: 1 1 100%;
@@ -103,12 +103,13 @@ const BoxContainer = styled.div`
     height: 6vh;
     line-height: 1.8;
     text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.5);
-    letter-spacing: 0.07em;
+    letter-spacing: 0;
   }
-  @media (max-width: 600px) {
+  @media (max-width: 768px) {
     > .box > span {
       font-size: 2.5vh;
       line-height: 2.5;
+      letter-spacing: -1px;
     }
   }
 `;
@@ -128,12 +129,12 @@ const TextContainer = styled.div`
     .container {
       padding: 0;
     }
-    .title {
+    .service__title {
       font-size: 2.8em;
       font-weight: 900;
       letter-spacing: -1px;
     }
-    .container > span {
+    .contents {
       font-size: 1.5em;
       letter-spacing: -1px;
     }
@@ -236,7 +237,7 @@ const ServiceIntro = () => {
         <span>성균관 유생</span>이 되면,
       </h1>
       <h2 className="h2">아래과 같은 활동을 할 수 있어요!</h2>
-      <BoxContainer className="container">
+      <BoxContainer>
         <div className="box">
           <img
             onMouseOver={handleMouseOver1}
@@ -277,10 +278,10 @@ const ServiceIntro = () => {
           <img
             onMouseOver={handleMouseOver4}
             onMouseOut={handleMouseOut4}
-            src="https://cdn.discordapp.com/attachments/830706676852064307/901416136355221504/004.png"
+            src="https://cdn.discordapp.com/attachments/830706676852064307/901776863947526144/004.png"
             alt=""
             data-animated="https://user-images.githubusercontent.com/85022657/137097165-bad32b7c-05c8-479c-a082-346ec31a321d.gif"
-            data-static="https://cdn.discordapp.com/attachments/830706676852064307/901416136355221504/004.png"
+            data-static="https://cdn.discordapp.com/attachments/830706676852064307/901776863947526144/004.png"
             className="hov-ani4"
           />
           <span>마 일 리 지</span>
@@ -288,34 +289,50 @@ const ServiceIntro = () => {
       </BoxContainer>
       <TextContainer className="problem1">
         <div className="container">
-          <h3 className="title">문제를 풀어보아요!</h3>
-          <span>한글문제 풀이활동에 대한 재미 기능 제공</span>
-          <span>한글문제 풀이활동에 대한 리워드 마일리지 제공</span>
-          <span>한글문제 풀이활동에 대한 마일리지 별 랭킹 제공</span>
+          <h3 className="service__title">문제를 풀어보아요!</h3>
+          <span className="contents">
+            한글문제 풀이활동에 대한 재미 기능 제공
+          </span>
+          <span className="contents">
+            한글문제 풀이활동에 대한 리워드 마일리지 제공
+          </span>
+          <span className="contents">
+            한글문제 풀이활동에 대한 마일리지 별 랭킹 제공
+          </span>
         </div>
       </TextContainer>
       <TextContainer className="problem2">
         <div className="container">
-          <h3 className="title">문제를 만들어 보아요!</h3>
-          <span>한글문제 생성활동에 대한 재미 기능 제공</span>
-          <span>한글문제 생성활동에 대한 다양한 문제 출제 유형 제공</span>
-          <span>한글 문제 출제에 다른 리워드 제공</span>
+          <h3 className="service__title">문제를 만들어 보아요!</h3>
+          <span className="contents">
+            한글문제 생성활동에 대한 재미 기능 제공
+          </span>
+          <span className="contents">
+            한글문제 생성활동에 대한 다양한 문제 출제 유형 제공
+          </span>
+          <span className="contents">한글 문제 출제에 다른 리워드 제공</span>
         </div>
       </TextContainer>
       <TextContainer className="problem3">
         <div className="container">
-          <h3 className="title">문제를 보관해 보아요!</h3>
-          <span>한글문제 풀이활동에 대한 나만의 노트 기능 제공</span>
-          <span>뭐라도</span>
-          <span>넣어야한다</span>
+          <h3 className="service__title">문제를 보관해 보아요!</h3>
+          <span className="contents">
+            한글문제 풀이활동에 대한 나만의 노트 기능 제공
+          </span>
+          <span className="contents">뭐라도</span>
+          <span className="contents">넣어야한다</span>
         </div>
       </TextContainer>
       <TextContainer className="problem4">
         <div className="container">
-          <h3 className="title">마일리지를 쿠폰으로 바꿔요! </h3>
-          <span>한글문제 풀이활동에 대한 마일리지 획득 시,</span>
-          <span>쿠폰 교환기능 제공</span>
-          <span>마일리지 보유를 기준으로 랭킹 제도 제공</span>
+          <h3 className="service__title">마일리지를 쿠폰으로 바꿔요! </h3>
+          <span className="contents">
+            한글문제 풀이활동에 대한 마일리지 획득 시,
+          </span>
+          <span className="contents">쿠폰 교환기능 제공</span>
+          <span className="contents">
+            마일리지 보유를 기준으로 랭킹 제도 제공
+          </span>
         </div>
       </TextContainer>
     </ServiceIntroContainer>

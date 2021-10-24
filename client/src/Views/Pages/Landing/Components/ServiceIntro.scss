@@ -4,7 +4,7 @@
     padding-bottom: 2.2em;
   }
   
-  .title{
+  .service__title{
     display: flex;
     justify-content: center;
     align-items: center;
@@ -23,8 +23,8 @@
     animation-timing-function:ease;
     animation-duration: 5s;
     animation-delay: 0.6s;
-  }
-  .container > span{
+  } 
+  .contents {
     width: 100%;
     float: left;
     color: #303030;
@@ -49,6 +49,7 @@
       animation-delay: 0.5s;
     }
   }
+
   
   @keyframes titleAnimation {
       0% {
@@ -97,5 +98,5 @@
   }
 
   .custom-shape-divider-bottom-1634990087 .shape-fill {
-    fill: #ffffff;
+    fill: #fafafa;
   }

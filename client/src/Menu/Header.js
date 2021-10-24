@@ -27,21 +27,11 @@ const NavBarMenu = styled.ul`
   > li {
     padding: 8px 12px;
     text-align: center;
+    transition: all 0.4s;
     > a {
       color: #000000;
       font-size: 15px;
-    }
-  }
-  > li:hover {
-    background-color: #8f8453;
-    border-radius: 4px;
-    transition: all 0.4s;
-    &::after {
-      width: 0;
-      height: 0;
-    }
-    > a {
-      color: #fff;
+      transition: all 0.4s;
     }
   }
   > li::after {
@@ -52,6 +42,17 @@ const NavBarMenu = styled.ul`
     top: 22px;
     margin-left: 10px;
     background-color: #000000;
+  }
+  > li:hover {
+    background-color: #303030;
+    border-radius: 4px;
+    &::after {
+      width: 0;
+      height: 0;
+    }
+    > a {
+      color: #fff;
+    }
   }
   > li:last-child::after {
     width: 0;
@@ -73,23 +74,26 @@ const NavBarUser = styled.ul`
     text-align: center;
   }
   > li:first-child {
-    border: 1px solid #99a89e;
+    border: 1px solid #303030;
     border-radius: 5px;
     padding: 8px 18px;
     &:hover {
-      background-color: #99a89e;
-      transition: all 0.35s;
+      background-color: #303030;
+      transition: all 0.4s;
+      color: #fff;
     }
   }
   > li:last-child {
     margin-left: 6px;
-    background-color: #99a89e;
-    border: 1px solid #99a89e;
+    background-color: #303030;
+    border: 1px solid #303030;
     border-radius: 5px;
+    color: #fff;
     &:hover {
-      border: 1px solid #99a89e;
+      border: 1px solid #303030;
       background-color: #d7dbd1;
-      transition: all 0.35s;
+      transition: all 0.4s;
+      color: #000000;
     }
   }
 

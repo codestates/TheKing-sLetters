@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import './MainPhoto.scss';
+import { Link } from 'react-scroll';
 
 const MainContainer = styled.div`
   position: relative;
@@ -32,7 +33,7 @@ const MainTitle = styled.div`
     font-weight: 700;
     margin-top: -25px;
     margin-bottom: 20px;
-    letter-spacing: 2px;
+    letter-spacing: -1px;
     text-shadow: 3px 3px 1px rgba(0, 0, 0, 0.3);
   }
   p {
@@ -42,8 +43,9 @@ const MainTitle = styled.div`
     z-index: 1;
   }
 
-  button {
+  .main__btn {
     text-align: center;
+    width: 100%;
     margin-top: 20px;
     font-family: 'EBSHMJESaeronRA';
     padding: 8px 12px;
@@ -62,10 +64,10 @@ const MainTitle = styled.div`
     transition: all 0.4s;
     overflow: hidden;
   }
-  > button:focus {
+  .main__btn:focus {
     outline: 0;
   }
-  > button::before {
+  .main__btn::before {
     content: '';
     position: absolute;
     top: 100%;
@@ -77,10 +79,10 @@ const MainTitle = styled.div`
     transition: all 0.4s;
     z-index: -1;
   }
-  > button:hover::before {
+  .main__btn:hover::before {
     transform: translateY(-100%);
   }
-  > button:hover {
+  .main__btn:hover {
     color: #fff;
   }
 
@@ -89,12 +91,12 @@ const MainTitle = styled.div`
       font-size: 95px;
     }
     h2 {
-      font-size: 38px;
+      font-size: 30px;
       letter-spacing: -3px;
     }
     p {
-      font-size: 19px;
-      letter-spacing: -1.5px;
+      font-size: 16px;
+      letter-spacing: -3px;
     }
   }
 
@@ -104,12 +106,12 @@ const MainTitle = styled.div`
       font-size: 90px;
     }
     h2 {
-      font-size: 31px;
+      font-size: 28px;
       letter-spacing: -3px;
     }
     p {
       font-size: 15px;
-      letter-spacing: -1.5px;
+      letter-spacing: -2.5px;
     }
   }
   @media (max-width: 768px) {
@@ -139,6 +141,7 @@ const MainImg = styled.div`
     width: 100%;
   }
   @media (max-width: 1280px) {
+    margin: 0 -30px 0 0;
     img {
       width: 95%;
     }
@@ -146,6 +149,7 @@ const MainImg = styled.div`
   @media (max-width: 960px) {
     justify-content: center;
     align-items: center;
+    margin: 0 -30px;
     img {
       width: 80%;
       height: 400px;
@@ -182,7 +186,9 @@ const MainPhoto = () => {
         <h2>바르게 쓸 때 가장 매력적이다.</h2>
         <p>SNS로 빠르게 소통하는 시대, 당신의 맞춤법은 안녕하신가요?</p>
         <p>올바른 맞춤법을 쓰는 그날까지, 나랏말싸미가 함께합니다.</p>
-        <button>성균관 입학하기!</button>
+        <Link to="1" spy={true} smooth={true}>
+          <button className="main__btn">성균관 알아보기!</button>
+        </Link>
       </MainTitle>
       <MainImg className="image">
         <img src="https://user-images.githubusercontent.com/85022657/137096188-09bfc7e8-a886-4ae1-9bd5-fe7c6f022b98.gif" />

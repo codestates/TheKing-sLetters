@@ -13,6 +13,7 @@ const FinalIntroContainer = styled.div`
   box-sizing: border-box;
   background: #fff;
   background-color: #fafafa;
+
   > h1 {
     margin-top: 6em;
     display: flex;
@@ -41,9 +42,9 @@ const FinalIntro = () => {
   return (
     <FinalIntroContainer>
       <h1 className="h1">
-        <span>나랏말싸미</span>를,
+        이제 <span> 성균관 </span> 에
       </h1>
-      <h2 className="h2">전부 확인할 수 있어요!</h2>
+      <h2 className="h2">입학할 준비가 되셨나요?</h2>
     </FinalIntroContainer>
   );
 };

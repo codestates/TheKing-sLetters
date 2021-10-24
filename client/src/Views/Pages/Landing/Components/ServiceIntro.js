@@ -233,7 +233,7 @@ const ServiceIntro = () => {
           ></path>
         </svg>
       </div>
-      <h1 className="h1">
+      <h1 id="1" className="h1">
         <span>성균관 유생</span>이 되면,
       </h1>
       <h2 className="h2">아래과 같은 활동을 할 수 있어요!</h2>

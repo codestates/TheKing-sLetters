@@ -8,8 +8,8 @@ function App() {
   return (
     <>
       <Header />
+      <LandingPage />
       <QuizPost />
-      {/* <LandingPage /> */}
       <Footer />
     </>
   );

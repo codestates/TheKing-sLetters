@@ -38,14 +38,13 @@ const FinalIntroContainer = styled.div`
   }
   .final__btn {
     text-align: center;
-    width: 500px;
+    width: 600px;
     font-family: 'EBSHMJESaeronRA';
     padding: 8px 12px;
     border-radius: 10px;
-    background-color: transparent;
+    background-color: #303030;
     border: 1px solid #303030;
-    color: #000;
-    letter-spacing: 2px;
+    color: #fafafa;
     font-size: 20px;
     font-weight: bold;
     box-shadow: 5px 5px 1px rgba(0, 0, 0, 0.3);
@@ -55,7 +54,7 @@ const FinalIntroContainer = styled.div`
     position: relative;
     transition: all 0.4s;
     overflow: hidden;
-    margin-bottom: 4em;
+    margin-bottom: 5em;
   }
   .final__btn:focus {
     outline: 0;
@@ -67,7 +66,7 @@ const FinalIntroContainer = styled.div`
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: #303030;
+    background-color: #151515;
     border-radius: 10px;
     transition: all 0.4s;
     z-index: -1;
@@ -76,7 +75,12 @@ const FinalIntroContainer = styled.div`
     transform: translateY(-100%);
   }
   .final__btn:hover {
-    color: #fff;
+    color: #fafafa;
+  }
+  @media (max-width: 768px) {
+    .final__btn {
+      width: 100%;
+    }
   }
 `;
 
@@ -84,10 +88,10 @@ const FinalIntro = () => {
   return (
     <FinalIntroContainer>
       <h1 className="h1 service__title">
-        이제 <span> 성균관 </span> 에
+        이제 <span> 나랏말싸미 </span> 에
       </h1>
       <h2 className="h2 contents">입학할 준비가 되셨나요?</h2>
-      <button className="final__btn">성균관 입학하기!</button>
+      <button className="final__btn">나랏말싸미 입학하기!</button>
     </FinalIntroContainer>
   );
 };

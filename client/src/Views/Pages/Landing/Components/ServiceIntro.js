@@ -5,7 +5,7 @@ import './ServiceIntro.scss';
 const ServiceIntroContainer = styled.div`
   display: flex;
   width: 100%;
-  padding: 2em 0 0 0;
+  padding: 2em 0;
   justify-content: space-evenly;
   box-sizing: border-box;
   background-color: #fafafa;
@@ -54,6 +54,7 @@ const ServiceIntroContainer = styled.div`
   @media (max-width: 768px) {
     > h1 {
       margin-top: 2em;
+      letter-spacing: -3px;
     }
     > h2 {
       font-size: 2.2em;
@@ -234,7 +235,7 @@ const ServiceIntro = () => {
         </svg>
       </div>
       <h1 id="1" className="h1 service__title">
-        <span>성균관 유생</span>이 되면,
+        <span>나랏말싸미 유생</span>이 되면,
       </h1>
       <h2 className="h2 contents">아래과 같은 활동을 할 수 있어요!</h2>
       <BoxContainer>

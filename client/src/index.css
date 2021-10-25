@@ -32,11 +32,29 @@ figcaption {
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Source Sans Pro', 'Segoe UI',
+    'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans',
+    'Helvetica Neue', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+/* 나랏말싸미체 */
+@font-face {
+  font-family: 'EBSHunminjeongeumSBA';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/EBSHunminjeongeum.woff')
+    format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* 훈민정음새론체 */
+@font-face {
+  font-family: 'EBSHMJESaeronRA';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/EBSHMJESaeronRA.woff')
+    format('woff');
+  font-weight: normal;
+  font-style: normal;
 }
 
 /* a 링크 초기화 */
@@ -61,7 +79,6 @@ table {
   font-size: 13px;
   line-height: 1.5;
 }
-
 /* 폰트 스타일 초기화 */
 em,
 address {

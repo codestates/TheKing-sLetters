@@ -220,7 +220,7 @@ const ServiceIntro = () => {
   };
   return (
     <ServiceIntroContainer>
-      <div className="custom-shape-divider-bottom-1634990087">
+      <div className="custom-shape-divider-bottom-1635122661">
         <svg
           data-name="Layer 1"
           xmlns="http://www.w3.org/2000/svg"
@@ -228,15 +228,15 @@ const ServiceIntro = () => {
           preserveAspectRatio="none"
         >
           <path
-            d="M649.97 0L550.03 0 599.91 54.12 649.97 0z"
+            d="M0,0V6c0,21.6,291,111.46,741,110.26,445.39,3.6,459-88.3,459-110.26V0Z"
             className="shape-fill"
           ></path>
         </svg>
       </div>
-      <h1 id="1" className="h1">
+      <h1 id="1" className="h1 service__title">
         <span>성균관 유생</span>이 되면,
       </h1>
-      <h2 className="h2">아래과 같은 활동을 할 수 있어요!</h2>
+      <h2 className="h2 contents">아래과 같은 활동을 할 수 있어요!</h2>
       <BoxContainer>
         <div className="box">
           <img

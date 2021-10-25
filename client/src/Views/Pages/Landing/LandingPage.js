@@ -2,6 +2,7 @@ import React from 'react';
 import MainPhoto from './Components/MainPhoto';
 import ServiceIntro from './Components/ServiceIntro';
 import Category from './Components/Category';
+import Comments from './Components/Comments';
 import FinalIntro from './Components/FinalIntro';
 
 const LandingPage = () => {
@@ -10,6 +11,7 @@ const LandingPage = () => {
       <MainPhoto />
       <ServiceIntro />
       <Category />
+      <Comments />
       <FinalIntro />
     </>
   );

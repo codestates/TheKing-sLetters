@@ -12,7 +12,6 @@ const CategoryContainer = styled.div`
   font-family: 'EBSHMJESaeronRA';
   position: relative;
   box-sizing: border-box;
-  background: #fff;
   background-color: #fafafa;
   > h1 {
     margin-top: 6em;
@@ -63,10 +62,10 @@ const Category = () => {
           ></path>
         </svg>
       </div>
-      <h1 className="h1">
+      <h1 className="h1 service__title">
         <span>성균관 명륜당</span>에선,
       </h1>
-      <h2 className="h2">아래과 같은 과목들을 학습할 수 있어요!</h2>
+      <h2 className="h2 contents">아래과 같은 과목들을 학습할 수 있어요!</h2>
       <div className="slider">
         <div className="slide-track">
           <div className="slide">

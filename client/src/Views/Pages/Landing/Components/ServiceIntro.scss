@@ -20,6 +20,7 @@
     transform: translateY(-50px);
     opacity: 0;
     animation-name: titleAnimation;
+    animation-iteration-count: infinite;
     animation-timing-function:ease;
     animation-duration: 5s;
     animation-delay: 0.6s;
@@ -33,6 +34,7 @@
     transform: translateY(-50px);
     opacity: 0;
     animation-name: titleAnimation;
+    animation-iteration-count: infinite;
     animation-timing-function:ease;
     animation-duration: 5s;
     animation-delay: 0.6s;
@@ -80,7 +82,7 @@
   }
 
 
-  .custom-shape-divider-bottom-1634990087 {
+  .custom-shape-divider-bottom-1635122661 {
     position: absolute;
     bottom: 0;
     left: 0;
@@ -88,15 +90,15 @@
     overflow: hidden;
     line-height: 0;
     transform: rotate(180deg);
-  }
+}
 
-  .custom-shape-divider-bottom-1634990087 svg {
+.custom-shape-divider-bottom-1635122661 svg {
     position: relative;
     display: block;
     width: calc(100% + 1.3px);
-    height: 100px;
-  }
+    height: 38px;
+}
 
-  .custom-shape-divider-bottom-1634990087 .shape-fill {
-    fill: #fafafa;
-  }
+.custom-shape-divider-bottom-1635122661 .shape-fill {
+    fill: #FAFAFA;
+}

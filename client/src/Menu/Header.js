@@ -6,6 +6,8 @@ const NavBar = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  width: 100%;
+  box-sizing: border-box;
   padding: 8px 20px;
   font-family: 'EBSHunminjeongeumSBA';
 

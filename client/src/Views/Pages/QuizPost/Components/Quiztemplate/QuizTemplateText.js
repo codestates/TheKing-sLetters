@@ -51,7 +51,7 @@ const QuizTemplateText = ({dataQuizSelect, setDataQuizSelect}) => {
       setDataQuizSelect({...dataQuizSelect, title: inputValue});
     }
     if (tag === "contents") {
-      setDataQuizSelect({...dataQuizSelect, type: 'text', contents: inputValue});
+      setDataQuizSelect({...dataQuizSelect, type: 'text', contents: { text :inputValue }});
     }
   };
 

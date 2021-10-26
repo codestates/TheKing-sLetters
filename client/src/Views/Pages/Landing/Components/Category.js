@@ -39,6 +39,7 @@ const CategoryContainer = styled.div`
   @media (max-width: 768px) {
     > h1 {
       margin-top: 2em;
+      letter-spacing: -1px;
     }
     > h2 {
       font-size: 2.2em;
@@ -63,7 +64,7 @@ const Category = () => {
         </svg>
       </div>
       <h1 className="h1 service__title">
-        <span>성균관 명륜당</span>에선,
+        <span>나랏말싸미 소예담</span>에선,
       </h1>
       <h2 className="h2 contents">아래과 같은 과목들을 학습할 수 있어요!</h2>
       <div className="slider">

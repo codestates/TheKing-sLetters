@@ -10,6 +10,7 @@ const MainContainer = styled.div`
   width: 100%;
   background-color: #d7dbd1;
   padding: 2em 0;
+  box-sizing: border-box;
 
   @media (max-width: 768px) {
     flex-direction: column-reverse;
@@ -106,12 +107,12 @@ const MainTitle = styled.div`
       font-size: 90px;
     }
     h2 {
-      font-size: 28px;
+      font-size: 26px;
       letter-spacing: -3px;
     }
     p {
-      font-size: 15px;
-      letter-spacing: -2.5px;
+      font-size: 14px;
+      letter-spacing: -3px;
     }
   }
   @media (max-width: 768px) {
@@ -141,7 +142,6 @@ const MainImg = styled.div`
     width: 100%;
   }
   @media (max-width: 1280px) {
-    margin: 0 -30px 0 0;
     img {
       width: 95%;
     }
@@ -149,15 +149,12 @@ const MainImg = styled.div`
   @media (max-width: 960px) {
     justify-content: center;
     align-items: center;
-    margin: 0 -30px;
     img {
-      width: 80%;
+      width: 75%;
       height: 400px;
     }
   }
   @media (max-width: 768px) {
-    justify-content: center;
-    align-items: center;
     img {
       width: 80%;
     }
@@ -187,7 +184,7 @@ const MainPhoto = () => {
         <p>SNS로 빠르게 소통하는 시대, 당신의 맞춤법은 안녕하신가요?</p>
         <p>올바른 맞춤법을 쓰는 그날까지, 나랏말싸미가 함께합니다.</p>
         <Link to="1" spy={true} smooth={true}>
-          <button className="main__btn">성균관 알아보기!</button>
+          <button className="main__btn">나랏말싸미 알아보기!</button>
         </Link>
       </MainTitle>
       <MainImg className="image">

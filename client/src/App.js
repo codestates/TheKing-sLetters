@@ -13,7 +13,6 @@ function App() {
     <>
       <DevSignInModal />
       <Admin />
-      <QuizPost />
     </>
   );
 }

@@ -33,7 +33,7 @@ const AdminBarUser = styled.div`
   }
 `;
 
-const AdminHeader = () => {
+const AdminHeader = ({ adminInfo }) => {
   return (
     <>
       <AdminBar>
@@ -41,7 +41,7 @@ const AdminHeader = () => {
           <span>나랏말싸미</span>
         </div>
         <AdminBarUser className="admin">
-          관리자: <span>test</span>
+          관리자: <span>{adminInfo.name}</span>
         </AdminBarUser>
       </AdminBar>
     </>

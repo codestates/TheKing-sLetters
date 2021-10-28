@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
-import profileIcon from '../../QuizPost/Assets/profile-1.png';
+import axios from 'axios';
 
 const deselectedOptions = [
   'rustic',
@@ -188,7 +188,12 @@ const UserInfo = styled.div`
     }
   }
 `;
-const FindContents = () => {
+const FindContents = ({
+  validQuiz,
+  isLogin,
+  adminAccessToken,
+  setValidQuiz,
+}) => {
   const [hasText, setHasText] = useState(false);
   const [inputValue, setInputVaule] = useState('');
   const [options, setOptions] = useState(deselectedOptions);
@@ -200,14 +205,14 @@ const FindContents = () => {
       setOptions(deselectedOptions);
       setHasText(false);
     }
-  }, [inputValue]);
+  }, [inputValue, validQuiz]);
 
   const handleInputChange = (event) => {
     const value = event.target.value;
     setInputVaule(value); // MEMO: 비동기 작업
 
     // console.log(`rendering -> inputValue: ${inputValue}`);
-    console.log(`handleInputChange: ${value}`);
+    // console.log(`handleInputChange: ${value}`);
 
     // MEMO: setInputVaule() 보다 먼저 실행될 수 있음!
     const filteredOptions = deselectedOptions.filter((option) => {
@@ -247,7 +252,22 @@ const FindContents = () => {
       ...filteredOptions.slice(targetIndex + 1),
     ]);
   };
-
+  const deleteQuiz = async (value, i) => {
+    if (isLogin) {
+      await axios
+        .delete(
+          'http://ec2-13-209-96-200.ap-northeast-2.compute.amazonaws.com/admin/deletequiz',
+          {
+            data: { quizId: value },
+            headers: { authorization: `Bearer ${adminAccessToken}` },
+            withCredentials: true,
+          }
+        )
+        .then(() =>
+          setValidQuiz([...validQuiz.slice(0, i), ...validQuiz.slice(i + 1)])
+        );
+    }
+  };
   return (
     <FindContentsContainer>
       <div className="find__title">전체 게시글</div>
@@ -258,116 +278,34 @@ const FindContents = () => {
       {hasText && (
         <DropDown options={options} handleComboBox={handleDropDownClick} />
       )}
-      <UserInfo>
-        <img
-          className="user_profile_img"
-          src={profileIcon}
-          alt="profile_image"
-        ></img>
-        <div className="user_info">
-          <div className="user">
-            <div className="user_id">
-              사용자 ID: <span>nara@hangul.com</span>
+      {validQuiz.map((el, i) => {
+        return (
+          <UserInfo key={i}>
+            <img
+              className="user_profile_img"
+              src={el.thumbnail}
+              alt="profile_image"
+            ></img>
+            <div className="user_info">
+              <div className="user">
+                <div className="user_id">
+                  사용자 ID: <span>{el.user.email}</span>
+                </div>
+                <div className="user_name">
+                  이름: <span>{el.user.name}</span>
+                </div>
+              </div>
+              <div className="user_title">{el.title}</div>
+              <button
+                className="delete_btn"
+                onClick={() => deleteQuiz(el.id, i)}
+              >
+                삭제하기
+              </button>
             </div>
-            <div className="user_name">
-              이름: <span>ADMIN</span>
-            </div>
-          </div>
-          <div className="user_title">
-            제목이 들어갑니다.제목이 들어갑니다.제목이 들어갑니다.제목이
-            들어갑니다.제목이 들어갑니다.
-          </div>
-          <button className="delete_btn">삭제하기</button>
-        </div>
-      </UserInfo>
-      <UserInfo>
-        <img
-          className="user_profile_img"
-          src={profileIcon}
-          alt="profile_image"
-        ></img>
-        <div className="user_info">
-          <div className="user">
-            <div className="user_id">
-              사용자 ID: <span>nara@hangul.com</span>
-            </div>
-            <div className="user_name">
-              이름: <span>ADMIN</span>
-            </div>
-          </div>
-          <div className="user_title">
-            제목이 들어갑니다.제목이 들어갑니다.제목이 들어갑니다.제목이
-            들어갑니다.제목이 들어갑니다.
-          </div>
-          <button className="delete_btn">삭제하기</button>
-        </div>
-      </UserInfo>
-      <UserInfo>
-        <img
-          className="user_profile_img"
-          src={profileIcon}
-          alt="profile_image"
-        ></img>
-        <div className="user_info">
-          <div className="user">
-            <div className="user_id">
-              사용자 ID: <span>nara@hangul.com</span>
-            </div>
-            <div className="user_name">
-              이름: <span>ADMIN</span>
-            </div>
-          </div>
-          <div className="user_title">
-            제목이 들어갑니다.제목이 들어갑니다.제목이 들어갑니다.제목이
-            들어갑니다.제목이 들어갑니다.
-          </div>
-          <button className="delete_btn">삭제하기</button>
-        </div>
-      </UserInfo>
-      <UserInfo>
-        <img
-          className="user_profile_img"
-          src={profileIcon}
-          alt="profile_image"
-        ></img>
-        <div className="user_info">
-          <div className="user">
-            <div className="user_id">
-              사용자 ID: <span>nara@hangul.com</span>
-            </div>
-            <div className="user_name">
-              이름: <span>ADMIN</span>
-            </div>
-          </div>
-          <div className="user_title">
-            제목이 들어갑니다.제목이 들어갑니다.제목이 들어갑니다.제목이
-            들어갑니다.제목이 들어갑니다.
-          </div>
-          <button className="delete_btn">삭제하기</button>
-        </div>
-      </UserInfo>
-      <UserInfo>
-        <img
-          className="user_profile_img"
-          src={profileIcon}
-          alt="profile_image"
-        ></img>
-        <div className="user_info">
-          <div className="user">
-            <div className="user_id">
-              사용자 ID: <span>nara@hangul.com</span>
-            </div>
-            <div className="user_name">
-              이름: <span>ADMIN</span>
-            </div>
-          </div>
-          <div className="user_title">
-            제목이 들어갑니다.제목이 들어갑니다.제목이 들어갑니다.제목이
-            들어갑니다.제목이 들어갑니다.
-          </div>
-          <button className="delete_btn">삭제하기</button>
-        </div>
-      </UserInfo>
+          </UserInfo>
+        );
+      })}
     </FindContentsContainer>
   );
 };

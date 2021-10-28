@@ -9,7 +9,7 @@ const AdminPage = () => {
   const [isLogin, setIsLogin] = useState(false);
   const [adminAccessToken, setAdminAccessToken] = useState('');
   const [adminInfo, setAdminInfo] = useState([]);
-  const [approval, setApproval] = useState({});
+  const [validQuiz, setValidQuiz] = useState([]);
 
   useEffect(() => {
     getAccessToken();
@@ -43,7 +43,9 @@ const AdminPage = () => {
             withCredentials: true,
           }
         )
-        .then((res) => console.dir(res.data.data));
+        .then((res) => {
+          setValidQuiz(res.data.data.validQuizList);
+        });
     }
   };
 
@@ -51,7 +53,12 @@ const AdminPage = () => {
     <div>
       <AdminHeader adminInfo={adminInfo} />
       <QuizManagement adminAccessToken={adminAccessToken} />
-      <FindContents />
+      <FindContents
+        validQuiz={validQuiz}
+        isLogin={isLogin}
+        adminAccessToken={adminAccessToken}
+        setValidQuiz={setValidQuiz}
+      />
       <AdminFooter />
     </div>
   );

@@ -37,13 +37,21 @@ const Post = () => {
 
 	useEffect(() => {
 		if (dataCollected) {
-			uploadData(dataCollected);
+			try {
+				uploadData(dataCollected)
+			} catch (err) {
+				console.log(err)
+			};
 		}
 	}, [dataCollected]);
 
 	const submitHandler = async () => {
-		const refined = await refineData(dataCategorySelect, dataQuizSelect, dataAnswerSelect, dataCommentation);
-		setDataCollected(refined);
+		try {
+			const refined = await refineData(dataCategorySelect, dataQuizSelect, dataAnswerSelect, dataCommentation);
+			setDataCollected(refined);
+		} catch (err) {
+			console.log(err);
+		}
 	};
 
 	return (

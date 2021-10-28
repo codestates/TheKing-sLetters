@@ -105,7 +105,6 @@ const CheckAnswer = ({quizData, isCorrect}) => {
 					: <div className="commentation_container_result">
 							<img src={incorrectIcon} alt="오답 아이콘"></img>
 							<p className="result_msg_wrong">오답입니다!</p>
-							<p>정답은 {Number(quizData.correctAnswer) + 1}번</p>
 						</div>
 					}
 					<textarea className="commentation_container_bottom" defaultValue={quizData.answerComment} readOnly></textarea>

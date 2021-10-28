@@ -4,8 +4,9 @@ import TopProfile from "./Components/TopProfile";
 import QuizDisplay from "./Components/QuizDisplay";
 import AnswerDisplay from "./Components/AnswerDisplay";
 import CheckAnswer from "./Components/CheckAnswer";
-import { fetchUserInfo, fetchQuizData, importRefinedFetchData } from "./Components/FetchData";
-import loadingIcon from "./Assets/loading-1.svg";
+import { fetchUserInfo, fetchQuizData, importRefinedFetchData, fetchSubmitAnswer, refineSubmitAnswer } from "./Components/FetchData";
+import pageLoadingIcon from "./Assets/loading-1.svg";
+import commentLoadingIcon from "./Assets/loading-2.svg";
 
 const QuizSolveContainer = styled.div`
   display: flex;
@@ -26,11 +27,32 @@ const QuizSolveContainer = styled.div`
 			background-color: rgba(0, 0, 0, 0.5);
 		}
 	}
-	> .loading_icon{
-		width: 50%;
-		height: 50%;
+	> .page_loading_icon {
+		width: 20%;
+		height: 20%;
 		align-self: center;
 		justify-self: center;
+	}
+	> .login_error_msg {
+		align-self: center;
+		justify-self: center;
+		text-align: center;
+	}
+	> .quiz_error_msg {
+		align-self: center;
+		justify-self: center;
+		text-align: center;
+	}
+	> .comment_loading_icon {
+		width: 10%;
+		height: 10%;
+		align-self: center;
+		justify-self: center;
+	}
+	> .sumit_error_msg {
+		align-self: center;
+		justify-self: center;
+		text-align: center;
 	}
 `;
 
@@ -60,53 +82,123 @@ const initialQuiz = {
 };
 
 const IS_DUMMY_DATA_ON = false;
-const QUIZ_ID_FOR_TEST = 128;
+const QUIZ_ID_FOR_TEST = 129;
 
 const QuizSolve = ({quizId = QUIZ_ID_FOR_TEST}) => {
-	const [userData, setUserData] = useState(initialUser);
-	const [quizData, setQuizData] = useState(initialQuiz);
+	const [userData, setUserData] = useState(null);
+	const [quizData, setQuizData] = useState(null);
 	const [selectedAnswer, setSelectedAnswer] = useState(-1);
-	const [onSubmit, setOnSubmit] = useState(false);
-	const [isLoading, setIsLoading] = useState(true);
+	const [doneSubmit, setDoneSubmit] = useState(false);
+	const [commentIsLoading, setCommentIsLoading] = useState(false);
+	const [pageIsLoading, setPageIsLoading] = useState(true);
+	const [errorList, setErrorList] = useState({submitError: false, loginError: false, quizError: false});
 	const isCorrectAnswer = useRef(false);
 
+	/* 더미 데이터용 */
   useEffect(() => {
-		setIsLoading(true);
 		if (IS_DUMMY_DATA_ON) {
 			setUserData(initialUser);
 			setQuizData(initialQuiz);
-			setIsLoading(false);
+			setPageIsLoading(false);
 			return;
 		};
+	}, []);
 
-		const initialFetchData = async () => {
+	/* 유저 데이터 불러오기 */
+  useEffect(() => {
+		const initialFetchUserData = async () => {
 			try {
 				const rawUserInfo = await fetchUserInfo();
-				const rawQuizData = await fetchQuizData(quizId);
 				const refinedUserInfo = await importRefinedFetchData("user", rawUserInfo);
-				const refinedQuizData = await importRefinedFetchData("quiz", rawQuizData);
 				setUserData(refinedUserInfo);
-				setQuizData(refinedQuizData);
-				setIsLoading(false);
-			} catch(err) {
+			} catch (err) {
 				console.log(err);
+				setErrorList((state) => ({...state, loginError: true}));
 			};
 		}
-		initialFetchData();
-  }, []);
+		initialFetchUserData();
+	}, []);
 
-	const submitHandler = () => {
-		setOnSubmit(!onSubmit);
-		if (selectedAnswer.toString() === quizData.correctAnswer) {
-			isCorrectAnswer.current = true;
-		} else {
-			isCorrectAnswer.current = false;
+	/* 퀴즈 데이터 불러오기 */
+  useEffect(() => {
+		const initialFetchQuizDate = async () => {
+			try {
+				const rawQuizData = await fetchQuizData(quizId);
+				const refinedQuizData = await importRefinedFetchData("quiz", rawQuizData);
+				setQuizData(refinedQuizData);
+			} catch (err) {
+				console.log(err);
+				setErrorList((state) => ({...state, quizError: true}));
+			};
+		}
+		initialFetchQuizDate();
+  }, [quizId]);
+	
+	/* 유저 데이터와 퀴즈 데이터를 성공적으로 불러왔다면 페이지를 로드 */
+	useEffect(() => {
+		if (userData && quizData) {
+			setPageIsLoading(false);
+		}
+	}, [userData, quizData]);
+
+	/* 정답을 제출하고 서버에서 데이터를 불러옴 */
+	const submitHandler = async () => {
+		if (commentIsLoading || doneSubmit) return;
+		setCommentIsLoading(true);
+		try {
+			const sequence = async () => {
+				const response = await fetchSubmitAnswer(quizId, selectedAnswer.toString());
+				const refined = await refineSubmitAnswer(response);
+				isCorrectAnswer.current = refined.result;
+			}
+			await fetchManyTimes(2, 1000, sequence);
+			setDoneSubmit(true);
+		} catch(err) {
+			console.log(err);
+			setErrorList({...errorList, submitError: true});
+		} finally {
+			setCommentIsLoading(false);
+		}
+	};
+	
+	/* 서버가 정상적으로 응답하지 않는다면 재시도 */
+	const fetchManyTimes = (repeat, interval, inputPromise) => {
+		return new Promise((resolve, reject) => {
+			inputPromise()
+			.then((res) => {
+				return resolve(res);
+			})
+			.catch((err) => {
+				if (repeat <= 0) return reject(err);
+				setTimeout(() => {
+					fetchManyTimes(repeat - 1, interval, inputPromise)
+					.then((res) => resolve(res))
+					.catch((err) => reject(err));
+				}, interval);
+			});
+		});
+	};
+
+	const PageErrorMsgDisplay = () => {
+		let error = [];
+		if (errorList.loginError) {
+			error.push(<p key="login_error_msg" className="login_error_msg">로그인 정보가 없습니다<br></br>다시 로그인 해주세요</p>);
+		}
+		if (errorList.quizError) {
+			error.push(<p key="quiz_error_msg" className="quiz_error_msg">퀴즈 데이터를 받아올 수 없습니다<br></br>잠시후 다시 시도해주세요</p>);
+		}
+		return error;
+	};
+
+	const CommentErrorMsgDisplay = () => {
+		if (errorList.submitError) {
+			return <p className="sumit_error_msg">정답 데이터를 받아올 수 없습니다<br></br>잠시후 다시 시도해주세요</p>
 		}
 	};
 
 	return (
 		<QuizSolveContainer>
-		{!isLoading ?
+			{!pageIsLoading ?
 			<>
 				<TopProfile quizData={quizData} userData={userData}></TopProfile>
 				<QuizDisplay quizData={quizData}></QuizDisplay>
@@ -114,9 +206,12 @@ const QuizSolve = ({quizId = QUIZ_ID_FOR_TEST}) => {
 				<div className="submit_button_container">
 					<button className="submit_button" onClick={submitHandler}>정답 제출하기</button>
 				</div>
-				{onSubmit ? <CheckAnswer quizData={quizData} isCorrect={isCorrectAnswer.current}></CheckAnswer> : null}
+				{CommentErrorMsgDisplay()}
+				{doneSubmit ? <CheckAnswer quizData={quizData} isCorrect={isCorrectAnswer.current}></CheckAnswer> : null}
+				{commentIsLoading ? <img src={commentLoadingIcon} alt="해설 로딩 아이콘" className="comment_loading_icon"></img> : null}
 			</> :
-			<img src={loadingIcon} alt="로딩 아이콘" className="loading_icon"></img>}
+			<img src={pageLoadingIcon} alt="로딩 아이콘" className="page_loading_icon"></img>}
+			{PageErrorMsgDisplay()}
 		</QuizSolveContainer>
 	);
 };

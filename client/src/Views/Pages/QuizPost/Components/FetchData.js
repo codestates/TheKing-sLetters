@@ -8,7 +8,8 @@ export const uploadData = async (data) => {
   const URL = `/quizzes/newQuiz`;
   const TOKEN = localStorage.getItem('accessToken');
   const PAYLOAD = data;
-
+  if (!TOKEN) throw new Error('액세스 토큰을 찾을 수 없습니다');
+  if (data === undefined) throw new Error('파라미터가 입력되지 않았습니다');
   let response = null;
   try {
     response = await axios(URL, {
@@ -18,12 +19,13 @@ export const uploadData = async (data) => {
         'Authorization': `Bearer ${TOKEN}`,
       },
     });
-    console.log(`POST ${URL} 요청에 성공했습니다.`);
-    console.log(`Authorization: Bearer ${TOKEN}`);
-    console.log('PAYLOAD: ', PAYLOAD);
+    // console.log(`POST ${URL} 요청에 성공했습니다.`);
+    // console.log(`Authorization: Bearer ${TOKEN}`);
+    // console.log('PAYLOAD: ', PAYLOAD);
   } catch(error) {
     response = error.response;
-    console.log(`POST ${URL} 요청에 실패했습니다.`);
+    // console.log(`POST ${URL} 요청에 실패했습니다.`);
+    throw error;
   } finally {
     console.log(response);
   }

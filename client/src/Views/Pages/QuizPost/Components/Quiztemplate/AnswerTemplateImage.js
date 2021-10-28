@@ -17,7 +17,7 @@ const AnswerTemplateImageWrapper = styled.div`
     position: relative;
     box-sizing: border-box;
     width: 362px;
-    height: 285px;
+    height: 362px;
     border: 1px dashed rgba(0, 0, 0, 0.5);
     border-radius: 10px;
     padding: 8px;
@@ -37,10 +37,9 @@ const AnswerTemplateImageWrapper = styled.div`
     }
     
     > .uploaded_image {
-      /* 박스 크기 설정 */
-      width: 344px;
-      max-height: 267px;
-      /* 박스 디자인 설정 */
+      /* 박스 설정 */
+      width: 100%;
+      max-height: 100%;
       border: 1px solid rgba(0, 0, 0, 0.5);
       border-radius: 10px;
     }
@@ -73,24 +72,23 @@ const AnswerTemplateImageWrapper = styled.div`
     flex-direction: column;
     align-items: center;
     gap: 1em;
-    /* 박스 디자인 설정 */
+    /* 박스 설정 */
     border: 1px dashed rgba(0, 0, 0, 0.5);
     border-radius: 10px;
-    /* 박스 크기 설정 */
     width: 362px;
-    height: 285px;
+    height: 362px;
     padding: 1em 0.5em 1em 0.5em;
 
     > img {
       border: 1px solid rgba(0, 0, 0, 0.5);
       border-radius: 10px;
-      width: 10em;
-      height: 10em;
+      width: 60%;
+      height: 60%;
     }
     > label {
       /* 박스 설정 */
       position: relative;
-      width: 12em;
+      width: 60%;
       height: 2em;
       border-radius: 10px;
       border: 1px solid rgba(0, 0, 0, 0.5);
@@ -148,7 +146,7 @@ const AnswerTemplateImage = ({dataAnswerSelect, setDataAnswerSelect}) => {
         ...dataAnswerSelect,
         contents: [
           ...dataAnswerSelect.contents,
-          {file_url: localUrl, file_type: file.type, isAnswer: false}
+          {image_url: localUrl, image_object: file, isAnswer: false}
         ]});
       e.target.value = '';
     }
@@ -161,7 +159,7 @@ const AnswerTemplateImage = ({dataAnswerSelect, setDataAnswerSelect}) => {
           <div key={idx.toString()} className={el.isAnswer ? "image_container answer_selected" : "image_container"}>
             {el.isAnswer ? <span className="corret_answer_msg">정답</span> : null}
             <img className="delete_icon" src={deleteIcon} alt="삭제 버튼 이미지" onClick={() => deleteHandler(idx)}></img>
-            <img className="uploaded_image" src={el.file_url} alt="업로드된 이미지" onClick={() => answerSelectHandler(idx)}></img>
+            <img className="uploaded_image" src={el.image_url} alt="업로드된 이미지" onClick={() => answerSelectHandler(idx)}></img>
           </div>
         );
       })}

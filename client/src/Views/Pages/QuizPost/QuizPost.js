@@ -1,15 +1,11 @@
 import styled from "styled-components";
-import axios from "axios";
 import { useState, useEffect } from "react";
 import TopProfile from "./Components/TopProfile";
 import CategorySelect from "./Components/CategorySelect";
 import QuizSelect from "./Components/QuizSelect";
 import AnswerSelect from "./Components/AnswerSelect";
 import Commentation from "./Components/Commentation";
-import UploadImage from "../../../functions/upload";
-
-axios.defaults.baseURL = `http://ec2-13-209-96-200.ap-northeast-2.compute.amazonaws.com`;
-axios.defaults.withCredentials = true;
+import { uploadData, refineData } from "./Components/FetchData";
 
 const QuizPostContainer = styled.div`
   display: flex;
@@ -39,78 +35,15 @@ const Post = () => {
 	const [dataCommentation, setDataCommentation] = useState({answerComments: '', });
 	const [dataCollected, setDataCollected] = useState();
 
-	const collectData = async () => {
-		const toUpload = {
-			title: JSON.parse(JSON.stringify(dataQuizSelect.title)), // 문제 제목
-			thumbnail: 'default', // 문제 섬네일
-			/* ------------------------- */
-			categories: JSON.parse(JSON.stringify(dataCategorySelect.categories)), // 문제 카테고리
-			quizTypes: JSON.parse(JSON.stringify(dataCategorySelect.quizTypes)), // 문제 출제 타입
-			answerTypes: JSON.parse(JSON.stringify(dataCategorySelect.answerTypes)), // 정답 출제 타입
-			/* ------------------------- */
-			quizContents: {...dataQuizSelect.contents}, // 퀴즈 내용
-			answerContents: dataAnswerSelect.contents.map((el) => {
-				let copied = {...el};
-				if (copied.isAnswer !== undefined) delete copied.isAnswer;
-				if (copied.icon !== undefined) delete copied.icon;
-				return copied;
-			}), // 정답 내용
-			/* ------------------------- */
-			answerCorrects: dataAnswerSelect.contents.findIndex(el => el.isAnswer).toString(), // 정답
-			answerComments: JSON.parse(JSON.stringify(dataCommentation.answerComments)), // 정답 해설
-			rewardPoints: dataCategorySelect.rewardPoints[0] || "-1", // 정답 포인트
-		};
-
-		if (toUpload.quizTypes === '이미지 문제') {
-			const file = new File([toUpload.quizContents.image_url], `title`, {type: toUpload.quizContents.image_type});
-			const result = await UploadImage(file);
-			toUpload.quizContents.image_url = result.Location;
-		}
-		if (toUpload.answerTypes === '이미지 답안') {
-			toUpload.answerContents = await Promise.all(
-				toUpload.answerContents.map(async (el) => {
-					const file = new File([el.file_url], 'answer', {type: el.file_type});
-					const result = await UploadImage(file);
-					return {...el, file_url: result.Location};
-				})
-			);
-		}
-		setDataCollected(toUpload);
-	};
-
 	useEffect(() => {
 		if (dataCollected) {
-			console.log('dataCollected', dataCollected);
-			dataUpload(dataCollected);
+			uploadData(dataCollected);
 		}
 	}, [dataCollected]);
 
-	const dataUpload = async (input) => {
-		const URL = `/quizzes/newQuiz`;
-		const TOKEN = localStorage.getItem('accessToken');
-		const PAYLOAD = input;
-		let response = null;
-		try {
-			response = await axios(URL, {
-				method: 'POST',
-				data: PAYLOAD,
-				headers: {
-					'Authorization': `Bearer ${TOKEN}`,
-				},
-			});
-			console.log(`POST ${URL} 요청에 성공했습니다.`);
-		} catch(error) {
-			response = error.response;
-			console.log(`POST ${URL} 요청에 실패했습니다.`);
-		} finally {
-			console.log(`Authorization: Bearer ${TOKEN}`);
-			console.log('PAYLOAD: ', PAYLOAD);
-			console.log(response);
-		}
-	};
-
-	const submitHandler = () => {
-		collectData();
+	const submitHandler = async () => {
+		const refined = await refineData(dataCategorySelect, dataQuizSelect, dataAnswerSelect, dataCommentation);
+		setDataCollected(refined);
 	};
 
 	return (

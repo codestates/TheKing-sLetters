@@ -13,11 +13,10 @@ const UploadImage = async (file) => {
   });
 
   const fileCheck = (file) => {
-    // console.log(file);
     const fileSize = file.size;
-    const maxSize  = 1 * 1024 * 1024;
+    const maxSize  = 3 * 1024 * 1024;
     if (fileSize > maxSize){
-      // console.log("최대 첨부파일 사이즈는 1MB입니다.");
+      // console.log("최대 첨부파일 사이즈는 3MB입니다.");
       return false;
     }
     return true;
@@ -36,7 +35,7 @@ const UploadImage = async (file) => {
   const upload = new AWS.S3.ManagedUpload({
     params: {
       Bucket: BUCKET_NAME,
-      Key: generateId(10) + '.' + TYPE,
+      Key: generateId(32) + '.' + TYPE,
       Body: file,
     },
   });

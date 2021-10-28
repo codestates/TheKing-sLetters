@@ -83,8 +83,7 @@ const QuizTemplateImageWrapper = styled.div`
         border: 1px solid rgba(0, 0, 0, 0.5);
         border-radius: 10px;
         /* 이미지 업로드 크기 제한 */
-        max-width: 30em;
-        max-height: 30em;
+        width: 100%;
       }
       > .delete_icon {
         /* 박스 설정 */
@@ -124,7 +123,7 @@ const QuizTemplateImage = ({dataQuizSelect, setDataQuizSelect}) => {
       const [file] = e.target.files;
       if (file) {
         const localUrl = URL.createObjectURL(file);
-        setDataQuizSelect({...dataQuizSelect, type: 'image', contents: {image_url: localUrl, image_type: file.type}});
+        setDataQuizSelect({...dataQuizSelect, type: 'image', contents: {image_url: localUrl, image_object: file}});
         setIsUploaded(true);
         e.target.value = '';
       }

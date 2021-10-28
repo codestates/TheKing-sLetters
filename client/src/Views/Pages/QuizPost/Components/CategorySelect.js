@@ -81,9 +81,6 @@ const CategorySelect = ({dataCategorySelect, setDataCategorySelect}) => {
 
 	const clickValueHandler = (value, type = selectedDropDown) => {
 		if (value === '' || type === '') return;
-		// console.log(dataCategorySelect);
-		// console.log('selectedDropDown', selectedDropDown);
-		// console.log('value', value);
 
 		switch (type) {
       case 1 :

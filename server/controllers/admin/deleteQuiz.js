@@ -15,26 +15,30 @@ module.exports = async (req, res) => {
     if(!quizExist) {
       res.status(404).send("quiz not exist")
     } else {
-      const quizType = await quiz_type.findOne({
+      const quizType = await quiz_type.findAll({
         include: [
           { model: quizContent }
         ],
         where: { quizId: quizId }
       })
   
-      await quizContent.destroy({
-        where: { id: quizType.quizContentId }
+      quizType.map( async (quizType) => {
+        await quizContent.destroy({
+          where: { id: quizType.quizContentId }
+        })
       })
   
-      const answerType = await answer_type.findOne({
+      const answerType = await answer_type.findAll({
         include: [
           { model: answerContent }
         ],
         where: { quizId: quizId }
       })
   
-      await answerContent.destroy({
-        where: { id: answerType.answerContentId }
+      answerType.map( async (answerType) => {
+        await answerContent.destroy({
+          where: { id: answerType.answerContentId }
+        })
       })
   
       await quiz.destroy({

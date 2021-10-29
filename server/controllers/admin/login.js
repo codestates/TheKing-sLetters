@@ -35,7 +35,7 @@ module.exports = async (req, res) => {
 
     const accessToken = generateAdminAccessToken(adminInfo)
 
-    const userData = {
+    const adminData = {
       id: adminInfo.id,
       name: adminInfo.name,
       email: adminInfo.email,
@@ -47,7 +47,7 @@ module.exports = async (req, res) => {
     }
 
     res.status(200)
-    .json({ data: { userData: userData, accessToken: accessToken }});
+    .json({ data: { adminData: adminData, accessToken: accessToken }});
   } else {
     res.status(401).send('Invalid user or Wrong password')
   }

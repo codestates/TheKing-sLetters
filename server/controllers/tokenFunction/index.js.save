@@ -18,11 +18,7 @@ module.exports = {
     return sign(userData, process.env.ACCESS_SECRET, {expiresIn: '24h'});
   },
   sendAccessToken: (req, res, userData, accessToken) => {
-    // res.cookie("accessToken", accessToken, {
-    //   sameSite: 'None',
-    //   secure: false,
-    //   path: '/',
-    // }).send("succesfully logined");
+    // res.cookie("accessToken", accessToken);
     res.status(200).json({ data: { userData: userData, accessToken: accessToken } });
   },
   isAuthorized: async (req, res) => {
@@ -49,19 +45,13 @@ module.exports = {
     // if(!accessToken) {
     //   res.status(400).send('사용 권한이 없습니다. 다시 로그인해주세요.')
     // }
-
-    // return accessToken
-  },
-  adminAuthorized: async (req, res) => {
-    // const token = req.cookies.jwt;
     // const cookie = req.headers.cookie
-
     try {
       const header = req.headers.authorization;
       const accessToken = header.split(' ')[1];
       try {
         const verified = verify(accessToken, process.env.ADMIN_SECRET);
-
+  
         return verified
       } catch {
         res.status(404).send('사용 권한이 없습니다. 다시 로그인해주세요.')
@@ -79,4 +69,3 @@ module.exports = {
     // return accessToken
   }
 };
-

@@ -4,7 +4,7 @@ const cookieParser = require("cookie-parser");
 const app = express();
 
 const controllers = require("./controllers")
-const port = 4000;
+const port = 80;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -38,7 +38,7 @@ app.get('/mypublish', controllers.myPublish)  // GET으로 변경
 app.post('/mynote/add', controllers.addMyNote)
 app.post('/mynote/delete', controllers.deleteMyNote)
 app.get('/quizzes', controllers.quizzesAll)  // GET으로 변경
-app.get('/quizzes/:id', controllers.quizId)
+app.get('/quizzes/selectquiz/', controllers.quizId)
 app.post('/quizzes/newquiz', controllers.newQuiz)
 app.post('/quizzes/submit', controllers.submit)
 app.post('/quizzes/recommend', controllers.recommend)

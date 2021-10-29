@@ -5,7 +5,7 @@ module.exports = async (req, res) => {
   const { quizId, answer } = req.body
   
   const selectedQuiz = await quiz.findOne({
-    where: { id: quizId }
+    where: { id: quizId, valid: true }
   })
 
   if(selectedQuiz && quizId && answer) {

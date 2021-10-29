@@ -20,7 +20,7 @@ module.exports = async (req, res) => {
     })
     
     if(!quizExist) {
-      res.status(404).send("you don't have permission")
+      res.status(400).send("you don't have permission")
     } else {
       const quizType = await quiz_type.findOne({
         include: [

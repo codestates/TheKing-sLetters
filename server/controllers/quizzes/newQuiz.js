@@ -3,9 +3,9 @@ const { isAuthorized } = require('../tokenFunction/index')
 
 module.exports = async (req, res) => {
   const accessTokenData = isAuthorized(req, res);
-  const { title, thumbnail, categories, quizTypes, answerTypes, quizContents, answerContents, answerComments, answerCorrects, rewardPoints } = req.body;
+  const {title, thumbnail, categories, quizContents, quizTypes, rewardPoints, answerContents, answerCorrects, answerTypes, answerComments } = req.body;
 
-  if(accessTokenData && title && categories && quizTypes && answerTypes && quizContents && answerContents && answerComments && answerCorrects && rewardPoints) {
+  if(accessTokenData && title && categories && quizContents && quizTypes && rewardPoints && answerContents && answerCorrects && answerTypes && answerComments) {
 
     const data = await accessTokenData
     .then(user => { return user })
@@ -18,10 +18,10 @@ module.exports = async (req, res) => {
       // quiz 테이블 생성
     const createdQuiz = await quiz.create({
       title: title,
-      thumbnail: thumbnail || "some image",
+      thumbnail: thumbnail || "https://cdn.discordapp.com/attachments/830706578578997268/901788695764566016/005.png",
       rewardPoint: rewardPoints,
       heart: 0,
-      valid: false,
+      valid: true,
       userId: userData.id
     });
 
@@ -35,11 +35,20 @@ module.exports = async (req, res) => {
     });
 
 
+    /* 
+      quizContents: {
+        constents: image_url: url,
+        answerCorrects: num,
+        answerTypes: string,
+        categories: string
+      }
+    */
 
+console.log(quizContents)
     console.log("퀴즈 코드 생성")
       // quizContent 테이블 생성
     const createdQuizContent = await quizContent.create({
-      quizCode: quizContents,
+      quizCode: quizContents.image_url || quizContents.text,
       quizType: quizTypes
     });
 
@@ -54,11 +63,22 @@ module.exports = async (req, res) => {
 
 
 
+    /* 
+      answerContents: {
+        constents: [
+
+        ],
+        answerCorrects: num,
+        answerTypes: string,
+        categories: string
+      }
+    */
+
     console.log("정답 코드 생성")
       // answerContent, answer_tyoe 테이블 생성
     answerContents.map( async (answerExample) => {
       await answerContent.create({
-        answerCode: answerExample,
+        answerCode: answerExample.file_url || answerExample.name || answerExample.text,
         answerComment: answerComments,
         answerType: answerTypes,
         correctAnswer: answerCorrects
@@ -71,7 +91,8 @@ module.exports = async (req, res) => {
       })
     })
 
-    res.status(201).redirect(`http://${req.get('host')}`)
+    // res.status(201).redirect(`http://${req.get('host')}`)
+    res.status(201).json(createdQuiz)
   } else {
     res.status(400).send("invalid accessToken")
   }

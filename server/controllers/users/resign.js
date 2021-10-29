@@ -1,5 +1,4 @@
 const { user, user_usedItem, usedItem, quiz } = require('../../models');
-const { sign } = require('jsonwebtoken');
 const { isAuthorized } = require('../tokenFunction');
 
 module.exports = async (req, res) => {
@@ -17,24 +16,28 @@ module.exports = async (req, res) => {
       where: { userId: userData.id }
     })
 
-    madedQuiz.map( async (quiz) => {
-      await quiz.update({
-        userId: 4
+    if(madedQuiz) {
+      madedQuiz.map( async (quiz) => {
+        await quiz.update({
+          userId: 1
+        })
       })
-    })
+    }
 
     const usedItemList = await user_usedItem.findAll({
       where: { userId: userData.id }
     })
-    
-    const bucket = []
-    usedItemList.map((item) => {
-      bucket.push(item.id)
-    })
 
-    await usedItem.destroy({
-      where: { id: bucket }
-    })
+    if(usedItemList) {
+      const bucket = []
+      usedItemList.map((item) => {
+        bucket.push(item.id)
+      })
+  
+      await usedItem.destroy({
+        where: { id: bucket }
+      })
+    }
 
     await user.destroy({
       where: { email: userData.email }
@@ -48,3 +51,4 @@ module.exports = async (req, res) => {
     res.status(400).send(`you're currently not logined`)
   }
 };
+

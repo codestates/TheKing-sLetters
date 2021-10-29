@@ -1,0 +1,16 @@
+version: 0.0
+os: linux
+files:
+  - source: /
+    destination: /home/ubuntu/TheKing-sLetters
+
+hooks:
+  ApplicationStop:
+    - location: server/scripts/stop.sh
+      runas: admin
+  AfterInstall:
+    - location: server/scripts/initialize.sh
+      runas: admin
+  ApplicationStart:
+    - location: server/scripts/start.sh
+      runas: admin

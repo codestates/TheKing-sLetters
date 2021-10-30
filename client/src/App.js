@@ -12,10 +12,7 @@ import DevSignInModal from './DevPage/DevSignIn';
 function App() {
   return (
     <>
-      <DevSignInModal />
-      {/* <QuizPost /> */}
-      <QuizSolve />
-      {/* <Admin /> */}
+      <Admin />
     </>
   );
 }

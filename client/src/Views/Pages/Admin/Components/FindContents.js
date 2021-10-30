@@ -1,26 +1,16 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
+import ReactPaginate from 'react-paginate';
 import axios from 'axios';
-
-const deselectedOptions = [
-  'rustic',
-  'antique',
-  'vinyl',
-  'vintage',
-  'refurbished',
-  '신품',
-  '빈티지',
-  '중고A급',
-  '중고B급',
-  '골동품',
-];
 
 const FindContentsContainer = styled.div`
   font-family: 'EBSHMJESaeronRA';
   width: 100%;
-  padding: 6% 6% 10% 6%;
+  padding: 6% 6% 8% 6%;
   box-sizing: border-box;
   background-color: #fafafa;
+  position: relative;
+
   > .find__title {
     display: flex;
     align-items: center;
@@ -33,6 +23,74 @@ const FindContentsContainer = styled.div`
     text-shadow: 3px 3px 1px rgba(0, 0, 0, 0.3);
     letter-spacing: 3px;
     color: #fafafa;
+  }
+  .paginationBtn {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    padding: 6rem 0 2rem;
+  }
+  .paginationBtn a {
+    padding: 0.6rem;
+    margin: 0.4rem;
+    border-radius: 5px;
+    border: 1.5px solid #303030;
+    color: #303030;
+    cursor: pointer;
+    transition: all 0.4s;
+    font-size: 1rem;
+    &:hover {
+      color: #fafafa;
+      background-color: #303030;
+    }
+  }
+  .paginationActive a {
+    color: #fafafa;
+    background-color: #303030;
+  }
+
+  @media (max-width: 768px) {
+    .paginationBtn {
+      width: 80%;
+      list-style: none;
+      display: flex;
+      justify-content: center;
+      padding: 3rem 0 2rem;
+    }
+    .paginationBtn a {
+      padding: 0.4rem;
+      margin: 0.3rem;
+      border-radius: 5px;
+      border: 1.2px solid #303030;
+      color: #303030;
+      cursor: pointer;
+      transition: all 0.4s;
+      font-size: 0.8rem;
+    }
+    .paginationActive a {
+      color: #fafafa;
+      background-color: #303030;
+    }
+  }
+  .custom-shape-divider-top-1635519064 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+    line-height: 0;
+  }
+
+  .custom-shape-divider-top-1635519064 svg {
+    position: relative;
+    display: block;
+    width: calc(100% + 1.3px);
+    height: 50px;
+    transform: rotateY(180deg);
+  }
+
+  .custom-shape-divider-top-1635519064 .shape-fill {
+    fill: #d4cdc1;
   }
 `;
 
@@ -49,7 +107,7 @@ const InputContainer = styled.div`
   border-radius: 5px;
   background-color: #6b574f;
   width: 100%;
-  z-index: 3;
+  z-index: 5;
   > input {
     width: inherit;
     font-family: 'EBSHMJESaeronRA';
@@ -141,6 +199,7 @@ const UserInfo = styled.div`
   border-radius: 5px;
   background-color: #6b574f;
   z-index: 3;
+  position: relative;
   > .user_profile_img {
     width: 50px;
     border-radius: 50%;
@@ -185,6 +244,25 @@ const UserInfo = styled.div`
   @media (max-width: 768px) {
     .user_info {
       font-size: 0.7em;
+      > .user {
+        margin-left: 0.8em;
+        font-size: 1em;
+        letter-spacing: 0;
+        width: 120px;
+      }
+      > .user_title {
+        margin-left: 0.5em;
+        font-size: 1.2em;
+      }
+      > .delete_btn {
+        z-index: 5;
+        width: 71px;
+      }
+    }
+    .user_title {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
   }
 `;
@@ -194,11 +272,12 @@ const FindContents = ({
   adminAccessToken,
   setValidQuiz,
 }) => {
+  const deselectedOptions = validQuiz.map((el) => el.title);
   const [hasText, setHasText] = useState(false);
   const [inputValue, setInputVaule] = useState('');
   const [options, setOptions] = useState(deselectedOptions);
+  const [find, setFind] = useState(0);
   const inputRef = useRef(null);
-
   useEffect(() => {
     if (inputValue === '') {
       // 렌더링 -> effect() -> inputValue 변경 -> 렌더링 -> effect()
@@ -268,44 +347,87 @@ const FindContents = ({
         );
     }
   };
+
+  // 페이지네이션 구현
+  const max_contents = 5;
+  const pageVisited = find * max_contents;
+  const pageCount = Math.ceil(validQuiz.length / max_contents);
+  const changePage = ({ selected }) => {
+    setFind(selected);
+  };
+  const displayContents = validQuiz
+    .slice(pageVisited, pageVisited + max_contents)
+    .map((el, i) => {
+      return (
+        <UserInfo key={i}>
+          <img
+            className="user_profile_img"
+            src={el.thumbnail}
+            alt="profile_image"
+          ></img>
+          <div className="user_info">
+            <div className="user">
+              <div className="user_id">
+                사용자 ID: <span>{el.user.email}</span>
+              </div>
+              <div className="user_name">
+                이름: <span>{el.user.name}</span>
+              </div>
+            </div>
+            <div className="user_title">{el.title}</div>
+            <button className="delete_btn" onClick={() => deleteQuiz(el.id, i)}>
+              삭제하기
+            </button>
+          </div>
+        </UserInfo>
+      );
+    });
+
   return (
     <FindContentsContainer>
       <div className="find__title">전체 게시글</div>
       <InputContainer>
-        <input value={inputValue} onChange={handleInputChange} ref={inputRef} />
+        <input
+          type="search"
+          value={inputValue}
+          onChange={handleInputChange}
+          ref={inputRef}
+          onFocus={(e) => (e.target.placeholder = '')}
+          onBlur={(e) =>
+            (e.target.placeholder = ' 이름 또는 제목을 검색하세요.')
+          }
+          placeholder=" 이름 또는 제목을 검색하세요."
+        />
         <button>검색</button>
       </InputContainer>
       {hasText && (
         <DropDown options={options} handleComboBox={handleDropDownClick} />
       )}
-      {validQuiz.map((el, i) => {
-        return (
-          <UserInfo key={i}>
-            <img
-              className="user_profile_img"
-              src={el.thumbnail}
-              alt="profile_image"
-            ></img>
-            <div className="user_info">
-              <div className="user">
-                <div className="user_id">
-                  사용자 ID: <span>{el.user.email}</span>
-                </div>
-                <div className="user_name">
-                  이름: <span>{el.user.name}</span>
-                </div>
-              </div>
-              <div className="user_title">{el.title}</div>
-              <button
-                className="delete_btn"
-                onClick={() => deleteQuiz(el.id, i)}
-              >
-                삭제하기
-              </button>
-            </div>
-          </UserInfo>
-        );
-      })}
+      {displayContents}
+      <ReactPaginate
+        previousLabel={'이전'}
+        nextLabel={'다음'}
+        pageCount={pageCount}
+        onPageChange={changePage}
+        containerClassName={'paginationBtn'}
+        previousLinkClassName={'previousBtn'}
+        nextLinkClassName={'nextBtn'}
+        disabledClassName={'paginationDisabled'}
+        activeClassName={'paginationActive'}
+      />
+      <div className="custom-shape-divider-top-1635519064">
+        <svg
+          data-name="Layer 1"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 1200 120"
+          preserveAspectRatio="none"
+        >
+          <path
+            d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z"
+            className="shape-fill"
+          ></path>
+        </svg>
+      </div>
     </FindContentsContainer>
   );
 };

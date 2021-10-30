@@ -4,7 +4,7 @@ const cookieParser = require("cookie-parser");
 const app = express();
 
 const controllers = require("./controllers")
-const port = 443;
+const port = 80;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

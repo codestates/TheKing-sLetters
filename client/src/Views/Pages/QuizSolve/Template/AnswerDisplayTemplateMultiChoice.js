@@ -1,4 +1,5 @@
-import styled from "styled-components"
+import React from 'react';
+import styled from 'styled-components';
 
 const AnswerDisplayTemplateMultiChoiceWrapper = styled.div`
   /* 박스 크기 설정 */
@@ -67,17 +68,45 @@ const AnswerDisplayTemplateMultiChoiceWrapper = styled.div`
   }
 `;
 
-const AnswerDisplayTemplateMultiChoice = ({quizData, selectedAnswer, setSelectedAnswer}) => {
-
+const AnswerDisplayTemplateMultiChoice = ({
+  quizData,
+  selectedAnswer,
+  setSelectedAnswer,
+}) => {
   return (
     <AnswerDisplayTemplateMultiChoiceWrapper>
       {quizData.answerContents.map((el, idx) => {
         return (
-          <div key={idx.toString()} className={selectedAnswer === idx ? "answer_container answer_selected" : "answer_container"}>
-            {selectedAnswer === idx ? <span className="corret_answer_msg">정답</span> : null}
-            <input type="radio" className="correct_answer_select" name="correct_answer" onChange={() => {}} onClick={() => setSelectedAnswer(idx)}></input>
-            <button onClick={() => setSelectedAnswer(idx)} className="numbering_answer">{idx + 1}번</button>
-            <input type="text" className="answer_container_input" defaultValue={el.text || ''} readOnly></input>
+          <div
+            key={idx.toString()}
+            className={
+              selectedAnswer === idx
+                ? 'answer_container answer_selected'
+                : 'answer_container'
+            }
+          >
+            {selectedAnswer === idx ? (
+              <span className="corret_answer_msg">정답</span>
+            ) : null}
+            <input
+              type="radio"
+              className="correct_answer_select"
+              name="correct_answer"
+              onChange={() => {}}
+              onClick={() => setSelectedAnswer(idx)}
+            ></input>
+            <button
+              onClick={() => setSelectedAnswer(idx)}
+              className="numbering_answer"
+            >
+              {idx + 1}번
+            </button>
+            <input
+              type="text"
+              className="answer_container_input"
+              defaultValue={el.text || ''}
+              readOnly
+            ></input>
           </div>
         );
       })}

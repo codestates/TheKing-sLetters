@@ -14,7 +14,7 @@ const AdminPage = () => {
 
   useEffect(() => {
     getAccessToken();
-  }, [isLogin]);
+  }, [isLogin, invalidQuiz, validQuiz]);
 
   const getAccessToken = async () => {
     await axios
@@ -58,6 +58,7 @@ const AdminPage = () => {
         isLogin={isLogin}
         adminAccessToken={adminAccessToken}
         invalidQuiz={invalidQuiz}
+        setInValidQuiz={setInValidQuiz}
       />
       <FindContents
         validQuiz={validQuiz}

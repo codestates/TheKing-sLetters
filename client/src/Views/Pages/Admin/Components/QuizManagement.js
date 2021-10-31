@@ -295,12 +295,14 @@ const QuizManagement = ({
   isLogin,
   adminAccessToken,
   invalidQuiz,
-  setValidQuiz,
+  setInValidQuiz,
 }) => {
   const [pageNumber, setPageNumber] = useState(0);
   const [checkedList, setCheckedLists] = useState([]);
 
-  useEffect(() => {}, [invalidQuiz]);
+  useEffect(() => {
+    setInValidQuiz(invalidQuiz);
+  });
 
   // 전체 체크 클릭 시 발생하는 함수
   const handleAllCheck = useCallback(
@@ -327,6 +329,27 @@ const QuizManagement = ({
     [checkedList]
   );
 
+  // 승인안된 퀴즈 삭제
+  const deleteQuiz = async (value, i) => {
+    if (isLogin) {
+      await axios
+        .delete(
+          'http://ec2-13-209-96-200.ap-northeast-2.compute.amazonaws.com/admin/deletequiz',
+          {
+            data: { quizId: value },
+            headers: { authorization: `Bearer ${adminAccessToken}` },
+            withCredentials: true,
+          }
+        )
+        .then(() =>
+          setInValidQuiz([
+            ...invalidQuiz.slice(0, i),
+            ...invalidQuiz.slice(i + 1),
+          ])
+        );
+    }
+  };
+
   // 페이지네이션 구현
   const max_contents = 6;
   const pageVisited = pageNumber * max_contents;
@@ -348,7 +371,7 @@ const QuizManagement = ({
               onChange={(e) => handleSingleCheck(e.target.checked, el)}
               checked={checkedList.includes(el) ? true : false}
             />
-            <span>&times;</span>
+            <span onClick={() => deleteQuiz(el.id, i)}>&times;</span>
           </form>
           <div className="category__quiz">
             <span>{el.categories[0].category}</span>
@@ -371,7 +394,7 @@ const QuizManagement = ({
     });
 
   // 승인하기 버튼 구현
-  const approveQuiz = useCallback(() => {
+  const approveQuiz = () => {
     const filtered = checkedList.map((el) => el.id);
     console.log(filtered);
     if (isLogin) {
@@ -381,9 +404,12 @@ const QuizManagement = ({
         data: { quizzes: filtered },
         headers: { authorization: `Bearer ${adminAccessToken}` },
         withCredentials: true,
-      }).then((res) => console.log(res));
+      });
+      const a = invalidQuiz.filter((el) => el.id !== filtered[0]);
+      console.log(a);
+      setInValidQuiz(a);
     }
-  }, [checkedList]);
+  };
 
   return (
     <QuizManagementContainer>

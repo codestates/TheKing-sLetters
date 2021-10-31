@@ -1,25 +1,24 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const PostDropDownListWrapper = styled.ul`
-  /* 박스 설정 */
-  position: absolute;
-  width: ${(props) => props.dropDownWidth}px;
-  padding: 2px 0px 2px 0px;
-  border: 1px solid #d0d7de;
-  border-radius: 6px;
-  background-color: rgba(255, 255, 255, 1);
-  z-index: 500;
-  /* flex 설정 */
+const MainDropDownListContainer = styled.ul`
   display: flex;
   flex-direction: column;
+  position: absolute;
+  width: 100%;
+  border: 1px solid #d0d7de;
+  border-radius: 0 0 6px 6px;
+  background-color: rgba(255, 255, 255, 1);
+  z-index: 500;
 
   > li button {
     /* 폰트 설정 */
-    font-size: 16px;
+    font-family: 'EBSHMJESaeronRA';
+    font-size: 0.8em;
+
     text-align: left;
     /* 박스 설정 */
-    padding: 0px 8px 0px 8px;
+    padding: 0.5em 1.2em;
     width: 100%;
     background-color: rgba(255, 255, 255, 1);
     :hover {
@@ -30,7 +29,7 @@ const PostDropDownListWrapper = styled.ul`
   }
 `;
 
-const DropDownList = ({
+const MainDropDownList = ({
   isDropDownOpen,
   listData,
   clickValueHandler,
@@ -39,7 +38,7 @@ const DropDownList = ({
   return (
     <>
       {isDropDownOpen ? (
-        <PostDropDownListWrapper dropDownWidth={dropDownWidth}>
+        <MainDropDownListContainer dropDownWidth={dropDownWidth}>
           {listData.map((el, idx) => {
             return (
               <li key={idx.toString()}>
@@ -49,10 +48,10 @@ const DropDownList = ({
               </li>
             );
           })}
-        </PostDropDownListWrapper>
+        </MainDropDownListContainer>
       ) : null}
     </>
   );
 };
 
-export default DropDownList;
+export default MainDropDownList;

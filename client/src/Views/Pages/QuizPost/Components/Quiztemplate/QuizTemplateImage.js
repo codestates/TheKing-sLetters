@@ -1,7 +1,7 @@
-import styled from "styled-components"
+import styled from 'styled-components';
 import upoloadIcon from '../../Assets/upload-1.svg';
 import deleteIcon from '../../Assets/delete-1.svg';
-import { useState } from "react";
+import React, { useState } from 'react';
 
 const QuizTemplateImageWrapper = styled.div`
   /* 박스 설정 */
@@ -9,7 +9,7 @@ const QuizTemplateImageWrapper = styled.div`
   height: auto;
   > .quiz_image_container {
     /* 박스 설정 */
-    border: 2px solid rgba(0, 0, 0, 0.1);;
+    border: 2px solid rgba(0, 0, 0, 0.1);
     border-radius: 5px;
     width: auto;
     height: auto;
@@ -29,7 +29,7 @@ const QuizTemplateImageWrapper = styled.div`
       flex: 2em 1 0;
     }
     /* ---------------------- quiz_image_container__title 끝 ---------------------- */
-  
+
     /* ---------------------------------- quiz_image_container__inner 속성 시작 ---------------------------------- */
     > .quiz_image_container__inner {
       /* flex 박스 설정 */
@@ -102,28 +102,36 @@ const QuizTemplateImageWrapper = styled.div`
   }
 `;
 
-const QuizTemplateImage = ({dataQuizSelect, setDataQuizSelect}) => {
+const QuizTemplateImage = ({ dataQuizSelect, setDataQuizSelect }) => {
   const [isUploaded, setIsUploaded] = useState(false);
 
   const deleteHandler = (e) => {
     if (e.target && isUploaded) {
       setIsUploaded(false);
-      setDataQuizSelect({...dataQuizSelect, type: '', contents: {image_url: '', image_type: ''}});
+      setDataQuizSelect({
+        ...dataQuizSelect,
+        type: '',
+        contents: { image_url: '', image_type: '' },
+      });
     }
   };
 
   const inputHandler = (e, tag) => {
     e.preventDefault();
     if (!e.target || !tag) return;
-    if (tag === "title") {
+    if (tag === 'title') {
       const inputValue = e.target.value;
-      setDataQuizSelect({...dataQuizSelect, title: inputValue});
+      setDataQuizSelect({ ...dataQuizSelect, title: inputValue });
     }
-    if (tag === "contents") {
+    if (tag === 'contents') {
       const [file] = e.target.files;
       if (file) {
         const localUrl = URL.createObjectURL(file);
-        setDataQuizSelect({...dataQuizSelect, type: 'image', contents: {image_url: localUrl, image_object: file}});
+        setDataQuizSelect({
+          ...dataQuizSelect,
+          type: 'image',
+          contents: { image_url: localUrl, image_object: file },
+        });
         setIsUploaded(true);
         e.target.value = '';
       }
@@ -133,23 +141,45 @@ const QuizTemplateImage = ({dataQuizSelect, setDataQuizSelect}) => {
   return (
     <QuizTemplateImageWrapper>
       <div className="quiz_image_container">
-        <input type="text" className="quiz_image_container__title" onChange={(e) => inputHandler(e, "title")} placeholder="여기에 제목을 입력해 주세요"></input>
-        {!isUploaded
-        ?
-        <div className="quiz_image_container__inner">
-          <img className="upload_icon" src={upoloadIcon} alt="이미지 업로드 버튼"></img>
-          <span>최대 가로 500px 세로 300px</span>
-          <label className="upload_label" htmlFor="quiz_upload">
-            업로드하기
-           <input type="file" id="quiz_upload" style={{display: "none"}} onChange={(e) => inputHandler(e, "contents")}></input>
-          </label>
-        </div>
-        :
-        <div className="quiz_image_container__inner">
-          <img className="delete_icon" src={deleteIcon} onClick={(e) => deleteHandler(e)} alt="이미지 삭제 아이콘"></img>
-          <img className="uploaded_image" src={dataQuizSelect.contents.image_url} alt="업로드된 이미지"></img>
-        </div>
-        }
+        <input
+          type="text"
+          className="quiz_image_container__title"
+          onChange={(e) => inputHandler(e, 'title')}
+          placeholder="여기에 제목을 입력해 주세요"
+        ></input>
+        {!isUploaded ? (
+          <div className="quiz_image_container__inner">
+            <img
+              className="upload_icon"
+              src={upoloadIcon}
+              alt="이미지 업로드 버튼"
+            ></img>
+            <span>최대 가로 500px 세로 300px</span>
+            <label className="upload_label" htmlFor="quiz_upload">
+              업로드하기
+              <input
+                type="file"
+                id="quiz_upload"
+                style={{ display: 'none' }}
+                onChange={(e) => inputHandler(e, 'contents')}
+              ></input>
+            </label>
+          </div>
+        ) : (
+          <div className="quiz_image_container__inner">
+            <img
+              className="delete_icon"
+              src={deleteIcon}
+              onClick={(e) => deleteHandler(e)}
+              alt="이미지 삭제 아이콘"
+            ></img>
+            <img
+              className="uploaded_image"
+              src={dataQuizSelect.contents.image_url}
+              alt="업로드된 이미지"
+            ></img>
+          </div>
+        )}
       </div>
     </QuizTemplateImageWrapper>
   );

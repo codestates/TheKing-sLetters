@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import styled from 'styled-components';
 import ReactPaginate from 'react-paginate';
 import axios from 'axios';
@@ -23,6 +23,7 @@ const FindContentsContainer = styled.div`
     text-shadow: 3px 3px 1px rgba(0, 0, 0, 0.3);
     letter-spacing: 3px;
     color: #fafafa;
+    margin-top: 3em;
   }
   .paginationBtn {
     list-style: none;
@@ -51,7 +52,7 @@ const FindContentsContainer = styled.div`
 
   @media (max-width: 768px) {
     .paginationBtn {
-      width: 80%;
+      width: 100%;
       list-style: none;
       display: flex;
       justify-content: center;
@@ -185,6 +186,10 @@ const DropDownContainer = styled.ul`
   > li {
     padding: 0 1.5em;
     margin-bottom: 0.4em;
+    cursor: pointer;
+  }
+  &.active {
+    display: none;
   }
 `;
 
@@ -272,19 +277,26 @@ const FindContents = ({
   adminAccessToken,
   setValidQuiz,
 }) => {
-  const deselectedOptions = validQuiz.map((el) => el.title);
+  const deselectedOptions = [];
+  const nameFiltered = validQuiz.map((el) => el.user.name);
+  const titleFiltered = validQuiz.map((el) => el.title);
+  deselectedOptions.push(...nameFiltered, ...titleFiltered);
   const [hasText, setHasText] = useState(false);
   const [inputValue, setInputVaule] = useState('');
   const [options, setOptions] = useState(deselectedOptions);
   const [find, setFind] = useState(0);
+  const [isFiltered, setIsFiltered] = useState(false);
+  const [FindOne, setFindOne] = useState(deselectedOptions);
   const inputRef = useRef(null);
+
   useEffect(() => {
     if (inputValue === '') {
       // 렌더링 -> effect() -> inputValue 변경 -> 렌더링 -> effect()
-      setOptions(deselectedOptions);
       setHasText(false);
+      setOptions(deselectedOptions);
     }
-  }, [inputValue, validQuiz]);
+    setFindOne(validQuiz);
+  }, [inputValue]);
 
   const handleInputChange = (event) => {
     const value = event.target.value;
@@ -330,7 +342,22 @@ const FindContents = ({
       ...filteredOptions.slice(0, targetIndex),
       ...filteredOptions.slice(targetIndex + 1),
     ]);
+    const dropDown = document.querySelector('.dropdown__container');
+    dropDown.classList.add('active');
   };
+
+  const FilteredButtonClick = () => {
+    const findUser = validQuiz.filter((el) => el.user.name === inputValue);
+    const findTitle = validQuiz.filter((el) => el.title === inputValue);
+    if (findUser.length === 0 && isFiltered === false) {
+      setFindOne(findTitle);
+    }
+    if (findTitle.length === 0 && isFiltered === false) {
+      setFindOne(findUser);
+    }
+    setIsFiltered(!isFiltered);
+  };
+
   const deleteQuiz = async (value, i) => {
     if (isLogin) {
       await axios
@@ -383,12 +410,39 @@ const FindContents = ({
       );
     });
 
+  const displayFind = FindOne.map((el, i) => {
+    return (
+      <UserInfo key={i}>
+        <img
+          className="user_profile_img"
+          src={el.thumbnail}
+          alt="profile_image"
+        ></img>
+        <div className="user_info">
+          <div className="user">
+            <div className="user_id">
+              사용자 ID: <span>{el.user.email}</span>
+            </div>
+            <div className="user_name">
+              이름: <span>{el.user.name}</span>
+            </div>
+          </div>
+          <div className="user_title">{el.title}</div>
+          <button className="delete_btn" onClick={() => deleteQuiz(el.id, i)}>
+            삭제하기
+          </button>
+        </div>
+      </UserInfo>
+    );
+  });
+
   return (
     <FindContentsContainer>
       <div className="find__title">전체 게시글</div>
       <InputContainer>
         <input
           type="search"
+          name="search_NT"
           value={inputValue}
           onChange={handleInputChange}
           ref={inputRef}
@@ -398,12 +452,12 @@ const FindContents = ({
           }
           placeholder=" 이름 또는 제목을 검색하세요."
         />
-        <button>검색</button>
+        <button onClick={FilteredButtonClick}>검색</button>
       </InputContainer>
       {hasText && (
         <DropDown options={options} handleComboBox={handleDropDownClick} />
       )}
-      {displayContents}
+      {isFiltered === false ? displayContents : displayFind}
       <ReactPaginate
         previousLabel={'이전'}
         nextLabel={'다음'}
@@ -434,7 +488,7 @@ const FindContents = ({
 
 const DropDown = ({ options, handleComboBox }) => {
   return (
-    <DropDownContainer>
+    <DropDownContainer className="dropdown__container">
       {options.map((option, i) => (
         <li key={i} onClick={() => handleComboBox(option)}>
           {option}

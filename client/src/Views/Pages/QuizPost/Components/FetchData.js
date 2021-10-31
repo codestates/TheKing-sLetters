@@ -1,5 +1,5 @@
-import axios from "axios";
-import UploadImage from "../../../../functions/upload";
+import axios from 'axios';
+import UploadImage from '../../../../functions/upload';
 
 axios.defaults.baseURL = `http://ec2-13-209-96-200.ap-northeast-2.compute.amazonaws.com`;
 axios.defaults.withCredentials = true;
@@ -16,13 +16,13 @@ export const uploadData = async (data) => {
       method: 'POST',
       data: PAYLOAD,
       headers: {
-        'Authorization': `Bearer ${TOKEN}`,
+        Authorization: `Bearer ${TOKEN}`,
       },
     });
     // console.log(`POST ${URL} 요청에 성공했습니다.`);
     // console.log(`Authorization: Bearer ${TOKEN}`);
     // console.log('PAYLOAD: ', PAYLOAD);
-  } catch(error) {
+  } catch (error) {
     response = error.response;
     // console.log(`POST ${URL} 요청에 실패했습니다.`);
     throw error;
@@ -31,7 +31,12 @@ export const uploadData = async (data) => {
   }
 };
 
-export const refineData = async (dataCategorySelect, dataQuizSelect, dataAnswerSelect, dataCommentation) => {
+export const refineData = async (
+  dataCategorySelect,
+  dataQuizSelect,
+  dataAnswerSelect,
+  dataCommentation
+) => {
   const toUpload = {
     title: JSON.parse(JSON.stringify(dataQuizSelect.title)), // 문제 제목
     thumbnail: 'default', // 문제 섬네일
@@ -40,12 +45,14 @@ export const refineData = async (dataCategorySelect, dataQuizSelect, dataAnswerS
     quizTypes: JSON.parse(JSON.stringify(dataCategorySelect.quizTypes)), // 문제 출제 타입
     answerTypes: JSON.parse(JSON.stringify(dataCategorySelect.answerTypes)), // 정답 출제 타입
     /* ------------------------- */
-    quizContents: {...dataQuizSelect.contents}, // 퀴즈 내용
+    quizContents: { ...dataQuizSelect.contents }, // 퀴즈 내용
     answerContents: [...dataAnswerSelect.contents], // 정답 내용
     /* ------------------------- */
-    answerCorrects: dataAnswerSelect.contents.findIndex(el => el.isAnswer).toString(), // 정답
+    answerCorrects: dataAnswerSelect.contents
+      .findIndex((el) => el.isAnswer)
+      .toString(), // 정답
     answerComments: JSON.parse(JSON.stringify(dataCommentation.answerComments)), // 정답 해설
-    rewardPoints: dataCategorySelect.rewardPoints[0] || "-1", // 정답 포인트
+    rewardPoints: dataCategorySelect.rewardPoints[0] || '-1', // 정답 포인트
   };
 
   if (toUpload.quizTypes === '이미지 문제') {
@@ -58,7 +65,7 @@ export const refineData = async (dataCategorySelect, dataQuizSelect, dataAnswerS
       toUpload.answerContents.map(async (el) => {
         const result = await UploadImage(el.image_object);
         URL.revokeObjectURL(el.image_url);
-        return {file_url: result.Location};
+        return { file_url: result.Location };
       })
     );
   } else {

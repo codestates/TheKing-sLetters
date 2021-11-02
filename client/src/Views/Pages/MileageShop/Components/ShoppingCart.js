@@ -108,13 +108,13 @@ const ShoppingCart = ({items, setItems, totalPrice}) => {
   const quantityHandler = (id, flags) => {
     if (flags === 'plus') {
       setItems((state)=> state.map((el) => {
-        if (el.uid == id && el.selected < el.qty) return {...el, selected: el.selected + 1};
+        if (el.uid === id && el.selected < el.qty) return {...el, selected: el.selected + 1};
         else return el;
       }));
     }
     if (flags === 'minus') {
       setItems((state)=> state.map((el) => {
-        if (el.uid == id && el.selected > 1) return {...el, selected: el.selected - 1};
+        if (el.uid === id && el.selected > 1) return {...el, selected: el.selected - 1};
         else return el;
       }));
     }
@@ -144,7 +144,10 @@ const ShoppingCart = ({items, setItems, totalPrice}) => {
       </div>
       
       {/* 모든 items.selected가 0이면 장바구니에 들어있는 물건이 없으므로 메시지 출력 */}
-      {items.filter((el) => {if (el.selected !== 0) return el}).length === 0 ?
+      {items.filter((el) => {
+        if (el.selected !== 0) return el
+        else return null;
+      }).length === 0 ?
       <div className="shopping_cart_empty">
         <img className="cart_empty_icon" src={shoppingCartIcon} alt="쇼핑카트 아이콘"></img>
         <div className="cart_empty_msg">장바구니에 물건을 넣어주세요</div>

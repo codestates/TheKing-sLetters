@@ -95,7 +95,7 @@ const ItemDisplay = ({items, setItems}) => {
     if (Math.ceil(numToSlice / limitMaxItemsInPage) >= limitMaxPage) {
       setReachedLimit(true);
     }
-  }, [itemsToDisplay]);
+  }, [itemsToDisplay, numToSlice, limitMaxPage]);
 
   const itemClickHandler = (id) => {
     setItems((state) => state.map((el) => {

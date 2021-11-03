@@ -1,5 +1,4 @@
-import React from 'react';
-import styled from 'styled-components';
+import styled from "styled-components"
 
 const AnswerDisplayTemplateImageWrapper = styled.div`
   /* 박스 크기 설정 */
@@ -19,7 +18,7 @@ const AnswerDisplayTemplateImageWrapper = styled.div`
     border: 1px dashed rgba(0, 0, 0, 0.5);
     border-radius: 10px;
     padding: 8px;
-
+    
     > .answer_img {
       /* 박스 크기 설정 */
       width: 100%;
@@ -40,43 +39,26 @@ const AnswerDisplayTemplateImageWrapper = styled.div`
       color: #0054bb;
     }
   }
-
+  
   > .image_container:hover {
     cursor: pointer;
   }
-
+  
   > .answer_selected {
     border: none;
     outline: 3px solid #0054bb;
   }
 `;
 
-const AnswerDisplayTemplateImage = ({
-  quizData,
-  selectedAnswer,
-  setSelectedAnswer,
-}) => {
+const AnswerDisplayTemplateImage = ({quizData, selectedAnswer, setSelectedAnswer}) => {
+
   return (
     <AnswerDisplayTemplateImageWrapper>
       {quizData.answerContents.map((el, idx) => {
         return (
-          <div
-            key={idx.toString()}
-            className={
-              selectedAnswer === idx
-                ? 'image_container answer_selected'
-                : 'image_container'
-            }
-          >
-            <img
-              className="answer_img"
-              src={el.image_url}
-              alt="정답 이미지"
-              onClick={() => setSelectedAnswer(idx)}
-            ></img>
-            {selectedAnswer === idx ? (
-              <span className="corret_answer_msg">정답</span>
-            ) : null}
+          <div key={idx.toString()} className={selectedAnswer === idx ? "image_container answer_selected" : "image_container"}>
+            <img className="answer_img" src={el.image_url} alt="정답 이미지" onClick={() => setSelectedAnswer(idx)}></img>
+            {selectedAnswer === idx ? <span className="corret_answer_msg">정답</span> : null}
           </div>
         );
       })}

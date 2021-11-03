@@ -1,6 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 
+import MasterLoginModal from '../Views/Modals/MasterLoginModal';
+
 const FooterContainer = styled.div`
   display: flex;
   justify-content: flex-start;
@@ -64,7 +66,7 @@ const Footer = () => {
       <div className="footer__logo">
         <a>나랏말싸미</a>
       </div>
-      <button className="footer__admin">관리자 로그인</button>
+      <MasterLoginModal className="footer__admin" />
       <FooterGithub>
         <li className="footer__user">
           <a href="https://github.com/yonghk423">김용희</a>

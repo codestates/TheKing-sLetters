@@ -1,12 +1,6 @@
-<<<<<<< HEAD
-import styled from 'styled-components';
-import React, { useEffect } from 'react';
-import upoloadIcon from '../../Assets/upload-1.svg';
-=======
 import styled from "styled-components"
 import { useEffect } from "react";
 import CropModal from '../CropModal';
->>>>>>> 55938dc291ae5bdea330e6900e0e8aea2adc0146
 import deleteIcon from '../../Assets/delete-1.svg';
 
 const AnswerTemplateImageWrapper = styled.div`
@@ -41,7 +35,7 @@ const AnswerTemplateImageWrapper = styled.div`
     > .delete_icon:hover {
       cursor: pointer;
     }
-
+    
     > .uploaded_image {
       /* 박스 설정 */
       width: 100%;
@@ -61,11 +55,11 @@ const AnswerTemplateImageWrapper = styled.div`
       color: #0054bb;
     }
   }
-
+  
   > .image_container:hover {
     cursor: pointer;
   }
-
+  
   > .answer_selected {
     border: none;
     outline: 3px solid #0054bb;
@@ -96,49 +90,27 @@ const AnswerTemplateImageWrapper = styled.div`
 
 const MAX_IMAGE_ANSWER = 6;
 
-const AnswerTemplateImage = ({ dataAnswerSelect, setDataAnswerSelect }) => {
+const AnswerTemplateImage = ({dataAnswerSelect, setDataAnswerSelect}) => {
   // 컴포넌트가 로드되면 실행
   useEffect(() => {
-    setDataAnswerSelect({ type: 'image', contents: [] });
+    setDataAnswerSelect({type: 'image', contents: []});
   }, [setDataAnswerSelect]);
 
   const deleteHandler = (index) => {
-    setDataAnswerSelect({
-      ...dataAnswerSelect,
-      contents: dataAnswerSelect.contents.filter((el, idx) => idx !== index),
-    });
+    setDataAnswerSelect({...dataAnswerSelect, contents: dataAnswerSelect.contents.filter((el, idx) => idx !== index)});
   };
 
   const answerSelectHandler = (index) => {
-    let copied = {
-      ...dataAnswerSelect,
-      contents: [...dataAnswerSelect.contents].map((el, idx) => {
-        if (idx === index) {
-          return { ...el, isAnswer: true };
-        } else {
-          return { ...el, isAnswer: false };
-        }
-      }),
-    };
+    let copied = {...dataAnswerSelect, contents: [...dataAnswerSelect.contents].map((el, idx) => {
+      if (idx === index) {
+        return {...el, isAnswer: true};
+      } else {
+        return {...el, isAnswer: false};
+      }
+    })};
     setDataAnswerSelect(copied);
   };
 
-<<<<<<< HEAD
-  const imageUploadHandler = (e) => {
-    e.preventDefault();
-    const [file] = e.target.files;
-    if (file) {
-      const localUrl = URL.createObjectURL(file);
-      setDataAnswerSelect({
-        ...dataAnswerSelect,
-        contents: [
-          ...dataAnswerSelect.contents,
-          { image_url: localUrl, image_object: file, isAnswer: false },
-        ],
-      });
-      e.target.value = '';
-    }
-=======
   const imageCropperHandler = (file, url) => {
     setDataAnswerSelect({
       ...dataAnswerSelect,
@@ -146,7 +118,6 @@ const AnswerTemplateImage = ({ dataAnswerSelect, setDataAnswerSelect }) => {
         ...dataAnswerSelect.contents,
         {image_url: url, image_object: file, isAnswer: false}
       ]});
->>>>>>> 55938dc291ae5bdea330e6900e0e8aea2adc0146
   };
 
   const imageCropperConfig = { unit: 'px', width: 100, height: 100 };
@@ -155,59 +126,24 @@ const AnswerTemplateImage = ({ dataAnswerSelect, setDataAnswerSelect }) => {
     <AnswerTemplateImageWrapper>
       {dataAnswerSelect.contents.map((el, idx) => {
         return (
-          <div
-            key={idx.toString()}
-            className={
-              el.isAnswer
-                ? 'image_container answer_selected'
-                : 'image_container'
-            }
-          >
-            {el.isAnswer ? (
-              <span className="corret_answer_msg">정답</span>
-            ) : null}
-            <img
-              className="delete_icon"
-              src={deleteIcon}
-              alt="삭제 버튼 이미지"
-              onClick={() => deleteHandler(idx)}
-            ></img>
-            <img
-              className="uploaded_image"
-              src={el.image_url}
-              alt="업로드된 이미지"
-              onClick={() => answerSelectHandler(idx)}
-            ></img>
+          <div key={idx.toString()} className={el.isAnswer ? "image_container answer_selected" : "image_container"}>
+            {el.isAnswer ? <span className="corret_answer_msg">정답</span> : null}
+            <img className="delete_icon" src={deleteIcon} alt="삭제 버튼 이미지" onClick={() => deleteHandler(idx)}></img>
+            <img className="uploaded_image" src={el.image_url} alt="업로드된 이미지" onClick={() => answerSelectHandler(idx)}></img>
           </div>
         );
       })}
 
-      {dataAnswerSelect.contents.length < MAX_IMAGE_ANSWER ? (
+      {dataAnswerSelect.contents.length < MAX_IMAGE_ANSWER ?
         <div className="image_container_add">
-<<<<<<< HEAD
-          <img src={upoloadIcon} alt="이미지 업로드 버튼"></img>
-          <span>최대 가로 300px 세로 200px</span>
-          <label htmlFor="upload">
-            업로드하기
-            <input
-              type="file"
-              id="upload"
-              style={{ display: 'none' }}
-              onChange={(e) => imageUploadHandler(e)}
-            ></input>
-          </label>
-=======
           <div>
             <CropModal handler={imageCropperHandler} config={imageCropperConfig} />
           </div>
           <span>파일 최대 용량 3MB</span>
->>>>>>> 55938dc291ae5bdea330e6900e0e8aea2adc0146
         </div>
-      ) : null}
+      : null}
 
-      {dataAnswerSelect.contents.length >= MAX_IMAGE_ANSWER ? (
-        <p>이미지 답안은 최대 {MAX_IMAGE_ANSWER} 개까지 입력 가능합니다.</p>
-      ) : null}
+      {dataAnswerSelect.contents.length >= MAX_IMAGE_ANSWER ? <p>이미지 답안은 최대 {MAX_IMAGE_ANSWER} 개까지 입력 가능합니다.</p> : null}
     </AnswerTemplateImageWrapper>
   );
 };

@@ -1,5 +1,5 @@
-import { useEffect } from "react";
-import styled from "styled-components"
+import React, { useEffect } from 'react';
+import styled from 'styled-components';
 
 const AnswerTemplateMultiChoiceWrapper = styled.div`
   /* 박스 크기 설정 */
@@ -94,27 +94,34 @@ const AnswerTemplateMultiChoiceWrapper = styled.div`
 
 const MAX_ANSWER = 6;
 
-const AnswerTemplateMultiChoice = ({dataAnswerSelect, setDataAnswerSelect}) => {
+const AnswerTemplateMultiChoice = ({
+  dataAnswerSelect,
+  setDataAnswerSelect,
+}) => {
   // 컴포넌트가 로드되면 실행
   useEffect(() => {
-    const INITIAL_VALUE = [
-      {text: '', isAnswer: false},
-    ];
-    setDataAnswerSelect({type: '선다형 답안', contents: INITIAL_VALUE});
+    const INITIAL_VALUE = [{ text: '', isAnswer: false }];
+    setDataAnswerSelect({ type: '선다형 답안', contents: INITIAL_VALUE });
   }, [setDataAnswerSelect]);
 
   const addHandler = () => {
-    setDataAnswerSelect({...dataAnswerSelect, contents: [...dataAnswerSelect.contents, {text: '', isAnswer: false}]});
+    setDataAnswerSelect({
+      ...dataAnswerSelect,
+      contents: [...dataAnswerSelect.contents, { text: '', isAnswer: false }],
+    });
   };
 
   const deleteHandler = (index) => {
-    setDataAnswerSelect({...dataAnswerSelect, contents: dataAnswerSelect.contents.filter((el, idx) => idx !== index)});
+    setDataAnswerSelect({
+      ...dataAnswerSelect,
+      contents: dataAnswerSelect.contents.filter((el, idx) => idx !== index),
+    });
   };
 
   const answerInputHandler = (e, index) => {
     const inputValue = e.target.value;
     if (!inputValue || inputValue === '') return;
-    let copied = {...dataAnswerSelect};
+    let copied = { ...dataAnswerSelect };
     copied.contents[index].text = inputValue;
     setDataAnswerSelect(copied);
   };
@@ -124,11 +131,12 @@ const AnswerTemplateMultiChoice = ({dataAnswerSelect, setDataAnswerSelect}) => {
       ...dataAnswerSelect,
       contents: [...dataAnswerSelect.contents].map((el, idx) => {
         if (idx === index) {
-          return {...el, isAnswer: true};
+          return { ...el, isAnswer: true };
         } else {
-          return {...el, isAnswer: false};
+          return { ...el, isAnswer: false };
         }
-      })};
+      }),
+    };
     setDataAnswerSelect(copied);
   };
 
@@ -136,16 +144,51 @@ const AnswerTemplateMultiChoice = ({dataAnswerSelect, setDataAnswerSelect}) => {
     <AnswerTemplateMultiChoiceWrapper>
       {dataAnswerSelect.contents.map((el, idx) => {
         return (
-          <div key={idx.toString()} className={el.isAnswer ? "answer_container answer_selected" : "answer_container"}>
-            {el.isAnswer ? <span className="corret_answer_msg">정답</span> : null}
-            <input type="text" className="answer_container_input" onChange={(e) => answerInputHandler(e, idx)} placeholder="정답을 입력해 주세요" value={el.text || ''}></input>
-            <input type="radio" className="correct_answer_select" name="correct_answer" checked={el.isAnswer || false} onChange={() => {}} onClick={() => answerSelectHandler(idx)}></input>
-            <button onClick={() => deleteHandler(idx)} className="answer_container_delete_button">삭제</button>
+          <div
+            key={idx.toString()}
+            className={
+              el.isAnswer
+                ? 'answer_container answer_selected'
+                : 'answer_container'
+            }
+          >
+            {el.isAnswer ? (
+              <span className="corret_answer_msg">정답</span>
+            ) : null}
+            <input
+              type="text"
+              className="answer_container_input"
+              onChange={(e) => answerInputHandler(e, idx)}
+              placeholder="정답을 입력해 주세요"
+              value={el.text || ''}
+            ></input>
+            <input
+              type="radio"
+              className="correct_answer_select"
+              name="correct_answer"
+              checked={el.isAnswer || false}
+              onChange={() => {}}
+              onClick={() => answerSelectHandler(idx)}
+            ></input>
+            <button
+              onClick={() => deleteHandler(idx)}
+              className="answer_container_delete_button"
+            >
+              삭제
+            </button>
           </div>
         );
       })}
-      {dataAnswerSelect.contents.length < MAX_ANSWER ? <button onClick={addHandler} className="answer_add">정답 추가하기</button> : null}
-      {dataAnswerSelect.contents.length >= MAX_ANSWER ? <p className="error_msg">선다형 답안의 최대 개수는 {MAX_ANSWER}개 입니다.</p> : null}
+      {dataAnswerSelect.contents.length < MAX_ANSWER ? (
+        <button onClick={addHandler} className="answer_add">
+          정답 추가하기
+        </button>
+      ) : null}
+      {dataAnswerSelect.contents.length >= MAX_ANSWER ? (
+        <p className="error_msg">
+          선다형 답안의 최대 개수는 {MAX_ANSWER}개 입니다.
+        </p>
+      ) : null}
     </AnswerTemplateMultiChoiceWrapper>
   );
 };

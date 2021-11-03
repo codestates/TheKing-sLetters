@@ -7,14 +7,13 @@ import { Provider } from 'react-redux';
 import MyPage from './Views/Pages/MyPage/MyPage';
 import Header from './Menu/Header';
 
-
 ReactDOM.render(
   <Provider store={store}>
-    {/* <App/> */}
-    <Header/>
-    <MyPage/>
-    {/* <MasterLoginModal/> */}    
+    <App />
+    <Header />
+    <MyPage />
+    {/* <MasterLoginModal/> */}
     {/* <LandingPage/> */}
-   </Provider>,
+  </Provider>,
   document.getElementById('root')
 );

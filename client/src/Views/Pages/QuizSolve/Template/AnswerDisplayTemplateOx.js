@@ -1,4 +1,5 @@
-import styled from "styled-components"
+import React from 'react';
+import styled from 'styled-components';
 import correctIcon from '../Assets/correct-1.png';
 import incorrectIcon from '../Assets/incorrect-1.png';
 
@@ -38,18 +39,29 @@ const AnswerDisplayTemplateOxWrapper = styled.div`
   }
 `;
 
-
-
-const AnswerDisplayTemplateOx = ({selectedAnswer, setSelectedAnswer}) => {
-
+const AnswerDisplayTemplateOx = ({ selectedAnswer, setSelectedAnswer }) => {
   return (
     <AnswerDisplayTemplateOxWrapper>
-      <div className={selectedAnswer === 0 ? "ox_container answer_selected" : "ox_container"} onClick={() => setSelectedAnswer(0)}>
-        {selectedAnswer === 0 ? <span className="corret_answer_msg">정답</span> : null}
+      <div
+        className={
+          selectedAnswer === 0 ? 'ox_container answer_selected' : 'ox_container'
+        }
+        onClick={() => setSelectedAnswer(0)}
+      >
+        {selectedAnswer === 0 ? (
+          <span className="corret_answer_msg">정답</span>
+        ) : null}
         <img className="answer_icon" src={correctIcon} alt="아이콘"></img>
       </div>
-      <div className={selectedAnswer === 1 ? "ox_container answer_selected" : "ox_container"} onClick={() => setSelectedAnswer(1)}>
-        {selectedAnswer === 1 ? <span className="corret_answer_msg">정답</span> : null}
+      <div
+        className={
+          selectedAnswer === 1 ? 'ox_container answer_selected' : 'ox_container'
+        }
+        onClick={() => setSelectedAnswer(1)}
+      >
+        {selectedAnswer === 1 ? (
+          <span className="corret_answer_msg">정답</span>
+        ) : null}
         <img className="answer_icon" src={incorrectIcon} alt="아이콘"></img>
       </div>
     </AnswerDisplayTemplateOxWrapper>

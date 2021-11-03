@@ -1,4 +1,5 @@
-import styled from "styled-components";
+import React from 'react';
+import styled from 'styled-components';
 
 const QuizDisplayTemplateImageWrapper = styled.div`
   /* 박스 설정 */
@@ -6,7 +7,7 @@ const QuizDisplayTemplateImageWrapper = styled.div`
   height: auto;
   > .quiz_display_temaplate_image_container {
     /* 박스 설정 */
-    border: 2px solid rgba(0, 0, 0, 0.1);;
+    border: 2px solid rgba(0, 0, 0, 0.1);
     border-radius: 5px;
     width: auto;
     height: auto;
@@ -27,7 +28,7 @@ const QuizDisplayTemplateImageWrapper = styled.div`
       flex: 2em 1 0;
     }
     /* ---------------------- image_container_title 끝 ---------------------- */
-  
+
     /* ---------------------------------- image_container_image 속성 시작 ---------------------------------- */
     > .image_container_image {
       /* 박스 설정 */
@@ -41,12 +42,21 @@ const QuizDisplayTemplateImageWrapper = styled.div`
   }
 `;
 
-const QuizDisplayTemplateImage = ({quizData}) => {
+const QuizDisplayTemplateImage = ({ quizData }) => {
   return (
     <QuizDisplayTemplateImageWrapper>
       <div className="quiz_display_temaplate_image_container">
-        <input type="text" className="image_container_title" value={quizData.title} readOnly></input>
-        <img className="image_container_image" src={quizData.quizContents.image_url} alt="문제 이미지"></img>
+        <input
+          type="text"
+          className="image_container_title"
+          value={quizData.title}
+          readOnly
+        ></input>
+        <img
+          className="image_container_image"
+          src={quizData.quizContents.image_url}
+          alt="문제 이미지"
+        ></img>
       </div>
     </QuizDisplayTemplateImageWrapper>
   );

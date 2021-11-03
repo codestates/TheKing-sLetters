@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 // import "./Modal.css";
+// import "./App.css";
 import styled from 'styled-components';
 
-const ModalBackground = styled.div`
-width: 100vw;
+const ModalBackground = styled.div`width: 100vw;
 height: 100vh;
 background-color: rgba(200, 200, 200);
 position: fixed;
@@ -68,9 +68,13 @@ display: inline-block;
   `;
 
 const AppBox = styled.div`
-
+/* width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  flex-direction: column; */
   > button {
-  width: 200px;
+    width: 200px;
   height: 40px;
   border: none;
   border-radius: 6px;
@@ -81,7 +85,7 @@ const AppBox = styled.div`
   `;  
 
 
-const Modal = ({ setOpenModal }) => {
+const Modal5 = ({ setOpenModal }) => {
   return (
     <ModalBackground>
       <div className="modalContainer">
@@ -95,8 +99,7 @@ const Modal = ({ setOpenModal }) => {
           </button>
         </TitleCloseBtn>
         <Title>
-          <h3>비회원으로 이용시 마일리지가</h3>          
-          <h3>적립되지 않습니다.</h3>
+          <h3>정말 나가실 건가요?</h3>                
         </Title>
         <Body>
           {/* <p>The next page looks amazing. Hope you want to go there!</p> */}
@@ -108,9 +111,16 @@ const Modal = ({ setOpenModal }) => {
             }}
             id="cancelBtn"
           >
-            게스트 로그인
+            예
           </button>
-          <button>Continue</button>
+          <button
+            onClick={() => {
+              setOpenModal(false);
+            }}
+            id="cancelBtn"
+          >
+            아니요
+          </button>
           </Footer>
       </div>
       </ModalBackground>
@@ -118,12 +128,12 @@ const Modal = ({ setOpenModal }) => {
 }
 
 
-const App = () => {
+const ExitModal = () => {
   const [modalOpen, setModalOpen] = useState(false);
 
   return (
     <AppBox>
-      
+      {/* <h1>Hey, click on the button to open the modal.</h1> */}
       <button
         className="openModalBtn"
         onClick={() => {
@@ -132,11 +142,10 @@ const App = () => {
       >
         Open
       </button>
-      
 
-      {modalOpen && <Modal setOpenModal={setModalOpen} />}
+      {modalOpen && <Modal5 setOpenModal={setModalOpen} />}
       </AppBox>
   );
 }
 
-export default App;
+export default ExitModal;

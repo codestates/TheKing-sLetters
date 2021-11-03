@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 // import "./Modal.css";
+// import "./App.css";
 import styled from 'styled-components';
 
-const ModalBackground = styled.div`
-width: 100vw;
-height: 90vh;
+const ModalBackground = styled.div`width: 100vw;
+height: 100vh;
 background-color: rgba(200, 200, 200);
 position: fixed;
 display: flex;
@@ -12,14 +12,14 @@ justify-content: center;
 align-items: center;
 
 > div {
-  width: 600px;
-  height: 650px;
+  width: 280px;
+  height: 250px;
   border-radius: 12px;
   background-color: white;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   display: flex;
   flex-direction: column;
-  padding: 25px;  
+  padding: 25px;
 }
 `;
 
@@ -37,23 +37,7 @@ display: flex;
 const Title = styled.div`
 display: inline-block;
   text-align: center;
-  margin-top: 10px;  
-  > h1 {
-    margin: 0%;
-  }
-  > div {
-    margin: -1%;
-    padding: 5%;
-    font-size: 20px;
-    border-radius: 12px;
-    
-    > span {
-      padding: 10px;
-      background-color: #7fa57f;
-      color: white;
-      
-    }
-  }
+  margin-top: 10px;
   `;
  const Body = styled.div`
  flex: 50%;
@@ -84,13 +68,9 @@ display: inline-block;
   `;
 
 const AppBox = styled.div`
-/* width: 100vw;
-  height: 100vh;
-  display: flex;
-  align-items: center;
-  flex-direction: column; */
+
   > button {
-  width: 200px;
+    width: 200px;
   height: 40px;
   border: none;
   border-radius: 6px;
@@ -101,7 +81,7 @@ const AppBox = styled.div`
   `;  
 
 
-const Modal6 = ({ setOpenModal }) => {
+const Modal2 = ({ setOpenModal }) => {
   return (
     <ModalBackground>
       <div className="modalContainer">
@@ -115,49 +95,8 @@ const Modal6 = ({ setOpenModal }) => {
           </button>
         </TitleCloseBtn>
         <Title>
-          <h1>전체 랭킹</h1>
-          <div>
-            <span>순위</span>
-            <span>아이콘</span>
-            <span>닉네임</span>
-            <span>마일리지</span>
-          </div>
-          <div>
-            <span>순위</span>
-            <span>아이콘</span>
-            <span>닉네임</span>
-            <span>마일리지</span>
-          </div>
-          <div>
-            <span>순위</span>
-            <span>아이콘</span>
-            <span>닉네임</span>
-            <span>마일리지</span>
-          </div>
-          <div>
-            <span>순위</span>
-            <span>아이콘</span>
-            <span>닉네임</span>
-            <span>마일리지</span>
-          </div>
-          <div>
-            <span>순위</span>
-            <span>아이콘</span>
-            <span>닉네임</span>
-            <span>마일리지</span>
-          </div>
-          <div>
-            <span>순위</span>
-            <span>아이콘</span>
-            <span>닉네임</span>
-            <span>마일리지</span>
-          </div>
-          <div>
-            <span>순위</span>
-            <span>아이콘</span>
-            <span>닉네임</span>
-            <span>마일리지</span>
-          </div>          
+          <h3>구매에 성공하셨습니다!</h3>          
+          <h3>마이 페이지로 이동하시겠습니까?</h3>
         </Title>
         <Body>
           {/* <p>The next page looks amazing. Hope you want to go there!</p> */}
@@ -169,9 +108,16 @@ const Modal6 = ({ setOpenModal }) => {
             }}
             id="cancelBtn"
           >
-            더보기
+            예
           </button>
-          {/* <button>Continue</button> */}
+          <button
+            onClick={() => {
+              setOpenModal(false);
+            }}
+            id="cancelBtn"
+          >
+            아니요
+          </button>
           </Footer>
       </div>
       </ModalBackground>
@@ -179,7 +125,7 @@ const Modal6 = ({ setOpenModal }) => {
 }
 
 
-const App6 = () => {
+const ItemBuyMyPageModal = () => {
   const [modalOpen, setModalOpen] = useState(false);
 
   return (
@@ -194,9 +140,9 @@ const App6 = () => {
         Open
       </button>
 
-      {modalOpen && <Modal6 setOpenModal={setModalOpen} />}
+      {modalOpen && <Modal2 setOpenModal={setModalOpen} />}
       </AppBox>
   );
 }
 
-export default App6;
+export default ItemBuyMyPageModal;

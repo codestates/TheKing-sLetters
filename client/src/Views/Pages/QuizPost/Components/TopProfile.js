@@ -39,6 +39,7 @@ const TopProfileWrapper = styled.div`
   }
 `;
 
+<<<<<<< HEAD
 const TopProfile = () => {
   return (
     <TopProfileWrapper>
@@ -58,5 +59,18 @@ const TopProfile = () => {
     </TopProfileWrapper>
   );
 };
+=======
+const TopProfile = ({userData}) => {
+	return (
+    <TopProfileWrapper>
+			<img className="user_profile_image" src={userData.image || profileIcon} alt="profile_image"></img>
+			<div className="user_info_container">
+				<div className="user_ranking">사용자 순위: <span className="ranking_circle">{userData.rank}</span>위</div>
+				<div className="user_name">이름: <span>{userData.name}</span></div>
+			</div>
+		</TopProfileWrapper>
+	);
+};  
+>>>>>>> 55938dc291ae5bdea330e6900e0e8aea2adc0146
 
 export default TopProfile;

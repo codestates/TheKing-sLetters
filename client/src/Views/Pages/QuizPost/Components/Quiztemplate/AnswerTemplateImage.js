@@ -1,6 +1,12 @@
+<<<<<<< HEAD
 import styled from 'styled-components';
 import React, { useEffect } from 'react';
 import upoloadIcon from '../../Assets/upload-1.svg';
+=======
+import styled from "styled-components"
+import { useEffect } from "react";
+import CropModal from '../CropModal';
+>>>>>>> 55938dc291ae5bdea330e6900e0e8aea2adc0146
 import deleteIcon from '../../Assets/delete-1.svg';
 
 const AnswerTemplateImageWrapper = styled.div`
@@ -77,39 +83,13 @@ const AnswerTemplateImageWrapper = styled.div`
     border-radius: 10px;
     width: 362px;
     height: 362px;
-    padding: 1em 0.5em 1em 0.5em;
-
-    > img {
+    padding: 5em 0em 0em 0em;
+    > div {
       border: 1px solid rgba(0, 0, 0, 0.5);
       border-radius: 10px;
       width: 60%;
       height: 60%;
-    }
-    > label {
-      /* 박스 설정 */
-      position: relative;
-      width: 60%;
-      height: 2em;
-      border-radius: 10px;
-      border: 1px solid rgba(0, 0, 0, 0.5);
-      /* 폰트 설정 */
-      line-height: 2em;
-      text-align: center;
-
-      > input {
-        /* 박스 위치 설정 */
-        position: absolute;
-        left: 0;
-        /* 박스 크기 설정 */
-        width: 100%;
-        height: 100%;
-        /* 박스 디자인 설정 */
-        opacity: 0;
-      }
-      :hover {
-        cursor: pointer;
-        background-color: rgba(0, 0, 0, 0.1);
-      }
+      overflow: hidden;
     }
   }
 `;
@@ -143,6 +123,7 @@ const AnswerTemplateImage = ({ dataAnswerSelect, setDataAnswerSelect }) => {
     setDataAnswerSelect(copied);
   };
 
+<<<<<<< HEAD
   const imageUploadHandler = (e) => {
     e.preventDefault();
     const [file] = e.target.files;
@@ -157,7 +138,18 @@ const AnswerTemplateImage = ({ dataAnswerSelect, setDataAnswerSelect }) => {
       });
       e.target.value = '';
     }
+=======
+  const imageCropperHandler = (file, url) => {
+    setDataAnswerSelect({
+      ...dataAnswerSelect,
+      contents: [
+        ...dataAnswerSelect.contents,
+        {image_url: url, image_object: file, isAnswer: false}
+      ]});
+>>>>>>> 55938dc291ae5bdea330e6900e0e8aea2adc0146
   };
+
+  const imageCropperConfig = { unit: 'px', width: 100, height: 100 };
 
   return (
     <AnswerTemplateImageWrapper>
@@ -192,6 +184,7 @@ const AnswerTemplateImage = ({ dataAnswerSelect, setDataAnswerSelect }) => {
 
       {dataAnswerSelect.contents.length < MAX_IMAGE_ANSWER ? (
         <div className="image_container_add">
+<<<<<<< HEAD
           <img src={upoloadIcon} alt="이미지 업로드 버튼"></img>
           <span>최대 가로 300px 세로 200px</span>
           <label htmlFor="upload">
@@ -203,6 +196,12 @@ const AnswerTemplateImage = ({ dataAnswerSelect, setDataAnswerSelect }) => {
               onChange={(e) => imageUploadHandler(e)}
             ></input>
           </label>
+=======
+          <div>
+            <CropModal handler={imageCropperHandler} config={imageCropperConfig} />
+          </div>
+          <span>파일 최대 용량 3MB</span>
+>>>>>>> 55938dc291ae5bdea330e6900e0e8aea2adc0146
         </div>
       ) : null}
 

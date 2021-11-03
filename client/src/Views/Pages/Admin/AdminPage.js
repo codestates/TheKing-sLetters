@@ -14,7 +14,7 @@ const AdminPage = () => {
 
   useEffect(() => {
     getAccessToken();
-  }, [isLogin, invalidQuiz, validQuiz]);
+  }, [isLogin]);
 
   const getAccessToken = async () => {
     await axios

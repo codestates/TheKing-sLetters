@@ -6,9 +6,12 @@ import dropDownIcon from '../Assets/dropdown-1.svg';
 const MainCategoryContainer = styled.div`
   font-family: 'EBSHunminjeongeumSBA';
   width: 100%;
-  padding: 2% 6% 2% 6%;
+  padding: 6%;
   box-sizing: border-box;
-
+  background-color: #fafafa;
+  @media (max-width: 768px) {
+    padding-top: 5rem;
+  }
   > .main_categoty_title {
     font-family: 'EBSHMJESaeronRA';
     display: flex;
@@ -19,7 +22,7 @@ const MainCategoryContainer = styled.div`
     font-size: 1.8em;
     padding-left: 1em;
     border-radius: 5px;
-    background-color: #6b574f;
+    background-color: #93aca0;
     margin-bottom: 2em;
   }
   > .main_select_container {
@@ -35,19 +38,22 @@ const MainCategoryContainer = styled.div`
       border-radius: 5px;
       background-color: rgba(209, 213, 218, 0.5);
       font-size: 1.5em;
+
       > .select_title {
         margin-left: 1em;
       }
       > .dropdown_arrow {
         position: absolute;
-        top: 13px;
+        top: 40%;
+
         right: 12px;
         width: 12px;
         height: 12px;
+        line-height: 12px;
       }
       :hover {
         cursor: pointer;
-        background-color: #bbc7ba;
+        background-color: #93aca0;
       }
     }
   }
@@ -81,7 +87,6 @@ const MainCategorySelect = ({ dataCategorySelect, setDataCategorySelect }) => {
       setDropDownWidth(width);
     }
   };
-
   const clickValueHandler = (value, type = selectedDropDown) => {
     if (value === '' || type === '') return;
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart } from '@fortawesome/free-regular-svg-icons';
@@ -6,9 +6,20 @@ import { faHeart } from '@fortawesome/free-regular-svg-icons';
 const MainQuizContainer = styled.div`
   font-family: 'EBSHMJESaeronRA';
   width: 100%;
-  padding: 2% 6%;
+  padding: 0 6% 6% 6%;
   box-sizing: border-box;
-  background-color: #d4cdc1;
+  background-color: #fafafa;
+  > .main__quiz__title {
+    font-family: 'EBSHunminjeongeumSBA';
+    font-size: 2rem;
+    border-bottom: 2px solid #303030;
+    margin: 0 0.8rem 1rem 0.8rem;
+  }
+  @media (max-width: 786px) {
+    > .main__quiz__title {
+      padding-top: 1rem;
+    }
+  }
 `;
 
 const MainQuizizzContainer = styled.div`
@@ -17,25 +28,31 @@ const MainQuizizzContainer = styled.div`
   width: 100%;
   box-sizing: border-box;
 
+  padding: 1.5rem 0 2rem 0;
   @media (max-width: 786px) {
     flex-direction: column;
+    padding-top: 0;
   }
 `;
 
 const MainQuizizz = styled.div`
-  font-family: 'EBSHMJESaeronRA';
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   width: 32%;
   box-sizing: border-box;
-  background-color: #6b574f;
+  background-color: #6f958f;
   padding: 1em;
   border-radius: 5px;
   box-shadow: 5px 5px 1px rgba(0, 0, 0, 0.3);
   margin-left: 2%;
   margin-bottom: 2%;
+  cursor: pointer;
+  &:hover {
+    transform: scale(1.03); /* 이미지 확대 */
+    transition: transform 0.5s; /*  시간 설정  */
+  }
   &:first-child {
     margin-left: 0;
   }
@@ -117,6 +134,9 @@ const MainQuizizz = styled.div`
     width: 100%;
     margin-left: 0;
     margin-top: 2em;
+    &:last-child {
+      margin-bottom: 3rem;
+    }
     .main__quiz {
       > span {
         font-size: 1.3em;
@@ -169,9 +189,137 @@ const MainQuizizz = styled.div`
   }
 `;
 
-const MainQuiz = () => {
+const MainQuiz = ({
+  dataCategorySelect,
+  MainHotData,
+  SelectData,
+  setSelectData,
+}) => {
+  // const Categoty = MainHotData.filter(
+  //   (el) => (el.categories[0].category = dataCategorySelect.categories)
+  // );
+  // const QuizType = MainHotData.filter(
+  //   (el) =>
+  //     (el.quiz_types[0].quizContent.quizType = dataCategorySelect.quizTypes)
+  // );
+  // const AnswerType = MainHotData.filter(
+  //   (el) =>
+  //     (el.answer_types[0].answerContent.answerType =
+  //       dataCategorySelect.answerTypes)
+  // );
+  // const RankPoint = MainHotData.filter(
+  //   (el) => (el.rewardPoint = dataCategorySelect.rewardPoints)
+  // );
+  // if (
+  //   Categoty === '' ||
+  //   QuizType === '' ||
+  //   AnswerType === '' ||
+  //   RankPoint === ''
+  // ) {
+  //   setSelectData(MainHotData);
+  // }
+  // const filtered = MainHotData.filter(
+  //   (el) =>
+  //     el.categories[0].category.indexOf(dataCategorySelect.categories) > -1 &&
+  //     el.quiz_types[0].quizContent.quizType.indexOf(
+  //       dataCategorySelect.quizTypes
+  //     ) > -1 &&
+  //     el.answer_types[0].answerContent.answerType.indexOf(
+  //       dataCategorySelect.answerTypes
+  //     ) > -1 &&
+  //     el.rewardPoint.indexOf(dataCategorySelect.rewardPoints) > -1
+  // );
+  // console.log(filtered);
+  const [filtered, setFiltered] = useState([
+    {
+      categories: '정치',
+      quizTypes: 'a',
+      answerTypes: 'c',
+      rewardPoints: 'd',
+    },
+    {
+      categories: '경제',
+      quizTypes: 'a',
+      answerTypes: 'c',
+      rewardPoints: 'd',
+    },
+    {
+      categories: '정치',
+      quizTypes: 'a',
+      answerTypes: 'c',
+      rewardPoints: 'd',
+    },
+    {
+      categories: '정치',
+      quizTypes: 'a',
+      answerTypes: 'c',
+      rewardPoints: 'd',
+    },
+    {
+      categories: '정치',
+      quizTypes: 'a',
+      answerTypes: 'c',
+      rewardPoints: 'd',
+    },
+    {
+      categories: '정치',
+      quizTypes: 'a',
+      answerTypes: 'c',
+      rewardPoints: 'd',
+    },
+    {
+      categories: 'a',
+      quizTypes: 'b',
+      answerTypes: 'c',
+      rewardPoints: 'd',
+    },
+    {
+      categories: 'a',
+      quizTypes: 'b',
+      answerTypes: 'c',
+      rewardPoints: 'd',
+    },
+    {
+      categories: 'b',
+      quizTypes: 'b',
+      answerTypes: 'c',
+      rewardPoints: 'd',
+    },
+  ]);
+  // console.log(dataCategorySelect);
+  useEffect(() => {
+    let result = [...filtered];
+    for (const [key, value] of Object.entries(dataCategorySelect)) {
+      if (value === '') continue;
+      result = result.filter((el) => {
+        if (el[key] === value) return el;
+      });
+    }
+    setSelectData([...result]);
+  }, [dataCategorySelect]);
+  console.log(SelectData);
+
+  // if (value === '') continue;
+  // result = result.filter((el) => {
+  //   if (key === 'categories') {
+  //     return el.categories[0].category === value;
+  //   }
+  // });
+  // result = result.filter((el) => {
+  //   if (key === 'quiz_types') {
+  //     return el.quiz_types[0].quizContent.quizType === value;
+  //   }
+  // });
+
+  // if (key === 'answer_types') {
+  //   return el.answer_types[0].answerContent.answerType === value;
+  // }
+  // if (key === 'rewardPoint') {
+  //   return el.rewardPoint === value;
+  // }
   return (
     <MainQuizContainer>
+      <h2 className="main__quiz__title">소예담 學堂</h2>
       <MainQuizizzContainer>
         <MainQuizizz>
           <form>

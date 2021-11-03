@@ -85,7 +85,7 @@ const AppBox = styled.div`
   `;  
 
 
-const Modal3 = ({ setOpenModal }) => {
+const Modal4 = ({ setOpenModal }) => {
   return (
     <ModalBackground>
       <div className="modalContainer">
@@ -99,9 +99,8 @@ const Modal3 = ({ setOpenModal }) => {
           </button>
         </TitleCloseBtn>
         <Title>
-          <h3>축하드립니다~!</h3>          
-          <h3>마일리지 35P를 얻으셨습니다!</h3>
-          <h5>로그인 하시면 마일리지를 적립하실 수 있습니다.</h5>
+          <h3>로그인 하시면 나만의 오답노트를 </h3>        
+          <h3>만들 수 있습니다.</h3>
         </Title>
         <Body>
           {/* <p>The next page looks amazing. Hope you want to go there!</p> */}
@@ -115,7 +114,15 @@ const Modal3 = ({ setOpenModal }) => {
           >
             로그인
           </button>
-          <button>비회원으로 계속</button>
+          <button
+            onClick={() => {
+              setOpenModal(false);
+            }}
+            id="cancelBtn"
+          >
+            비회원으로 계속
+          </button>
+          {/* <button>비회원으로 계속</button> */}
           </Footer>
       </div>
       </ModalBackground>
@@ -123,7 +130,7 @@ const Modal3 = ({ setOpenModal }) => {
 }
 
 
-const App3 = () => {
+const QuizNoteModal = () => {
   const [modalOpen, setModalOpen] = useState(false);
 
   return (
@@ -138,9 +145,9 @@ const App3 = () => {
         Open
       </button>
 
-      {modalOpen && <Modal3 setOpenModal={setModalOpen} />}
+      {modalOpen && <Modal4 setOpenModal={setModalOpen} />}
       </AppBox>
   );
 }
 
-export default App3;
+export default QuizNoteModal;

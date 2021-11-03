@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 // import "./Modal.css";
-// import "./App.css";
 import styled from 'styled-components';
 
-const ModalBackground = styled.div`width: 100vw;
+const ModalBackground = styled.div`
+width: 100vw;
 height: 100vh;
 background-color: rgba(200, 200, 200);
 position: fixed;
@@ -68,13 +68,9 @@ display: inline-block;
   `;
 
 const AppBox = styled.div`
-/* width: 100vw;
-  height: 100vh;
-  display: flex;
-  align-items: center;
-  flex-direction: column; */
+
   > button {
-    width: 200px;
+  width: 200px;
   height: 40px;
   border: none;
   border-radius: 6px;
@@ -85,7 +81,7 @@ const AppBox = styled.div`
   `;  
 
 
-const Modal4 = ({ setOpenModal }) => {
+const Modal = ({ setOpenModal }) => {
   return (
     <ModalBackground>
       <div className="modalContainer">
@@ -99,8 +95,8 @@ const Modal4 = ({ setOpenModal }) => {
           </button>
         </TitleCloseBtn>
         <Title>
-          <h3>로그인 하시면 나만의 오답노트를 </h3>        
-          <h3>만들 수 있습니다.</h3>
+          <h3>비회원으로 이용시 마일리지가</h3>          
+          <h3>적립되지 않습니다.</h3>
         </Title>
         <Body>
           {/* <p>The next page looks amazing. Hope you want to go there!</p> */}
@@ -112,9 +108,16 @@ const Modal4 = ({ setOpenModal }) => {
             }}
             id="cancelBtn"
           >
-            로그인
+            게스트 로그인
           </button>
-          <button>비회원으로 계속</button>
+          <button
+            onClick={() => {
+              setOpenModal(false);
+            }}
+            id="cancelBtn"
+          >
+            Continue
+          </button>
           </Footer>
       </div>
       </ModalBackground>
@@ -122,12 +125,12 @@ const Modal4 = ({ setOpenModal }) => {
 }
 
 
-const App4 = () => {
+const NotMileageGuestContinueModal = () => {
   const [modalOpen, setModalOpen] = useState(false);
 
   return (
     <AppBox>
-      {/* <h1>Hey, click on the button to open the modal.</h1> */}
+      
       <button
         className="openModalBtn"
         onClick={() => {
@@ -136,10 +139,12 @@ const App4 = () => {
       >
         Open
       </button>
+      
 
-      {modalOpen && <Modal4 setOpenModal={setModalOpen} />}
+      {modalOpen && <Modal setOpenModal={setModalOpen} />}
       </AppBox>
   );
 }
 
-export default App4;
+export default NotMileageGuestContinueModal;
+

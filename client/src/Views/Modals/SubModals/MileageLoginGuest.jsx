@@ -84,8 +84,10 @@ const AppBox = styled.div`
   }
   `;  
 
+  const Sign = styled.div`
+  `;
 
-const Modal5 = ({ setOpenModal }) => {
+const Modal3 = ({ setOpenModal }) => {
   return (
     <ModalBackground>
       <div className="modalContainer">
@@ -99,21 +101,30 @@ const Modal5 = ({ setOpenModal }) => {
           </button>
         </TitleCloseBtn>
         <Title>
-          <h3>정말 나가실 건가요?</h3>                
+          <h3>축하드립니다~!</h3>          
+          <h3>마일리지 35P를 얻으셨습니다!</h3>
+          <h5>로그인 하시면 마일리지를 적립하실 수 있습니다.</h5>
         </Title>
         <Body>
           {/* <p>The next page looks amazing. Hope you want to go there!</p> */}
         </Body>
         <Footer>
+        <button
+            onClick={() => {
+              setOpenModal(false);
+            }}
+            id="cancelBtn"
+          >
+            로그인
+          </button>
           <button
             onClick={() => {
               setOpenModal(false);
             }}
             id="cancelBtn"
           >
-            예
+            비회원으로 계속
           </button>
-          <button>아니요</button>
           </Footer>
       </div>
       </ModalBackground>
@@ -121,7 +132,7 @@ const Modal5 = ({ setOpenModal }) => {
 }
 
 
-const App5 = () => {
+const MileageLoginGuest = () => {
   const [modalOpen, setModalOpen] = useState(false);
 
   return (
@@ -136,9 +147,9 @@ const App5 = () => {
         Open
       </button>
 
-      {modalOpen && <Modal5 setOpenModal={setModalOpen} />}
+      {modalOpen && <Modal3 setOpenModal={setModalOpen} />}
       </AppBox>
   );
 }
 
-export default App5;
+export default MileageLoginGuest;

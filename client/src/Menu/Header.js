@@ -1,5 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
+import MyPageModal from '../Views/Modals/MyPageModal';
+import SignInModal from '../Views/Modals/SignInModal';
+import SignUpModal from '../Views/Modals/SignUpModal';
 
 const NavBar = styled.div`
   background-color: #d7dbd1;
@@ -116,6 +119,23 @@ const NavBarToggle = styled.div`
 `;
 
 const Header = () => {
+  const [isLogin, setIsLogin] = useState(false);
+
+  const [loginOpen, setLoginOpen] = useState(false) //로그인모달 on off 관련상태 
+  const [signupOpen, setSignupOpen] = useState(false) // 회원가입 모달 on off 관련 상태
+  const openModalHandler = () => {
+    setLoginOpen(!loginOpen); // 로그인 모달 on 이벤트 
+  };
+
+  const handleLogin = (event) => { //회원가입 모달 off 이벤트
+    setSignupOpen(false)
+  }
+  
+  const handleSignup = (event) => { //로그인 모달 안에서 회원가입 모달 on 이벤트 
+    setLoginOpen(false) // 로그인이 모달 off
+    setSignupOpen(true) // 회원가입 모달 on 
+  }
+
   const handleButtonClick = () => {
     let nav = document.querySelector('nav');
     let menuBtn = document.querySelector('.menu-btn');
@@ -143,8 +163,22 @@ const Header = () => {
           </li>
         </NavBarMenu>
         <NavBarUser className="navbar__user">
-          <li>로그인</li>
-          <li>회원가입</li>
+          <SignInModal
+          setIsLogin={setIsLogin} // 로그인 상태 로그 아웃  
+          open={loginOpen} 
+          openModalHandler={openModalHandler} 
+          handleSignup={handleSignup} 
+          signupOpen={signupOpen} 
+          handleLogin={handleLogin}
+          
+          />
+          <SignUpModal 
+          open={signupOpen} 
+          handleSignup={handleSignup} 
+          handleLogin={handleLogin}
+          setLoginOpen={setLoginOpen}
+          />
+          <MyPageModal/>
         </NavBarUser>
       </NavBar>
 
@@ -171,10 +205,25 @@ const Header = () => {
               <a href="#">내 정보 페이지</a>
             </li>
             <li className="link">
-              <a href="#">로그인</a>
+            <SignInModal
+          setIsLogin={setIsLogin} // 로그인 상태 로그 아웃  
+          open={loginOpen} 
+          openModalHandler={openModalHandler} 
+          handleSignup={handleSignup} 
+          signupOpen={signupOpen} 
+          handleLogin={handleLogin}
+          
+          />
+              {/* <a href="#">로그인</a> */}
             </li>
             <li className="link">
-              <a href="#">회원가입</a>
+            <SignUpModal 
+          open={signupOpen} 
+          handleSignup={handleSignup} 
+          handleLogin={handleLogin}
+          setLoginOpen={setLoginOpen}
+          />
+              {/* <a href="#">회원가입</a> */}
             </li>
           </NavLinks>
         </Nav>

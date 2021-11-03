@@ -9,6 +9,8 @@ const NavBar = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  width: 100%;
+  box-sizing: border-box;
   padding: 8px 20px;
   font-family: 'EBSHunminjeongeumSBA';
 
@@ -144,20 +146,20 @@ const Header = () => {
     <div>
       <NavBar>
         <div className="navbar__logo">
-          <a href="#">나랏말싸미</a>
+          <a>나랏말싸미</a>
         </div>
         <NavBarMenu className="navbar__menu">
           <li>
-            <a href="#">홈 페이지</a>
+            <a>홈 페이지</a>
           </li>
           <li>
-            <a href="#">풀이 페이지</a>
+            <a>풀이 페이지</a>
           </li>
           <li>
-            <a href="#">오답 페이지</a>
+            <a>오답 페이지</a>
           </li>
           <li>
-            <a href="#">내 정보 페이지</a>
+            <a>내 정보 페이지</a>
           </li>
         </NavBarMenu>
         <NavBarUser className="navbar__user">
@@ -266,7 +268,7 @@ const Nav = styled.nav`
   }
 
   @media (max-width: 680px) {
-    width: 100vw;
+    width: 97vw;
   }
 `;
 

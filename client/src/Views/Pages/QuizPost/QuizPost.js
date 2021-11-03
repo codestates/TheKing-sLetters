@@ -1,11 +1,11 @@
 import styled from "styled-components";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import TopProfile from "./Components/TopProfile";
 import CategorySelect from "./Components/CategorySelect";
 import QuizSelect from "./Components/QuizSelect";
 import AnswerSelect from "./Components/AnswerSelect";
 import Commentation from "./Components/Commentation";
-import UploadImage from "../../../functions/upload";
+import { uploadData, refineData, fetchUserInfo, refineUserInfo } from "./Components/FetchData";
 
 const QuizPostContainer = styled.div`
   display: flex;
@@ -28,74 +28,57 @@ const QuizPostContainer = styled.div`
 	}
 `;
 
-// const selectedItemsInitial = {
-// 	title: '', // 문제 제목
-// 	tumbnail: '', // 문제 섬네일
-// 	/* ------------------------- */
-// 	categories: '', // 문제 카테고리
-// 	quizTypes: '', // 문제 출제 타입
-// 	answerTypes: '', // 정답 출제 타입
-// 	/* ------------------------- */
-// 	quizContents: {type: '', contents: '', },
-// 	answerContents: {type: '', contents: [], },
-// 	/* ------------------------- */
-// 	answerCorrects: '', // 정답
-// 	answerComments: '', // 정답 해설
-// 	rewardPoints: '', // 정답 포인트
-// };
+/* 더미데이터 */
+const initialUser = {
+	"name": "테스트 유저",
+	"image": "https://media.vlpt.us/images/otter/post/ec1e02e9-f350-44dd-a341-9f2192e11015/default_profile.png",
+	"rank": "1",
+};
 
 const Post = () => {
+	const [userData, setUserData] = useState(initialUser);
 	const [dataCategorySelect, setDataCategorySelect] = useState({categories: '', quizTypes: '', answerTypes: '', rewardPoints: '', });
 	const [dataQuizSelect, setDataQuizSelect] = useState({title: '', type: '', contents: '', });
 	const [dataAnswerSelect, setDataAnswerSelect] = useState({type: '', contents: [], });
 	const [dataCommentation, setDataCommentation] = useState({answerComments: '', });
+	const [dataCollected, setDataCollected] = useState();
 
-	const collection = async () => {
-		const toUpload = {
-			title: JSON.parse(JSON.stringify(dataQuizSelect.title)), // 문제 제목
-			tumbnail: 'default', // 문제 섬네일
-			/* ------------------------- */
-			categories: JSON.parse(JSON.stringify(dataCategorySelect.categories)), // 문제 카테고리
-			quizTypes: JSON.parse(JSON.stringify(dataCategorySelect.quizTypes)), // 문제 출제 타입
-			answerTypes: JSON.parse(JSON.stringify(dataCategorySelect.answerTypes)), // 정답 출제 타입
-			/* ------------------------- */
-			quizContents: JSON.parse(JSON.stringify({type: dataQuizSelect.type, contents: dataQuizSelect.contents})), // 퀴즈 내용
-			answerContents: JSON.parse(JSON.stringify({type: dataAnswerSelect.type, contents: dataAnswerSelect.contents})), // 정답 내용
-			/* ------------------------- */
-			answerCorrects: JSON.parse(JSON.stringify(dataAnswerSelect.contents.findIndex(el => el.isAnswer))), // 정답
-			answerComments: JSON.parse(JSON.stringify(dataCommentation.answerComments)), // 정답 해설
-			rewardPoints: JSON.parse(JSON.stringify(dataCategorySelect.rewardPoints)), // 정답 포인트
-		};
-
-		try {
-			if (toUpload.quizContents.type === 'image') {
-				const file = new File([toUpload.quizContents.contents.image_url], `title`, {type: toUpload.quizContents.contents.image_type});
-				const result = await UploadImage(file);
-				toUpload.quizContents.contents.image_url = result.Location;
-			}
-			if (toUpload.answerContents.type === 'image') {
-				toUpload.answerContents.contents = await Promise.all(
-					toUpload.answerContents.contents.map(async (el) => {
-						const file = new File([el.file_url], 'answer', {type: el.file_type});
-						const result = await UploadImage(file);
-						return {...el, file_url: result.Location};
-					})
-				);
-			}
-			return toUpload;
-		} catch (err) {
-			return err;
+	/* 유저 데이터 불러오기 */
+	useEffect(() => {
+		const initialFetchUserData = async () => {
+			try {
+				const rawUserInfo = await fetchUserInfo();
+				const refinedUserInfo = await refineUserInfo(rawUserInfo);
+				setUserData(refinedUserInfo);
+			} catch (err) {
+				console.log(err);
+			};
 		}
-	};
+		initialFetchUserData();
+	}, []);
 
-	const submitHandler = async (e) => {
-		const result = await collection();
-		console.log(result);
+	useEffect(() => {
+		if (dataCollected) {
+			try {
+				uploadData(dataCollected)
+			} catch (err) {
+				console.log(err)
+			};
+		}
+	}, [dataCollected]);
+
+	const submitHandler = async () => {
+		try {
+			const refined = await refineData(dataCategorySelect, dataQuizSelect, dataAnswerSelect, dataCommentation);
+			setDataCollected(refined);
+		} catch (err) {
+			console.log(err);
+		}
 	};
 
 	return (
 		<QuizPostContainer>
-			<TopProfile></TopProfile>
+			<TopProfile userData={userData}></TopProfile>
 			<CategorySelect dataCategorySelect={dataCategorySelect} setDataCategorySelect={setDataCategorySelect}></CategorySelect>
 			<QuizSelect dataCategorySelect={dataCategorySelect} dataQuizSelect={dataQuizSelect} setDataQuizSelect={setDataQuizSelect}></QuizSelect>
 			<AnswerSelect dataCategorySelect={dataCategorySelect} dataAnswerSelect={dataAnswerSelect} setDataAnswerSelect={setDataAnswerSelect}></AnswerSelect>

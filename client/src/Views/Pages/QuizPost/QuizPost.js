@@ -5,7 +5,7 @@ import CategorySelect from "./Components/CategorySelect";
 import QuizSelect from "./Components/QuizSelect";
 import AnswerSelect from "./Components/AnswerSelect";
 import Commentation from "./Components/Commentation";
-import { uploadData, refineData } from "./Components/FetchData";
+import { uploadData, refineData, fetchUserInfo, refineUserInfo } from "./Components/FetchData";
 
 const QuizPostContainer = styled.div`
   display: flex;
@@ -28,12 +28,34 @@ const QuizPostContainer = styled.div`
 	}
 `;
 
+/* 더미데이터 */
+const initialUser = {
+	"name": "테스트 유저",
+	"image": "https://media.vlpt.us/images/otter/post/ec1e02e9-f350-44dd-a341-9f2192e11015/default_profile.png",
+	"rank": "1",
+};
+
 const Post = () => {
+	const [userData, setUserData] = useState(initialUser);
 	const [dataCategorySelect, setDataCategorySelect] = useState({categories: '', quizTypes: '', answerTypes: '', rewardPoints: '', });
 	const [dataQuizSelect, setDataQuizSelect] = useState({title: '', type: '', contents: '', });
 	const [dataAnswerSelect, setDataAnswerSelect] = useState({type: '', contents: [], });
 	const [dataCommentation, setDataCommentation] = useState({answerComments: '', });
 	const [dataCollected, setDataCollected] = useState();
+
+	/* 유저 데이터 불러오기 */
+	useEffect(() => {
+		const initialFetchUserData = async () => {
+			try {
+				const rawUserInfo = await fetchUserInfo();
+				const refinedUserInfo = await refineUserInfo(rawUserInfo);
+				setUserData(refinedUserInfo);
+			} catch (err) {
+				console.log(err);
+			};
+		}
+		initialFetchUserData();
+	}, []);
 
 	useEffect(() => {
 		if (dataCollected) {
@@ -56,7 +78,7 @@ const Post = () => {
 
 	return (
 		<QuizPostContainer>
-			<TopProfile></TopProfile>
+			<TopProfile userData={userData}></TopProfile>
 			<CategorySelect dataCategorySelect={dataCategorySelect} setDataCategorySelect={setDataCategorySelect}></CategorySelect>
 			<QuizSelect dataCategorySelect={dataCategorySelect} dataQuizSelect={dataQuizSelect} setDataQuizSelect={setDataQuizSelect}></QuizSelect>
 			<AnswerSelect dataCategorySelect={dataCategorySelect} dataAnswerSelect={dataAnswerSelect} setDataAnswerSelect={setDataAnswerSelect}></AnswerSelect>

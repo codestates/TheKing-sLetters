@@ -1,5 +1,5 @@
-import styled from 'styled-components';
-import React, { useEffect } from 'react';
+import styled from "styled-components"
+import { useEffect } from "react";
 import correctIcon from '../../Assets/correct-1.png';
 import incorrectIcon from '../../Assets/incorrect-1.png';
 
@@ -39,14 +39,16 @@ const AnswerTemplateOxWrapper = styled.div`
   }
 `;
 
-const AnswerTemplateOx = ({ dataAnswerSelect, setDataAnswerSelect }) => {
+
+
+const AnswerTemplateOx = ({dataAnswerSelect, setDataAnswerSelect}) => {
   // 컴포넌트가 로드되면 실행
   useEffect(() => {
     const INITIAL_VALUE = [
-      { name: 'correct', icon: correctIcon, isAnswer: false },
-      { name: 'incorrect', icon: incorrectIcon, isAnswer: false },
+      {name: "correct", icon: correctIcon, isAnswer: false},
+      {name: "incorrect", icon: incorrectIcon, isAnswer: false},
     ];
-    setDataAnswerSelect({ type: 'OX 답안', contents: INITIAL_VALUE });
+    setDataAnswerSelect({type: "OX 답안", contents: INITIAL_VALUE});
   }, [setDataAnswerSelect]);
 
   const answerSelectHandler = (index) => {
@@ -54,29 +56,22 @@ const AnswerTemplateOx = ({ dataAnswerSelect, setDataAnswerSelect }) => {
       ...dataAnswerSelect,
       contents: [...dataAnswerSelect.contents].map((el, idx) => {
         if (idx === index) {
-          return { ...el, isAnswer: true };
+          return {...el, isAnswer: true};
         } else {
-          return { ...el, isAnswer: false };
+          return {...el, isAnswer: false};
         }
-      }),
-    };
+      })};
     setDataAnswerSelect(copied);
   };
 
   return (
     <AnswerTemplateOxWrapper>
-      {dataAnswerSelect.contents.map((el, idx) => (
-        <div
-          key={idx.toString()}
-          className={
-            el.isAnswer ? 'ox_container answer_selected' : 'ox_container'
-          }
-          onClick={() => answerSelectHandler(idx)}
-        >
+      {dataAnswerSelect.contents.map((el, idx) =>
+        <div key={idx.toString()} className={el.isAnswer ? "ox_container answer_selected" : "ox_container"} onClick={() => answerSelectHandler(idx)}>
           {el.isAnswer ? <span className="corret_answer_msg">정답</span> : null}
           <img className="answer_icon" src={el.icon} alt="아이콘"></img>
         </div>
-      ))}
+      )}
     </AnswerTemplateOxWrapper>
   );
 };

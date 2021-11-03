@@ -1,12 +1,11 @@
-import React from 'react';
-import styled from 'styled-components';
+import styled from "styled-components"
 
 const QuizTemplateTextWrapper = styled.div`
   /* 박스 설정 */
   padding: 1% 6% 1% 6%;
   > .quiz_text_container {
     /* 박스 설정 */
-    border: 2px solid rgba(0, 0, 0, 0.1);
+    border: 2px solid rgba(0, 0, 0, 0.1);;
     border-radius: 5px;
     width: auto;
 
@@ -44,36 +43,23 @@ const QuizTemplateTextWrapper = styled.div`
   }
 `;
 
-const QuizTemplateText = ({ dataQuizSelect, setDataQuizSelect }) => {
+const QuizTemplateText = ({dataQuizSelect, setDataQuizSelect}) => {
   const inputHandler = (e, tag) => {
     const inputValue = e.target.value;
     if (!inputValue || !tag) return;
-    if (tag === 'title') {
-      setDataQuizSelect({ ...dataQuizSelect, title: inputValue });
+    if (tag === "title") {
+      setDataQuizSelect({...dataQuizSelect, title: inputValue});
     }
-    if (tag === 'contents') {
-      setDataQuizSelect({
-        ...dataQuizSelect,
-        type: 'text',
-        contents: { text: inputValue },
-      });
+    if (tag === "contents") {
+      setDataQuizSelect({...dataQuizSelect, type: 'text', contents: { text :inputValue }});
     }
   };
 
   return (
     <QuizTemplateTextWrapper>
       <div className="quiz_text_container">
-        <input
-          type="text"
-          className="quiz_text_container_title"
-          onChange={(e) => inputHandler(e, 'title')}
-          placeholder="여기에 제목을 입력해 주세요"
-        ></input>
-        <textarea
-          className="quiz_text_container_title_contents"
-          onChange={(e) => inputHandler(e, 'contents')}
-          placeholder="여기에 내용을 입력해 주세요"
-        ></textarea>
+        <input type="text" className="quiz_text_container_title" onChange={(e) => inputHandler(e, "title")} placeholder="여기에 제목을 입력해 주세요"></input>
+        <textarea className="quiz_text_container_title_contents" onChange={(e) => inputHandler(e, "contents")} placeholder="여기에 내용을 입력해 주세요"></textarea>
       </div>
     </QuizTemplateTextWrapper>
   );

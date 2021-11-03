@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import {Link} from "react-router-dom"
 import styled from 'styled-components';
 import MyPageModal from '../Views/Modals/MyPageModal';
 import SignInModal from '../Views/Modals/SignInModal';
@@ -150,16 +151,19 @@ const Header = () => {
         </div>
         <NavBarMenu className="navbar__menu">
           <li>
-            <a>홈 페이지</a>
+            <a><Link to="/" style={{color: 'black'}}>홈페이지</Link></a>
           </li>
           <li>
-            <a>풀이 페이지</a>
+            <a><Link to="/main" style={{color: 'black'}}>풀이 페이지</Link></a>
+          </li>
+          <li>
+            <a><Link to="/quizpost" style={{color: 'black'}}>문제 출제하기</Link></a>
           </li>
           <li>
             <a>오답 페이지</a>
           </li>
           <li>
-            <a>내 정보 페이지</a>
+            <a><Link to="/mypage" style={{color: 'black'}}>마이 페이지</Link></a>
           </li>
         </NavBarMenu>
         <NavBarUser className="navbar__user">

@@ -1,12 +1,11 @@
-import React from 'react';
-import styled from 'styled-components';
+import styled from "styled-components"
 
 const QuizDisplayTemplateTextWrapper = styled.div`
   /* 박스 설정 */
   padding: 1% 6% 1% 6%;
   > .quiz_display_text_container {
     /* 박스 설정 */
-    border: 2px solid rgba(0, 0, 0, 0.1);
+    border: 2px solid rgba(0, 0, 0, 0.1);;
     border-radius: 5px;
     width: auto;
     /* flex 설정 */
@@ -39,21 +38,13 @@ const QuizDisplayTemplateTextWrapper = styled.div`
   }
 `;
 
-const QuizDisplayTemplateText = ({ quizData }) => {
+const QuizDisplayTemplateText = ({quizData}) => {
+
   return (
     <QuizDisplayTemplateTextWrapper>
       <div className="quiz_display_text_container">
-        <input
-          type="text"
-          className="quiz_display_text_title"
-          value={quizData.title}
-          readOnly
-        ></input>
-        <textarea
-          className="quiz_display_text_contents"
-          value={quizData.quizContents.text}
-          readOnly
-        ></textarea>
+        <input type="text" className="quiz_display_text_title" value={quizData.title} readOnly></input>
+        <textarea className="quiz_display_text_contents" value={quizData.quizContents.text} readOnly></textarea>
       </div>
     </QuizDisplayTemplateTextWrapper>
   );

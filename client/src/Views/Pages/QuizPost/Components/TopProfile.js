@@ -38,13 +38,13 @@ const TopProfileWrapper = styled.div`
 	}
 `;
 
-const TopProfile = () => {
+const TopProfile = ({userData}) => {
 	return (
     <TopProfileWrapper>
-			<img className="user_profile_image" src={profileIcon} alt="profile_image"></img>
+			<img className="user_profile_image" src={userData.image || profileIcon} alt="profile_image"></img>
 			<div className="user_info_container">
-				<div className="user_ranking">사용자 순위: <span className="ranking_circle">1</span>위</div>
-				<div className="user_name">이름: <span>TIM COOK</span></div>
+				<div className="user_ranking">사용자 순위: <span className="ranking_circle">{userData.rank}</span>위</div>
+				<div className="user_name">이름: <span>{userData.name}</span></div>
 			</div>
 		</TopProfileWrapper>
 	);

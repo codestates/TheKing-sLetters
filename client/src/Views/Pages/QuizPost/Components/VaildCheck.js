@@ -63,9 +63,9 @@ export const isVaildCommentation = (dataCommentation) => {
 };
 
 export const vaildCheckAll = (dataCategorySelect, dataQuizSelect, dataAnswerSelect, dataCommentation) => {
-  if (isVaildCategory(dataCategorySelect)) throw new Error('카테고리 유효성 검사 실패');
-  if (isVaildQuiz(dataQuizSelect)) throw new Error('퀴즈 유효성 검사 실패');
-  if (isVaildAnswer(dataAnswerSelect)) throw new Error('정답 유효성 검사 실패');
-  if (isVaildCommentation(dataCommentation)) throw new Error('해설 유효성 검사 실패');
-  return;
+  if (!isVaildCategory(dataCategorySelect)) return false;
+  if (!isVaildQuiz(dataQuizSelect)) return false;
+  if (!isVaildAnswer(dataAnswerSelect)) return false;
+  if (!isVaildCommentation(dataCommentation)) return false;
+  return true;
 };

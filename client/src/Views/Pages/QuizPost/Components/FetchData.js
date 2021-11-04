@@ -31,10 +31,10 @@ export const uploadData = async (data) => {
   }
 };
 
-export const refineData = async (dataCategorySelect, dataQuizSelect, dataAnswerSelect, dataCommentation) => {
+export const refineData = async (dataCategorySelect, dataQuizSelect, dataAnswerSelect, dataCommentation, dataThumbnail) => {
   const toUpload = {
     title: JSON.parse(JSON.stringify(dataQuizSelect.title)), // 문제 제목
-    thumbnail: 'default', // 문제 섬네일
+    thumbnail: {...dataThumbnail}, // 문제 섬네일
     /* ------------------------- */
     categories: JSON.parse(JSON.stringify(dataCategorySelect.categories)), // 문제 카테고리
     quizTypes: JSON.parse(JSON.stringify(dataCategorySelect.quizTypes)), // 문제 출제 타입
@@ -68,6 +68,12 @@ export const refineData = async (dataCategorySelect, dataQuizSelect, dataAnswerS
       })
     );
   }
+  if (toUpload.thumbnail.image_url !== 'default') {
+    toUpload.thumbnail = await UploadImage(toUpload.thumbnail.image_object);
+  } else {
+    toUpload.thumbnail = 'default';
+  }
+
   return toUpload;
 };
 

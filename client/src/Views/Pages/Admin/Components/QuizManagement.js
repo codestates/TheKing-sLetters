@@ -301,8 +301,8 @@ const QuizManagement = ({
   const [checkedList, setCheckedLists] = useState([]);
 
   useEffect(() => {
-    setInValidQuiz(invalidQuiz);
-  });
+    setCheckedLists([]);
+  }, [invalidQuiz]);
 
   // 전체 체크 클릭 시 발생하는 함수
   const handleAllCheck = useCallback(
@@ -330,7 +330,7 @@ const QuizManagement = ({
   );
 
   // 승인안된 퀴즈 삭제
-  const deleteQuiz = async (value, i) => {
+  const deleteQuiz = async (value) => {
     if (isLogin) {
       await axios
         .delete(
@@ -341,15 +341,12 @@ const QuizManagement = ({
             withCredentials: true,
           }
         )
-        .then(() =>
-          setInValidQuiz([
-            ...invalidQuiz.slice(0, i),
-            ...invalidQuiz.slice(i + 1),
-          ])
-        );
+        .then(() => {
+          const del = invalidQuiz.filter((el) => el.id !== value);
+          setInValidQuiz(del);
+        });
     }
   };
-
   // 페이지네이션 구현
   const max_contents = 6;
   const pageVisited = pageNumber * max_contents;
@@ -357,6 +354,7 @@ const QuizManagement = ({
   const changePage = ({ selected }) => {
     setPageNumber(selected);
   };
+
   const displayContents = invalidQuiz
     .slice(pageVisited, pageVisited + max_contents)
     .map((el, i) => {
@@ -371,7 +369,43 @@ const QuizManagement = ({
               onChange={(e) => handleSingleCheck(e.target.checked, el)}
               checked={checkedList.includes(el) ? true : false}
             />
-            <span onClick={() => deleteQuiz(el.id, i)}>&times;</span>
+            <span onClick={() => deleteQuiz(el.id)}>&times;</span>
+          </form>
+          <div className="category__quiz">
+            <span>{el.categories[0].category}</span>
+            <span>{el.quiz_types[0].quizContent.quizType}</span>
+            <span>{el.answer_types[0].answerContent.answerType}</span>
+            <span>{el.rewardPoint}문</span>
+          </div>
+          <div className="category__title">
+            <h1>{el.title}</h1>
+            <span>
+              <FontAwesomeIcon
+                className="heart"
+                icon={faHeart}
+              ></FontAwesomeIcon>
+              {el.heart}
+            </span>
+          </div>
+        </Quizizz>
+      );
+    });
+
+  const PrevdisplayContents = invalidQuiz
+    .slice(pageVisited - max_contents, pageVisited)
+    .map((el, i) => {
+      return (
+        <Quizizz key={i}>
+          <form>
+            <img src={el.thumbnail} alt="main Thumbnail" />
+            <input
+              type="checkbox"
+              name="choice_quiz"
+              value="choiceQuiz"
+              onChange={(e) => handleSingleCheck(e.target.checked, el)}
+              checked={checkedList.includes(el) ? true : false}
+            />
+            <span onClick={() => deleteQuiz(el.id)}>&times;</span>
           </form>
           <div className="category__quiz">
             <span>{el.categories[0].category}</span>
@@ -395,8 +429,7 @@ const QuizManagement = ({
 
   // 승인하기 버튼 구현
   const approveQuiz = () => {
-    const filtered = checkedList.map((el) => el.id);
-    console.log(filtered);
+    let filtered = checkedList.map((el) => el.id);
     if (isLogin) {
       axios({
         method: 'post',
@@ -405,9 +438,21 @@ const QuizManagement = ({
         headers: { authorization: `Bearer ${adminAccessToken}` },
         withCredentials: true,
       });
-      const a = invalidQuiz.filter((el) => el.id !== filtered[0]);
-      console.log(a);
-      setInValidQuiz(a);
+
+      if (filtered.length === 1) {
+        const approveOne = invalidQuiz.filter((el) => el.id !== filtered[0]);
+        setInValidQuiz(approveOne);
+      } else {
+        let appoveMany = [];
+        filtered.map((el) =>
+          invalidQuiz.map((ele) => {
+            if (!filtered.includes(ele.id) && !appoveMany.includes(ele)) {
+              appoveMany.push(ele);
+            }
+          })
+        );
+        setInValidQuiz(appoveMany);
+      }
     }
   };
 
@@ -433,7 +478,9 @@ const QuizManagement = ({
         <button onClick={approveQuiz}>승인하기</button>
       </div>
       <QuizizzContainer>
-        {displayContents}
+        {displayContents.length === 0 && pageNumber !== 0
+          ? PrevdisplayContents
+          : displayContents}
         <ReactPaginate
           previousLabel={'이전'}
           nextLabel={'다음'}

@@ -400,7 +400,7 @@ const SignUpModal = ({ open, handleLogin, handleSignup }) => {
   };
 
   useEffect(() => {
-    console.log(inputUserInfo);
+    // console.log(inputUserInfo);
   }, [inputUserInfo]);
 
   return (

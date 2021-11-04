@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import SignUpModal from './SignUpModal'
@@ -36,6 +35,7 @@ const ModalView = styled.div`
     }
 
     > div.box {
+      transition: all 0.4s;
       position: absolute;
       top: 50%;
       left: 50%;
@@ -47,6 +47,11 @@ const ModalView = styled.div`
       box-sizing: border-box;
       box-shadow: 0 15px 25px rgba(0, 0, 0, 0.5);
       border-radius: 10px;
+      @media (max-width: 768px) {
+      transition: all 0.4s;
+        height: 100vh;
+        width: 100vw;
+      }
     }
     > div.box span {
       //x 취소버튼
@@ -134,6 +139,16 @@ const Sign = styled.div`
       margin-bottom: 10px;
     }
 `;
+const SignupButton = styled.div`
+  display: inline-block;
+  position: relative;
+  margin-left: 10px;
+  color: black !important;
+
+  > .signupModalButton {
+    font-size: 1em;
+  }
+`;
 const SigninTitle = styled.div`
     > h1 {
       font-family: 'EBSHMJESaeronRA';
@@ -149,8 +164,7 @@ const SigninTitle = styled.div`
 
 const Img = styled.div`
 width: 300px;
-margin-left: 80px;
-margin-top:20px;
+margin: auto;
 border-color: black;
 `;
 
@@ -189,6 +203,7 @@ const SignInModal = ({ setIsLogin, open, openModalHandler, handleSignup, signupO
       if (response.status === 200) {
         localStorage.setItem('accessToken', response.data.data.accessToken);
         setIsLogin(true)
+        openModalHandler()
       }
     }
   };
@@ -196,9 +211,6 @@ const SignInModal = ({ setIsLogin, open, openModalHandler, handleSignup, signupO
 
   return (
     <>
-        <ModalBtn onClick={openModalHandler}>
-          {open === false ? '로그인' : '로그인'}
-        </ModalBtn>
         {open === true ? 
           (
             <ModalBackdrop>
@@ -234,6 +246,9 @@ const SignInModal = ({ setIsLogin, open, openModalHandler, handleSignup, signupO
                   <img src='https://media.vlpt.us/images/yonghk423/post/98cfd1f3-a3c2-4ebb-9813-b0bb277b7ac0/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA%202021-10-28%20%E1%84%8B%E1%85%A9%E1%84%8C%E1%85%A5%E1%86%AB%2012.54.14%20(2).png'/>
                   </Img>
                   <br/> 아직 회원이 아니신가요?
+                  <SignupButton onClick={handleSignup}>
+                    {signupOpen === false ? <div className="signupModalButton">회원가입</div> : <div className="signupModalButton">회원가입</div>}
+                  </SignupButton>
                   <SignUpModal 
                   open={signupOpen}
                   handleSignup={handleSignup} 

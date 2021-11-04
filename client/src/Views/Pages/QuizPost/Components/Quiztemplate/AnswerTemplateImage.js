@@ -1,10 +1,13 @@
 import styled from "styled-components"
 import { useEffect } from "react";
 import CropModal from '../CropModal';
+import HelpMessage from "../HelpMessage";
+import { isVaildAnswer } from "../VaildCheck";
 import deleteIcon from '../../Assets/delete-1.svg';
 
 const AnswerTemplateImageWrapper = styled.div`
   /* 박스 크기 설정 */
+  position: relative;
   width: auto;
   padding: 3% 6% 3% 6%;
   /* flex 박스 설정 */
@@ -124,6 +127,11 @@ const AnswerTemplateImage = ({dataAnswerSelect, setDataAnswerSelect}) => {
 
   return (
     <AnswerTemplateImageWrapper>
+      <HelpMessage
+        data={dataAnswerSelect}
+        vaildator={isVaildAnswer}
+        message={"보기를 만드시고 정답을 선택해 주세요"}
+      />
       {dataAnswerSelect.contents.map((el, idx) => {
         return (
           <div key={idx.toString()} className={el.isAnswer ? "image_container answer_selected" : "image_container"}>

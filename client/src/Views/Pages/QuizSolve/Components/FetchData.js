@@ -49,7 +49,6 @@ export const refineSubmitAnswer = async (data) => {
   }
 };
 
-
 export const fetchUserInfo = async () => {
   const END_PONT = `/users/info`;
   const TOKEN = localStorage.getItem('accessToken');

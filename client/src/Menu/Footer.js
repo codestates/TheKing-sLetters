@@ -75,7 +75,7 @@ const Footer = () => {
       </div>
         <li onClick={openModalHandler}>
           {loginOpen === false ? '관리자 로그인' : '관리자 로그인'}
-        </li>    
+        </li> 
       <FooterGithub>
         <li className="footer__user">
           <a href="https://github.com/yonghk423">김용희</a>

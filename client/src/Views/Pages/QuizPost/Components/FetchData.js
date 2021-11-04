@@ -96,7 +96,7 @@ export const refineUserInfo = async (raw) => {
   const refined = {
     "name": raw.data.name,
     "image": raw.data.image,
-    "ranking": raw.data.rank.toString(),
+    "rank": raw.data.rank.toString(),
   };
   return refined;
 }

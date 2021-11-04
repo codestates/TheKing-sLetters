@@ -1,9 +1,12 @@
 import styled from "styled-components"
 import { useEffect } from "react";
+import HelpMessage from "../HelpMessage";
+import { isVaildAnswer } from "../VaildCheck";
 import correctIcon from '../../Assets/correct-1.png';
 import incorrectIcon from '../../Assets/incorrect-1.png';
 
 const AnswerTemplateOxWrapper = styled.div`
+  position: relative;
   width: auto;
   padding: 3% 6% 3% 6%;
   display: flex;
@@ -66,6 +69,11 @@ const AnswerTemplateOx = ({dataAnswerSelect, setDataAnswerSelect}) => {
 
   return (
     <AnswerTemplateOxWrapper>
+      <HelpMessage
+        data={dataAnswerSelect}
+        vaildator={isVaildAnswer}
+        message={"정답을 선택해 주세요"}
+      />
       {dataAnswerSelect.contents.map((el, idx) =>
         <div key={idx.toString()} className={el.isAnswer ? "ox_container answer_selected" : "ox_container"} onClick={() => answerSelectHandler(idx)}>
           {el.isAnswer ? <span className="corret_answer_msg">정답</span> : null}

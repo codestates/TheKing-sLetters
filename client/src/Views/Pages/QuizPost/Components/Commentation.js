@@ -1,4 +1,6 @@
 import styled from "styled-components";
+import HelpMessage from "./HelpMessage";
+import { isVaildCommentation } from "./VaildCheck";
 
 const CommentationWrapper = styled.div`
 	/* 박스 설정 */
@@ -19,6 +21,7 @@ const CommentationWrapper = styled.div`
 	}
   > .commentation_bottom_layout {
 		/* 박스 설정 */
+		position: relative;
 		width: auto;
 		padding: 1% 6% 1% 6%;
 		> .commentation_bottom_container {
@@ -71,9 +74,20 @@ const Commentation = ({dataCommentation, setDataCommentation}) => {
     <CommentationWrapper>
       <h2 className="commentation_top_layout">해설</h2>
       <div className="commentation_bottom_layout">
+				<HelpMessage
+					data={dataCommentation}
+					vaildator={isVaildCommentation}
+					message={"해설을 입력해 주세요"}
+				/>
 				<div className="commentation_bottom_container">
 					<p className="commentation_bottom_title"></p>
-					<textarea className="commentation_bottom_contents" placeholder="해설을 입력해 주세요" onChange={inputHandler}></textarea>
+					<textarea
+						className="commentation_bottom_contents"
+						onChange={inputHandler}
+						placeholder="여기에 해설을 입력해 주세요"
+						onFocus={(e) => e.target.placeholder = ""}
+						onBlur={(e) => e.target.placeholder = "여기에 해설을 입력해 주세요"}>
+					</textarea>
 				</div>
       </div>
     </CommentationWrapper>

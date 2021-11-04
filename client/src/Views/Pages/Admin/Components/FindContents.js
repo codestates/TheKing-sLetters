@@ -302,9 +302,6 @@ const FindContents = ({
     const value = event.target.value;
     setInputVaule(value); // MEMO: 비동기 작업
 
-    // console.log(`rendering -> inputValue: ${inputValue}`);
-    // console.log(`handleInputChange: ${value}`);
-
     // MEMO: setInputVaule() 보다 먼저 실행될 수 있음!
     const filteredOptions = deselectedOptions.filter((option) => {
       for (let c of value) {
@@ -369,9 +366,10 @@ const FindContents = ({
             withCredentials: true,
           }
         )
-        .then(() =>
-          setValidQuiz([...validQuiz.slice(0, i), ...validQuiz.slice(i + 1)])
-        );
+        .then(() => {
+          const del = validQuiz.filter((el) => el.id !== value);
+          setValidQuiz(del);
+        });
     }
   };
 

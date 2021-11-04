@@ -4,26 +4,26 @@ import ReactPaginate from 'react-paginate';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart } from '@fortawesome/free-regular-svg-icons';
 
-const MainQuizContainer = styled.div`
+const ProblemQuizBoxContainer = styled.div`
   font-family: 'EBSHMJESaeronRA';
   width: 100%;
   padding: 0 6% 6% 6%;
   box-sizing: border-box;
   background-color: #fafafa;
-  > .main__quiz__title {
+  > .problem__box__quiz__title {
     font-family: 'EBSHunminjeongeumSBA';
     font-size: 2rem;
     border-bottom: 2px solid #303030;
     margin: 0 0.8rem 1rem 0.8rem;
   }
   @media (max-width: 786px) {
-    > .main__quiz__title {
+    > .problem__box__quiz__title {
       padding-top: 1rem;
     }
   }
 `;
 
-const MainQuizizzContainer = styled.div`
+const ProblemBoxQuizizzContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -86,7 +86,7 @@ const MainQuizizzContainer = styled.div`
   }
 `;
 
-const MainQuizizz = styled.div`
+const ProblemBoxQuizizz = styled.div`
   font-family: 'EBSHMJESaeronRA';
   display: flex;
   flex-direction: column;
@@ -125,7 +125,7 @@ const MainQuizizz = styled.div`
       margin-bottom: 1em;
     }
   }
-  .main__quiz {
+  .problem__box__quiz {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -151,7 +151,7 @@ const MainQuizizz = styled.div`
 
   @media (max-width: 960px) {
     margin-top: 2em;
-    .main__quiz {
+    .problem__box__quiz {
       > span {
         font-size: 1.3em;
       }
@@ -165,14 +165,14 @@ const MainQuizizz = styled.div`
     &:last-child {
       margin-bottom: 3rem;
     }
-    .main__quiz {
+    .problem__box__quiz {
       > span {
         font-size: 1.3em;
       }
     }
   }
 
-  .main__title {
+  .problem__box__title {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -206,7 +206,7 @@ const MainQuizizz = styled.div`
     }
   }
   @media (max-width: 960px) {
-    .main__title {
+    .problem__box__title {
       > h1 {
         font-size: 1.7em;
       }
@@ -217,7 +217,7 @@ const MainQuizizz = styled.div`
   }
 `;
 
-const MainQuiz = ({ dataCategorySelect, MainHotData }) => {
+const ProblemQuizBox = ({ dataCategorySelect, MainHotData }) => {
   const filtered = MainHotData.map((el) => {
     return {
       id: el.id,
@@ -259,24 +259,24 @@ const MainQuiz = ({ dataCategorySelect, MainHotData }) => {
     pageVisited + max_contents
   ).map((el) => {
     return (
-      <MainQuizizz key={el.id}>
+      <ProblemBoxQuizizz key={el.id}>
         <form>
-          <img src={el.thumbnail} alt="main Thumbnail" />
+          <img src={el.thumbnail} alt="problem box Thumbnail" />
         </form>
-        <div className="main__quiz">
+        <div className="problem__box__quiz">
           <span>{el.categories}</span>
           <span>{el.quizTypes}</span>
           <span>{el.answerTypes}</span>
           <span>{el.rewardPoints}</span>
         </div>
-        <div className="main__title">
+        <div className="problem__box__title">
           <h1>{el.title}</h1>
           <span>
             <FontAwesomeIcon className="heart" icon={faHeart} />
             {el.heart}
           </span>
         </div>
-      </MainQuizizz>
+      </ProblemBoxQuizizz>
     );
   });
 
@@ -285,31 +285,31 @@ const MainQuiz = ({ dataCategorySelect, MainHotData }) => {
     pageVisited + max_contents
   ).map((el) => {
     return (
-      <MainQuizizz key={el.id}>
+      <ProblemBoxQuizizz key={el.id}>
         <form>
-          <img src={el.thumbnail} alt="main Thumbnail" />
+          <img src={el.thumbnail} alt="problem box Thumbnail" />
         </form>
-        <div className="main__quiz">
+        <div className="problem__box__quiz">
           <span>{el.categories[0].category}</span>
           <span>{el.quiz_types[0].quizContent.quizType}</span>
           <span>{el.answer_types[0].answerContent.answerType}</span>
           <span>{el.rewardPoint}</span>
         </div>
-        <div className="main__title">
+        <div className="problem__box__title">
           <h1>{el.title}</h1>
           <span>
             <FontAwesomeIcon className="heart" icon={faHeart} />
             {el.heart}
           </span>
         </div>
-      </MainQuizizz>
+      </ProblemBoxQuizizz>
     );
   });
 
   return (
-    <MainQuizContainer>
-      <h2 className="main__quiz__title">소예담 學堂</h2>
-      <MainQuizizzContainer>
+    <ProblemQuizBoxContainer>
+      <h2 className="problem__box__quiz__title">소예담 學堂</h2>
+      <ProblemBoxQuizizzContainer>
         {SelectQuiz.length === 0 ? allDisplay : displayContents}
         <ReactPaginate
           previousLabel={'이전'}
@@ -322,9 +322,9 @@ const MainQuiz = ({ dataCategorySelect, MainHotData }) => {
           disabledClassName={'paginationDisabled'}
           activeClassName={'paginationActive'}
         />
-      </MainQuizizzContainer>
-    </MainQuizContainer>
+      </ProblemBoxQuizizzContainer>
+    </ProblemQuizBoxContainer>
   );
 };
 
-export default MainQuiz;
+export default ProblemQuizBox;

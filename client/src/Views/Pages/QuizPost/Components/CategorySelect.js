@@ -79,8 +79,9 @@ const CategorySelect = ({dataCategorySelect, setDataCategorySelect}) => {
 
 	const dropDownClickHandler = (e, index) => {
 		const width = e.currentTarget.clientWidth;
-		if (selectedDropDown === index) setSelectedDropDown(0);
-		else {
+		if (selectedDropDown === index) {
+			setSelectedDropDown(0);
+		} else {
 			setSelectedDropDown(index);
 			setDropDownWidth(width);
 		}

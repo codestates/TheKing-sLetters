@@ -22,6 +22,20 @@ const MsgShowUp = styled.p`
 	opacity: 0.8;
   transition: visibility 0.3s linear, opacity 0.3s linear;
 
+  /* 깜빡이는 애니메이션 */
+  animation: 0.8s linear 0s 2 normal none running none;
+  @keyframes blink {
+    0% {
+      opacity: 0.8;
+    }
+    50% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 0.8;
+    }
+  }
+
 	/* 화살표 css */
   ::after {
     content: "";
@@ -38,7 +52,6 @@ const HelpMessage = ({data, vaildator, message}) => {
   const helpMessage = useRef();
 
   useEffect(() => {
-    console.log(helpMessage.current);
     if (vaildator(data)) {
       helpMessage.current.style.visibility = "hidden";
       helpMessage.current.style.opacity = "0";
@@ -49,7 +62,11 @@ const HelpMessage = ({data, vaildator, message}) => {
   }, [data]);
 
   return (
-    <MsgShowUp ref={helpMessage}>{message}</MsgShowUp>
+    <MsgShowUp
+      className={vaildator(data) ? "modal_help_message_hidden" : "modal_help_message_visible"}
+      ref={helpMessage}>
+      {message}
+    </MsgShowUp>
   );
 }
 

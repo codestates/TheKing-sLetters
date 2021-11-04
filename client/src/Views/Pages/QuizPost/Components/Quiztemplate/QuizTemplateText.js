@@ -1,7 +1,11 @@
+import React, { useEffect } from "react";
 import styled from "styled-components"
+import HelpMessage from "../HelpMessage";
+import { isVaildQuiz } from "../VaildCheck";
 
 const QuizTemplateTextWrapper = styled.div`
   /* 박스 설정 */
+  position: relative;
   padding: 1% 6% 1% 6%;
   > .quiz_text_container {
     /* 박스 설정 */
@@ -44,6 +48,11 @@ const QuizTemplateTextWrapper = styled.div`
 `;
 
 const QuizTemplateText = ({dataQuizSelect, setDataQuizSelect}) => {
+  // 컴포넌트가 로드되면 데이터를 초기화
+  useEffect(() => {
+    setDataQuizSelect((state) => ({...state, title: '', type: 'text', contents: {text: ''}}));
+  }, [setDataQuizSelect]);
+
   const inputHandler = (e, tag) => {
     const inputValue = e.target.value;
     if (!inputValue || !tag) return;
@@ -51,15 +60,33 @@ const QuizTemplateText = ({dataQuizSelect, setDataQuizSelect}) => {
       setDataQuizSelect({...dataQuizSelect, title: inputValue});
     }
     if (tag === "contents") {
-      setDataQuizSelect({...dataQuizSelect, type: 'text', contents: { text :inputValue }});
+      setDataQuizSelect({...dataQuizSelect, type: 'text', contents: {text: inputValue}});
     }
   };
 
   return (
     <QuizTemplateTextWrapper>
+      <HelpMessage
+        data={dataQuizSelect}
+        vaildator={isVaildQuiz}
+        message={"퀴즈 제목과 내용을 입력해주세요"}
+      />
       <div className="quiz_text_container">
-        <input type="text" className="quiz_text_container_title" onChange={(e) => inputHandler(e, "title")} placeholder="여기에 제목을 입력해 주세요"></input>
-        <textarea className="quiz_text_container_title_contents" onChange={(e) => inputHandler(e, "contents")} placeholder="여기에 내용을 입력해 주세요"></textarea>
+        <input 
+          type="text"
+          className="quiz_text_container_title"
+          onChange={(e) => inputHandler(e, "title")}
+          placeholder="여기에 제목을 입력해 주세요"
+          onFocus={(e) => e.target.placeholder = ""}
+          onBlur={(e) => e.target.placeholder = "여기에 제목을 입력해 주세요"}>
+        </input>
+        <textarea
+          className="quiz_text_container_title_contents"
+          onChange={(e) => inputHandler(e, "contents")}
+          placeholder="여기에 내용을 입력해 주세요"
+          onFocus={(e) => e.target.placeholder = ""}
+          onBlur={(e) => e.target.placeholder = "여기에 내용을 입력해 주세요"}>
+        </textarea>
       </div>
     </QuizTemplateTextWrapper>
   );

@@ -1,10 +1,13 @@
+import React, { useState, useEffect } from "react";
 import styled from "styled-components"
 import CropModal from '../CropModal';
+import HelpMessage from "../HelpMessage";
+import { isVaildQuiz } from "../VaildCheck";
 import deleteIcon from '../../Assets/delete-1.svg';
-import React, { useState } from "react";
 
 const QuizTemplateImageWrapper = styled.div`
   /* 박스 설정 */
+  position: relative;
   padding: 1% 6% 1% 6%;
   height: auto;
   > .quiz_image_container {
@@ -55,7 +58,7 @@ const QuizTemplateImageWrapper = styled.div`
         border: 1px solid rgba(0, 0, 0, 0.5);
         border-radius: 10px;
         /* 이미지 업로드 크기 제한 */
-        width: 100%;
+        max-width: 100%;
       }
       > .delete_icon {
         /* 박스 설정 */
@@ -75,10 +78,15 @@ const QuizTemplateImageWrapper = styled.div`
 const QuizTemplateImage = ({dataQuizSelect, setDataQuizSelect}) => {
   const [isUploaded, setIsUploaded] = useState(false);
 
+  // 컴포넌트가 로드되면 데이터를 초기화
+  useEffect(() => {
+    setDataQuizSelect((state) => ({...state, title: '', type: 'image', contents: {image_url: '', image_type: ''}}))
+  }, [setDataQuizSelect]);
+
   const deleteHandler = (e) => {
     if (e.target && isUploaded) {
       setIsUploaded(false);
-      setDataQuizSelect({...dataQuizSelect, type: '', contents: {image_url: '', image_type: ''}});
+      setDataQuizSelect({...dataQuizSelect, type: 'image', contents: {image_url: '', image_type: ''}});
     }
   };
 
@@ -100,6 +108,11 @@ const QuizTemplateImage = ({dataQuizSelect, setDataQuizSelect}) => {
 
   return (
     <QuizTemplateImageWrapper>
+      <HelpMessage
+        data={dataQuizSelect}
+        vaildator={isVaildQuiz}
+        message={"퀴즈 제목과 내용을 입력해주세요"}
+      />
       <div className="quiz_image_container">
         <input type="text" className="quiz_image_container__title" onChange={(e) => inputHandler(e, "title")} placeholder="여기에 제목을 입력해 주세요"></input>
         {!isUploaded

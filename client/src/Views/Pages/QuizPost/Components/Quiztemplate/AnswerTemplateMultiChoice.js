@@ -1,8 +1,11 @@
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components"
+import HelpMessage from "../HelpMessage";
+import { isVaildAnswer } from "../VaildCheck";
 
 const AnswerTemplateMultiChoiceWrapper = styled.div`
   /* 박스 크기 설정 */
+  position: relative;
   width: auto;
   padding: 1% 6% 1% 6%;
   /* flex 박스 설정 */
@@ -134,11 +137,24 @@ const AnswerTemplateMultiChoice = ({dataAnswerSelect, setDataAnswerSelect}) => {
 
   return (
     <AnswerTemplateMultiChoiceWrapper>
+      <HelpMessage
+        data={dataAnswerSelect}
+        vaildator={isVaildAnswer}
+        message={"보기를 만드시고 정답을 선택해 주세요"}
+      />
       {dataAnswerSelect.contents.map((el, idx) => {
         return (
           <div key={idx.toString()} className={el.isAnswer ? "answer_container answer_selected" : "answer_container"}>
             {el.isAnswer ? <span className="corret_answer_msg">정답</span> : null}
-            <input type="text" className="answer_container_input" onChange={(e) => answerInputHandler(e, idx)} placeholder="정답을 입력해 주세요" value={el.text || ''}></input>
+            <input
+              type="text"
+              className="answer_container_input"
+              onChange={(e) => answerInputHandler(e, idx)}
+              placeholder="여기에 정답을 입력해 주세요"
+              onFocus={(e) => e.target.placeholder = ""}
+              onBlur={(e) => e.target.placeholder = "여기에 정답을 입력해 주세요"}
+              value={el.text || ''}>
+            </input>
             <input type="radio" className="correct_answer_select" name="correct_answer" checked={el.isAnswer || false} onChange={() => {}} onClick={() => answerSelectHandler(idx)}></input>
             <button onClick={() => deleteHandler(idx)} className="answer_container_delete_button">삭제</button>
           </div>

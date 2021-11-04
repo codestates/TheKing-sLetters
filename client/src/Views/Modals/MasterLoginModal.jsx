@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
@@ -154,13 +153,11 @@ margin-top:20px;
 border-color: black;
 `;
 
-const MasterLoginModal = ({
+const MasterLoginModal = ({ isOpen, openModalHandler
   // loginHandler, handleInputValue
 }) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const openModalHandler = () => {
-    setIsOpen(!isOpen);
-  };
+  
+  
   const [isLogin, setIsLogin] = useState(false);
   const [loginInfo, setLoginInfo] = useState({
     email: '',
@@ -174,7 +171,7 @@ const MasterLoginModal = ({
   const loginHandler = async (e) => {
       e.preventDefault(); 
 
-    const URL = `http://ec2-13-209-96-200.ap-northeast-2.compute.amazonaws.com/login`;
+    const URL = `http://ec2-13-209-96-200.ap-northeast-2.compute.amazonaws.com/admin/login`;
     const PAYLOAD = {
       email: loginInfo.email,
       password: loginInfo.password,
@@ -185,11 +182,11 @@ const MasterLoginModal = ({
     let response = null;
     try {
       response = await axios.post(URL, PAYLOAD, OPTION);
-      console.log('POST /user/login 요청에 성공했습니다.');
+      console.log('POST /admin/login 요청에 성공했습니다.');
     } catch(error) {
       response = error.response;
       alert("이메일과 비밀번호를 확인하세요.")
-      console.log('POST /user/login 요청에 실패했습니다.');
+      console.log('POST /admin/login 요청에 실패했습니다.');
       console.log(response);
     } finally {
       if (response.status === 200) {
@@ -202,9 +199,7 @@ const MasterLoginModal = ({
 
   return (
     <>
-        <ModalBtn onClick={openModalHandler}>
-          {isOpen === false ? '관리자 로그인' : '관리자 로그인'}
-        </ModalBtn>
+        
         {isOpen === true ? 
           (
             <ModalBackdrop>

@@ -1,19 +1,27 @@
 import React from 'react';
-// import Header from './Menu/Header';
-// import Footer from './Menu/Footer';
-// import Admin from './Views/Pages/Admin/AdminPage';
-// import LandingPage from './Views/Pages/Landing/LandingPage';
-// import QuizPost from './Views/Pages/QuizPost/QuizPost';
-import MileageShop from './Views/Pages/MileageShop/MileageShop';
-// import QuizSolve from './Views/Pages/QuizSolve/QuizSolve';
+import { Route, Switch } from 'react-router-dom';
 
-/* 개발용 컴포넌트(나중에 삭제해 주세요) */
-import DevSignInModal from './DevPage/DevSignIn';
+/* Page */
+import Header from './Menu/Header';
+import Footer from './Menu/Footer';
+import LandingPage from './Views/Pages/Landing/LandingPage';
+import Mypage from './Views/Pages/MyPage/MyPage';
+import Main from './Views/Pages/Main/Main';
+import QuizPost from './Views/Pages/QuizPost/QuizPost';
+import Admin from './Views/Pages/Admin/AdminPage';
 
 function App() {
   return (
     <>
-      <MileageShop />
+      <Header />
+      <Switch>
+        <Route exact path="/" component={LandingPage}></Route>
+        <Route exact path="/main" component={Main}></Route>
+        <Route exact path="/mypage" component={Mypage}></Route>
+        <Route exact path="/quizpost" component={QuizPost}></Route>
+        <Route exact path="/admin" component={Admin}></Route>
+      </Switch>
+      <Footer />
     </>
   );
 }

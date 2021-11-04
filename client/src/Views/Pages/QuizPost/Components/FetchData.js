@@ -1,7 +1,7 @@
 import axios from "axios";
 import UploadImage from "../../../../functions/upload";
 
-axios.defaults.baseURL = `http://ec2-13-209-96-200.ap-northeast-2.compute.amazonaws.com`;
+axios.defaults.baseURL = `https://api.thekingsletters.ml`;
 axios.defaults.withCredentials = true;
 
 export const uploadData = async (data) => {

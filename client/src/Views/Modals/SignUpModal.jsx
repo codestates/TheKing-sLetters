@@ -44,6 +44,7 @@ text-align: center;
 
 > div.box {
   position: absolute;
+        transition: all 0.4s;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -54,6 +55,11 @@ text-align: center;
   box-sizing: border-box;
   box-shadow: 0 15px 25px rgba(0, 0, 0, 0.5);
   border-radius: 10px;
+      @media (max-width: 768px) {
+        transition: all 0.4s;
+        height: 100vh;
+        width: 100vw;
+      }
 }
 
 > div.box span {
@@ -399,9 +405,6 @@ const SignUpModal = ({ open, handleLogin, handleSignup }) => {
 
   return (
     <>
-        <ModalBtn onClick={handleSignup}>
-          {open === false ? '회원가입' : '회원가입'}
-        </ModalBtn>
         {open === true ? <ModalBackdrop>
           <ModalView>
           <div className='box'>

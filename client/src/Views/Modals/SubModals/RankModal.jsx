@@ -5,8 +5,8 @@ import axios from 'axios';
 
 const ModalBackground = styled.div`
 width: 100vw;
-height: 90vh;
-background-color: rgba(200, 200, 200);
+height: 100vh;
+background-color: rgba(0, 0, 0, 0.75);
 position: fixed;
 display: flex;
 justify-content: center;
@@ -249,4 +249,4 @@ const RankModal = () => {
   );
 }
 
-export default RankModal;
+export default Modal6;

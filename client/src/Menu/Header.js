@@ -1,6 +1,7 @@
+import axios from 'axios';
 import React, { useState } from 'react';
+import {Link} from "react-router-dom"
 import styled from 'styled-components';
-import MyPageModal from '../Views/Modals/MyPageModal';
 import SignInModal from '../Views/Modals/SignInModal';
 import SignUpModal from '../Views/Modals/SignUpModal';
 
@@ -119,6 +120,13 @@ const NavBarToggle = styled.div`
 `;
 
 const Header = () => {
+
+    
+
+   
+
+
+
   const [isLogin, setIsLogin] = useState(false);
 
   const [loginOpen, setLoginOpen] = useState(false) //로그인모달 on off 관련상태 
@@ -126,6 +134,21 @@ const Header = () => {
   const openModalHandler = () => {
     setLoginOpen(!loginOpen); // 로그인 모달 on 이벤트 
   };
+
+  const logoutHandler = async () => {
+    await axios.get('https://api.thekingsletters.ml/signout', 
+    {headers : {
+      Authorization : `Bearer ${localStorage.getItem('accessToken')}`
+    }}).then((response)=> {
+      if(response.status === 200) {
+        localStorage.removeItem('accessToken')
+        setIsLogin(false);
+      }
+      
+    }).catch((response)=> {
+      console.log(response)
+    })
+  } 
 
   const handleLogin = (event) => { //회원가입 모달 off 이벤트
     setSignupOpen(false)
@@ -150,37 +173,45 @@ const Header = () => {
         </div>
         <NavBarMenu className="navbar__menu">
           <li>
-            <a>홈 페이지</a>
+            <a><Link to="/" style={{color: 'black'}}>홈페이지</Link></a>
           </li>
           <li>
-            <a>풀이 페이지</a>
+            <a><Link to="/main" style={{color: 'black'}}>풀이 페이지</Link></a>
+          </li>
+          <li>
+            <a><Link to="/quizpost" style={{color: 'black'}}>문제 출제하기</Link></a>
           </li>
           <li>
             <a>오답 페이지</a>
           </li>
           <li>
-            <a>내 정보 페이지</a>
+            <a><Link to={{pathname: `/mypage`,
+          state : {
+            isLogin: isLogin
+          }
+          }} style={{color: 'black'}}>마이 페이지</Link></a>
           </li>
         </NavBarMenu>
         <NavBarUser className="navbar__user">
-          <SignInModal
-          setIsLogin={setIsLogin} // 로그인 상태 로그 아웃  
-          open={loginOpen} 
-          openModalHandler={openModalHandler} 
-          handleSignup={handleSignup} 
-          signupOpen={signupOpen} 
-          handleLogin={handleLogin}
-          
-          />
-          <SignUpModal 
-          open={signupOpen} 
-          handleSignup={handleSignup} 
-          handleLogin={handleLogin}
-          setLoginOpen={setLoginOpen}
-          />
-          <MyPageModal/>
+          {isLogin === false ? (
+            <>
+            <li onClick={openModalHandler}>
+              {loginOpen === false ? '로그인' : '로그인'}
+            </li>
+            <li onClick={handleSignup}>
+              {signupOpen === false ? '회원가입' : '회원가입'}
+            </li>
+            </>)
+          :
+          ( <>
+            <li onClick={logoutHandler}>로그아웃</li>
+            </>
+          )
+          }
         </NavBarUser>
       </NavBar>
+      <SignInModal open={loginOpen} openModalHandler={openModalHandler} handleSignup={handleSignup} signupOpen={signupOpen} handleLogin={handleLogin} setIsLogin={setIsLogin}/>
+      <SignUpModal open={signupOpen} handleSignup={handleSignup} handleLogin={handleLogin}/>
 
       <NavBarToggle>
         <Nav className="nav">
@@ -204,27 +235,24 @@ const Header = () => {
             <li className="link">
               <a href="#">내 정보 페이지</a>
             </li>
-            <li className="link">
-            <SignInModal
-          setIsLogin={setIsLogin} // 로그인 상태 로그 아웃  
-          open={loginOpen} 
-          openModalHandler={openModalHandler} 
-          handleSignup={handleSignup} 
-          signupOpen={signupOpen} 
-          handleLogin={handleLogin}
-          
-          />
-              {/* <a href="#">로그인</a> */}
+            {isLogin === false ? (
+            <>
+            <li className="link" onClick={openModalHandler}>
+              {loginOpen === false ? <a>로그인</a> : <a>로그인</a>}
             </li>
-            <li className="link">
-            <SignUpModal 
-          open={signupOpen} 
-          handleSignup={handleSignup} 
-          handleLogin={handleLogin}
-          setLoginOpen={setLoginOpen}
-          />
-              {/* <a href="#">회원가입</a> */}
+            <li className="link" onClick={handleSignup}>
+              {signupOpen === false ? <a>회원가입</a> : <a>회원가입</a>}
             </li>
+            </>)
+          :
+          ( <>
+            <li onClick={logoutHandler} className="link">
+              <a>로그아웃</a>
+            </li>
+            </>
+          )
+          }
+
           </NavLinks>
         </Nav>
       </NavBarToggle>

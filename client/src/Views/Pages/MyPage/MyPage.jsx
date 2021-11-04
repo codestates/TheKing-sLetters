@@ -4,6 +4,8 @@ import axios from 'axios';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUserCog } from "@fortawesome/free-solid-svg-icons";
 import { faTrophy } from "@fortawesome/free-solid-svg-icons";
+import MyPageModal from '../../Modals/MyPageModal';
+import Modal6 from '../../Modals/SubModals/RankModal'
     
 // async await 함수를 사용할 때, 
 
@@ -20,7 +22,7 @@ const FirstBox = styled.div`
 background-color: #316B83;
 display: flex;
 justify-content: space-between;
-max-width: 1280px; 
+max-width: 100vw; 
 
 
 > .title {
@@ -35,8 +37,7 @@ max-width: 1280px;
 > .setting {
   position: relative;
   top:5px;
-  left: 20px;
-  width: 80px;
+  right: 20px;
   height: 100px;
   margin: 10px;
   /* border : 1px solid black; */
@@ -45,7 +46,7 @@ max-width: 1280px;
 
 //----------------두번째 박스-----------------------------------
 const SecondBox =styled.div`
-@media screen and (max-width: 670px) {
+@media screen and (max-width: 783px) {
 background-color: #6D8299;
 flex-direction: column;
 /* margin-left: 200px; */
@@ -55,15 +56,16 @@ background-color: #6D8299;
 display: flex;
 justify-content: space-between;
 flex-wrap: nowrap;
-max-width: 1280px; //968 768일 떄 계속 줄여줘야 된다.
+max-width: 100vw; 
 
 
 > .profile {
-  @media screen and (max-width: 670px) {
+  @media screen and (max-width: 783px) {
     border : 1px solid black;
     max-width: 400px;
     height: 300px;  
-    margin: 0 auto;    
+    margin: 0 auto;
+    margin-top : 20px;
       }
     border : 1px solid black;
     border-radius: 10px;
@@ -73,7 +75,7 @@ max-width: 1280px; //968 768일 떄 계속 줄여줘야 된다.
   }
 
 > .profileData { 
-  @media screen and (max-width: 670px) {
+  @media screen and (max-width: 783px) {
     /* border : 1px solid black; */
     max-width: 400px;
     height: 200px;  
@@ -93,7 +95,7 @@ max-width: 1280px; //968 768일 떄 계속 줄여줘야 된다.
 }
   
   > .class {
-    @media screen and (max-width: 670px) {
+    @media screen and (max-width: 783px) {
     /* border : 1px solid black; */
     max-width: 300px;
     height: 60px;  
@@ -102,11 +104,14 @@ max-width: 1280px; //968 768일 떄 계속 줄여줘야 된다.
     top:-80px;    
       } 
     /* border : 1px solid black; */
-    position: relative;
+    /* position: relative; */
     right: 10px;
     max-width: 150px;
     height: 60px;
     margin: 10px;
+    > .openModalBtn {
+      background-color: #6D8299;
+    }
   }
 `;
 //------------아코디언 박스(보유 마일리지, 구매내역, 내가 만든 문제)---------------------------------------------------------------------
@@ -116,8 +121,10 @@ const Ul = styled.ul`
   font-family: 'EBSHMJESaeronRA';
   display: flex;
   flex-direction: column;
-  max-width: 1280px;
-  height: 275px;
+  max-width: 100vw;
+  min-height: 36.7vh;
+  height: auto;
+  /* height: 275px; */
   /* margin: 10px;   */
   padding: 0;
   list-style-type: none;
@@ -189,13 +196,62 @@ const Li = styled.li`
   /* border-bottom: 5px solid #050505; */
   transition: max-height 0.5s linear 0s;
   > div { 
-  overflow-x: auto;
+  overflow: auto;
   display: flex;
+
+  //---------------------------------구매 내역-----------------------
+  > .itemBox{
+    > .itemImage {
+  position: relative;
+  left: -3px;
+  width: 250px;
+  height: 250px;
+  margin: 20px;
+  margin-right: 25px;
+  border : 1px solid black;
+  background-color: #fcf8f8;   
+    
+}
+
+  > .itemName {
+    
+  }
+
+  > .company {
+
+  }
+
+  > .deadline {
+
+  }
+
+  > .barcodeNum { 
+
+  }
+ 
+  }
+
+   //-------------------------------내가 만든 문제---------------------
   
-    > .title {  
+  > .quizBox {
+    align-items: center;
+    > .thumbnail {
+      position: relative;
+      left: -3px;
+      width: 250px;
+      height: 250px;
+      margin: 20px;
+      margin-right: 25px;
+      border : 1px solid black;
+      background-color: #fcf8f8;
     }
-    > .thumbnail {     
-  
+    > .title {
+      font-size: 1.5em;
+      text-align: center;
+    }
+  }
+
+    > .thumbnail { 
   position: relative;
   left: -3px;
   width: 250px;
@@ -225,9 +281,18 @@ const MyPage = (props) => {
     image: '',
     mileage: '',
   })
+  const [usedItems, setUsedItem] = useState([]);
   const [quiz, setQuiz] = useState([]);
+  const [isMypageOpen, setIsMypageOpen] = useState(false); // 마이페이지 모달 on off 관련 상태
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const handleMypage = () => {
+    setIsMypageOpen(!isMypageOpen)
+  }
+
   useEffect(() => {
-   // const [email, setEmail] = useState('');
+    if(props.location.state.isLogin === true) {
+// const [email, setEmail] = useState('');
   // const [name, setName] = useState('');
   // const [image, setImage] = useState(''); 
   // axios.post("http://ec2-13-209-96-200.ap-northeast-2.compute.amazonaws.com/login" , {
@@ -245,43 +310,62 @@ const MyPage = (props) => {
   //     }).then(function() {
   //         // 항상 실행
   //     });
-      axios.get("http://ec2-13-209-96-200.ap-northeast-2.compute.amazonaws.com/users/info", {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('accessToken')}` // 로컬 브라우저에서 받은 토큰이다 //localStorage.getItem : 로컬 스토리지에 갖고 있는 값을 가지고 온 것
-        }
-        // 로그인시 받은 토큰을 헤더에 담아 로그인 된상태고 get요청을 한 이유는 mypage에서 사용하기 위해  요청한 것  
-      }).then(function(response) {
-        console.log(response.data.data.userData)
-        setUserData({
-          email : response.data.data.userData.email,
-          name : response.data.data.userData.name,
-          image : response.data.data.userData.image,
-          mileage : response.data.data.userData.mileage,
-        })
-        // setEmail(response.data.data.userData.email)
-        // setName(response.data.data.userData.name)
-        // setImage(response.data.data.userData.image)
-      })    
-      axios.get("http://ec2-13-209-96-200.ap-northeast-2.compute.amazonaws.com/mypublish", {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('accessToken')}` // 로컬 브라우저에서 받은 토큰이다 //localStorage.getItem : 로컬 스토리지에 갖고 있는 값을 가지고 온 것
-      }
-      // 로그인시 받은 토큰을 헤더에 담아 로그인 된상태고 get요청을 한 이유는 mypage에서 사용하기 위해  요청한 것  
-    }).then((response)=> {
-      console.log(response);
-      console.log(response.data.data.madeQuiz)
-      setQuiz(response.data.data.madeQuiz)
-    })  
+  axios.get("http://ec2-13-209-96-200.ap-northeast-2.compute.amazonaws.com/users/info", {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem('accessToken')}` // 로컬 브라우저에서 받은 토큰이다 //localStorage.getItem : 로컬 스토리지에 갖고 있는 값을 가지고 온 것
+    }
+    // 로그인시 받은 토큰을 헤더에 담아 로그인 된상태고 get요청을 한 이유는 mypage에서 사용하기 위해  요청한 것  
+  }).then(function(response) {
+    console.log(response.data.data.userData)
+    setUserData({
+      email : response.data.data.userData.email,
+      name : response.data.data.userData.name,
+      image : response.data.data.userData.image,
+      mileage : response.data.data.userData.mileage,
+    })
+    // setEmail(response.data.data.userData.email)
+    // setName(response.data.data.userData.name)
+    // setImage(response.data.data.userData.image)
+  })    
+  axios.get("http://ec2-13-209-96-200.ap-northeast-2.compute.amazonaws.com/mypublish", {
+  headers: {
+    Authorization: `Bearer ${localStorage.getItem('accessToken')}` // 로컬 브라우저에서 받은 토큰이다 //localStorage.getItem : 로컬 스토리지에 갖고 있는 값을 가지고 온 것
+  }
+  // 로그인시 받은 토큰을 헤더에 담아 로그인 된상태고 get요청을 한 이유는 mypage에서 사용하기 위해  요청한 것  
+}).then((response)=> {
+  console.log(response);
+  console.log(response.data.data.madeQuiz)
+  setQuiz(response.data.data.madeQuiz)
+})
+
+  axios.get("https://api.thekingsletters.ml/myitems" , {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem('accessToken')}`
+    }
+  }).then((response) => {
+    console.log(response.data.data.userData.user_usedItems);
+    console.log(response.data.data.userData.user_usedItems[0].usedItem.company);
+    setUsedItem(response.data.data.userData.user_usedItems);
+  }) 
+
+    }
+   
   }, []);   
 
     return (
       <>
+      {modalOpen && <Modal6 setOpenModal={setModalOpen} />}
       <FirstBox>
         <div className="title">나의 정보</div>
         <div className="setting">
-          <FontAwesomeIcon icon={faUserCog} size="2x" className="setting" />
+            <li onClick={handleMypage}>
+              {isMypageOpen === false ? <FontAwesomeIcon icon={faUserCog} size="2x" className="setting" /> : <FontAwesomeIcon icon={faUserCog} size="2x" className="setting" />}
+            </li>
         </div>
       </FirstBox>
+
+      {/* mypage 모달 컴포넌트 */}
+      <MyPageModal isOpen={isMypageOpen} openModalHandler={handleMypage}/>
       
       <SecondBox>
         {/* <div className='data1'> */}
@@ -296,7 +380,14 @@ const MyPage = (props) => {
         </div>
         {/* <div className='data3'> */}
         <div className="class">
-          <FontAwesomeIcon icon={faTrophy} size="4x" className="class" />
+          <button
+            className="openModalBtn"
+            onClick={() => {
+              setModalOpen(true);
+            }}
+          >
+            <FontAwesomeIcon icon={faTrophy} size="4x" className="class" />
+          </button>
         </div>  
         {/* </div> */}
       </SecondBox>
@@ -320,7 +411,18 @@ const MyPage = (props) => {
                 <div className="purchase-history">구매 내역</div>
             </label>
             <div className="container" id="section-2-panel">
-              <div>상자 박스</div>              
+              <div className="usedItems">
+                {usedItems.map((el) => (
+                  <div className="itemBox">
+                  <img className="itemImage" src={el.usedItem.itemImage}></img>
+                  <div className="itemName">{el.usedItem.itemName}</div>
+                  <div className="company">{el.usedItem.company}</div>
+                  <div className="deadline">{el.usedItem.deadline}</div>
+                  <div className="barcodeNum">{el.usedItem.barcodeNum}</div>
+                  </div>
+                ))
+                }
+              </div>             
             </div>
         </Li>
         <Li>
@@ -331,13 +433,12 @@ const MyPage = (props) => {
             <div className="container" id="section-3-panel">
               <div>
                 {quiz.map((el)=>
-                <>
-                {/* <div className="title">{el.title}</div> */}
-                <img className="thumbnail" src={el.thumbnail}></img>                
-                </>
+                <div className="quizBox">
+                <img className="thumbnail" src={el.thumbnail}></img> 
+                <div className="title">{el.title}</div>   
+                </div>
                 )}
               </div>
-              {console.log(quiz[0])}                       
             </div>
         </Li>
       </Ul>      

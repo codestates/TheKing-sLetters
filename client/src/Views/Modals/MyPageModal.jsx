@@ -1,5 +1,3 @@
-
-
 import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
@@ -56,6 +54,11 @@ export const ModalView = styled.div`
       box-sizing: border-box;
       box-shadow: 0 15px 25px rgba(0, 0, 0, 0.5);
       border-radius: 10px;
+      @media (max-width: 768px) {
+      transition: all 0.4s;
+        height: 100vh;
+        width: 100vw;
+      }
     }
 
     > div.box > span {
@@ -258,8 +261,7 @@ export const ModalView = styled.div`
 
 `;
 
- const MyPageModal = () => {
-  const [isOpen, setIsOpen] = useState(false);
+ const MyPageModal = ({ isOpen, openModalHandler }) => {
   const initialValue = {
     email: "",
     name: "",
@@ -292,9 +294,6 @@ export const ModalView = styled.div`
     setModifiedUserInfo(initialValue);
   }, [isOpen]);
 
-  const openModalHandler = () => {
-    setIsOpen(!isOpen);
-  };
 
   const resignHandler = async () => {
     const URL = `http://ec2-13-209-96-200.ap-northeast-2.compute.amazonaws.com/resign`;
@@ -321,7 +320,7 @@ export const ModalView = styled.div`
         setTimeout(() => {
           submitResultControl.current.style.display = "none";
           setTimeout(() => {
-            setIsOpen(false);
+            openModalHandler(false);
           }, 200);
         }, 1500);
         window.location.replace("/");
@@ -409,7 +408,7 @@ export const ModalView = styled.div`
         setTimeout(() => {
           submitResultControl.current.style.display = "none";
           setTimeout(() => {
-            setIsOpen(false);
+            openModalHandler();
           }, 200);
         }, 2000);
       }
@@ -465,49 +464,49 @@ export const ModalView = styled.div`
   }, [modifiedUserInfo]);
 
   useEffect( async () => {
-    setIsLoading(true);
-    const URL = `http://ec2-13-209-96-200.ap-northeast-2.compute.amazonaws.com/users/info`;
-    const TOKEN = localStorage.getItem('accessToken');
-  
-    let response = null;
-    try {
-      response = await axios(URL, {
-        method: 'GET',
-        headers: {
-          'Authorization': `Bearer ${TOKEN}`,
-        },
-      });
-      // console.log('GET /user/info 요청에 성공했습니다.');
-      // console.log(response);
-      if (response.status === 200) {
-        const data = response.data.data.userData;
-        const token = response.data.data.accessToken;
-        const initialValue = {
-          email: data.email,
-          name: data.name,
-          mobile: data.mobile,
-          image: data.image,
-          gender: data.gender,
-          password: "",
-          passwordCheck: "",
-        };
-        localStorage.setItem('accessToken', token);
-        setModifiedUserInfo(initialValue);
-        setIsLoading(false);
+    if(isOpen === true) {
+      setIsLoading(true);
+      const URL = `http://ec2-13-209-96-200.ap-northeast-2.compute.amazonaws.com/users/info`;
+      const TOKEN = localStorage.getItem('accessToken');
+    
+      let response = null;
+      try {
+        response = await axios(URL, {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${TOKEN}`,
+          },
+        });
+        // console.log('GET /user/info 요청에 성공했습니다.');
+        // console.log(response);
+        if (response.status === 200) {
+          const data = response.data.data.userData;
+          const token = response.data.data.accessToken;
+          const initialValue = {
+            email: data.email,
+            name: data.name,
+            mobile: data.mobile,
+            image: data.image,
+            gender: data.gender,
+            password: "",
+            passwordCheck: "",
+          };
+          localStorage.setItem('accessToken', token);
+          setModifiedUserInfo(initialValue);
+          setIsLoading(false);
+        }
+      } catch(error) {
+        response = error.response;
+        // console.log('GET /user/info 요청에 실패했습니다.');
+      } finally {
+        // console.log(response);
       }
-    } catch(error) {
-      response = error.response;
-      // console.log('GET /user/info 요청에 실패했습니다.');
-    } finally {
-      // console.log(response);
     }
+    
   }, [isOpen]);
 
   return (
     <>
-      <ModalBtn onClick={openModalHandler}>
-        {isOpen === false ? 'My Page' : 'My Page'}
-      </ModalBtn>
       {isOpen === true ? <ModalBackdrop>
         <ModalView>
         <div className='box'>

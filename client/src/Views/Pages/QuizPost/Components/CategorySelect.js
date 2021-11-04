@@ -1,7 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import DropDownList from "./DropDownList";
+import HelpMessage from "./HelpMessage";
+import { isVaildCategory } from "./VaildCheck";
 import dropDownIcon from "../Assets/dropdown-1.svg";
+
 
 const CategorySelectWrapper = styled.div`
 	/* 박스 설정 */
@@ -21,43 +24,47 @@ const CategorySelectWrapper = styled.div`
 	}
   > .dropdown_select_container {
 		/* 박스 설정 */
+		position: relative;
 		padding: 1% 6% 1% 6%;
 		/* flex 설정 */
 		display: flex;
 		flex-wrap: wrap;
 		gap: 8px;
-		> .dropdown_select_inner_box {
-			/* 박스 설정 */
-			position: relative;
-			width: auto;
-			border: 1px solid rgba(209, 213, 218, 0.5);
-			border-radius: 5px;
-			background-color: rgba(209, 213, 218, 0.5);
-			/* flex 설정 */
-			flex: 20em 1 0;
-			/* 폰트 설정 */
-			font-size: 18px;
-			> .dropdown_title {
-				/* 박스 설정 */
-				display: inline-block;
-				margin: 0px 10px 0px 10px;
-				width: 90%;
-				height: 1em;
-				line-height: 18px;
-			}
-			> .dropdown_arrow {
-				/* 박스 설정 */
-				position: absolute;
-				top: 8px;
-				right: 8px;
-				width: 12px;
-				height: 12px;
-			}
-			:hover {
-				cursor: pointer;
-				background-color: #bbc7ba;
-			}
+	}
+
+	> .dropdown_select_container .dropdown_select_inner_box {
+		/* 박스 설정 */
+		position: relative;
+		width: auto;
+		border: 1px solid rgba(209, 213, 218, 0.5);
+		border-radius: 5px;
+		background-color: rgba(209, 213, 218, 0.5);
+		/* flex 설정 */
+		flex: 20em 1 0;
+		/* 폰트 설정 */
+		font-size: 18px;
+		:hover {
+			cursor: pointer;
+			background-color: #bbc7ba;
 		}
+	}
+
+	> .dropdown_select_container .dropdown_select_inner_box .dropdown_title {
+		/* 박스 설정 */
+		display: inline-block;
+		margin: 0px 10px 0px 10px;
+		width: 90%;
+		height: 1em;
+		line-height: 18px;
+	}
+
+	> .dropdown_select_container .dropdown_select_inner_box .dropdown_arrow {
+		/* 박스 설정 */
+		position: absolute;
+		top: 8px;
+		right: 8px;
+		width: 12px;
+		height: 12px;
 	}
 `;
 
@@ -72,8 +79,9 @@ const CategorySelect = ({dataCategorySelect, setDataCategorySelect}) => {
 
 	const dropDownClickHandler = (e, index) => {
 		const width = e.currentTarget.clientWidth;
-		if (selectedDropDown === index) setSelectedDropDown(0);
-		else {
+		if (selectedDropDown === index) {
+			setSelectedDropDown(0);
+		} else {
 			setSelectedDropDown(index);
 			setDropDownWidth(width);
 		}
@@ -81,7 +89,6 @@ const CategorySelect = ({dataCategorySelect, setDataCategorySelect}) => {
 
 	const clickValueHandler = (value, type = selectedDropDown) => {
 		if (value === '' || type === '') return;
-
 		switch (type) {
       case 1 :
         setDataCategorySelect({...dataCategorySelect, categories: value});
@@ -116,6 +123,11 @@ const CategorySelect = ({dataCategorySelect, setDataCategorySelect}) => {
     <CategorySelectWrapper>
 			<h2 className="dropdown_select_top_title">카테고리</h2>
 			<div className="dropdown_select_container">
+				<HelpMessage
+					data={dataCategorySelect}
+					vaildator={isVaildCategory}
+					message={"아래의 분류를 모두 선택해 주세요"}
+				/>
 				<div className="dropdown_select_inner_box" onClick={(e) => dropDownClickHandler(e, 1)}>
 					<span className="dropdown_title">{dataCategorySelect.categories === '' ? "카테고리" : dataCategorySelect.categories}</span>
 					<img className="dropdown_arrow" src={dropDownIcon} alt="화살표"></img>

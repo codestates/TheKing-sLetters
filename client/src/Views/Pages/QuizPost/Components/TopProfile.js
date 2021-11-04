@@ -1,6 +1,14 @@
 import styled from "styled-components";
 import profileIcon from "../Assets/profile-1.png";
 
+const BOX_SHADOW = `
+	-moz-box-shadow: 0 0 5px #ccc;
+	-webkit-box-shadow: 0 0 5px #ccc;
+	box-shadow: 0 0 5px #ccc;
+`;
+
+/* box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); */
+
 const TopProfileWrapper = styled.div`
 	width: auto;
 	padding: 2% 6% 2% 6%;
@@ -8,14 +16,18 @@ const TopProfileWrapper = styled.div`
 	display: flex;
 	flex-direction: row;
 	> .user_profile_image {
-		border-radius: 50%;
+		border-radius: 20%;
 		background-color: rgba(0, 0, 0, 0.5);
-		flex: 80px 0 0;
-		height: 80px;
+		margin: 10px 10px 10px 0px;
+		max-width: 5em;
+		max-height: 5em;
+		${BOX_SHADOW}
 	}
 	> .user_info_container {
-		margin: 10px 10px 10px 10px;
-		/* box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); */
+    margin: 10px 10px 10px 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 		> .user_ranking {
 			> .ranking_circle {
 				display: inline-block;

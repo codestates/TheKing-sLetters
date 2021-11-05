@@ -120,21 +120,10 @@ const NavBarToggle = styled.div`
 `;
 
 const Header = () => {
-
-    
-
-   
-
-
-
   const [isLogin, setIsLogin] = useState(false);
-
   const [loginOpen, setLoginOpen] = useState(false) //로그인모달 on off 관련상태 
   const [signupOpen, setSignupOpen] = useState(false) // 회원가입 모달 on off 관련 상태
-  const openModalHandler = () => {
-    setLoginOpen(!loginOpen); // 로그인 모달 on 이벤트 
-  };
-
+  
   const logoutHandler = async () => {
     await axios.get('https://api.thekingsletters.ml/signout', 
     {headers : {
@@ -150,6 +139,10 @@ const Header = () => {
     })
   } 
 
+  const openModalHandler = () => {
+    setLoginOpen(!loginOpen); // 로그인 모달 on 이벤트 
+  };
+  
   const handleLogin = (event) => { //회원가입 모달 off 이벤트
     setSignupOpen(false)
   }
@@ -210,8 +203,19 @@ const Header = () => {
           }
         </NavBarUser>
       </NavBar>
-      <SignInModal open={loginOpen} openModalHandler={openModalHandler} handleSignup={handleSignup} signupOpen={signupOpen} handleLogin={handleLogin} setIsLogin={setIsLogin}/>
-      <SignUpModal open={signupOpen} handleSignup={handleSignup} handleLogin={handleLogin}/>
+      <SignInModal 
+      open={loginOpen} 
+      openModalHandler={openModalHandler} 
+      handleSignup={handleSignup} 
+      signupOpen={signupOpen} 
+      handleLogin={handleLogin} 
+      setIsLogin={setIsLogin}
+      />
+      <SignUpModal 
+      open={signupOpen} 
+      handleSignup={handleSignup} 
+      handleLogin={handleLogin}
+      />
 
       <NavBarToggle>
         <Nav className="nav">

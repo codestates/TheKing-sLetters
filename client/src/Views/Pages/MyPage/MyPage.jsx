@@ -162,7 +162,8 @@ const Li = styled.li`
     left: 15px;
   }
   > .mileage {
-
+    position: relative;
+    left: -300px;
   }
 
   > .mileage-store {
@@ -208,24 +209,29 @@ const Li = styled.li`
   height: 250px;
   margin: 20px;
   margin-right: 25px;
+  margin-bottom: 0%;
   border : 1px solid black;
   background-color: #fcf8f8;   
     
 }
 
   > .itemName {
+    text-align: center;
     
   }
 
   > .company {
+    text-align: center;
 
   }
 
   > .deadline {
+    text-align: center;
 
   }
 
   > .barcodeNum { 
+    text-align: center;
 
   }
  

@@ -209,16 +209,16 @@ const MasterLoginModal = ({ isOpen, openModalHandler
               <h1>나랏말싸미</h1>
               <h1 align="center">로그인</h1>
               <form onSubmit={(e) => e.preventDefault()}>      
-                <div class="inputBox">
-                  <input type="text" name="user email" autocomplete="off" 
-                  // required 
+                <div className="inputBox">
+                  <input type="text" name="user email" 
+                  required 
                   onChange={handleInputValue('email')}
                   />
                   <label>이메일</label>
                 </div>
-                <div class="inputBox">
-                  <input type="password" name="password" autocomplete="off" 
-                  // required 
+                <div className="inputBox">
+                  <input type="password" name="password" 
+                  required 
                   onChange={handleInputValue('password')} 
                   />
                   <label>비밀번호</label>

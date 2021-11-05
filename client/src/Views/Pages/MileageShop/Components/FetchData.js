@@ -91,24 +91,3 @@ export const refineMyItems = async (data) => {
 
   return result;
 };
-
-export const fetchUserInfo = async () => {
-  const END_PONT = `/users/info`;
-  const TOKEN = localStorage.getItem('accessToken');
-  if (!TOKEN) throw new Error('로그인 정보가 없습니다 다시 로그인 해주세요');
-  let response = null;
-  try {
-    response = await axios(END_PONT, {
-      method: 'GET',
-      headers: {
-        'Authorization': `Bearer ${TOKEN}`,
-      },
-    });
-    return { message: '유저 정보 요청에 성공했습니다', data: response.data.data.userData };
-  } catch(error) {
-    response = error.response;
-    throw new Error('유저 정보 요청에 실패했습니다');
-  } finally {
-    console.log(response);
-  }
-};

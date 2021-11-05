@@ -46,30 +46,9 @@ export const refineSubmitAnswer = async (data) => {
   } else if (data.data.message === `correct answer! but can't gain point(cleared)`) {
     return { result: true, message: '하지만 이미 푼 문제로는 포인트를 얻을 수 없습니다'};
   } else if (data.data.message === `incorrect answer!`) {
-    return { result: false };
+    return { result: false, message: ''};
   } else {
     throw new Error(`형식에 맞는 서버 응답을 찾을 수 없습니다`);
-  }
-};
-
-export const fetchUserInfo = async () => {
-  const END_PONT = `/users/info`;
-  const TOKEN = localStorage.getItem('accessToken');
-  if (!TOKEN) throw new Error('로그인 정보가 없습니다 다시 로그인 해주세요');
-  let response = null;
-  try {
-    response = await axios(END_PONT, {
-      method: 'GET',
-      headers: {
-        'Authorization': `Bearer ${TOKEN}`,
-      },
-    });
-    return { message: '유저 정보 요청에 성공했습니다', data: response.data.data.userData };
-  } catch(error) {
-    response = error.response;
-    throw new Error('유저 정보 요청에 실패했습니다');
-  } finally {
-    console.log(response);
   }
 };
 
@@ -92,45 +71,35 @@ export const fetchQuizData = async (id) => {
   }
 };
 
-export const importRefinedFetchData = async (flags, raw) => {
-  if (flags === 'user') {
-    const refined = {
-      "name": raw.data.name,
-      "image": raw.data.image,
-      "ranking": raw.data.rank.toString(),
-    };
-    return refined;
-  }
-  if (flags === 'quiz') {
-    const refined = {
-      "title": raw.data.title,
-      "category" : raw.data.categories[0].category,
-      "quizType": raw.data.quiz_types[0].quizContent.quizType,
-      "quizContents": (() => {
-        if (raw.data.quiz_types[0].quizContent.quizType === '텍스트 문제') {
-          return { text: raw.data.quiz_types[0].quizContent.quizCode }
-        }
-        if (raw.data.quiz_types[0].quizContent.quizType === '이미지 문제') {
-          return { image_url: raw.data.quiz_types[0].quizContent.quizCode }
-        }
-      })(),
-      "answerType": raw.data.answer_types[0].answerContent.answerType,
-      "answerContents": raw.data.answer_types.map((el) => {
-        if (raw.data.answer_types[0].answerContent.answerType === 'OX 답안') {
-          return { name: el.answerContent.answerCode };
-        }
-        if (raw.data.answer_types[0].answerContent.answerType === '이미지 답안') {
-          return { image_url: el.answerContent.answerCode };
-        }
-        if (raw.data.answer_types[0].answerContent.answerType === '선다형 답안') {
-          return { text: el.answerContent.answerCode };
-        }
-        return null;
-      }),
-      "answerComment": raw.data.answer_types[0].answerContent.answerComment,
-      "rewardPoint": raw.data.rewardPoint,
-      "howManyLikes": raw.data.user_recommend_quizzes.length,
-    };
-    return refined;
-  }
+export const refineQuizData = async (raw) => {
+  const refined = {
+    "title": raw.data.title,
+    "category" : raw.data.categories[0].category,
+    "quizType": raw.data.quiz_types[0].quizContent.quizType,
+    "quizContents": (() => {
+      if (raw.data.quiz_types[0].quizContent.quizType === '텍스트 문제') {
+        return { text: raw.data.quiz_types[0].quizContent.quizCode }
+      }
+      if (raw.data.quiz_types[0].quizContent.quizType === '이미지 문제') {
+        return { image_url: raw.data.quiz_types[0].quizContent.quizCode }
+      }
+    })(),
+    "answerType": raw.data.answer_types[0].answerContent.answerType,
+    "answerContents": raw.data.answer_types.map((el) => {
+      if (raw.data.answer_types[0].answerContent.answerType === 'OX 답안') {
+        return { name: el.answerContent.answerCode };
+      }
+      if (raw.data.answer_types[0].answerContent.answerType === '이미지 답안') {
+        return { image_url: el.answerContent.answerCode };
+      }
+      if (raw.data.answer_types[0].answerContent.answerType === '선다형 답안') {
+        return { text: el.answerContent.answerCode };
+      }
+      return null;
+    }),
+    "answerComment": raw.data.answer_types[0].answerContent.answerComment,
+    "rewardPoint": raw.data.rewardPoint,
+    "howManyLikes": raw.data.user_recommend_quizzes.length,
+  };
+  return refined;
 };

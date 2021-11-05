@@ -49,6 +49,7 @@ const initialState = {
     image: "",
     mobile: "",
     name: "",
+    mileage: "",
     createdAt: "",
     updatedAt: ""
   },
@@ -140,6 +141,7 @@ export const useUserDispatch = () => {
 //     image: "",
 //     mobile: "",
 //     name: "",
+//     mileage: "",
 //     createdAt: "",
 //     updatedAt: ""
 //   }

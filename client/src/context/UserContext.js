@@ -50,6 +50,7 @@ const initialState = {
     mobile: "",
     name: "",
     mileage: "",
+    rank: "",
     createdAt: "",
     updatedAt: ""
   },
@@ -109,11 +110,13 @@ export const useUserDispatch = () => {
 /* useUserState, useUserDispatch의 선언은 컴포넌트 안에 해야함 */
 
 // /* 유저 로그인으로 변경하기 */
+// import { useUserDispatch } from ".....";
 // const dispatch = useUserDispatch();
 // dispatch({type: "USER_LOGIN"});
 
 
 // /* 유저 로그아웃으로 변경하기 */
+// import { useUserDispatch } from ".....";
 // const dispatch = useUserDispatch();
 // dispatch({type: "USER_LOGOUT"});
 
@@ -142,6 +145,7 @@ export const useUserDispatch = () => {
 //     mobile: "",
 //     name: "",
 //     mileage: "",
+//     rank: "",
 //     createdAt: "",
 //     updatedAt: ""
 //   }
@@ -152,11 +156,13 @@ export const useUserDispatch = () => {
 /* useUserState, useUserDispatch의 선언은 컴포넌트 안에 해야함 */
 
 // /* 어드민 로그인으로 변경하기 */
+// import { useUserDispatch } from ".....";
 // const dispatch = useUserDispatch();
 // dispatch({type: "ADMIN_LOGIN"});
 
 
 // /* 어드민 로그아웃으로 변경하기 */
+// import { useUserDispatch } from ".....";
 // const dispatch = useUserDispatch();
 // dispatch({type: "ADMIN_LOGOUT"});
 

@@ -115,7 +115,7 @@ const Post = () => {
       const refinedData = {
         "name": rawData.name,
         "image": rawData.image,
-        "rank": rawData.rank.toString(),
+        "rank": rawData.rank,
       };
       // state에 저장
       setUserData(refinedData);

@@ -414,7 +414,7 @@ const SignUpModal = ({ open, handleLogin, handleSignup }) => {
           <form>
       
             <div class="inputBox">
-              <input type="text" name="email" autocomplete="off" onChange={(e) => inputValueHandler(e, 'email')} required />
+              <input type="text" name="email" autoComplete="off" onChange={(e) => inputValueHandler(e, 'email')} required />
               <label>이메일</label>
             </div>
 
@@ -423,7 +423,7 @@ const SignUpModal = ({ open, handleLogin, handleSignup }) => {
             </div>
             
             <div class="inputBox">
-              <input type="text" name="text" autocomplete="off" onChange={(e) => inputValueHandler(e, 'name')} required />
+              <input type="text" name="text" autoComplete="off" onChange={(e) => inputValueHandler(e, 'name')} required />
               <label>이름</label>
             </div>
 
@@ -432,7 +432,7 @@ const SignUpModal = ({ open, handleLogin, handleSignup }) => {
             </div>
 
             <div class="inputBox">
-              <input type="password" name="password" autocomplete="off" onChange={(e) => inputValueHandler(e, 'password')} required />
+              <input type="password" name="password" autoComplete="off" onChange={(e) => inputValueHandler(e, 'password')} required />
               <label>비밀번호</label>
             </div>
 
@@ -441,7 +441,7 @@ const SignUpModal = ({ open, handleLogin, handleSignup }) => {
             </div>
 
             <div class="inputBox">
-              <input type="tel" name="tel" autocomplete="off" required onChange={(e) => inputValueHandler(e, 'mobile')} />
+              <input type="tel" name="tel" autoComplete="off" required onChange={(e) => inputValueHandler(e, 'mobile')} />
               <label>전화번호</label>
             </div>
 
@@ -450,10 +450,10 @@ const SignUpModal = ({ open, handleLogin, handleSignup }) => {
             </div>
 
             <div class="radioBox">
-              <input type="radio" id='scales1' name="scales" autocomplete="off" onChange={(e) => inputValueHandler(e, 'gender')} value="male" />
+              <input type="radio" id='scales1' name="scales" autoComplete="off" onChange={(e) => inputValueHandler(e, 'gender')} value="male" />
               <label for="scales1">남자</label>
 
-              <input type="radio" id='scales2' name="scales" autocomplete="off" onChange={(e) => inputValueHandler(e, 'gender')} value="female" />
+              <input type="radio" id='scales2' name="scales" autoComplete="off" onChange={(e) => inputValueHandler(e, 'gender')} value="female" />
               <label for="scales2">여자</label>
             </div>
 

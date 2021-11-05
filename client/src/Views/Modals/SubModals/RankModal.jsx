@@ -4,13 +4,22 @@ import styled from 'styled-components';
 import axios from 'axios';
 
 const ModalBackground = styled.div`
-width: 100vw;
+  position: fixed;
+  z-index: 999;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-color: rgba(0,0,0,0.75);
+  display: grid;
+  place-items: center;
+/* width: 100vw;
 height: 100vh;
 background-color: rgba(0, 0, 0, 0.75);
 position: fixed;
 display: flex;
 justify-content: center;
-align-items: center;
+align-items: center; */
 
 > div {
 

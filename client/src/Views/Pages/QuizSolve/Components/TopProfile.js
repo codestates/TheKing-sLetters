@@ -9,11 +9,18 @@ const TopProfileWrapper = styled.div`
 	font-size: 16px;
 	display: flex;
 	flex-direction: row;
-	> .user_profile_image {
-		border-radius: 50%;
-		background-color: rgba(0, 0, 0, 0.5);
-		flex: 80px 0 0;
-		height: 80px;
+	> .user_profile_image_container {
+		width: 5em;
+		height: 5em;
+		outline: 3px solid rgba(0, 0, 0, 0.1);
+		background-color: rgba(0, 0, 0, 0.1);
+		overflow: hidden;
+		display: flex;
+		align-items: center;
+	}
+	> .user_profile_image_container .user_profile_image {
+		max-width: 100%;
+		max-height: 100%;
 	}
 	> .user_info_container {
 		margin: 10px 10px 10px 10px;
@@ -62,7 +69,9 @@ const TopProfileWrapper = styled.div`
 const TopProfile = ({quizData, userData}) => {
 	return (
     <TopProfileWrapper>
-			<img className="user_profile_image" src={userData.image} alt={profileIcon}></img>
+			<div className="user_profile_image_container">
+				<img className="user_profile_image" src={userData.image} alt={profileIcon}></img>
+			</div>
 			<div className="user_info_container">
 				<div className="user_ranking">사용자 순위: <span className="ranking_circle">{userData.ranking}</span>위</div>
 				<div className="user_name">이름: <span>{userData.name}</span></div>

@@ -413,47 +413,47 @@ const SignUpModal = ({ open, handleLogin, handleSignup }) => {
           <h1 className="signupModalTag" align="center">회원가입</h1>
           <form>
       
-            <div class="inputBox">
-              <input type="text" name="email" autoComplete="off" onChange={(e) => inputValueHandler(e, 'email')} required />
-              <label>이메일</label>
+            <div className="inputBox">
+              <input type="email" name="email" onChange={(e) => inputValueHandler(e, 'email')} />
+            <label>이메일</label>
             </div>
 
             <div className="vaild-check-box">
             {!isVaildEmail && inputUserInfo.email !== '' ? <span className="vaild-check-msg">@을 포함한 이메일 주소를 입력해 주세요.</span> : null}
             </div>
             
-            <div class="inputBox">
-              <input type="text" name="text" autoComplete="off" onChange={(e) => inputValueHandler(e, 'name')} required />
-              <label>이름</label>
+            <div className="inputBox">
+              <input type="text" name="text" onChange={(e) => inputValueHandler(e, 'name')} required />
+           <label>이름</label>
             </div>
 
             <div className="vaild-check-box">
             {!isVaildName && inputUserInfo.name !== '' ? <span className="vaild-check-msg">2자리 이상 10이하의 이름을 입력해 주세요.</span> : null}
             </div>
 
-            <div class="inputBox">
-              <input type="password" name="password" autoComplete="off" onChange={(e) => inputValueHandler(e, 'password')} required />
-              <label>비밀번호</label>
+            <div className="inputBox">
+              <input type="password" name="password" onChange={(e) => inputValueHandler(e, 'password')} required />
+               <label>비밀번호</label>
             </div>
 
             <div className="vaild-check-box">
             {!isVaildPassword && inputUserInfo.password !== '' ? <span className="vaild-check-msg">6~20자리 영문자, 최소 1개의 숫자 혹은 특수 문자를 포함한 <br/> 비밀번호를 입력해주세요.</span> : null}
             </div>
 
-            <div class="inputBox">
-              <input type="tel" name="tel" autoComplete="off" required onChange={(e) => inputValueHandler(e, 'mobile')} />
-              <label>전화번호</label>
+            <div className="inputBox">
+              <input type="tel" name="tel" required onChange={(e) => inputValueHandler(e, 'mobile')} />
+             <label>전화번호</label>
             </div>
 
             <div className="vaild-check-box">
             {!isVaildMobile && inputUserInfo.mobile !== '' ? <span className="vaild-check-msg">올바른 휴대전화 번호를 입력해주세요.</span> : null}
             </div>
 
-            <div class="radioBox">
-              <input type="radio" id='scales1' name="scales" autoComplete="off" onChange={(e) => inputValueHandler(e, 'gender')} value="male" />
+            <div className="radioBox">
+              <input type="radio" id='scales1' name="scales" onChange={(e) => inputValueHandler(e, 'gender')} value="male" />
               <label for="scales1">남자</label>
 
-              <input type="radio" id='scales2' name="scales" autoComplete="off" onChange={(e) => inputValueHandler(e, 'gender')} value="female" />
+              <input type="radio" id='scales2' name="scales" onChange={(e) => inputValueHandler(e, 'gender')} value="female" />
               <label for="scales2">여자</label>
             </div>
 
@@ -461,7 +461,7 @@ const SignUpModal = ({ open, handleLogin, handleSignup }) => {
             {!isVaildGender ? <span className="vaild-check-msg">성별을 선택해 주세요.</span> : null}
             </div>
 
-            <div class="submit-result-table">
+            <div className="submit-result-table">
               <span ref={submitResultControl}>회원가입 완료</span>
             </div>
 

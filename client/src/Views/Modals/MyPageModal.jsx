@@ -514,55 +514,54 @@ export const ModalView = styled.div`
         <h1 align="center">정보 수정</h1>
         {!isLoading ?
         <form onSubmit={submitButtonHandler}>
-          <div class="imageBox">
+          <div className="imageBox">
             <label>profile image</label>
             <img src={modifiedUserInfo.image} alt="이미지 100px*100px"></img>
             <input type="file" onChange={(e) => inputUserInfoHandler(e, 'image')} accept="image/*"></input>
           </div>
 
-          <div class="inputBox">
-            <input type="text" name="email" autoComplete="off" value={modifiedUserInfo.email} readonly required />
+          <div className="inputBox">
+            <input type="text" name="email" autocomplete="off" value={modifiedUserInfo.email} readonly required />
             <label>이메일</label>
           </div>
-          <div class="inputBox">
-            <input type="text" name="text" autoComplete="off"  defaultValue={modifiedUserInfo.name} onChange={(e) => inputUserInfoHandler(e, 'name')} required />
+          <div className="inputBox">
+            <input type="text" name="text" autocomplete="off"  defaultValue={modifiedUserInfo.name} onChange={(e) => inputUserInfoHandler(e, 'name')} required />
             <label>이름</label>
           </div>
-
-          <div class="vaildCheck">
+          <div className="vaildCheck">
           {!isVaildName ? <span className="span1">닉네임은 2자 ~ 10자, 영문, 한글, 숫자, 띄어쓰기만 <br/> 가능합니다.</span> : null}
           </div>
 
-          <div class="inputBox">
-            <input type="password" name="password" onChange={(e) => inputUserInfoHandler(e, 'password')} autoComplete="off" required />
+          <div className="inputBox">
+            <input type="password" name="password" onChange={(e) => inputUserInfoHandler(e, 'password')} autocomplete="off" required />
             <label>비밀번호</label>
           </div> 
           
-          <div class="inputBox">
-            <input type="password" name="passwordCheck" onChange={(e) => inputUserInfoHandler(e, 'passwordCheck')} autoComplete="off" required />
-            <label>비밀번호 확인</label>
+          <div className="inputBox">
+            <input type="password" name="passwordCheck" onChange={(e) => inputUserInfoHandler(e, 'passwordCheck')} autocomplete="off" required />
+       <label>비밀번호 확인</label>
           </div> 
 
-          <div class="vaildCheck">
+          <div className="vaildCheck">
             {!isPasswordEmpty && !isPasswordMatched ? <span className="span2">비밀번호가 일치하지 않습니다.</span> : null}
             {!isVaildPassword && isPasswordMatched ? <span className="span3">6~20자리 영문자, 최소 1개의 숫자 혹은 특수 문자를 포함한 <br/> 비밀번호를 입력해주세요.</span> : null}
           </div>
 
-          <div class="inputBox">
-            <input type="tel" name="tel" autoComplete="off" defaultValue={modifiedUserInfo.mobile} onChange={(e) => inputUserInfoHandler(e, 'mobile')} required />
+\          <div className="inputBox">
+            <input type="tel" name="tel" autocomplete="off" defaultValue={modifiedUserInfo.mobile} onChange={(e) => inputUserInfoHandler(e, 'mobile')} required />
             <label>전화번호</label>
           </div>  
           
-          <div class="vaildCheck">
+          <div className="vaildCheck">
             {!isVaildMobile ? <span className="span4">휴대폰 번호가 형식에 맞지 않습니다.</span> : null}
           </div>
 
-          <div class="inputBox" style={{margin: "-20 0"}}>
-            <input type="checkbox" id='scales' style={{bottom: "77px", marginTop: "-50px", marginLeft: "-233px", marginBottom: "100px"}} name="scales" autoComplete="off" checked readonly required />
+          <div className="inputBox" style={{margin: "-20 0"}}>
+            <input type="checkbox" id='scales' style={{bottom: "77px", marginTop: "-50px", marginLeft: "-233px", marginBottom: "100px"}} name="scales" autocomplete="off" checked readonly required />
             <label>{modifiedUserInfo.gender}</label>
           </div> 
           
-          <div class="submit-result-table">
+          <div className="submit-result-table">
             <span ref={submitResultControl}>회원정보가 수정되었습니다.</span>
           </div>
 

@@ -4,6 +4,7 @@ import TopProfile from "./Components/TopProfile";
 import QuizDisplay from "./Components/QuizDisplay";
 import AnswerDisplay from "./Components/AnswerDisplay";
 import CheckAnswer from "./Components/CheckAnswer";
+import SubmitModal from "./Components/SubmitModal";
 import { fetchUserInfo, fetchQuizData, importRefinedFetchData, fetchSubmitAnswer, refineSubmitAnswer } from "./Components/FetchData";
 import pageLoadingIcon from "./Assets/loading-1.svg";
 import commentLoadingIcon from "./Assets/loading-2.svg";
@@ -13,20 +14,6 @@ const QuizSolveContainer = styled.div`
 	flex-flow: column;
 	width: 100%;
 	height: 1280px;
-	> .submit_button_container {
-		padding: 2% 6% 2% 6%;
-		> .submit_button {
-			width: 100%;
-			padding: 1% 1% 1% 1%;
-			border-radius: 5px;
-			background-color: rgba(0, 0, 0, 0.2);
-			font-size: 18px;
-		}
-		> .submit_button:hover {
-			cursor: pointer;
-			background-color: rgba(0, 0, 0, 0.5);
-		}
-	}
 	> .page_loading_icon {
 		width: 20%;
 		height: 20%;
@@ -84,7 +71,8 @@ const initialQuiz = {
 const IS_DUMMY_DATA_ON = false;
 const QUIZ_ID_FOR_TEST = 170;
 
-const QuizSolve = ({quizId = QUIZ_ID_FOR_TEST}) => {
+const QuizSolve = ({match}) => {
+	const quizId = parseInt(match.params.id);
 	const [userData, setUserData] = useState(null);
 	const [quizData, setQuizData] = useState(null);
 	const [selectedAnswer, setSelectedAnswer] = useState(-1);
@@ -92,7 +80,7 @@ const QuizSolve = ({quizId = QUIZ_ID_FOR_TEST}) => {
 	const [commentIsLoading, setCommentIsLoading] = useState(false);
 	const [pageIsLoading, setPageIsLoading] = useState(true);
 	const [errorList, setErrorList] = useState({submitError: false, loginError: false, quizError: false});
-	const isCorrectAnswer = useRef(false);
+	const isCorrectAnswer = useRef({result: null, message: ''});
 
 	/* 더미 데이터용 */
   useEffect(() => {
@@ -149,7 +137,7 @@ const QuizSolve = ({quizId = QUIZ_ID_FOR_TEST}) => {
 			const sequence = async () => {
 				const response = await fetchSubmitAnswer(quizId, selectedAnswer.toString());
 				const refined = await refineSubmitAnswer(response);
-				isCorrectAnswer.current = refined.result;
+				isCorrectAnswer.current = {...refined};
 			}
 			await fetchManyTimes(2, 1000, sequence);
 			setDoneSubmit(true);
@@ -203,11 +191,12 @@ const QuizSolve = ({quizId = QUIZ_ID_FOR_TEST}) => {
 				<TopProfile quizData={quizData} userData={userData}></TopProfile>
 				<QuizDisplay quizData={quizData}></QuizDisplay>
 				<AnswerDisplay quizData={quizData} selectedAnswer={selectedAnswer} setSelectedAnswer={setSelectedAnswer}></AnswerDisplay>
-				<div className="submit_button_container">
-					<button className="submit_button" onClick={submitHandler}>정답 제출하기</button>
-				</div>
+				{!doneSubmit ?
+				<SubmitModal 
+					submitHandler={submitHandler}/>
+				: null}
 				{CommentErrorMsgDisplay()}
-				{doneSubmit ? <CheckAnswer quizData={quizData} isCorrect={isCorrectAnswer.current}></CheckAnswer> : null}
+				{doneSubmit ? <CheckAnswer quizData={quizData} isCorrectAnswer={isCorrectAnswer.current}></CheckAnswer> : null}
 				{commentIsLoading ? <img src={commentLoadingIcon} alt="해설 로딩 아이콘" className="comment_loading_icon"></img> : null}
 			</> :
 			<img src={pageLoadingIcon} alt="로딩 아이콘" className="page_loading_icon"></img>}

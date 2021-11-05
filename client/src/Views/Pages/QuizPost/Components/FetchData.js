@@ -19,15 +19,9 @@ export const uploadData = async (data) => {
         'Authorization': `Bearer ${TOKEN}`,
       },
     });
-    // console.log(`POST ${URL} 요청에 성공했습니다.`);
-    // console.log(`Authorization: Bearer ${TOKEN}`);
-    // console.log('PAYLOAD: ', PAYLOAD);
+    return {status: 'success', message: 'successfully uploaded', response: response};
   } catch(error) {
-    response = error.response;
-    // console.log(`POST ${URL} 요청에 실패했습니다.`);
     throw error;
-  } finally {
-    console.log(response);
   }
 };
 
@@ -68,7 +62,7 @@ export const refineData = async (dataCategorySelect, dataQuizSelect, dataAnswerS
       })
     );
   }
-  if (toUpload.thumbnail.image_url !== 'default') {
+  if (toUpload.thumbnail.image_url !== '') {
     toUpload.thumbnail = await UploadImage(toUpload.thumbnail.image_object);
   } else {
     toUpload.thumbnail = 'default';

@@ -1,6 +1,7 @@
 import styled from 'styled-components';
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState } from "react";
 import CropModal from './CropModal';
+import loadingIcon from '../Assets/loading-1.svg';
 
 const ModalSubmitBackground = styled.div`
   position: fixed;
@@ -91,9 +92,26 @@ const ModalSubmitView = styled.div`
     background-color: rgba(0, 0, 0, 0.5);
     color: white;
   }
+  > .modal_button_container .modal_confirm_loading {
+    width: 30%;
+    height: 5%;
+    border: 1px solid #2266ee;
+    background-color: white;
+    color: black;
+    font-weight: 500;
+    border-radius: 6px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 3px;
+  }
+  > .modal_button_container .modal_confirm_loading .loading_image {
+    max-width: 1em;
+    max-height: 1em;
+  }
 `;
 
-const ModalSubmit = ({isReadyToSubmit, submitHandler, dataThumbnail, setDataThumbnail}) => {
+const ModalSubmit = ({isReadyToSubmit, uploadLoading, submitHandler, dataThumbnail, setDataThumbnail}) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isUploaded, setIsUploaded] = useState(false);
 
@@ -146,11 +164,20 @@ const ModalSubmit = ({isReadyToSubmit, submitHandler, dataThumbnail, setDataThum
         </div>
         <p className="modal_confirm_msg">제출하시려면 확인 버튼을 눌러주세요</p>
         <div className="modal_button_container">
+        {!uploadLoading ?
           <button
             className="modal_confirm_yes"
             onClick={() => submitHandler()}>
             확인
-          </button>
+          </button> :
+          <button
+            className="modal_confirm_loading">
+            <img
+              className="loading_image"
+              src={loadingIcon} alt="업로드 로딩">
+            </img>
+            업로드 중
+          </button>}
           <button
             className="modal_confirm_no"
             onClick={() => modalOpenHandler()}>

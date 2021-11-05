@@ -210,14 +210,14 @@ const MasterLoginModal = ({ isOpen, openModalHandler
               <h1 align="center">로그인</h1>
               <form onSubmit={(e) => e.preventDefault()}>      
                 <div class="inputBox">
-                  <input type="text" name="user email" autocomplete="off" 
+                  <input type="text" name="user email" autoComplete="off" 
                   // required 
                   onChange={handleInputValue('email')}
                   />
                   <label>이메일</label>
                 </div>
                 <div class="inputBox">
-                  <input type="password" name="password" autocomplete="off" 
+                  <input type="password" name="password" autoComplete="off" 
                   // required 
                   onChange={handleInputValue('password')} 
                   />

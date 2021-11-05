@@ -7,9 +7,11 @@ import { faHeart } from '@fortawesome/free-regular-svg-icons';
 const ProblemQuizBoxContainer = styled.div`
   font-family: 'EBSHMJESaeronRA';
   width: 100%;
-  padding: 0 6% 6% 6%;
+  padding: 6%;
   box-sizing: border-box;
-  background-color: #fafafa;
+  background-color: #b6c3b6;
+  position: relative;
+
   > .problem__box__quiz__title {
     font-family: 'EBSHunminjeongeumSBA';
     font-size: 2rem;
@@ -28,9 +30,14 @@ const ProblemBoxQuizizzContainer = styled.div`
   flex-wrap: wrap;
   justify-content: center;
   width: 100%;
+  padding: 2.5rem 2rem 2rem 2rem;
   box-sizing: border-box;
-
-  padding: 2.5rem 0 2rem 0;
+  margin-top: 3rem;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  border-radius: 7px;
+  box-shadow: 7px 7px 10px rgba(0, 0, 0, 0.5);
+  background-color: #fafafa;
+  z-index: 5;
   @media (max-width: 786px) {
     flex-direction: column;
     padding-top: 0;
@@ -41,6 +48,7 @@ const ProblemBoxQuizizzContainer = styled.div`
     display: flex;
     justify-content: center;
     padding: 5rem 0 2rem;
+    z-index: 5;
   }
   .paginationBtn a {
     padding: 0.6rem;
@@ -94,7 +102,7 @@ const ProblemBoxQuizizz = styled.div`
   align-items: center;
   width: 32%;
   box-sizing: border-box;
-  background-color: #6f958f;
+  background-color: #7a9892;
   padding: 1.5em;
   border-radius: 5px;
   box-shadow: 5px 5px 1px rgba(0, 0, 0, 0.3);
@@ -154,6 +162,10 @@ const ProblemBoxQuizizz = styled.div`
     .problem__box__quiz {
       > span {
         font-size: 1.3em;
+        height: 140px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
       }
     }
   }
@@ -167,7 +179,12 @@ const ProblemBoxQuizizz = styled.div`
     }
     .problem__box__quiz {
       > span {
-        font-size: 1.3em;
+        font-size: 1.1em;
+        letter-spacing: 0;
+        height: inherit;
+        display: flex;
+        justify-content: center;
+        align-items: center;
       }
     }
   }
@@ -217,8 +234,8 @@ const ProblemBoxQuizizz = styled.div`
   }
 `;
 
-const ProblemQuizBox = ({ dataCategorySelect, MainHotData }) => {
-  const filtered = MainHotData.map((el) => {
+const ProblemQuizBox = ({ dataCategorySelect, myNote, UserName }) => {
+  const filtered = myNote.map((el) => {
     return {
       id: el.id,
       categories: el.categories[0].category,
@@ -230,9 +247,9 @@ const ProblemQuizBox = ({ dataCategorySelect, MainHotData }) => {
       heart: el.heart,
     };
   });
-
-  const [SelectQuiz, setSelectQuiz] = useState([]);
-  const [MainQuizAll, setMainQuizAll] = useState(0);
+  console.log(UserName);
+  const [MyNoteQuiz, setMyNoteQuiz] = useState([]);
+  const [MyNoteAll, setMyNoteAll] = useState(0);
 
   useEffect(() => {
     let result = [...filtered];
@@ -241,20 +258,20 @@ const ProblemQuizBox = ({ dataCategorySelect, MainHotData }) => {
       result = result.filter((el) => {
         if (el[key] === value) return el;
       });
-      setSelectQuiz(result);
+      setMyNoteQuiz(result);
     }
   }, [dataCategorySelect]);
 
   // 페이지네이션 구현
   const max_contents = 6;
-  const pageVisited = MainQuizAll * max_contents;
-  const pageCount = Math.ceil(MainHotData.length / max_contents);
-  const FindPageCount = Math.ceil(SelectQuiz.length / max_contents);
+  const pageVisited = MyNoteAll * max_contents;
+  const pageCount = Math.ceil(myNote.length / max_contents);
+  const FindPageCount = Math.ceil(MyNoteQuiz.length / max_contents);
   const changePage = ({ selected }) => {
-    setMainQuizAll(selected);
+    setMyNoteAll(selected);
   };
 
-  const displayContents = SelectQuiz.slice(
+  const displayContents = MyNoteQuiz.slice(
     pageVisited,
     pageVisited + max_contents
   ).map((el) => {
@@ -280,41 +297,40 @@ const ProblemQuizBox = ({ dataCategorySelect, MainHotData }) => {
     );
   });
 
-  const allDisplay = MainHotData.slice(
-    pageVisited,
-    pageVisited + max_contents
-  ).map((el) => {
-    return (
-      <ProblemBoxQuizizz key={el.id}>
-        <form>
-          <img src={el.thumbnail} alt="problem box Thumbnail" />
-        </form>
-        <div className="problem__box__quiz">
-          <span>{el.categories[0].category}</span>
-          <span>{el.quiz_types[0].quizContent.quizType}</span>
-          <span>{el.answer_types[0].answerContent.answerType}</span>
-          <span>{el.rewardPoint}</span>
-        </div>
-        <div className="problem__box__title">
-          <h1>{el.title}</h1>
-          <span>
-            <FontAwesomeIcon className="heart" icon={faHeart} />
-            {el.heart}
-          </span>
-        </div>
-      </ProblemBoxQuizizz>
-    );
-  });
+  const allDisplay = myNote
+    .slice(pageVisited, pageVisited + max_contents)
+    .map((el) => {
+      return (
+        <ProblemBoxQuizizz key={el.id}>
+          <form>
+            <img src={el.thumbnail} alt="problem box Thumbnail" />
+          </form>
+          <div className="problem__box__quiz">
+            <span>{el.categories[0].category}</span>
+            <span>{el.quiz_types[0].quizContent.quizType}</span>
+            <span>{el.answer_types[0].answerContent.answerType}</span>
+            <span>{el.rewardPoint}냥</span>
+          </div>
+          <div className="problem__box__title">
+            <h1>{el.title}</h1>
+            <span>
+              <FontAwesomeIcon className="heart" icon={faHeart} />
+              {el.heart}
+            </span>
+          </div>
+        </ProblemBoxQuizizz>
+      );
+    });
 
   return (
     <ProblemQuizBoxContainer>
-      <h2 className="problem__box__quiz__title">소예담 學堂</h2>
+      <h2 className="problem__box__quiz__title">{UserName.name}의 공간</h2>
       <ProblemBoxQuizizzContainer>
-        {SelectQuiz.length === 0 ? allDisplay : displayContents}
+        {MyNoteQuiz.length === 0 ? allDisplay : displayContents}
         <ReactPaginate
           previousLabel={'이전'}
           nextLabel={'다음'}
-          pageCount={SelectQuiz.length === 0 ? pageCount : FindPageCount}
+          pageCount={MyNoteQuiz.length === 0 ? pageCount : FindPageCount}
           onPageChange={changePage}
           containerClassName={'paginationBtn'}
           previousLinkClassName={'previousBtn'}

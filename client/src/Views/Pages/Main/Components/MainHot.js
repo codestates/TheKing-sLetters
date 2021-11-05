@@ -12,6 +12,7 @@ const MainHotContainer = styled.div`
   padding: 4% 6% 6%;
   box-sizing: border-box;
   background-color: #d7dbd1;
+  position: relative;
   .main__banner {
     width: 100%;
     box-sizing: border-box;
@@ -239,6 +240,27 @@ const MainHotContainer = styled.div`
       }
     }
   }
+
+  .custom-shape-divider-bottom-1636093019 {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+    line-height: 0;
+  }
+
+  .custom-shape-divider-bottom-1636093019 svg {
+    position: relative;
+    display: block;
+    width: calc(100% + 1.3px);
+    height: 80px;
+    transform: rotateY(180deg);
+  }
+
+  .custom-shape-divider-bottom-1636093019 .shape-fill {
+    fill: #fafafa;
+  }
 `;
 const settings = {
   //여기있는 settings값만 수정가능 'settings'자체를 수정할 순 없음
@@ -326,6 +348,19 @@ const MainHot = ({ MainHotData }) => {
             );
           })}
         </Slider>
+      </div>
+      <div class="custom-shape-divider-bottom-1636093019">
+        <svg
+          data-name="Layer 1"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 1200 120"
+          preserveAspectRatio="none"
+        >
+          <path
+            d="M741,116.23C291,117.43,0,27.57,0,6V120H1200V6C1200,27.93,1186.4,119.83,741,116.23Z"
+            class="shape-fill"
+          ></path>
+        </svg>
       </div>
     </MainHotContainer>
   );

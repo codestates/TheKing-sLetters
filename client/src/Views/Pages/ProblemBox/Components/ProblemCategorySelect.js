@@ -6,9 +6,10 @@ import dropDownIcon from '../Assets/dropdown-1.svg';
 const ProblemBoxCategoryContainer = styled.div`
   font-family: 'EBSHunminjeongeumSBA';
   width: 100%;
-  padding: 6%;
+  padding: 6% 6% 10% 6%;
   box-sizing: border-box;
-  background-color: #d7dbd1;
+  background-color: #fafafa;
+  position: relative;
   @media (max-width: 768px) {
     padding-top: 5rem;
   }
@@ -22,8 +23,9 @@ const ProblemBoxCategoryContainer = styled.div`
     font-size: 1.8em;
     padding-left: 1em;
     border-radius: 5px;
-    background-color: #93aca0;
+    background-color: #b6c3b6;
     margin-bottom: 2em;
+    letter-spacing: 2px;
   }
   > .problem_box_select_container {
     display: flex;
@@ -45,7 +47,6 @@ const ProblemBoxCategoryContainer = styled.div`
       > .dropdown_arrow {
         position: absolute;
         top: 40%;
-
         right: 12px;
         width: 12px;
         height: 12px;
@@ -53,9 +54,28 @@ const ProblemBoxCategoryContainer = styled.div`
       }
       :hover {
         cursor: pointer;
-        background-color: #93aca0;
+        background-color: #b6c3b6;
       }
     }
+  }
+  .custom-shape-divider-bottom-1636081866 {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+    line-height: 0;
+  }
+
+  .custom-shape-divider-bottom-1636081866 svg {
+    position: relative;
+    display: block;
+    width: calc(100% + 1.3px);
+    height: 50px;
+  }
+
+  .custom-shape-divider-bottom-1636081866 .shape-fill {
+    fill: #b6c3b6;
   }
 `;
 
@@ -63,9 +83,9 @@ const categoryDropDownListData = [
   '정치',
   '경제',
   '사회',
-  '스포츠',
-  'IT',
-  '과학',
+  '체육',
+  '정보기술',
+  '관광',
   '요리',
   '여행',
   '음악',
@@ -73,7 +93,7 @@ const categoryDropDownListData = [
 ];
 const quizTypeDropDownListData = ['텍스트 문제', '이미지 문제'];
 const answerTypeDropDownListData = ['OX 답안', '선다형 답안', '이미지 답안'];
-const scoreDropDownListData = ['1점', '2점', '3점', '4점', '5점'];
+const scoreDropDownListData = ['1냥', '2냥', '3냥', '4냥', '5냥'];
 
 const ProblemBoxCategorySelect = ({
   dataCategorySelect,
@@ -125,7 +145,7 @@ const ProblemBoxCategorySelect = ({
 
   return (
     <ProblemBoxCategoryContainer>
-      <h2 className="problem_box_categoty_title">카테고리</h2>
+      <h2 className="problem_box_categoty_title">문제 보관함</h2>
       <div className="problem_box_select_container">
         <div
           className="problem_box_select_box"
@@ -195,6 +215,19 @@ const ProblemBoxCategorySelect = ({
             dropDownWidth={dropDownWidth}
           ></ProblemDropDownList>
         </div>
+      </div>
+      <div class="custom-shape-divider-bottom-1636081866">
+        <svg
+          data-name="Layer 1"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 1200 120"
+          preserveAspectRatio="none"
+        >
+          <path
+            d="M985.66,92.83C906.67,72,823.78,31,743.84,14.19c-82.26-17.34-168.06-16.33-250.45.39-57.84,11.73-114,31.07-172,41.86A600.21,600.21,0,0,1,0,27.35V120H1200V95.8C1132.19,118.92,1055.71,111.31,985.66,92.83Z"
+            class="shape-fill"
+          ></path>
+        </svg>
       </div>
     </ProblemBoxCategoryContainer>
   );

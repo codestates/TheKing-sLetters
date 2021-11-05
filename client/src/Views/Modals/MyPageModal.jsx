@@ -521,11 +521,11 @@ export const ModalView = styled.div`
           </div>
 
           <div class="inputBox">
-            <input type="text" name="email" autocomplete="off" value={modifiedUserInfo.email} readonly required />
+            <input type="text" name="email" autoComplete="off" value={modifiedUserInfo.email} readonly required />
             <label>이메일</label>
           </div>
           <div class="inputBox">
-            <input type="text" name="text" autocomplete="off"  defaultValue={modifiedUserInfo.name} onChange={(e) => inputUserInfoHandler(e, 'name')} required />
+            <input type="text" name="text" autoComplete="off"  defaultValue={modifiedUserInfo.name} onChange={(e) => inputUserInfoHandler(e, 'name')} required />
             <label>이름</label>
           </div>
 
@@ -534,12 +534,12 @@ export const ModalView = styled.div`
           </div>
 
           <div class="inputBox">
-            <input type="password" name="password" onChange={(e) => inputUserInfoHandler(e, 'password')} autocomplete="off" required />
+            <input type="password" name="password" onChange={(e) => inputUserInfoHandler(e, 'password')} autoComplete="off" required />
             <label>비밀번호</label>
           </div> 
           
           <div class="inputBox">
-            <input type="password" name="passwordCheck" onChange={(e) => inputUserInfoHandler(e, 'passwordCheck')} autocomplete="off" required />
+            <input type="password" name="passwordCheck" onChange={(e) => inputUserInfoHandler(e, 'passwordCheck')} autoComplete="off" required />
             <label>비밀번호 확인</label>
           </div> 
 
@@ -549,7 +549,7 @@ export const ModalView = styled.div`
           </div>
 
           <div class="inputBox">
-            <input type="tel" name="tel" autocomplete="off" defaultValue={modifiedUserInfo.mobile} onChange={(e) => inputUserInfoHandler(e, 'mobile')} required />
+            <input type="tel" name="tel" autoComplete="off" defaultValue={modifiedUserInfo.mobile} onChange={(e) => inputUserInfoHandler(e, 'mobile')} required />
             <label>전화번호</label>
           </div>  
           
@@ -558,7 +558,7 @@ export const ModalView = styled.div`
           </div>
 
           <div class="inputBox" style={{margin: "-20 0"}}>
-            <input type="checkbox" id='scales' style={{bottom: "77px", marginTop: "-50px", marginLeft: "-233px", marginBottom: "100px"}} name="scales" autocomplete="off" checked readonly required />
+            <input type="checkbox" id='scales' style={{bottom: "77px", marginTop: "-50px", marginLeft: "-233px", marginBottom: "100px"}} name="scales" autoComplete="off" checked readonly required />
             <label>{modifiedUserInfo.gender}</label>
           </div> 
           

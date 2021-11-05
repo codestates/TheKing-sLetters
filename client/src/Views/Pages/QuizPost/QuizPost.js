@@ -73,7 +73,7 @@ const Post = () => {
   // 에러 메시지 저장
   const [isAnyMsg, setIsAnyMsg] = useState({});
   // 서버에 퀴즈를 전송하기 전에 퀴즈 데이터를 종합해서 저장
-  const [dataCollected, setDataCollected] = useState();
+  const [uploadLoading, setUploadLoading] = useState(false);
   // 퀴즈 데이터가 입력될 때 마다 유효성 검사, 모두 유효한 데이터면 true 아니면 false
   const [isReadyToSubmit, setIsReadyToSubmit] = useState(false);
 
@@ -109,22 +109,6 @@ const Post = () => {
     initialFetchUserData();
   }, []);
 
-  // 가공한 데이터가 state에 저장되면 서버에 업로드를 시도
-  useEffect(() => {
-    if (dataCollected) {
-      try {
-        // 서버에 업로드
-        uploadData(dataCollected);
-        // alert창을 띄움
-        alert('퀴즈를 성공적으로 등록했습니다');
-        // 페이지 새로고침
-        window.location.reload();
-      } catch (err) {
-        console.log(err);
-      }
-    }
-  }, [dataCollected]);
-
   // 퀴즈 데이터가 입력될 때 마다 유효성 검사를 실시, 썸네일은 유효성 검사를 하지 않음
   useEffect(() => {
     // 유효성 검사를 통과했다면 isReadyToSubmit을 true로 아니라면 false로
@@ -145,6 +129,8 @@ const Post = () => {
   // 사용자가 퀴즈 제출 버튼을 눌렀다면
   const submitHandler = async () => {
     try {
+      // 로딩 시작
+      setUploadLoading(true);
       // 유효성 검사가 통과되지 않았다면 바로 error 출력
       if (!isReadyToSubmit)
         throw new Error('퀴즈 데이터가 유효성 검사를 통과하지 못했습니다');
@@ -156,10 +142,18 @@ const Post = () => {
         dataCommentation,
         dataThumbnail
       );
-      // 가공한 데이터를 state에 저장
-      setDataCollected(refined);
+      // 데이터 업로드
+      const result = await uploadData(refined);
+      // alert창을 띄움
+      alert('퀴즈를 성공적으로 등록했습니다');
+      // 페이지 새로고침
+      // window.location.reload();
+      console.log(result);
     } catch (err) {
       console.log(err);
+    } finally {
+      // 로딩 종료
+      setUploadLoading(false);
     }
   };
 
@@ -196,6 +190,7 @@ const Post = () => {
           ></Commentation>
           <SubmitModal
             isReadyToSubmit={isReadyToSubmit}
+            uploadLoading={uploadLoading}
             submitHandler={submitHandler}
             dataThumbnail={dataThumbnail}
             setDataThumbnail={setDataThumbnail}

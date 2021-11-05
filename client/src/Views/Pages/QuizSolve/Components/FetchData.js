@@ -38,10 +38,13 @@ export const fetchSubmitAnswer = async (id, answer) => {
 };
 
 export const refineSubmitAnswer = async (data) => {
+  console.log(data.data.message);
   if (data.data.message === `correct answer!`) {
-    return { result: true };
-  } else if (data.data.message === `correct answer! but can't gain point`) {
-    return { result: true };
+    return { result: true, message: '포인트를 획득했습니다'};
+  } else if (data.data.message === `correct answer! but can't gain point(publish)`) {
+    return { result: true, message: '하지만 출제자는 자신의 문제로 포인트를 얻을 수 없습니다' };
+  } else if (data.data.message === `correct answer! but can't gain point(cleared)`) {
+    return { result: true, message: '하지만 이미 푼 문제로는 포인트를 얻을 수 없습니다'};
   } else if (data.data.message === `incorrect answer!`) {
     return { result: false };
   } else {

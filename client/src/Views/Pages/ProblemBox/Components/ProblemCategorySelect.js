@@ -1,18 +1,19 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import MainDropDownList from './MainTemplate/MainDropDownList';
+import ProblemDropDownList from './ProblemBoxTemplate/ProblemDropDownList';
 import dropDownIcon from '../Assets/dropdown-1.svg';
 
-const MainCategoryContainer = styled.div`
+const ProblemBoxCategoryContainer = styled.div`
   font-family: 'EBSHunminjeongeumSBA';
   width: 100%;
-  padding: 6%;
+  padding: 6% 6% 10% 6%;
   box-sizing: border-box;
   background-color: #fafafa;
+  position: relative;
   @media (max-width: 768px) {
     padding-top: 5rem;
   }
-  > .main_categoty_title {
+  > .problem_box_categoty_title {
     font-family: 'EBSHMJESaeronRA';
     display: flex;
     justify-content: flex-start;
@@ -22,14 +23,15 @@ const MainCategoryContainer = styled.div`
     font-size: 1.8em;
     padding-left: 1em;
     border-radius: 5px;
-    background-color: #93aca0;
+    background-color: #b6c3b6;
     margin-bottom: 2em;
+    letter-spacing: 2px;
   }
-  > .main_select_container {
+  > .problem_box_select_container {
     display: flex;
     align-items: center;
     flex-direction: column;
-    > .main_select_box {
+    > .problem_box_select_box {
       width: 100%;
       padding: 0.5% 0;
       margin-bottom: 1em;
@@ -45,7 +47,6 @@ const MainCategoryContainer = styled.div`
       > .dropdown_arrow {
         position: absolute;
         top: 40%;
-
         right: 12px;
         width: 12px;
         height: 12px;
@@ -53,9 +54,28 @@ const MainCategoryContainer = styled.div`
       }
       :hover {
         cursor: pointer;
-        background-color: #93aca0;
+        background-color: #b6c3b6;
       }
     }
+  }
+  .custom-shape-divider-bottom-1636081866 {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+    line-height: 0;
+  }
+
+  .custom-shape-divider-bottom-1636081866 svg {
+    position: relative;
+    display: block;
+    width: calc(100% + 1.3px);
+    height: 50px;
+  }
+
+  .custom-shape-divider-bottom-1636081866 .shape-fill {
+    fill: #b6c3b6;
   }
 `;
 
@@ -63,9 +83,9 @@ const categoryDropDownListData = [
   '정치',
   '경제',
   '사회',
-  '스포츠',
-  'IT',
-  '과학',
+  '체육',
+  '정보기술',
+  '관광',
   '요리',
   '여행',
   '음악',
@@ -73,9 +93,12 @@ const categoryDropDownListData = [
 ];
 const quizTypeDropDownListData = ['텍스트 문제', '이미지 문제'];
 const answerTypeDropDownListData = ['OX 답안', '선다형 답안', '이미지 답안'];
-const scoreDropDownListData = ['1점', '2점', '3점', '4점', '5점'];
+const scoreDropDownListData = ['1냥', '2냥', '3냥', '4냥', '5냥'];
 
-const MainCategorySelect = ({ dataCategorySelect, setDataCategorySelect }) => {
+const ProblemBoxCategorySelect = ({
+  dataCategorySelect,
+  setDataCategorySelect,
+}) => {
   const [selectedDropDown, setSelectedDropDown] = useState(0);
   const [dropDownWidth, setDropDownWidth] = useState(0);
 
@@ -121,11 +144,11 @@ const MainCategorySelect = ({ dataCategorySelect, setDataCategorySelect }) => {
   }, [selectedDropDown]);
 
   return (
-    <MainCategoryContainer>
-      <h2 className="main_categoty_title">카테고리</h2>
-      <div className="main_select_container">
+    <ProblemBoxCategoryContainer>
+      <h2 className="problem_box_categoty_title">문제 보관함</h2>
+      <div className="problem_box_select_container">
         <div
-          className="main_select_box"
+          className="problem_box_select_box"
           onClick={(e) => dropDownClickHandler(e, 1)}
         >
           <span className="select_title">
@@ -134,15 +157,15 @@ const MainCategorySelect = ({ dataCategorySelect, setDataCategorySelect }) => {
               : dataCategorySelect.categories}
           </span>
           <img className="dropdown_arrow" src={dropDownIcon} alt="화살표"></img>
-          <MainDropDownList
+          <ProblemDropDownList
             isDropDownOpen={selectedDropDown === 1 ? true : false}
             listData={categoryDropDownListData}
             clickValueHandler={clickValueHandler}
             dropDownWidth={dropDownWidth}
-          ></MainDropDownList>
+          ></ProblemDropDownList>
         </div>
         <div
-          className="main_select_box"
+          className="problem_box_select_box"
           onClick={(e) => dropDownClickHandler(e, 2)}
         >
           <span className="select_title">
@@ -151,15 +174,15 @@ const MainCategorySelect = ({ dataCategorySelect, setDataCategorySelect }) => {
               : dataCategorySelect.quizTypes}
           </span>
           <img className="dropdown_arrow" src={dropDownIcon} alt="화살표"></img>
-          <MainDropDownList
+          <ProblemDropDownList
             isDropDownOpen={selectedDropDown === 2 ? true : false}
             listData={quizTypeDropDownListData}
             clickValueHandler={clickValueHandler}
             dropDownWidth={dropDownWidth}
-          ></MainDropDownList>
+          ></ProblemDropDownList>
         </div>
         <div
-          className="main_select_box"
+          className="problem_box_select_box"
           onClick={(e) => dropDownClickHandler(e, 3)}
         >
           <span className="select_title">
@@ -168,15 +191,15 @@ const MainCategorySelect = ({ dataCategorySelect, setDataCategorySelect }) => {
               : dataCategorySelect.answerTypes}
           </span>
           <img className="dropdown_arrow" src={dropDownIcon} alt="화살표"></img>
-          <MainDropDownList
+          <ProblemDropDownList
             isDropDownOpen={selectedDropDown === 3 ? true : false}
             listData={answerTypeDropDownListData}
             clickValueHandler={clickValueHandler}
             dropDownWidth={dropDownWidth}
-          ></MainDropDownList>
+          ></ProblemDropDownList>
         </div>
         <div
-          className="main_select_box"
+          className="problem_box_select_box"
           onClick={(e) => dropDownClickHandler(e, 4)}
         >
           <span className="select_title">
@@ -185,16 +208,29 @@ const MainCategorySelect = ({ dataCategorySelect, setDataCategorySelect }) => {
               : dataCategorySelect.rewardPoints}
           </span>
           <img className="dropdown_arrow" src={dropDownIcon} alt="화살표"></img>
-          <MainDropDownList
+          <ProblemDropDownList
             isDropDownOpen={selectedDropDown === 4 ? true : false}
             listData={scoreDropDownListData}
             clickValueHandler={clickValueHandler}
             dropDownWidth={dropDownWidth}
-          ></MainDropDownList>
+          ></ProblemDropDownList>
         </div>
       </div>
-    </MainCategoryContainer>
+      <div class="custom-shape-divider-bottom-1636081866">
+        <svg
+          data-name="Layer 1"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 1200 120"
+          preserveAspectRatio="none"
+        >
+          <path
+            d="M985.66,92.83C906.67,72,823.78,31,743.84,14.19c-82.26-17.34-168.06-16.33-250.45.39-57.84,11.73-114,31.07-172,41.86A600.21,600.21,0,0,1,0,27.35V120H1200V95.8C1132.19,118.92,1055.71,111.31,985.66,92.83Z"
+            class="shape-fill"
+          ></path>
+        </svg>
+      </div>
+    </ProblemBoxCategoryContainer>
   );
 };
 
-export default MainCategorySelect;
+export default ProblemBoxCategorySelect;

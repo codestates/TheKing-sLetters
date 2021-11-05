@@ -528,7 +528,6 @@ export const ModalView = styled.div`
             <input type="text" name="text" autocomplete="off"  defaultValue={modifiedUserInfo.name} onChange={(e) => inputUserInfoHandler(e, 'name')} required />
             <label>이름</label>
           </div>
-
           <div className="vaildCheck">
           {!isVaildName ? <span className="span1">닉네임은 2자 ~ 10자, 영문, 한글, 숫자, 띄어쓰기만 <br/> 가능합니다.</span> : null}
           </div>
@@ -540,7 +539,7 @@ export const ModalView = styled.div`
           
           <div className="inputBox">
             <input type="password" name="passwordCheck" onChange={(e) => inputUserInfoHandler(e, 'passwordCheck')} autocomplete="off" required />
-            <label>비밀번호 확인</label>
+       <label>비밀번호 확인</label>
           </div> 
 
           <div className="vaildCheck">
@@ -548,7 +547,7 @@ export const ModalView = styled.div`
             {!isVaildPassword && isPasswordMatched ? <span className="span3">6~20자리 영문자, 최소 1개의 숫자 혹은 특수 문자를 포함한 <br/> 비밀번호를 입력해주세요.</span> : null}
           </div>
 
-          <div className="inputBox">
+\          <div className="inputBox">
             <input type="tel" name="tel" autocomplete="off" defaultValue={modifiedUserInfo.mobile} onChange={(e) => inputUserInfoHandler(e, 'mobile')} required />
             <label>전화번호</label>
           </div>  

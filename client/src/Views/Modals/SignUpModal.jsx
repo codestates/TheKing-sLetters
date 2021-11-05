@@ -400,7 +400,7 @@ const SignUpModal = ({ open, handleLogin, handleSignup }) => {
   };
 
   useEffect(() => {
-    console.log(inputUserInfo);
+    // console.log(inputUserInfo);
   }, [inputUserInfo]);
 
   return (
@@ -415,7 +415,7 @@ const SignUpModal = ({ open, handleLogin, handleSignup }) => {
       
             <div className="inputBox">
               <input type="email" name="email" onChange={(e) => inputValueHandler(e, 'email')} />
-              <label>이메일</label>
+            <label>이메일</label>
             </div>
 
             <div className="vaild-check-box">
@@ -424,7 +424,7 @@ const SignUpModal = ({ open, handleLogin, handleSignup }) => {
             
             <div className="inputBox">
               <input type="text" name="text" onChange={(e) => inputValueHandler(e, 'name')} required />
-              <label>이름</label>
+           <label>이름</label>
             </div>
 
             <div className="vaild-check-box">
@@ -433,7 +433,7 @@ const SignUpModal = ({ open, handleLogin, handleSignup }) => {
 
             <div className="inputBox">
               <input type="password" name="password" onChange={(e) => inputValueHandler(e, 'password')} required />
-              <label>비밀번호</label>
+               <label>비밀번호</label>
             </div>
 
             <div className="vaild-check-box">
@@ -442,7 +442,7 @@ const SignUpModal = ({ open, handleLogin, handleSignup }) => {
 
             <div className="inputBox">
               <input type="tel" name="tel" required onChange={(e) => inputValueHandler(e, 'mobile')} />
-              <label>전화번호</label>
+             <label>전화번호</label>
             </div>
 
             <div className="vaild-check-box">

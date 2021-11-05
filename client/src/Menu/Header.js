@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useState } from 'react';
-import {Link} from "react-router-dom"
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import SignInModal from '../Views/Modals/SignInModal';
 import SignUpModal from '../Views/Modals/SignUpModal';
@@ -125,19 +125,22 @@ const Header = () => {
   const [signupOpen, setSignupOpen] = useState(false) // 회원가입 모달 on off 관련 상태
   
   const logoutHandler = async () => {
-    await axios.get('https://api.thekingsletters.ml/signout', 
-    {headers : {
-      Authorization : `Bearer ${localStorage.getItem('accessToken')}`
-    }}).then((response)=> {
-      if(response.status === 200) {
-        localStorage.removeItem('accessToken')
-        setIsLogin(false);
-      }
-      
-    }).catch((response)=> {
-      console.log(response)
-    })
-  } 
+    await axios
+      .get('https://api.thekingsletters.ml/signout', {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+        },
+      })
+      .then((response) => {
+        if (response.status === 200) {
+          localStorage.removeItem('accessToken');
+          setIsLogin(false);
+        }
+      })
+      .catch((response) => {
+        console.log(response);
+      });
+  };
 
   const openModalHandler = () => {
     setLoginOpen(!loginOpen); // 로그인 모달 on 이벤트 
@@ -151,7 +154,6 @@ const Header = () => {
     setLoginOpen(false) // 로그인이 모달 off
     setSignupOpen(true) // 회원가입 모달 on 
   }
-
   const handleButtonClick = () => {
     let nav = document.querySelector('nav');
     let menuBtn = document.querySelector('.menu-btn');
@@ -166,41 +168,54 @@ const Header = () => {
         </div>
         <NavBarMenu className="navbar__menu">
           <li>
-            <a><Link to="/" style={{color: 'black'}}>홈페이지</Link></a>
+            <Link to="/" style={{ color: 'black' }}>
+              홈페이지
+            </Link>
           </li>
           <li>
-            <a><Link to="/main" style={{color: 'black'}}>풀이 페이지</Link></a>
+            <Link to="/main" style={{ color: 'black' }}>
+              풀이 페이지
+            </Link>
           </li>
           <li>
-            <a><Link to="/quizpost" style={{color: 'black'}}>문제 출제하기</Link></a>
+            <Link to="/quizpost" style={{ color: 'black' }}>
+              문제 출제하기
+            </Link>
           </li>
           <li>
-            <a>오답 페이지</a>
+            <Link to="/mynote" style={{ color: 'black' }}>
+              문제 보관함
+            </Link>
           </li>
           <li>
-            <a><Link to={{pathname: `/mypage`,
-          state : {
-            isLogin: isLogin
-          }
-          }} style={{color: 'black'}}>마이 페이지</Link></a>
+            <Link
+              to={{
+                pathname: `/mypage`,
+                state: {
+                  isLogin: isLogin,
+                },
+              }}
+              style={{ color: 'black' }}
+            >
+              마이 페이지
+            </Link>
           </li>
         </NavBarMenu>
         <NavBarUser className="navbar__user">
           {isLogin === false ? (
             <>
-            <li onClick={openModalHandler}>
-              {loginOpen === false ? '로그인' : '로그인'}
-            </li>
-            <li onClick={handleSignup}>
-              {signupOpen === false ? '회원가입' : '회원가입'}
-            </li>
-            </>)
-          :
-          ( <>
-            <li onClick={logoutHandler}>로그아웃</li>
+              <li onClick={openModalHandler}>
+                {loginOpen === false ? '로그인' : '로그인'}
+              </li>
+              <li onClick={handleSignup}>
+                {signupOpen === false ? '회원가입' : '회원가입'}
+              </li>
             </>
-          )
-          }
+          ) : (
+            <>
+              <li onClick={logoutHandler}>로그아웃</li>
+            </>
+          )}
         </NavBarUser>
       </NavBar>
       <SignInModal 
@@ -214,7 +229,7 @@ const Header = () => {
       <SignUpModal 
       open={signupOpen} 
       handleSignup={handleSignup} 
-      handleLogin={handleLogin}
+      handleLogin={handleLogin} 
       />
 
       <NavBarToggle>
@@ -240,23 +255,21 @@ const Header = () => {
               <a href="#">내 정보 페이지</a>
             </li>
             {isLogin === false ? (
-            <>
-            <li className="link" onClick={openModalHandler}>
-              {loginOpen === false ? <a>로그인</a> : <a>로그인</a>}
-            </li>
-            <li className="link" onClick={handleSignup}>
-              {signupOpen === false ? <a>회원가입</a> : <a>회원가입</a>}
-            </li>
-            </>)
-          :
-          ( <>
-            <li onClick={logoutHandler} className="link">
-              <a>로그아웃</a>
-            </li>
-            </>
-          )
-          }
-
+              <>
+                <li className="link" onClick={openModalHandler}>
+                  {loginOpen === false ? <a>로그인</a> : <a>로그인</a>}
+                </li>
+                <li className="link" onClick={handleSignup}>
+                  {signupOpen === false ? <a>회원가입</a> : <a>회원가입</a>}
+                </li>
+              </>
+            ) : (
+              <>
+                <li onClick={logoutHandler} className="link">
+                  <a>로그아웃</a>
+                </li>
+              </>
+            )}
           </NavLinks>
         </Nav>
       </NavBarToggle>

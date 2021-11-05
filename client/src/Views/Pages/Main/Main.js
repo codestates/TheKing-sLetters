@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import MainHot from './Components/MainTemplate/MainHot';
+import MainHot from './Components/MainHot';
 import MainCategorySelect from './Components/MainCategorySelect';
 import MainQuiz from './Components/MainQuiz';
 import axios from 'axios';
@@ -17,7 +17,6 @@ const Main = () => {
     rewardPoints: '',
   });
   const [MainHotData, setMainHotData] = useState([]);
-  const [SelectData, setSelectData] = useState([]);
 
   useEffect(() => {
     getMainHotQuiz();
@@ -46,8 +45,6 @@ const Main = () => {
       <MainQuiz
         dataCategorySelect={dataCategorySelect}
         MainHotData={MainHotData}
-        SelectData={SelectData}
-        setSelectData={setSelectData}
       />
     </MainContainer>
   );

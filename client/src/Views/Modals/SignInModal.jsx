@@ -223,14 +223,14 @@ const SignInModal = ({ setIsLogin, open, openModalHandler, handleSignup, signupO
               </SigninTitle>
               <form onSubmit={(e) => e.preventDefault()}>      
                 <div className="inputBox">
-                  <input type="email" name="user email" required 
+                  <input type="email" name="user email" required  
                   onChange={handleInputValue('email')}
                   />
                   <label>이메일</label>
                 </div>
                 <div className="inputBox">
                   <input type="password" name="password" required 
-                  onChange={handleInputValue('password')} 
+             onChange={handleInputValue('password')} 
                   />
                   <label>비밀번호</label>
                 </div>  

@@ -210,15 +210,13 @@ const MasterLoginModal = ({ isOpen, openModalHandler
               <h1 align="center">로그인</h1>
               <form onSubmit={(e) => e.preventDefault()}>      
                 <div className="inputBox">
-                  <input type="text" name="user email" 
-                  required 
+                  <input type="text" name="user email" required                
                   onChange={handleInputValue('email')}
                   />
                   <label>이메일</label>
                 </div>
                 <div className="inputBox">
-                  <input type="password" name="password" 
-                  required 
+                  <input type="password" name="password" required 
                   onChange={handleInputValue('password')} 
                   />
                   <label>비밀번호</label>

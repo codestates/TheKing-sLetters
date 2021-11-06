@@ -164,13 +164,8 @@ margin: auto;
 border-color: black;
 `;
 
-<<<<<<< HEAD
-const SignInModal = ({ setIsLogin, open, openModalHandler, handleSignup, signupOpen, handleLogin, SignInClick }) => {
-  
-=======
 const SignInModal = ({ setIsLogin, open, openModalHandler, handleSignup, signupOpen, handleLogin }) => {
   const dispatch = useUserDispatch();
->>>>>>> cd13d9195ff617d1b3da1803d16753707b9e03aa
   const [loginInfo, setLoginInfo] = useState({
     email: '',
     password: '',

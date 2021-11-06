@@ -23,29 +23,33 @@ const ItemContainerWrapper = styled.div`
   /* flex 설정 */
   display: flex;
   flex-wrap: wrap;
-  justify-content: left;
+  justify-content: space-between;
   gap: 2em;
 
   > .item_container {
     position: relative;
     border: 1px solid rgba(0, 0, 0, 0.3);
     border-radius: 5px;
-    width: 30%;
-    height: auto;
-    > .item_image_container {
-      margin: 1% 1% 1% 1%;
+    padding: 0.5% 0.5% 0.5% 0.5%;
+    width: 20em;
+    height: 33em;
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    > .image_container {
       background-color: gray;
+      margin: 0px 0px 3px 0px;
+      border: none;
       border-radius: 5px;
-      width: auto;
-      max-width: 100%;
-      height: auto;
+      outline: 1px dotted black;
+      width: 260px;
+      height: 260px;
       overflow: hidden;
-      > .item_image {
-        width: 100%;
-        height: 100%;
-      }
     }
-
+    > .image_container .item_image {
+      width: 100%;
+      height: 100%;
+    }
     > .item_selected_msg {
       position: absolute;
       top: -1.5em;
@@ -118,7 +122,7 @@ const ItemDisplay = ({items, setItems}) => {
           return (
           <div className={el.selected !== 0 ? "item_container selected" : "item_container"} key={idx.toString()}>
             {el.selected !== 0 ? <span className="item_selected_msg">선택함</span> : null}
-            <div className="item_image_container">
+            <div className="image_container">
               <img className="item_image" src={el.image || defaultImage} alt="상품 이미지"></img>
             </div>
             <div className="item_name">

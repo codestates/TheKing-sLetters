@@ -110,6 +110,7 @@ const CheckAnswer = ({quizData, isCorrectAnswer}) => {
 					<div className="commentation_container_result">
 						<img src={incorrectIcon} alt="오답 아이콘"></img>
 						<p className="result_msg_wrong">오답입니다!</p>
+						<p>{isCorrectAnswer.message}</p>
 					</div>
 					<textarea className="commentation_container_bottom" defaultValue={quizData.answerComment} readOnly></textarea>
 					<button className="add_wrong_sheet_button">오답노트에 추가하기</button>

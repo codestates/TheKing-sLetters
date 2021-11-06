@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import SignUpModal from './SignUpModal'
 import axios from 'axios';
+import { useUserDispatch } from '../../context/UserContext';
 
 const ModalBackdrop = styled.div`
   position: fixed;
@@ -163,8 +164,13 @@ margin: auto;
 border-color: black;
 `;
 
+<<<<<<< HEAD
 const SignInModal = ({ setIsLogin, open, openModalHandler, handleSignup, signupOpen, handleLogin, SignInClick }) => {
   
+=======
+const SignInModal = ({ setIsLogin, open, openModalHandler, handleSignup, signupOpen, handleLogin }) => {
+  const dispatch = useUserDispatch();
+>>>>>>> cd13d9195ff617d1b3da1803d16753707b9e03aa
   const [loginInfo, setLoginInfo] = useState({
     email: '',
     password: '',
@@ -175,9 +181,9 @@ const SignInModal = ({ setIsLogin, open, openModalHandler, handleSignup, signupO
   };
 
   const loginHandler = async (e) => {
-      e.preventDefault(); 
+    e.preventDefault(); 
 
-    const URL = `http://ec2-13-209-96-200.ap-northeast-2.compute.amazonaws.com/login`;
+    const URL = `https://api.thekingsletters.ml/login`;
     const PAYLOAD = {
       email: loginInfo.email,
       password: loginInfo.password,
@@ -188,18 +194,35 @@ const SignInModal = ({ setIsLogin, open, openModalHandler, handleSignup, signupO
     let response = null;
     try {
       response = await axios.post(URL, PAYLOAD, OPTION);
-      console.log('POST /user/login 요청에 성공했습니다.');
+      if (response.status === 200) {
+        const data = response.data.data.userData;
+        const token = response.data.data.accessToken;
+        localStorage.setItem('accessToken', token);
+        dispatch({type: "USER_LOGIN"});
+        dispatch({
+          type: "SET_USER_DATA",
+          userData: {
+            email: data.email || "0",
+            gender: data.gender || "0",
+            image: data.image || "0",
+            mobile: data.mobile || "0",
+            name: data.name || "",
+            mileage: data.mileage || "0",
+            rank: data.rank || "0",
+            createdAt: data.createdAt || "0",
+            updatedAt: data.updatedAt || "0"
+          }
+        });
+        setIsLogin(true);
+        openModalHandler();
+      }
+      console.log('POST /login 요청에 성공했습니다.');
     } catch(error) {
       response = error.response;
-      alert("이메일과 비밀번호를 확인하세요.")
-      console.log('POST /user/login 요청에 실패했습니다.');
-      console.log(response);
+      alert("이메일과 비밀번호를 확인하세요.");
+      console.log('POST /login 요청에 실패했습니다.');
     } finally {
-      if (response.status === 200) {
-        localStorage.setItem('accessToken', response.data.data.accessToken);
-        setIsLogin(true)
-        openModalHandler()
-      }
+      console.log(response);
     }
   };
 

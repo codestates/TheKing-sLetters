@@ -136,6 +136,7 @@ const Header = () => {
       })
       .then((response) => {
         if (response.status === 200) {
+          window.location='/'
           localStorage.removeItem('accessToken');
           setIsLogin(false);
         }
@@ -205,6 +206,15 @@ const Header = () => {
             </>
           ) : (
             <>
+                <li>
+                  <Link
+                    to={{ pathname: `/mypage`,
+                    state: { isLogin: isLogin, }, }}
+                    style={{ color: 'black' }}
+                  >
+                    마이 페이지
+                  </Link>
+              </li>
               <li onClick={logoutHandler}>로그아웃</li>
             </>
           )}

@@ -222,16 +222,6 @@ const SignInModal = ({ setIsLogin, open, openModalHandler, handleSignup, signupO
   };
 
 
-  // const handleDummy = () => {
-
-  //   if(SignInClick){
-  //     let modalBackDrop = document.querySelector('.modal__back__drop')
-  //     modalBackDrop.classList.add('.active')
-  //   }  
-  // }
-  
-
-
   return (
     <>
         {open === true ? 

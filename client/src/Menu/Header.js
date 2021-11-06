@@ -126,7 +126,6 @@ const Header = () => {
   const [isLogin, setIsLogin] = useState(false);
   const [loginOpen, setLoginOpen] = useState(false); //로그인모달 on off 관련상태
   const [signupOpen, setSignupOpen] = useState(false); // 회원가입 모달 on off 관련 상태
-  const [SignInClick, setSignInClick] = useState(false);
 
   const logoutHandler = async () => {
     await axios
@@ -174,12 +173,6 @@ const Header = () => {
     menuBtn.classList.toggle('close');
   };
 
-  const handleSignInClick = (e) => {
-    if (`${typeof e.target}` === 'object') {
-      setSignInClick(!SignInClick);
-    }
-  };
-
   return (
     <div>
       <NavBar>
@@ -203,7 +196,7 @@ const Header = () => {
         <NavBarUser className="navbar__user">
           {isLogin === false ? (
             <>
-              <li onClick={(openModalHandler, handleSignInClick)}>
+              <li onClick={openModalHandler}>
                 {loginOpen === false ? '로그인' : '로그인'}
               </li>
               <li onClick={handleSignup}>
@@ -220,7 +213,6 @@ const Header = () => {
       <SignInModal
         open={loginOpen}
         openModalHandler={openModalHandler}
-        SignInClick={SignInClick}
         handleSignup={handleSignup}
         signupOpen={signupOpen}
         handleLogin={handleLogin}

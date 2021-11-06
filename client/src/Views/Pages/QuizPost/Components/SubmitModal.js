@@ -81,25 +81,25 @@ const ModalSubmitView = styled.div`
     flex-direction: row;
     justify-content: center;
     gap: 1em;
-    margin-top: 1.5rem;
+    margin-top: 0.7rem;
   }
   > .modal_button_container .modal_confirm_yes {
     font-family: 'EBSHMJESaeronRA';
     width: 30%;
-    border: 1px solid #303030;
-    background-color: transparent;
-    color: #303030;
+    color: #fafafa;
     font-weight: 500;
     border-radius: 6px;
     padding: 8px 18px;
     font-size: 1rem;
     letter-spacing: 1px;
+    border: 1px solid #0066ff;
+    background-color: #0066ff;
   }
   > .modal_button_container .modal_confirm_yes:hover {
     cursor: pointer;
-    border: 1px solid #0066ff;
-    background-color: #0066ff;
-    color: #fafafa;
+    border: 1px solid #303030;
+    background-color: transparent;
+    color: #303030;
     transition: all 0.4s ease;
   }
   > .modal_button_container .modal_confirm_no {

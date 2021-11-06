@@ -20,7 +20,7 @@ const ModalBackgroundBlur = styled.div`
 const ModalButton = styled.button`
   border: none;
   width: 100%;
-  height: inherit;
+  height: 100%;
   font-size: 1rem;
   font-weight: 500;
   box-sizing: border-box;
@@ -28,16 +28,19 @@ const ModalButton = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
+  transition: all 0.4s ease;
+  letter-spacing: 2px;
   :hover {
     cursor: pointer;
-    background-color: rgba(0, 0, 0, 0.3);
+    color: #fafafa;
   }
 `;
 
 const ModalView = styled.div`
   position: relative;
   border-radius: 10px;
-  width: 40%;
+  margin: 0 1.5rem;
+  max-width: 50%;
   padding: 5rem 0;
   background-color: #fafafa;
   display: flex;
@@ -54,61 +57,64 @@ const ModalView = styled.div`
   }
   > .image_cropper_buttons {
     position: absolute;
-    bottom: 1em;
+    bottom: 1.3em;
     width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 1em;
 
     > .confirm_button {
-      border: none;
-      border-radius: 8px;
-      width: 40%;
-      height: 2em;
+      border: 1px solid rgba(77, 109, 254, 0.9);
+      border-radius: 6px;
+      padding: 8px 18px;
       font-size: 1.2em;
-      line-height: 2em;
-      color: white;
-      background-color: rgba(77, 109, 254, 1);
+      line-height: 1.2em;
+      color: #fafafa;
+      margin-right: 2rem;
+      background-color: rgba(77, 109, 254, 0.9);
+      transition: all 0.4s ease;
+      letter-spacing: 2px;
     }
     > .confirm_button:hover {
       cursor: pointer;
-      background-color: rgba(31, 29, 54, 0.5);
+      background-color: #0066ff;
+      border: 1px solid #0066ff;
     }
     > .cancel_button {
-      border: none;
-      border-radius: 8px;
-      width: 15%;
-      height: 2em;
+      border: 1px solid #303030;
+      border-radius: 6px;
+      padding: 8px 18px;
       font-size: 1.2em;
-      line-height: 2em;
-      color: white;
-      background-color: rgba(77, 109, 254, 0.6);
+      line-height: 1.2em;
+      color: #303030;
+      background-color: transparent;
+      letter-spacing: 2px;
+      transition: all 0.4s ease;
     }
     > .cancel_button:hover {
       cursor: pointer;
-      background-color: rgba(31, 29, 54, 0.5);
+      color: #fafafa;
+      background-color: #303030;
     }
+  }
+  @media (max-width: 768px) {
+    max-width: 100%;
   }
 `;
 
 const ImageUpload = styled.div`
   width: 100%;
-  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 5%;
+
   > .upload_label_icon {
-    max-width: 60%;
-    max-height: 60%;
+    max-width: 80%;
     > .upload_icon {
-      border: 1px dashed rgba(0, 0, 0, 0.5);
       border-radius: 10px;
-      max-width: 80%;
-      max-height: 80%;
-      padding: 10% 10% 10% 10%;
+      border: 1px dashed rgba(0, 0, 0, 0.5);
+      background-size: cover;
     }
     :hover {
       cursor: pointer;
@@ -118,38 +124,46 @@ const ImageUpload = styled.div`
     width: 100%;
     display: flex;
     justify-content: center;
-    gap: 1em;
+    align-items: center;
+    margin-top: 1.5rem;
     > .upload_button_label {
+      font-family: 'EBSHMJESaeronRA';
       position: relative;
-      width: 20%;
-      min-height: 2em;
       border-radius: 10px;
-      text-align: center;
-      line-height: 2em;
-      color: white;
-      background-color: rgba(77, 109, 254, 1);
+      margin-right: 2rem;
+      padding: 8px 18px;
+      color: #fafafa;
+      letter-spacing: 3px;
+      font-size: 1.2em;
+      line-height: 1.2em;
+      background-color: rgba(77, 109, 254, 0.9);
+      border: 1px solid rgba(77, 109, 254, 0.9);
+      transition: all 0.4s ease;
     }
     > .upload_button_label:hover {
       cursor: pointer;
-      background-color: rgba(0, 0, 0, 0.5);
-      color: white;
+      background-color: #0066ff;
+      border: 1px solid #0066ff;
     }
+
     > .upload_button_cancel {
+      font-family: 'EBSHMJESaeronRA';
       position: relative;
-      width: 10%;
-      min-height: 2em;
       border-radius: 10px;
-      text-align: center;
-      line-height: 2em;
-      color: black;
-      background-color: rgba(77, 109, 254, 0.6);
-      box-shadow: none;
-      border: none;
+      padding: 8px 18px;
+      color: #303030;
+      letter-spacing: 3px;
+      font-size: 1.2em;
+      line-height: 1.2em;
+      background-color: transparent;
+      border: 1px solid #303030;
+      transition: all 0.4s ease;
     }
     > .upload_button_cancel:hover {
       cursor: pointer;
-      background-color: rgba(0, 0, 0, 0.5);
-      color: white;
+      background-color: #303030;
+      border: 1px solid #303030;
+      color: #fafafa;
     }
   }
 
@@ -157,7 +171,6 @@ const ImageUpload = styled.div`
     position: absolute;
     left: 0;
     width: 100%;
-    height: 100%;
     opacity: 0;
   }
 `;

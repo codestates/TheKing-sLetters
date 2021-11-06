@@ -23,6 +23,9 @@ const NavBar = styled.div`
   }
   @media (max-width: 768px) {
     justify-content: right;
+    > .navbar__logo {
+      z-index: 1;
+    }
   }
 `;
 
@@ -121,9 +124,10 @@ const NavBarToggle = styled.div`
 
 const Header = () => {
   const [isLogin, setIsLogin] = useState(false);
-  const [loginOpen, setLoginOpen] = useState(false) //로그인모달 on off 관련상태 
-  const [signupOpen, setSignupOpen] = useState(false) // 회원가입 모달 on off 관련 상태
-  
+  const [loginOpen, setLoginOpen] = useState(false); //로그인모달 on off 관련상태
+  const [signupOpen, setSignupOpen] = useState(false); // 회원가입 모달 on off 관련 상태
+  const [SignInClick, setSignInClick] = useState(false);
+
   const logoutHandler = async () => {
     await axios
       .get('https://api.thekingsletters.ml/signout', {
@@ -143,68 +147,63 @@ const Header = () => {
   };
 
   const openModalHandler = () => {
-    setLoginOpen(!loginOpen); // 로그인 모달 on 이벤트 
+    setLoginOpen(!loginOpen); // 로그인 모달 on 이벤트
   };
-  
-  const handleLogin = (event) => { //회원가입 모달 off 이벤트
-    setSignupOpen(false)
-  }
-  
-  const handleSignup = (event) => { //로그인 모달 안에서 회원가입 모달 on 이벤트 
-    setLoginOpen(false) // 로그인이 모달 off
-    setSignupOpen(true) // 회원가입 모달 on 
-  }
+
+  const handleLogin = (event) => {
+    //회원가입 모달 off 이벤트
+    setSignupOpen(false);
+  };
+
+  const handleSignup = (event) => {
+    //로그인 모달 안에서 회원가입 모달 on 이벤트
+    setLoginOpen(false); // 로그인이 모달 off
+    setSignupOpen(true); // 회원가입 모달 on
+  };
   const handleButtonClick = () => {
     let nav = document.querySelector('nav');
     let menuBtn = document.querySelector('.menu-btn');
     nav.classList.toggle('nav-open');
     menuBtn.classList.toggle('close');
   };
+
+  const handleLinkClick = () => {
+    let nav = document.querySelector('nav');
+    let menuBtn = document.querySelector('.menu-btn');
+    nav.classList.toggle('nav-open');
+    menuBtn.classList.toggle('close');
+  };
+
+  const handleSignInClick = (e) => {
+    if (`${typeof e.target}` === 'object') {
+      setSignInClick(!SignInClick);
+    }
+  };
+
   return (
     <div>
       <NavBar>
         <div className="navbar__logo">
-          <a>나랏말싸미</a>
+          <Link to="/">나랏말싸미</Link>
         </div>
         <NavBarMenu className="navbar__menu">
           <li>
-            <Link to="/" style={{ color: 'black' }}>
-              홈페이지
-            </Link>
+            <Link to="/main">소예담 학당</Link>
           </li>
           <li>
-            <Link to="/main" style={{ color: 'black' }}>
-              풀이 페이지
-            </Link>
+            <Link to="/quizpost">소예담 문제등록</Link>
           </li>
           <li>
-            <Link to="/quizpost" style={{ color: 'black' }}>
-              문제 출제하기
-            </Link>
+            <Link to="/mynote">소예담 서재</Link>
           </li>
           <li>
-            <Link to="/mynote" style={{ color: 'black' }}>
-              문제 보관함
-            </Link>
-          </li>
-          <li>
-            <Link
-              to={{
-                pathname: `/mypage`,
-                state: {
-                  isLogin: isLogin,
-                },
-              }}
-              style={{ color: 'black' }}
-            >
-              마이 페이지
-            </Link>
+            <Link to="/mileageshop">저잣거리</Link>
           </li>
         </NavBarMenu>
         <NavBarUser className="navbar__user">
           {isLogin === false ? (
             <>
-              <li onClick={openModalHandler}>
+              <li onClick={(openModalHandler, handleSignInClick)}>
                 {loginOpen === false ? '로그인' : '로그인'}
               </li>
               <li onClick={handleSignup}>
@@ -218,18 +217,19 @@ const Header = () => {
           )}
         </NavBarUser>
       </NavBar>
-      <SignInModal 
-      open={loginOpen} 
-      openModalHandler={openModalHandler} 
-      handleSignup={handleSignup} 
-      signupOpen={signupOpen} 
-      handleLogin={handleLogin} 
-      setIsLogin={setIsLogin}
+      <SignInModal
+        open={loginOpen}
+        openModalHandler={openModalHandler}
+        SignInClick={SignInClick}
+        handleSignup={handleSignup}
+        signupOpen={signupOpen}
+        handleLogin={handleLogin}
+        setIsLogin={setIsLogin}
       />
-      <SignUpModal 
-      open={signupOpen} 
-      handleSignup={handleSignup} 
-      handleLogin={handleLogin} 
+      <SignUpModal
+        open={signupOpen}
+        handleSignup={handleSignup}
+        handleLogin={handleLogin}
       />
 
       <NavBarToggle>
@@ -240,19 +240,22 @@ const Header = () => {
             <div className="line line__3"></div>
           </MenuBtn>
 
-          <NavLinks className="nav-links">
-            <h1 className="title">나랏말싸미</h1>
+          <NavLinks className="nav-links" onClick={handleLinkClick}>
+            <Link to="/" className="title">
+              나랏말싸미
+            </Link>
+
             <li className="link">
-              <a href="#">홈 페이지</a>
+              <Link to="/main">소예담 학당</Link>
             </li>
             <li className="link">
-              <a href="#">풀이 페이지</a>
+              <Link to="/quizpost">소예담 문제등록</Link>
             </li>
             <li className="link">
-              <a href="#">오답 페이지</a>
+              <Link to="/mynote">소예담 서재</Link>
             </li>
             <li className="link">
-              <a href="#">내 정보 페이지</a>
+              <Link to="/mileageshop">저잣거리</Link>
             </li>
             {isLogin === false ? (
               <>
@@ -388,7 +391,7 @@ const NavLinks = styled.ul`
     &:hover {
       background-color: #222;
       transition: all 0.35s ease-in-out;
-      > a {
+      > Link {
         color: #fff;
       }
     }
@@ -396,7 +399,7 @@ const NavLinks = styled.ul`
 
   > .title {
     position: absolute;
-    top: -40%;
+    top: -30%;
     left: 0;
     font-size: 50px;
     text-align: center;

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 
 /* Page */
@@ -8,12 +8,11 @@ import LandingPage from './Views/Pages/Landing/LandingPage';
 import Mypage from './Views/Pages/MyPage/MyPage';
 import Main from './Views/Pages/Main/Main';
 import QuizPost from './Views/Pages/QuizPost/QuizPost';
+import MileageShop from './Views/Pages/MileageShop/MileageShop';
 import Admin from './Views/Pages/Admin/AdminPage';
 import ProblemBox from './Views/Pages/ProblemBox/ProblemBox';
 
 function App() {
-  const [AdminLogin, setAdminLogin] = useState([]);
-
   return (
     <>
       <Header />
@@ -22,6 +21,7 @@ function App() {
         <Route exact path="/main" component={Main}></Route>
         <Route exact path="/mypage" component={Mypage}></Route>
         <Route exact path="/quizpost" component={QuizPost}></Route>
+        <Route exact path="/mileageshop" component={MileageShop}></Route>
         <Route exact path="/admin" component={Admin}></Route>
         <Route exact path="/mynote" component={ProblemBox}></Route>
       </Switch>

@@ -15,7 +15,6 @@ const MainDropDownListContainer = styled.ul`
     /* 폰트 설정 */
     font-family: 'EBSHMJESaeronRA';
     font-size: 0.8em;
-
     text-align: left;
     /* 박스 설정 */
     padding: 0.5em 1.2em;

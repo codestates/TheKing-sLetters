@@ -17,6 +17,7 @@ const ProblemQuizBoxContainer = styled.div`
     font-size: 2rem;
     border-bottom: 2px solid #303030;
     margin: 0 0.8rem 1rem 0.8rem;
+    letter-spacing: 3px;
   }
   @media (max-width: 786px) {
     > .problem__box__quiz__title {
@@ -247,7 +248,7 @@ const ProblemQuizBox = ({ dataCategorySelect, myNote, UserName }) => {
       heart: el.heart,
     };
   });
-  console.log(UserName);
+
   const [MyNoteQuiz, setMyNoteQuiz] = useState([]);
   const [MyNoteAll, setMyNoteAll] = useState(0);
 
@@ -324,7 +325,7 @@ const ProblemQuizBox = ({ dataCategorySelect, myNote, UserName }) => {
 
   return (
     <ProblemQuizBoxContainer>
-      <h2 className="problem__box__quiz__title">{UserName.name}의 공간</h2>
+      <h2 className="problem__box__quiz__title">{UserName.name}의 西齋</h2>
       <ProblemBoxQuizizzContainer>
         {MyNoteQuiz.length === 0 ? allDisplay : displayContents}
         <ReactPaginate

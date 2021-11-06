@@ -57,6 +57,13 @@ module.exports = async (req, res) => {
     //   })
     // })
 
+    const sendUserData = {
+      id: userData.id,
+      name: userData.name,
+      email: userData.email,
+      image: userData.image
+    }
+
     if(myNote.length <= 0) {
       res.status(200).send("my note is empty")
     }
@@ -71,6 +78,6 @@ module.exports = async (req, res) => {
       n--
     }
 
-    res.status(200).json({ data: { myNote } })
+    res.status(200).json({ data: { userData: sendUserData, myNote } })
   }
 }

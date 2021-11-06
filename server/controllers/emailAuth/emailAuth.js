@@ -23,6 +23,6 @@ module.exports = async (req, res) => {
         verifyKey: verifyKey
       })
     })
-    res.redirect(`http://${req.get('host')}`)
+    res.redirect(`https://thekingsletters.ml`)
   }
 }

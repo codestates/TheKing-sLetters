@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 // import "./Modal.css";
 import styled from 'styled-components';
 import axios from 'axios';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faWindowClose } from "@fortawesome/free-solid-svg-icons";
 
 const ModalBackground = styled.div`
   position: fixed;
@@ -38,9 +40,11 @@ const TitleCloseBtn = styled.div`
 display: flex;
   justify-content: flex-end;
   > button {
-    background-color: transparent;
+  position: relative;
+  bottom: 12px;
+  background-color: transparent;
   border: none;
-  font-size: 25px;
+  font-size: 20px;
   cursor: pointer;
   }
   `;
@@ -50,7 +54,7 @@ const Title = styled.div`
 display: inline-block;
   text-align: center;
   margin-top: 10px;  
-  > h1 {
+  > h1 {    
     font-size: 40px;
     margin: -5%;
   }
@@ -60,24 +64,30 @@ display: inline-block;
     height: 205px;
     border: 1px solid black;
     margin-top: 40px;
-    /* padding: 5%; */
     font-size: 20px;
     border-radius: 12px;
     margin-bottom: 10px;
-    display: flex;
-    flex-direction: column;
-    > div {
-      >  span {
-      padding: 50px;
-    }
-    }
    
-    /* > div {
-      padding: 10px;
-      background-color: #7fa57f;
-      color: white;
-      
-    } */
+    > div {
+      display: flex;
+      justify-content: space-between;
+     > .class {
+       position: relative;
+       left: 80px;
+     }
+
+     > .name {
+       position: relative;
+       left: 15px;
+       
+     }
+
+     > .mileage {
+       position: relative;
+       left: -65px;
+     }
+
+   }    
   }
   `;
  const Body = styled.div`
@@ -188,7 +198,7 @@ const Modal6 = ({ setOpenModal }) => {
               setOpenModal(false);
             }}
           >
-            X
+            <FontAwesomeIcon icon={faWindowClose} size="2x" ></FontAwesomeIcon>
           </button>
         </TitleCloseBtn>
         <Title>
@@ -196,9 +206,7 @@ const Modal6 = ({ setOpenModal }) => {
           <div>
           {rank.map((el, i)=> 
             <div key={i}>
-              {console.log(i)}              
-              <span>{i+1}</span>
-              <span>아이콘</span>              
+              <span className="class">{i+1}</span>
               <span className="name">{el.name}</span>
               <span className="mileage">{el.mileage}</span>            
             </div>

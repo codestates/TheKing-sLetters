@@ -15,6 +15,7 @@ const MainQuizContainer = styled.div`
     font-size: 2rem;
     border-bottom: 2px solid #303030;
     margin: 0 0.8rem 1rem 0.8rem;
+    letter-spacing: 3px;
   }
   @media (max-width: 786px) {
     > .main__quiz__title {
@@ -154,6 +155,10 @@ const MainQuizizz = styled.div`
     .main__quiz {
       > span {
         font-size: 1.3em;
+        height: 150px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
       }
     }
   }
@@ -168,6 +173,7 @@ const MainQuizizz = styled.div`
     .main__quiz {
       > span {
         font-size: 1.3em;
+        height: inherit;
       }
     }
   }
@@ -267,7 +273,7 @@ const MainQuiz = ({ dataCategorySelect, MainHotData }) => {
           <span>{el.categories}</span>
           <span>{el.quizTypes}</span>
           <span>{el.answerTypes}</span>
-          <span>{el.rewardPoints}</span>
+          <span>{el.rewardPoints}냥</span>
         </div>
         <div className="main__title">
           <h1>{el.title}</h1>
@@ -293,7 +299,7 @@ const MainQuiz = ({ dataCategorySelect, MainHotData }) => {
           <span>{el.categories[0].category}</span>
           <span>{el.quiz_types[0].quizContent.quizType}</span>
           <span>{el.answer_types[0].answerContent.answerType}</span>
-          <span>{el.rewardPoint}</span>
+          <span>{el.rewardPoint}냥</span>
         </div>
         <div className="main__title">
           <h1>{el.title}</h1>

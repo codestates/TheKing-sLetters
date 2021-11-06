@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 const FinalIntroContainer = styled.div`
@@ -91,7 +92,9 @@ const FinalIntro = () => {
         이제 <span> 나랏말싸미 </span> 에
       </h1>
       <h2 className="h2 contents">입학할 준비가 되셨나요?</h2>
-      <button className="final__btn">나랏말싸미 입학하기!</button>
+      <Link to="/main">
+        <button className="final__btn">나랏말싸미 입학하기!</button>
+      </Link>
     </FinalIntroContainer>
   );
 };

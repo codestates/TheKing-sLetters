@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 
 /* Page */
@@ -22,6 +22,7 @@ function App() {
         <Route exact path="/main" component={Main}></Route>
         <Route exact path="/mypage" component={Mypage}></Route>
         <Route exact path="/quizpost" component={QuizPost}></Route>
+        <Route exact path="/mileageshop" component={MileageShop}></Route>
         <Route exact path="/admin" component={Admin}></Route>
         <Route exact path="/mynote" component={ProblemBox}></Route>
         <Route exact path="/shop" component={MileageShop}></Route>

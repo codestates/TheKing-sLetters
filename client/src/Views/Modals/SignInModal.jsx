@@ -14,22 +14,17 @@ const ModalBackdrop = styled.div`
   background-color: rgba(0,0,0,0.75);
   display: grid;
   place-items: center;
-  `;
 
-const ModalBtn = styled.button`
-  background-color: white;
-  text-decoration: none;
-  border: none;
-  padding: 20px;
-  color: #0a0a0a;
-  /* border-radius: 30px; */
-  cursor: grab;
+  .active {
+
+  }
+
   `;
 
 const ModalView = styled.div`
     position: relative;
     text-align: center;
-    
+    transition: all .5s ease-in-out;
     > div.close_btn {
       margin-top: 5px;
       cursor: pointer;
@@ -227,11 +222,21 @@ const SignInModal = ({ setIsLogin, open, openModalHandler, handleSignup, signupO
   };
 
 
+  // const handleDummy = () => {
+
+  //   if(SignInClick){
+  //     let modalBackDrop = document.querySelector('.modal__back__drop')
+  //     modalBackDrop.classList.add('.active')
+  //   }  
+  // }
+  
+
+
   return (
     <>
         {open === true ? 
           (
-            <ModalBackdrop>
+            <ModalBackdrop className="modal__back__drop">
               <ModalView>
               <div className='box'>
               <span onClick={openModalHandler} className='close-btn'>&times;</span>
@@ -283,3 +288,4 @@ const SignInModal = ({ setIsLogin, open, openModalHandler, handleSignup, signupO
   };
 
   export default SignInModal;
+

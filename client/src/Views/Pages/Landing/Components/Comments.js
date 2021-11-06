@@ -180,7 +180,7 @@ const Comments = () => {
           <div className="top">
             <div className="img"></div>
             <h3>한량서생</h3>
-            <span>1526문</span>
+            <span>1526냥</span>
           </div>
           <p>
             실제 후기가 들아갑니다실제 후기가 들아갑니다실제 후기가
@@ -199,7 +199,7 @@ const Comments = () => {
           <div className="top">
             <div className="img"></div>
             <h3>신사임당</h3>
-            <span>5252문</span>
+            <span>5252냥</span>
           </div>
           <p>
             실제 후기가 들아갑니다실제 후기가 들아갑니다실제 후기가
@@ -218,7 +218,7 @@ const Comments = () => {
           <div className="top">
             <div className="img"></div>
             <h3>개냥집사</h3>
-            <span>2854문</span>
+            <span>2854냥</span>
           </div>
           <p>
             실제 후기가 들아갑니다실제 후기가 들아갑니다실제 후기가

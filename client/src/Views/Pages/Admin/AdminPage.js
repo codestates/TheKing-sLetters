@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import AdminHeader from './Components/AdminHeader';
 import QuizManagement from './Components/QuizManagement';
 import FindContents from './Components/FindContents';
-import AdminFooter from './Components/AdminFooter';
 import axios from 'axios';
 
 const AdminPage = () => {
@@ -53,7 +51,6 @@ const AdminPage = () => {
 
   return (
     <div>
-      <AdminHeader adminInfo={adminInfo} />
       <QuizManagement
         isLogin={isLogin}
         adminAccessToken={adminAccessToken}
@@ -66,7 +63,6 @@ const AdminPage = () => {
         adminAccessToken={adminAccessToken}
         setValidQuiz={setValidQuiz}
       />
-      <AdminFooter />
     </div>
   );
 };

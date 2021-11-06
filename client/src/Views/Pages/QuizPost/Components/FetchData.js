@@ -19,15 +19,9 @@ export const uploadData = async (data) => {
         'Authorization': `Bearer ${TOKEN}`,
       },
     });
-    // console.log(`POST ${URL} 요청에 성공했습니다.`);
-    // console.log(`Authorization: Bearer ${TOKEN}`);
-    // console.log('PAYLOAD: ', PAYLOAD);
+    return {status: 'success', message: 'successfully uploaded', response: response};
   } catch(error) {
-    response = error.response;
-    // console.log(`POST ${URL} 요청에 실패했습니다.`);
     throw error;
-  } finally {
-    console.log(response);
   }
 };
 
@@ -68,7 +62,7 @@ export const refineData = async (dataCategorySelect, dataQuizSelect, dataAnswerS
       })
     );
   }
-  if (toUpload.thumbnail.image_url !== 'default') {
+  if (toUpload.thumbnail.image_url !== '') {
     toUpload.thumbnail = await UploadImage(toUpload.thumbnail.image_object);
   } else {
     toUpload.thumbnail = 'default';
@@ -76,33 +70,3 @@ export const refineData = async (dataCategorySelect, dataQuizSelect, dataAnswerS
 
   return toUpload;
 };
-
-export const fetchUserInfo = async () => {
-  const END_PONT = `/users/info`;
-  const TOKEN = localStorage.getItem('accessToken');
-  if (!TOKEN) throw new Error('로그인 정보가 없습니다 다시 로그인 해주세요');
-  let response = null;
-  try {
-    response = await axios(END_PONT, {
-      method: 'GET',
-      headers: {
-        'Authorization': `Bearer ${TOKEN}`,
-      },
-    });
-    return { message: '유저 정보 요청에 성공했습니다', data: response.data.data.userData };
-  } catch(error) {
-    response = error.response;
-    throw new Error('유저 정보 요청에 실패했습니다');
-  } finally {
-    console.log(response);
-  }
-};
-
-export const refineUserInfo = async (raw) => {
-  const refined = {
-    "name": raw.data.name,
-    "image": raw.data.image,
-    "rank": raw.data.rank.toString(),
-  };
-  return refined;
-}

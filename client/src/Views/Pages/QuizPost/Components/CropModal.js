@@ -11,7 +11,7 @@ const ModalBackgroundBlur = styled.div`
   left: 0;
   bottom: 0;
   right: 0;
-  background-color: rgba(0,0,0,0.75);
+  background-color: rgba(0, 0, 0, 0.6);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -20,9 +20,14 @@ const ModalBackgroundBlur = styled.div`
 const ModalButton = styled.button`
   border: none;
   width: 100%;
-  height: 100%;
-  font-size: 1em;
+  height: inherit;
+  font-size: 1rem;
   font-weight: 500;
+  box-sizing: border-box;
+  background-color: transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   :hover {
     cursor: pointer;
     background-color: rgba(0, 0, 0, 0.3);
@@ -32,16 +37,16 @@ const ModalButton = styled.button`
 const ModalView = styled.div`
   position: relative;
   border-radius: 10px;
-  width: 80%;
-  height: 80%;
-  background-color: white;
+  width: 40%;
+  padding: 5rem 0;
+  background-color: #fafafa;
   display: flex;
   flex-direction: column;
   align-items: center;
   > .image_cropper {
-    margin: 0.5% 0.5% 0.5% 0.5%;
     max-width: 100%;
     overflow: hidden;
+
     > .ReactCrop__crop-selection {
       max-width: 100%;
       max-height: 100%;
@@ -53,7 +58,9 @@ const ModalView = styled.div`
     width: 100%;
     display: flex;
     justify-content: center;
+    align-items: center;
     gap: 1em;
+
     > .confirm_button {
       border: none;
       border-radius: 8px;
@@ -155,22 +162,21 @@ const ImageUpload = styled.div`
   }
 `;
 
-
 const dataURLtoFile = (dataurl, fileName) => {
   var arr = dataurl.split(','),
-      mime = arr[0].match(/:(.*?);/)[1],
-      bstr = atob(arr[1]), 
-      n = bstr.length, 
-      u8arr = new Uint8Array(n);
+    mime = arr[0].match(/:(.*?);/)[1],
+    bstr = atob(arr[1]),
+    n = bstr.length,
+    u8arr = new Uint8Array(n);
 
-  while(n--){
-      u8arr[n] = bstr.charCodeAt(n);
+  while (n--) {
+    u8arr[n] = bstr.charCodeAt(n);
   }
-  
-  return new File([u8arr], fileName, {type:mime});
-}
 
-const CropModal = ({handler, config}) => {
+  return new File([u8arr], fileName, { type: mime });
+};
+
+const CropModal = ({ handler, config }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isUploaded, setIsUploaded] = useState(false);
   const [imageURL, setImageURL] = useState(null);
@@ -178,42 +184,46 @@ const CropModal = ({handler, config}) => {
     setIsUploaded(false);
     setImageURL(null);
     setIsOpen(!isOpen);
-  }
+  };
 
   const ImageCropper = ({ src }) => {
     const [crop, setCrop] = useState(config);
     const cropCompleteHandler = async () => {
-      const canvas = document.createElement("canvas");
-      const ctx = canvas.getContext("2d");
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
       const img = new Image();
       img.onload = function () {
-          ctx.drawImage(img, 0, 0);
-        };
+        ctx.drawImage(img, 0, 0);
+      };
       img.src = src;
       URL.revokeObjectURL(src);
       const croppedFile = await getCroppedImage(img, crop);
       const croppedUrl = URL.createObjectURL(croppedFile);
       modalOpenHandler();
       handler(croppedFile, croppedUrl);
-    }
+    };
     return (
       <>
-      <ReactCrop
-        className="image_cropper"
-        src={src}
-        crop={crop}
-        onChange={(crop, percentCrop) => setCrop(percentCrop)}
-        keepSelection="true"
-        // onImageLoaded={(image) => console.log(image)}
-        // onComplete={(crop, percentCrop) => onCompleteHandler(crop, percentCrop)}
-      />
-      <div className="image_cropper_buttons">
-        <button className="confirm_button" onClick={cropCompleteHandler}>잘라내기</button>
-        <button className="cancel_button" onClick={modalOpenHandler}>닫기</button>
-      </div>
+        <ReactCrop
+          className="image_cropper"
+          src={src}
+          crop={crop}
+          onChange={(crop, percentCrop) => setCrop(percentCrop)}
+          keepSelection="true"
+          // onImageLoaded={(image) => console.log(image)}
+          // onComplete={(crop, percentCrop) => onCompleteHandler(crop, percentCrop)}
+        />
+        <div className="image_cropper_buttons">
+          <button className="confirm_button" onClick={cropCompleteHandler}>
+            잘라내기
+          </button>
+          <button className="cancel_button" onClick={modalOpenHandler}>
+            닫기
+          </button>
+        </div>
       </>
-    )
-  }
+    );
+  };
 
   /*
   crop (required)
@@ -275,7 +285,7 @@ const CropModal = ({handler, config}) => {
     // console.log('cYstart ', cYstart);
 
     // canvas 엘리먼트 생성(이미지를 크롭하기 위해 사용할 일종의 그림판 엘리먼트)
-    const canvas = document.createElement("canvas");
+    const canvas = document.createElement('canvas');
     // canvas 엘리먼트의 크기를 원본 이미지와 같이 설정
     // console.log('image width', image.width);
     // console.log('image height', image.height);
@@ -283,11 +293,11 @@ const CropModal = ({handler, config}) => {
     canvas.height = cHeight;
 
     // canvas 엘리먼트의 렌더링 컨텍스트를 불러옴(일종의 그림판)
-    const ctx = canvas.getContext("2d");
+    const ctx = canvas.getContext('2d');
 
     // 렌더링 컨텍스트가 존재하지 않으면 canvas를 지원하지 않는 구형 브라우저
     if (!canvas.getContext) {
-      console.log("구형 브라우저는 지원하지 않는 기능입니다");
+      console.log('구형 브라우저는 지원하지 않는 기능입니다');
     }
     /*
     drawImage 메소드의 파라메터
@@ -316,11 +326,11 @@ const CropModal = ({handler, config}) => {
       0, // 파라메터 dx
       0, // 파라메터 dy
       cWidth, // 파라메터 dWidth
-      cHeight, // 파라메터 dHeight
+      cHeight // 파라메터 dHeight
     );
 
     // canvas 이미지를 base64 형식으로 인코딩한 뒤 다시 File 객체로 변환해서 반환
-    return dataURLtoFile(canvas.toDataURL("image/png"), "uploaded.png");
+    return dataURLtoFile(canvas.toDataURL('image/png'), 'uploaded.png');
   };
 
   const imageInputHandler = (e) => {
@@ -331,27 +341,50 @@ const CropModal = ({handler, config}) => {
 
   return (
     <>
-    <ModalButton onClick={modalOpenHandler}>이미지를 업로드하려면<br/>여기를 클릭하세요</ModalButton>
-    {isOpen ?
-    <ModalBackgroundBlur>
-      <ModalView>
-        {isUploaded ?
-        <ImageCropper src={imageURL}></ImageCropper> :
-        <ImageUpload>
-          <label className="upload_label_icon" htmlFor="upload_hidden">
-            <img className="upload_icon" src={uploadIcon} alt="업로드 이미지 아이콘"></img>
-          </label>
-          <div className="upload_button_container">
-            <label className="upload_button_label" htmlFor="upload_hidden">
-              이미지 선택하기
-              <input type="file" id="upload_hidden" style={{display: "none"}} onChange={imageInputHandler}></input>
-            </label>
-            <button className="upload_button_cancel" onClick={modalOpenHandler}>닫기</button>
-          </div>
-        </ImageUpload>}
-      </ModalView>
-    </ModalBackgroundBlur>
-    : null}
+      <ModalButton onClick={modalOpenHandler}>
+        이미지를 업로드하려면
+        <br />
+        여기를 클릭하세요
+      </ModalButton>
+      {isOpen ? (
+        <ModalBackgroundBlur>
+          <ModalView>
+            {isUploaded ? (
+              <ImageCropper src={imageURL}></ImageCropper>
+            ) : (
+              <ImageUpload>
+                <label className="upload_label_icon" htmlFor="upload_hidden">
+                  <img
+                    className="upload_icon"
+                    src={uploadIcon}
+                    alt="업로드 이미지 아이콘"
+                  ></img>
+                </label>
+                <div className="upload_button_container">
+                  <label
+                    className="upload_button_label"
+                    htmlFor="upload_hidden"
+                  >
+                    이미지 선택하기
+                    <input
+                      type="file"
+                      id="upload_hidden"
+                      style={{ display: 'none' }}
+                      onChange={imageInputHandler}
+                    ></input>
+                  </label>
+                  <button
+                    className="upload_button_cancel"
+                    onClick={modalOpenHandler}
+                  >
+                    닫기
+                  </button>
+                </div>
+              </ImageUpload>
+            )}
+          </ModalView>
+        </ModalBackgroundBlur>
+      ) : null}
     </>
   );
 };

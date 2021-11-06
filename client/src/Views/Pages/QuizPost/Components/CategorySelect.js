@@ -68,7 +68,7 @@ const CategorySelectWrapper = styled.div`
 	}
 `;
 
-const categoryDropDownListData = ["정치", "경제", "사회", "스포츠", "IT", "과학", "요리", "여행", "음악", "외래어"];
+const categoryDropDownListData = ["정치", "경제", "사회", "스포츠", "정보기술", "관광", "요리", "여행", "음악", "외래어"];
 const quizTypeDropDownListData = ["텍스트 문제", "이미지 문제"];
 const answerTypeDropDownListData = ["OX 답안", "선다형 답안", "이미지 답안"];
 const scoreDropDownListData = ["1점", "2점", "3점", "4점", "5점"];

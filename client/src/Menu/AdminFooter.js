@@ -50,6 +50,7 @@ const AdminFooter = () => {
       <div className="admin__footer__logo">
         <a>나랏말싸미</a>
       </div>
+      <button>로그아웃</button>
       <AdminFooterGithub>
         <li className="admin__footer__user">
           <a href="https://github.com/yonghk423">김용희</a>

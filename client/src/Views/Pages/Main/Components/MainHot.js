@@ -21,6 +21,7 @@ const MainHotContainer = styled.div`
       font-size: 2rem;
       border-bottom: 2px solid #303030;
       margin: 0 0.8rem 1rem 0.8rem;
+      letter-spacing: 3px;
     }
     .box {
       display: flex;
@@ -332,7 +333,7 @@ const MainHot = ({ MainHotData }) => {
                   <span>{el.categories[0].category}</span>
                   <span>{el.quiz_types[0].quizContent.quizType}</span>
                   <span>{el.answer_types[0].answerContent.answerType}</span>
-                  <span>{el.rewardPoint}문</span>
+                  <span>{el.rewardPoint}냥</span>
                 </div>
                 <div className="main__bottom">
                   <h1>{el.title}</h1>
@@ -349,7 +350,7 @@ const MainHot = ({ MainHotData }) => {
           })}
         </Slider>
       </div>
-      <div class="custom-shape-divider-bottom-1636093019">
+      <div className="custom-shape-divider-bottom-1636093019">
         <svg
           data-name="Layer 1"
           xmlns="http://www.w3.org/2000/svg"
@@ -358,7 +359,7 @@ const MainHot = ({ MainHotData }) => {
         >
           <path
             d="M741,116.23C291,117.43,0,27.57,0,6V120H1200V6C1200,27.93,1186.4,119.83,741,116.23Z"
-            class="shape-fill"
+            className="shape-fill"
           ></path>
         </svg>
       </div>

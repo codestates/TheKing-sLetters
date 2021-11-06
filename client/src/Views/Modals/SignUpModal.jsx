@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
-
+import EmailAuthAlertModal from './SubModals/EmailAuthAlertModal'
 const BORDER_DEV = ``;
 axios.defaults.baseURL = `http://ec2-13-209-96-200.ap-northeast-2.compute.amazonaws.com`;
 axios.defaults.withCredentials = true;
@@ -226,6 +226,7 @@ text-align: center;
 `;
 
 const SignUpModal = ({ open, handleLogin, handleSignup }) => {
+  const [emailAlertOpen, setEmailAlertOpen] = useState(false);
   const [isVaildEmail, setIsVaildEmail] = useState(false);
   const [isVaildName, setIsVaildName] = useState(false);
   const [isVaildMobile, setIsVaildMobile] = useState(false);
@@ -336,6 +337,7 @@ const SignUpModal = ({ open, handleLogin, handleSignup }) => {
           setTimeout(() => {
             submitResultControl.current.style.display = "none";
             setTimeout(() => {
+              setEmailAlertOpen(true);
               handleLogin();
             }, 500);
           }, 1000);
@@ -405,6 +407,7 @@ const SignUpModal = ({ open, handleLogin, handleSignup }) => {
 
   return (
     <>
+        {emailAlertOpen && <EmailAuthAlertModal setEmailAlertOpen={setEmailAlertOpen}/>   }  
         {open === true ? <ModalBackdrop>
           <ModalView>
           <div className='box'>

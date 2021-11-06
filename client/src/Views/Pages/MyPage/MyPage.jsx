@@ -6,14 +6,8 @@ import { faUserCog } from "@fortawesome/free-solid-svg-icons";
 import { faTrophy } from "@fortawesome/free-solid-svg-icons";
 import MyPageModal from '../../Modals/MyPageModal';
 import Modal6 from '../../Modals/SubModals/RankModal'
-    
-// async await 함수를 사용할 때, 
-
-// try {
-// 	const data = await axios.get("url");
-// } catch {
-// 	// 오류 발생시 실행
-// }
+import DeleteApproveModal from '../../Modals/SubModals/DeleteApproveModal';
+import { Link } from 'react-router-dom';
 
 
 //----------------첫번째 박스-----------------------------------
@@ -200,6 +194,39 @@ const Li = styled.li`
   overflow: auto;
   display: flex;
 
+  //------------------------------상품 내역--------------------------
+>  .buyItemsBox {
+  > .itemImage{
+      position: relative;
+      left: -3px;
+      width: 250px;
+      height: 250px;
+      margin: 20px;
+      margin-right: 25px;
+      margin-bottom: 0;
+      border : 1px solid black;
+      background-color: #fcf8f8;
+  }
+
+  > .itemName {
+    text-align: center;
+
+  }
+
+  > .cost {
+    text-align: center;
+
+  }
+
+  > .quantity {
+    text-align: center;
+  }
+
+  > .company {
+    text-align: center;
+
+  }
+}
   //---------------------------------구매 내역-----------------------
   > .itemBox{
     > .itemImage {
@@ -209,7 +236,7 @@ const Li = styled.li`
   height: 250px;
   margin: 20px;
   margin-right: 25px;
-  margin-bottom: 0%;
+  margin-bottom: 0;
   border : 1px solid black;
   background-color: #fcf8f8;   
     
@@ -287,6 +314,11 @@ const MyPage = (props) => {
     image: '',
     mileage: '',
   })
+  const [deleteApproval, setDeleteApproval] = useState(false);
+  const [deleteCheckOpen, setDeleteCheckOpen] = useState(false);
+  const [selectedQuiz, setSelectedQuiz] = useState('')
+
+  const [buyItems, setBuyItems] = useState([]);
   const [usedItems, setUsedItem] = useState([]);
   const [quiz, setQuiz] = useState([]);
   const [isMypageOpen, setIsMypageOpen] = useState(false); // 마이페이지 모달 on off 관련 상태
@@ -295,6 +327,26 @@ const MyPage = (props) => {
   const handleMypage = () => {
     setIsMypageOpen(!isMypageOpen)
   }
+  
+
+  const deleteMyQuiz = async () => {
+    if(deleteApproval) {
+      await axios.delete(`https://api.thekingsletters.ml/users/deletequiz?quizid=${selectedQuiz}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('accessToken')}`
+        }
+      })
+          
+      await axios.get("https://thekingsletters.ml/mypublish", {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('accessToken')}`
+        } 
+      }).then((response)=> {
+        setQuiz(response.data.data.madeQuiz)
+      })
+    }
+  }
+
 
   useEffect(() => {
     if(props.location.state.isLogin === true) {
@@ -322,7 +374,6 @@ const MyPage = (props) => {
     }
     // 로그인시 받은 토큰을 헤더에 담아 로그인 된상태고 get요청을 한 이유는 mypage에서 사용하기 위해  요청한 것  
   }).then(function(response) {
-    console.log(response.data.data.userData)
     setUserData({
       email : response.data.data.userData.email,
       name : response.data.data.userData.name,
@@ -339,9 +390,8 @@ const MyPage = (props) => {
   }
   // 로그인시 받은 토큰을 헤더에 담아 로그인 된상태고 get요청을 한 이유는 mypage에서 사용하기 위해  요청한 것  
 }).then((response)=> {
-  console.log(response);
-  console.log(response.data.data.madeQuiz)
   setQuiz(response.data.data.madeQuiz)
+  console.log(response.data.data.madeQuiz)
 })
 
   axios.get("https://api.thekingsletters.ml/myitems" , {
@@ -349,17 +399,26 @@ const MyPage = (props) => {
       Authorization: `Bearer ${localStorage.getItem('accessToken')}`
     }
   }).then((response) => {
-    console.log(response.data.data.userData.user_usedItems);
-    console.log(response.data.data.userData.user_usedItems[0].usedItem.company);
     setUsedItem(response.data.data.userData.user_usedItems);
   }) 
-
+  
+  axios.get("https://api.thekingsletters.ml/items/all" , {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem('accessToken')}`
+    }
+  }).then((response) => {
+    console.log(response);
+    console.log(response.data.data.itemList);
+    setBuyItems(response.data.data.itemList);
+  }) 
+  
     }
    
   }, []);   
 
     return (
       <>
+      {deleteCheckOpen && <DeleteApproveModal setDeleteApproval={setDeleteApproval} setDeleteCheckOpen={setDeleteCheckOpen} deleteMyQuiz={deleteMyQuiz} />}
       {modalOpen && <Modal6 setOpenModal={setModalOpen} />}
       <FirstBox>
         <div className="title">나의 정보</div>
@@ -408,7 +467,19 @@ const MyPage = (props) => {
                 <div className="mileage-store">마일리지 상점</div>
             </label>
             <div className="container" >
-              <div>상자 박스</div>              
+              <div className="buyItems">
+              {buyItems.map((el)=>(
+                <div className="buyItemsBox">
+                  <div className="itemImage">
+                    <Link to="/" ><img src={el.itemImage} /></Link>
+                  </div>
+                  <div className="itemName">{el.itemName}</div>
+                  <div className="cost">{el.cost}</div>
+                  <div className="quantity">{el.quantity}</div>
+                  <div className="company">{el.company}</div>
+                </div>
+              ))}
+              </div>               
             </div>
         </Li>
         <Li>
@@ -439,10 +510,16 @@ const MyPage = (props) => {
             <div className="container" id="section-3-panel">
               <div>
                 {quiz.map((el)=>
+                
                 <div className="quizBox">
-                <img className="thumbnail" src={el.thumbnail}></img> 
+                <button onClick={() => { setSelectedQuiz(el.id); setDeleteCheckOpen(true) }}>&times;</button>
+                  <div className="thumbnail">
+                    <Link to={`/quizsolve/${el.id}`}>
+                      <img  src={el.thumbnail}></img> 
+                    </Link>
+                  </div>
                 <div className="title">{el.title}</div>   
-                </div>
+              </div>
                 )}
               </div>
             </div>

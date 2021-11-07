@@ -20,12 +20,13 @@ const ModalSubmitButtonContainer = styled.div`
   padding: 2% 6% 10% 6%;
 
   > .modal_submit_button {
+    font-family: 'EBSHMJESaeronRA';
     width: 100%;
     padding: 1% 1% 1% 1%;
     border-radius: 5px;
     background-color: transparent;
     border: 1px solid #303030;
-    font-size: 18px;
+    font-size: 20px;
     transition: all 0.4s ease;
     color: #303030;
     letter-spacing: 3px;

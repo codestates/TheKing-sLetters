@@ -1,8 +1,9 @@
 import styled from 'styled-components';
-import { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import defaultImage from '../Assets/default_1.png';
 
 const ItemDisplayWrapper = styled.div`
+  font-family: 'EBSHMJESaeronRA';
   border: 1px solid black;
   border-radius: 5px;
   margin: 1% 6% 1% 6%;
@@ -10,14 +11,30 @@ const ItemDisplayWrapper = styled.div`
   flex-direction: column;
   > .shopping_cart_title {
     flex: 1 0 0;
-    background-color: rgba(0, 0, 0, 0.2);
+    background-color: #b6c3b6;
     font-size: 1.5em;
     padding: 0.5% 1% 0.5% 1%;
+    letter-spacing: 3px;
+  }
+  > .more__btn {
+    font-size: 1.5em;
+    font-family: 'EBSHunminjeongeumSBA';
+    padding: 0.5rem 0;
+    letter-spacing: 3px;
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 0 0 3px 3px;
+    cursor: pointer;
+    transition: all 0.4s ease;
+    &:hover {
+      color: #fafafa;
+      background-color: #303030;
+    }
   }
 `;
 
 const ItemContainerWrapper = styled.div`
-  padding: 1.5em 1% 1% 1%;
+  font-family: 'EBSHMJESaeronRA';
+  padding: 2.5em 1% 2.5em 1%;
   flex: 1 0 0;
   height: auto;
   /* flex 설정 */
@@ -57,34 +74,57 @@ const ItemContainerWrapper = styled.div`
       color: blueviolet;
     }
     > .item_name {
+      margin-top: 1%;
       padding: 0% 2% 0% 2%;
       flex: 1 1 0;
+      font-size: 1rem;
     }
     > .item_qty {
       padding: 0% 2% 0% 2%;
       flex: 1 1 0;
+      font-size: 1rem;
     }
     > .item_price {
       padding: 0% 2% 0% 2%;
       flex: 1 1 0;
+      font-size: 1rem;
+      margin-bottom: 1%;
     }
     > .item_select_button {
       padding: 2% 0% 2% 0%;
       width: 100%;
       height: auto;
+      font-size: 0.9rem;
+      letter-spacing: 2px;
+      font-family: 'EBSHunminjeongeumSBA';
+      font-weight: bold;
+      background-color: transparent;
+      border: 1px solid #303030;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.4s ease;
+      &:hover {
+        background-color: #303030;
+        border: 1px solid #303030;
+        color: #fafafa;
+      }
     }
   }
   > .selected {
     border: none;
     outline: 2px solid blueviolet;
-  };
+  }
+  @media (max-width: 768px) {
+    justify-content: center;
+    align-items: center;
+  }
 `;
 
 const numberWithCommas = (num) => {
-  return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-}
+  return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+};
 
-const ItemDisplay = ({items, setItems}) => {
+const ItemDisplay = ({ items, setItems }) => {
   const limitMaxItemsInPage = 4;
   const limitMaxPage = Math.ceil(items.length / limitMaxItemsInPage);
   const [numToSlice, setNumToSlice] = useState(limitMaxItemsInPage);
@@ -92,7 +132,7 @@ const ItemDisplay = ({items, setItems}) => {
   const [reachedLimit, setReachedLimit] = useState(false);
 
   useEffect(() => {
-    setItemsToDisplay(()=> items.slice(0, numToSlice));
+    setItemsToDisplay(() => items.slice(0, numToSlice));
   }, [items, numToSlice]);
 
   useEffect(() => {
@@ -102,10 +142,13 @@ const ItemDisplay = ({items, setItems}) => {
   }, [itemsToDisplay, numToSlice, limitMaxPage]);
 
   const itemClickHandler = (id) => {
-    setItems((state) => state.map((el) => {
-      if (el.uid === id && el.selected < el.qty) return {...el, selected: el.selected + 1};
-      else return el;
-    }));
+    setItems((state) =>
+      state.map((el) => {
+        if (el.uid === id && el.selected < el.qty)
+          return { ...el, selected: el.selected + 1 };
+        else return el;
+      })
+    );
   };
 
   const expandListHandler = () => {
@@ -120,31 +163,55 @@ const ItemDisplay = ({items, setItems}) => {
       <ItemContainerWrapper>
         {itemsToDisplay.map((el, idx) => {
           return (
-          <div className={el.selected !== 0 ? "item_container selected" : "item_container"} key={idx.toString()}>
-            {el.selected !== 0 ? <span className="item_selected_msg">선택함</span> : null}
-            <div className="image_container">
-              <img className="item_image" src={el.image || defaultImage} alt="상품 이미지"></img>
+            <div
+              className={
+                el.selected !== 0 ? 'item_container selected' : 'item_container'
+              }
+              key={idx.toString()}
+            >
+              {el.selected !== 0 ? (
+                <span className="item_selected_msg">선택함</span>
+              ) : null}
+              <div className="image_container">
+                <img
+                  className="item_image"
+                  src={el.image || defaultImage}
+                  alt="상품 이미지"
+                ></img>
+              </div>
+              <div className="item_name">
+                <p style={{ fontWeight: '600' }}>이름</p>
+                <p style={{ textAlign: 'right' }}>{el.name}</p>
+              </div>
+              <div className="item_qty">
+                <p style={{ fontWeight: '600' }}>재고</p>
+                <p style={{ textAlign: 'right' }}>
+                  {numberWithCommas(el.qty)} 개
+                </p>
+              </div>
+              <div className="item_price">
+                <p style={{ fontWeight: '600' }}>가격</p>
+                <p style={{ textAlign: 'right' }}>
+                  {numberWithCommas(el.price)} 냥
+                </p>
+              </div>
+              <button
+                className="item_select_button"
+                onClick={() => itemClickHandler(el.uid)}
+              >
+                장바구니에 추가하기
+              </button>
             </div>
-            <div className="item_name">
-              <p style={{ fontWeight: "600" }}>이름</p>
-              <p style={{ textAlign: "right" }}>{el.name}</p>
-            </div>
-            <div className="item_qty">
-              <p style={{ fontWeight: "600" }}>재고</p>
-              <p style={{ textAlign: "right" }}>{numberWithCommas(el.qty)} 개</p>
-            </div>
-            <div className="item_price">
-              <p style={{ fontWeight: "600" }}>가격</p>
-              <p style={{ textAlign: "right" }}>{numberWithCommas(el.price)} M</p>
-            </div>
-            <button className="item_select_button" onClick={() => itemClickHandler(el.uid)}>장바구니에 추가하기</button>
-          </div>
           );
         })}
       </ItemContainerWrapper>
-      {!reachedLimit ? <button onClick={expandListHandler} style={{ fontSize: "1.5em" }}>더보기</button> : null}
-  </ItemDisplayWrapper>
-  )
+      {!reachedLimit ? (
+        <button className="more__btn" onClick={expandListHandler} style={{}}>
+          더보기
+        </button>
+      ) : null}
+    </ItemDisplayWrapper>
+  );
 };
 
 export default ItemDisplay;

@@ -3,7 +3,7 @@ import profileIcon from '../Assets/profile-1.png';
 
 const TopProfileTitle = styled.div`
   width: 100%;
-  padding: 6% 6.2% 2% 6.2%;
+  padding: 3% 6.2% 2% 6.2%;
   box-sizing: border-box;
   background-color: #d7dbd1;
   position: relative;
@@ -18,7 +18,7 @@ const TopProfileTitle = styled.div`
 const TopProfileWrapper = styled.div`
   font-family: 'EBSHMJESaeronRA';
   width: auto;
-  padding: 4% 6% 4% 6.5%;
+  padding: 2% 6% 4% 6.5%;
   font-size: 16px;
   display: flex;
   flex-direction: row;
@@ -104,7 +104,7 @@ const TopProfileContainer = styled.div`
   }
   @media (min-width: 1024px) {
     .custom-shape-divider-bottom-1636245050 svg {
-      height: 120px;
+      height: 150px;
     }
   }
 `;

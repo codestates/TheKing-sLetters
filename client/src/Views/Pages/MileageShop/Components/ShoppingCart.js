@@ -40,6 +40,8 @@ const ShoppingCartWrapper = styled.div`
       height: auto;
     }
     > .cart_empty_msg {
+      margin-top: 1.5rem;
+      font-size: 1rem;
       color: rgb(71, 71, 71);
     }
   }

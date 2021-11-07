@@ -9,13 +9,13 @@ const QuizTemplateImageWrapper = styled.div`
   /* 박스 설정 */
   position: relative;
   padding: 1% 6% 1% 6%;
+  box-sizing: border-box;
 
   > .quiz_image_container {
     /* 박스 설정 */
     border: 2px solid rgba(0, 0, 0, 0.1);
     border-radius: 5px;
-    width: auto;
-    height: auto;
+    width: 100%;
     /* flex 설정 */
     display: flex;
     flex-direction: column;
@@ -27,6 +27,8 @@ const QuizTemplateImageWrapper = styled.div`
       background-color: rgba(0, 0, 0, 0.1);
       /* 폰트 설정 */
       font-size: 16px;
+      font-family: 'EBSHMJESaeronRA';
+      letter-spacing: 3px;
       /* 크기 설정 */
       flex: 2em 1 0;
     }
@@ -34,31 +36,41 @@ const QuizTemplateImageWrapper = styled.div`
       /* flex 박스 설정 */
       display: flex;
       flex-direction: column;
+      justify-content: center;
       align-items: center;
       gap: 1em;
       /* 박스 설정 */
       position: relative;
       border: 1px dashed rgba(0, 0, 0, 0.5);
       border-radius: 10px;
-      width: auto;
-      height: auto;
+      height: 250px;
       margin: 3px;
       padding: 1em 0.5em 1em 0.5em;
       > .upload_button_container {
+        font-family: 'EBSHMJESaeronRA';
         border: none;
-        padding: 1em 0em 1em 0em;
+        padding: 1em 0;
         width: 100%;
-        height: 10em;
+        height: inherit;
         display: flex;
         flex-direction: column;
         align-items: center;
+        justify-content: center;
         overflow: hidden;
+        letter-spacing: 1px;
+        > span {
+          letter-spacing: 1px;
+          margin-top: 1rem;
+        }
       }
       > .uploaded_image {
         border: 1px solid rgba(0, 0, 0, 0.5);
         border-radius: 10px;
+        box-sizing: border-box;
+
         /* 이미지 업로드 크기 제한 */
-        max-width: 100%;
+        width: 35%;
+        height: 100%;
       }
       > .delete_icon {
         /* 박스 설정 */
@@ -71,6 +83,17 @@ const QuizTemplateImageWrapper = styled.div`
           cursor: pointer;
         }
       }
+    }
+  }
+
+  @media (max-width: 768px) {
+    > .quiz_image_container > .quiz_image_contents > .uploaded_image {
+      width: 100%;
+    }
+  }
+  @media (max-width: 960px) {
+    > .quiz_image_container > .quiz_image_contents > .uploaded_image {
+      width: 100%;
     }
   }
 `;

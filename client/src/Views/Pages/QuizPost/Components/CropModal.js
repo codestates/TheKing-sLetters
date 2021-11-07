@@ -15,12 +15,12 @@ const ModalBackgroundBlur = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  width: 100%;
 `;
 
 const ModalButton = styled.button`
   border: none;
-  width: 100%;
-  height: 100%;
+  height: inherit;
   font-size: 1rem;
   font-weight: 500;
   box-sizing: border-box;
@@ -30,9 +30,16 @@ const ModalButton = styled.button`
   align-items: center;
   transition: all 0.4s ease;
   letter-spacing: 2px;
+  font-family: 'EBSHMJESaeronRA';
+  border-radius: 10px;
+  padding: 0 1rem;
+  height: 150px;
   :hover {
     cursor: pointer;
     color: #fafafa;
+    border: 1px solid #303030;
+    background-color: #303030;
+    border-radius: 10px;
   }
 `;
 
@@ -46,6 +53,7 @@ const ModalView = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+
   > .image_cropper {
     max-width: 100%;
     overflow: hidden;
@@ -171,6 +179,7 @@ const ImageUpload = styled.div`
     position: absolute;
     left: 0;
     width: 100%;
+    height: 100%;
     opacity: 0;
   }
 `;

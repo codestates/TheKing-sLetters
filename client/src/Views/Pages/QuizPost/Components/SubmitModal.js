@@ -17,17 +17,24 @@ const ModalSubmitBackground = styled.div`
 `;
 
 const ModalSubmitButtonContainer = styled.div`
-  padding: 2% 6% 2% 6%;
+  padding: 2% 6% 10% 6%;
+
   > .modal_submit_button {
     width: 100%;
     padding: 1% 1% 1% 1%;
     border-radius: 5px;
-    background-color: rgba(0, 0, 0, 0.2);
+    background-color: transparent;
+    border: 1px solid #303030;
     font-size: 18px;
+    transition: all 0.4s ease;
+    color: #303030;
+    letter-spacing: 3px;
   }
   > .modal_submit_button:hover {
     cursor: pointer;
-    background-color: rgba(0, 0, 0, 0.3);
+    color: #fafafa;
+    background-color: #303030;
+    border: 1px solid #303030;
   }
 `;
 

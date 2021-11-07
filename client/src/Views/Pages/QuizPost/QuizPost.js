@@ -23,7 +23,7 @@ const QuizPostContainer = styled.div`
   display: flex;
   flex-flow: column;
   width: 100%;
-  height: 1280px;
+
   > .login_error_container {
     position: absolute;
     top: 10%;
@@ -96,7 +96,7 @@ const Post = () => {
   const userState = useUserState();
   // 테스트 모드 온오프
   const isTestModeOn = useRef(false);
-  
+
   /* 유저 데이터 불러오기 */
   useEffect(() => {
     // 더미데이터가 켜져있으면
@@ -113,9 +113,9 @@ const Post = () => {
       const rawData = userState.userData;
       // 가져온 유저 정보를 가공하고
       const refinedData = {
-        "name": rawData.name,
-        "image": rawData.image,
-        "rank": rawData.rank,
+        name: rawData.name,
+        image: rawData.image,
+        rank: rawData.rank,
       };
       // state에 저장
       setUserData(refinedData);
@@ -176,7 +176,11 @@ const Post = () => {
     <QuizPostContainer>
       {!isReadyToDisplay ? (
         <div className="login_error_container">
-          <img className="login_error_image" src={lockIcon} alt="배경 이미지"></img>
+          <img
+            className="login_error_image"
+            src={lockIcon}
+            alt="배경 이미지"
+          ></img>
           <p className="login_error_msg">
             문제를 출제하시려면
             <br />

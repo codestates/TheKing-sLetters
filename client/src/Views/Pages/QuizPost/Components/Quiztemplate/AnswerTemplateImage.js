@@ -9,23 +9,35 @@ const AnswerTemplateImageWrapper = styled.div`
   /* 박스 크기 설정 */
   position: relative;
   width: auto;
-  padding: 3% 6% 3% 6%;
-  /* flex 박스 설정 */
-  display: flex;
-  justify-content: left;
-  flex-wrap: wrap;
-  > .image_container {
-    border: 1px solid #303030;
+  padding: 0.8% 6% 0.8% 6%;
+  > .answer__wrap {
+    letter-spacing: 1px;
+    width: 100%;
+    box-sizing: border-box;
+    border: 2px solid rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    /* flex 박스 설정 */
+    display: flex;
+    justify-content: left;
+    flex-wrap: wrap;
+  }
+  > .answer__wrap > .image_container {
     /* 박스 설정 */
     position: relative;
     box-sizing: border-box;
-    width: 23.5%;
-    height: 362px;
+    width: 23.7%;
+    height: 350px;
     border: 1px dashed rgba(0, 0, 0, 0.5);
     border-radius: 10px;
-    padding: 8px;
-    margin-right: 1rem;
+    padding: 1rem;
+    margin: 1rem 0.5rem;
 
+    &:nth-child(n + 6) {
+      margin-top: 1rem;
+    }
+    &:nth-child(4n + 1) {
+      margin-right: 0;
+    }
     > .delete_icon {
       /* 박스 위치 설정 */
       position: absolute;
@@ -35,12 +47,6 @@ const AnswerTemplateImageWrapper = styled.div`
       width: 2em;
       height: 2em;
     }
-    > .image_container:last-child {
-      margin-right: 0;
-    }
-    > .image_container:nth-child(n + 4) {
-      margin-top: 1rem;
-    }
     > .delete_icon:hover {
       cursor: pointer;
     }
@@ -48,7 +54,7 @@ const AnswerTemplateImageWrapper = styled.div`
     > .uploaded_image {
       /* 박스 설정 */
       width: 100%;
-      max-height: 100%;
+      height: 100%;
       border: 1px solid rgba(0, 0, 0, 0.5);
       border-radius: 10px;
     }
@@ -65,16 +71,16 @@ const AnswerTemplateImageWrapper = styled.div`
     }
   }
 
-  > .image_container:hover {
+  > .answer__wrap > .image_container:hover {
     cursor: pointer;
   }
 
-  > .answer_selected {
+  > .answer__wrap > .answer_selected {
     border: none;
     outline: 3px solid #0054bb;
   }
 
-  > .image_container_add {
+  > .answer__wrap > .image_container_add {
     /* flex 박스 설정 */
     display: flex;
     box-sizing: border-box;
@@ -85,49 +91,51 @@ const AnswerTemplateImageWrapper = styled.div`
     border: 1px dashed rgba(0, 0, 0, 0.5);
     border-radius: 10px;
     width: 23.5%;
-    height: 362px;
+    height: 350px;
+    margin: 1rem 0.5rem;
 
     > div {
       border: 1px solid rgba(0, 0, 0, 0.5);
       border-radius: 10px;
-      width: 60%;
-      height: 60%;
       overflow: hidden;
       display: flex;
       justify-content: center;
       align-items: center;
       transition: all 0.4s ease;
       margin-bottom: 1.5rem;
+
       &:hover {
-        background-color: #505050;
+        background-color: #303030;
       }
     }
     > span {
       letter-spacing: 1px;
       font-size: 1rem;
+      font-family: 'EBSHMJESaeronRA';
     }
   }
   @media (max-width: 960px) {
-    > .image_container_add {
-      width: 50%;
+    > .answer__wrap > .image_container_add {
+      width: 48%;
     }
-    > .image_container {
-      width: 50%;
-      margin-right: 0;
-      &:nth-child(n + 1) {
+    > .answer__wrap > .image_container {
+      width: 48%;
+      &:nth-child(n) {
         margin-top: 1rem;
+        margin-right: 0;
       }
     }
   }
   @media (max-width: 768px) {
-    > .image_container_add {
+    > .answer__wrap > .image_container_add {
       width: 100%;
     }
-    > .image_container {
+    > .answer__wrap > .image_container {
       width: 100%;
-      margin-right: 0;
+      margin-right: 1rem;
       &:nth-child(n + 1) {
         margin-top: 1rem;
+        margin-right: 0.5rem;
       }
     }
   }
@@ -181,50 +189,52 @@ const AnswerTemplateImage = ({ dataAnswerSelect, setDataAnswerSelect }) => {
         vaildator={isVaildAnswer}
         message={'보기를 만드시고 정답을 선택해 주세요'}
       />
-      {dataAnswerSelect.contents.map((el, idx) => {
-        return (
-          <div
-            key={idx.toString()}
-            className={
-              el.isAnswer
-                ? 'image_container answer_selected'
-                : 'image_container'
-            }
-          >
-            {el.isAnswer ? (
-              <span className="corret_answer_msg">정답</span>
-            ) : null}
-            <img
-              className="delete_icon"
-              src={deleteIcon}
-              alt="삭제 버튼 이미지"
-              onClick={() => deleteHandler(idx)}
-            ></img>
-            <img
-              className="uploaded_image"
-              src={el.image_url}
-              alt="업로드된 이미지"
-              onClick={() => answerSelectHandler(idx)}
-            ></img>
-          </div>
-        );
-      })}
+      <div className="answer__wrap">
+        {dataAnswerSelect.contents.map((el, idx) => {
+          return (
+            <div
+              key={idx.toString()}
+              className={
+                el.isAnswer
+                  ? 'image_container answer_selected'
+                  : 'image_container'
+              }
+            >
+              {el.isAnswer ? (
+                <span className="corret_answer_msg">정답</span>
+              ) : null}
+              <img
+                className="delete_icon"
+                src={deleteIcon}
+                alt="삭제 버튼 이미지"
+                onClick={() => deleteHandler(idx)}
+              ></img>
+              <img
+                className="uploaded_image"
+                src={el.image_url}
+                alt="업로드된 이미지"
+                onClick={() => answerSelectHandler(idx)}
+              ></img>
+            </div>
+          );
+        })}
 
-      {dataAnswerSelect.contents.length < MAX_IMAGE_ANSWER ? (
-        <div className="image_container_add">
-          <div>
-            <CropModal
-              handler={imageCropperHandler}
-              config={imageCropperConfig}
-            />
+        {dataAnswerSelect.contents.length < MAX_IMAGE_ANSWER ? (
+          <div className="image_container_add">
+            <div>
+              <CropModal
+                handler={imageCropperHandler}
+                config={imageCropperConfig}
+              />
+            </div>
+            <span>파일 최대 용량 3MB</span>
           </div>
-          <span>파일 최대 용량 3MB</span>
-        </div>
-      ) : null}
+        ) : null}
 
-      {dataAnswerSelect.contents.length >= MAX_IMAGE_ANSWER ? (
-        <p>이미지 답안은 최대 {MAX_IMAGE_ANSWER} 개까지 입력 가능합니다.</p>
-      ) : null}
+        {dataAnswerSelect.contents.length >= MAX_IMAGE_ANSWER ? (
+          <p>이미지 답안은 최대 {MAX_IMAGE_ANSWER} 개까지 입력 가능합니다.</p>
+        ) : null}
+      </div>
     </AnswerTemplateImageWrapper>
   );
 };

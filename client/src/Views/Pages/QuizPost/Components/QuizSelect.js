@@ -13,8 +13,8 @@ const QuizSelectWrapper = styled.div`
   flex-direction: column;
   > .post_quiz_select_wrapper__quiz_title {
     font-family: 'EBSHMJESaeronRA';
-    background-color: #b6c3b6;
-    margin: 0.3% 6% 0.3% 6%;
+    background-color: #93aca0;
+    margin: 0% 6% 0.8% 6%;
     padding: 1% 0;
     font-size: 1.8em;
     padding-left: 1em;

@@ -1,18 +1,18 @@
 import React, { useState, useEffect } from "react";
 import styled from 'styled-components';
-import mailIcon from '../Assets/mail-1.svg';
+import checkIcon from '../Assets/check-1.png';
 
-const EmailAuthAlertModalWrapper = styled.div`
+const ResignSuccessWrapper = styled.div`
   position: relative;
   width: 100%;
   height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  > .mail_icon {
+  > .check_icon {
     width: 8em;
     height: 8em;
-    margin: 2em 0 2em 0;
+    margin: 5em 0 2em 0;
   }
   > .close_button_top {
     position: absolute;
@@ -43,18 +43,16 @@ const EmailAuthAlertModalWrapper = styled.div`
   }
 `;
 
-const EmailAuthAlertModal = ({ openHandler }) => {
+const ResignSuccess = ({ openHandler }) => {
   return (
-    <EmailAuthAlertModalWrapper>
+    <ResignSuccessWrapper>
       <div className="close_button_top" onClick={() => openHandler()}>&times;</div>
-      <img className="mail_icon" src={mailIcon} alt="메일 아이콘"></img>
-      <p style={{fontSize: "2em"}}>이메일 <span style={{color: "green"}}>인증하기</span></p>
-      <br />
-      <p style={{fontSize: "1em"}}>회원님이 입력하신 이메일로 인증 메일이  <span style={{color: "green", fontWeight: "500"}}>발송</span>되었습니다</p>
-      <p style={{fontSize: "1em"}}>메일함을 열어 <span style={{color: "green", fontWeight: "500"}}>인증 확인 링크</span>를 클릭하시면 가입이 완료됩니다</p>
+      <img className="check_icon" src={checkIcon} alt="체크 아이콘"></img>
+      <p style={{fontSize: "1.5em", textAlign: "center"}}>회원 탈퇴가 <span style={{color: "green"}}>완료</span>되었습니다</p>
+      <p style={{fontSize: "1.5em", textAlign: "center"}}>이용해 주셔서 <span style={{color: "green"}}>감사합니다</span></p>
       <button className="close_button_bottom" onClick={() => openHandler()}>닫기</button>
-    </EmailAuthAlertModalWrapper>
+    </ResignSuccessWrapper>
   );
 }
 
-export default EmailAuthAlertModal;
+export default ResignSuccess;

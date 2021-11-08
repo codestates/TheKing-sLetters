@@ -5,10 +5,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUserCog } from "@fortawesome/free-solid-svg-icons";
 import { faTrophy } from "@fortawesome/free-solid-svg-icons";
 import MyPageModal from '../../Modals/MyPageModal';
-import Modal6 from '../../Modals/SubModals/RankModal'
-import DeleteApproveModal from '../../Modals/SubModals/DeleteApproveModal';
+import Modal6 from './RankModal'
+import DeleteApproveModal from './DeleteApproveModal';
 import { Link } from 'react-router-dom';
-
+import { useUserState } from "../../../context/UserContext";
 
 //----------------첫번째 박스-----------------------------------
 const FirstBox = styled.div`
@@ -16,6 +16,7 @@ display: flex;
 justify-content: flex-start;
 align-items: center;
 width: 100%;
+background-color: white;
 
 
 > .title {
@@ -339,13 +340,13 @@ const Li = styled.li`
 `;
 
 const MyPage = (props) => {
+  const userState = useUserState();
   const [userData, setUserData] = useState({
     email: '',
     name: '',
     image: '',
     mileage: '',
   })
-  const [deleteApproval, setDeleteApproval] = useState(false);
   const [deleteCheckOpen, setDeleteCheckOpen] = useState(false);
   const [selectedQuiz, setSelectedQuiz] = useState('')
 
@@ -361,45 +362,26 @@ const MyPage = (props) => {
   
 
   const deleteMyQuiz = async () => {
-    if(deleteApproval) {
-      await axios.delete(`https://api.thekingsletters.ml/users/deletequiz?quizid=${selectedQuiz}`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('accessToken')}`
-        }
-      })
-          
-      await axios.get("https://thekingsletters.ml/mypublish", {
+    await axios.delete(`https://api.thekingsletters.ml/users/deletequiz?quizid=${selectedQuiz}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('accessToken')}`
+      }
+    }).then( async () => {
+      await axios.get("https://api.thekingsletters.ml/mypublish", {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('accessToken')}`
         } 
       }).then((response)=> {
         setQuiz(response.data.data.madeQuiz)
       })
-    }
+    })
   }
 
 
   useEffect(() => {
-    if(props.location.state.isLogin === true) {
-// const [email, setEmail] = useState('');
-  // const [name, setName] = useState('');
-  // const [image, setImage] = useState(''); 
-  // axios.post("http://ec2-13-209-96-200.ap-northeast-2.compute.amazonaws.com/login" , {
-  //   email:'test@test.com',
-  //   password:'1234'
-  // })
-  // //창은 없지만 로그인 요청을 보내는 과정 
-  //     .then(function (response) {
-  //       localStorage.setItem('accessToken',response.data.data.accessToken);
-  //       //로그인 요청에 대한 응답 ocalStorage.setItem 브라우저 로컬 스토리지에 데이터를 저장  email:'test@test.com',password:'1234' 시크릿키를 섞어서 생성한 토큰
-  //       //const accessToken = res.data.data.token
-  //          // response  
-  //     }).catch(function (error) {
-  //         // 오류발생시 실행
-  //     }).then(function() {
-  //         // 항상 실행
-  //     });
-  axios.get("http://ec2-13-209-96-200.ap-northeast-2.compute.amazonaws.com/users/info", {
+    if(userState.isUserLoggedIn) {
+
+  axios.get("https://api.thekingsletters.ml/users/info", {
     headers: {
       Authorization: `Bearer ${localStorage.getItem('accessToken')}` // 로컬 브라우저에서 받은 토큰이다 //localStorage.getItem : 로컬 스토리지에 갖고 있는 값을 가지고 온 것
     }
@@ -410,12 +392,9 @@ const MyPage = (props) => {
       name : response.data.data.userData.name,
       image : response.data.data.userData.image,
       mileage : response.data.data.userData.mileage,
-    })
-    // setEmail(response.data.data.userData.email)
-    // setName(response.data.data.userData.name)
-    // setImage(response.data.data.userData.image)
+    })    
   })    
-  axios.get("http://ec2-13-209-96-200.ap-northeast-2.compute.amazonaws.com/mypublish", {
+  axios.get("https://api.thekingsletters.ml/mypublish", {
   headers: {
     Authorization: `Bearer ${localStorage.getItem('accessToken')}` // 로컬 브라우저에서 받은 토큰이다 //localStorage.getItem : 로컬 스토리지에 갖고 있는 값을 가지고 온 것
   }
@@ -449,7 +428,7 @@ const MyPage = (props) => {
 
     return (
       <>
-      {deleteCheckOpen && <DeleteApproveModal setDeleteApproval={setDeleteApproval} setDeleteCheckOpen={setDeleteCheckOpen} deleteMyQuiz={deleteMyQuiz} />}
+      {deleteCheckOpen && <DeleteApproveModal setDeleteCheckOpen={setDeleteCheckOpen} deleteMyQuiz={deleteMyQuiz} />}
       {modalOpen && <Modal6 setOpenModal={setModalOpen} />}
       <FirstBox>
         <div className="title">내 정보</div>
@@ -501,7 +480,7 @@ const MyPage = (props) => {
               {buyItems.map((el)=>(
                 <div className="buyItemsBox">
                   <div className="itemImage">
-                    <Link to="/"><img src={el.itemImage} alt="item" /></Link>
+                    <Link to="/mileageshop" ><img src={el.itemImage} alt="items"/></Link>
                   </div>
                   <div className="itemName">{el.itemName}</div>
                   <div className="cost">가격: {el.cost} 냥</div>
@@ -521,7 +500,7 @@ const MyPage = (props) => {
               <div className="usedItems">
                 {usedItems.map((el) => (
                   <div className="itemBox">
-                  <img className="itemImage" src={el.usedItem.itemImage}></img>
+                  <img className="itemImage" src={el.usedItem.itemImage} alt="itemImg"></img>
                   <div className="itemName">{el.usedItem.itemName}</div>
                   <div className="company">(주) {el.usedItem.company}</div>
                   <div className="deadline">사용기간: {el.usedItem.deadline}</div>

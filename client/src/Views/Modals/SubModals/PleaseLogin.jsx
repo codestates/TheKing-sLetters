@@ -1,18 +1,18 @@
 import React, { useState, useEffect } from "react";
 import styled from 'styled-components';
-import mailIcon from '../Assets/mail-1.svg';
+import lockIcon from '../Assets/lock-1.svg';
 
-const EmailAuthAlertModalWrapper = styled.div`
+const PleaseLoginWrapper = styled.div`
   position: relative;
   width: 100%;
   height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  > .mail_icon {
+  > .lock_icon {
     width: 8em;
     height: 8em;
-    margin: 2em 0 2em 0;
+    margin: 5em 0 2em 0;
   }
   > .close_button_top {
     position: absolute;
@@ -43,18 +43,15 @@ const EmailAuthAlertModalWrapper = styled.div`
   }
 `;
 
-const EmailAuthAlertModal = ({ openHandler }) => {
+const PleaseLogin = ({ openHandler }) => {
   return (
-    <EmailAuthAlertModalWrapper>
+    <PleaseLoginWrapper>
       <div className="close_button_top" onClick={() => openHandler()}>&times;</div>
-      <img className="mail_icon" src={mailIcon} alt="메일 아이콘"></img>
-      <p style={{fontSize: "2em"}}>이메일 <span style={{color: "green"}}>인증하기</span></p>
-      <br />
-      <p style={{fontSize: "1em"}}>회원님이 입력하신 이메일로 인증 메일이  <span style={{color: "green", fontWeight: "500"}}>발송</span>되었습니다</p>
-      <p style={{fontSize: "1em"}}>메일함을 열어 <span style={{color: "green", fontWeight: "500"}}>인증 확인 링크</span>를 클릭하시면 가입이 완료됩니다</p>
+      <img className="lock_icon" src={lockIcon} alt="자물쇠 아이콘"></img>
+      <p style={{fontSize: "1.5em", textAlign: "center"}}>계속하시려면 <br /><span style={{color: "green"}}>로그인</span>이 필요합니다</p>
       <button className="close_button_bottom" onClick={() => openHandler()}>닫기</button>
-    </EmailAuthAlertModalWrapper>
+    </PleaseLoginWrapper>
   );
 }
 
-export default EmailAuthAlertModal;
+export default PleaseLogin;

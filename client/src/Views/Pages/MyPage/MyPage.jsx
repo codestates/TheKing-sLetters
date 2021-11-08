@@ -12,63 +12,76 @@ import { Link } from 'react-router-dom';
 
 //----------------첫번째 박스-----------------------------------
 const FirstBox = styled.div`
-
-background-color: #316B83;
 display: flex;
-justify-content: space-between;
-max-width: 100vw; 
-
+justify-content: flex-start;
+align-items: center;
+width: 100%;
 
 > .title {
   font-family: 'EBSHMJESaeronRA';
-  width: 150px;
-  height: 100px;
-  margin: 10px;
-  /* border : 1px solid black; */
-  font-size: 30px;
+  padding-top: 3%;
+  padding-left: 0.1%;
+  padding-right: 0.1%;
+  border-bottom: 2px solid #303030;
+  margin-left: 2%;
+  margin-bottom: 2%;
+  font-size: 2rem;
+  letter-spacing: 3px;
 }
 
 > .setting {
-  position: relative;
-  top:5px;
-  right: 20px;
-  height: 100px;
-  margin: 10px;
-  /* border : 1px solid black; */
+  padding-top: 3%;
+  padding-left: 0.7%;
+  padding-right: 0.5%;
+  margin-bottom: 2%;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all .2s ease;
+    &:hover{
+    color: #5E5E5E;
+  }
 }
 `;
 
 //----------------두번째 박스-----------------------------------
 const SecondBox =styled.div`
-@media screen and (max-width: 783px) {
-background-color: #6D8299;
-flex-direction: column;
-/* margin-left: 200px; */
-
-      }
+width: 100%;
 background-color: #6D8299;
 display: flex;
 justify-content: space-between;
 flex-wrap: nowrap;
-max-width: 100vw; 
+@media screen and (max-width: 783px) {
+background-color: #6D8299;
+flex-direction: column;
+}
+
 
 
 > .profile {
-  @media screen and (max-width: 783px) {
-    border : 1px solid black;
-    max-width: 400px;
-    height: 300px;  
-    margin: 0 auto;
-    margin-top : 20px;
-      }
-    border : 1px solid black;
     border-radius: 10px;
-    max-width: 300px;
-    height: 245px;
-    margin: 10px;
+    width: 150px;
+    height: 150px;
+    margin: 1rem 1rem 1rem 2rem;
+    @media screen and (max-width: 783px) {
+      border : 1px solid black;
+      max-width: 400px;
+      height: 300px;  
+      margin: 0 auto;
+      margin-top : 20px;
+    }
   }
-
-> .profileData { 
+  
+  > .profileData { 
+    font-family: 'EBSHMJESaeronRA';
+    margin: 1rem;
+    margin-right: auto;
+    letter-spacing: 2px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    > h2 {
+    font-size: 1.5rem;
+  }
   @media screen and (max-width: 783px) {
     /* border : 1px solid black; */
     max-width: 400px;
@@ -77,15 +90,7 @@ max-width: 100vw;
     position: relative;
     top: 5px;
       } 
-  font-family: 'EBSHMJESaeronRA';
-  margin: 10px;
-  margin-right: auto;
-  width: 350px;
-  height: 245pxpx;
-  /* border : 1px solid black; */
-  > h2 {
-    font-size: 28px;
-  }
+
 }
   
   > .class {
@@ -414,7 +419,7 @@ const MyPage = (props) => {
       {deleteCheckOpen && <DeleteApproveModal setDeleteCheckOpen={setDeleteCheckOpen} deleteMyQuiz={deleteMyQuiz} />}
       {modalOpen && <Modal6 setOpenModal={setModalOpen} />}
       <FirstBox>
-        <div className="title">나의 정보</div>
+        <div className="title">내 정보</div>
         <div className="setting">
             <li onClick={handleMypage}>
               {isMypageOpen === false ? <FontAwesomeIcon icon={faUserCog} size="2x" className="setting" /> : <FontAwesomeIcon icon={faUserCog} size="2x" className="setting" />}
@@ -433,8 +438,8 @@ const MyPage = (props) => {
             alt="" />
         {/* </div> */}
         <div className='profileData'>
-          <h2>{userData.email}</h2>
-          <h2>{userData.name}</h2>
+          <h2>ID: {userData.email}</h2>
+          <h2>닉네임: {userData.name}</h2>
         </div>
         {/* <div className='data3'> */}
         <div className="class">

@@ -100,14 +100,13 @@ const ModalSubmitView = styled.div`
     padding: 8px 18px;
     font-size: 1rem;
     letter-spacing: 1px;
-    border: 1px solid #0066ff;
-    background-color: #0066ff;
+    border: 1px solid rgba(77, 109, 254, 0.9);
+    background-color: rgba(77, 109, 254, 0.9);
   }
   > .modal_button_container .modal_confirm_yes:hover {
     cursor: pointer;
-    border: 1px solid #303030;
-    background-color: transparent;
-    color: #303030;
+    border: 1px solid #0066ff;
+    background-color: #0066ff;
     transition: all 0.4s ease;
   }
   > .modal_button_container .modal_confirm_no {

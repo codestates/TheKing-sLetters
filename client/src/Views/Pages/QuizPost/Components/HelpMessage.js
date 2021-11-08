@@ -15,7 +15,7 @@ const MsgShowUp = styled.p`
   visibility: hidden;
   /* 메시지 위치 설정 */
   position: absolute;
-  z-index: 499;
+  z-index: 1;
   /* padding을 고려해서 왼쪽 끝으로 이동 */
   left: 6%;
 

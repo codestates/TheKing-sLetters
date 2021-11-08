@@ -114,6 +114,32 @@ const AnswerTemplateImageWrapper = styled.div`
       font-family: 'EBSHMJESaeronRA';
     }
   }
+  > .answer__wrap > .error_msg {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 12px;
+    /* 폰트 설정 */
+    font-size: 16px;
+    font-family: 'EBSHMJESaeronRA';
+    letter-spacing: 3px;
+    /* 크기 설정 */
+    padding: 0px 5px 0px 5px;
+  }
+  @media (max-width: 1280px) {
+    > .answer__wrap > .image_container_add {
+      width: 31%;
+      box-sizing: border-box;
+    }
+    > .answer__wrap > .image_container {
+      width: 31%;
+      margin-top: 1rem;
+      box-sizing: border-box;
+      &:nth-child(4n + 1) {
+        margin-right: 0;
+      }
+    }
+  }
   @media (max-width: 960px) {
     > .answer__wrap > .image_container_add {
       width: 48%;
@@ -232,7 +258,9 @@ const AnswerTemplateImage = ({ dataAnswerSelect, setDataAnswerSelect }) => {
         ) : null}
 
         {dataAnswerSelect.contents.length >= MAX_IMAGE_ANSWER ? (
-          <p>이미지 답안은 최대 {MAX_IMAGE_ANSWER} 개까지 입력 가능합니다.</p>
+          <p className="error_msg">
+            이미지 답안은 최대 {MAX_IMAGE_ANSWER} 개까지 입력 가능합니다.
+          </p>
         ) : null}
       </div>
     </AnswerTemplateImageWrapper>

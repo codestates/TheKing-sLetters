@@ -72,13 +72,13 @@ const ModalView = styled.div`
     align-items: center;
 
     > .confirm_button {
-      border: 1px solid rgba(77, 109, 254, 0.9);
       border-radius: 6px;
       padding: 8px 18px;
       font-size: 1.2em;
       line-height: 1.2em;
       color: #fafafa;
       margin-right: 2rem;
+      border: 1px solid rgba(77, 109, 254, 0.9);
       background-color: rgba(77, 109, 254, 0.9);
       transition: all 0.4s ease;
       letter-spacing: 2px;

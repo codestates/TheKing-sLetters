@@ -17,7 +17,7 @@ const ModalBackground = styled.div`
   place-items: center;
 
 > div {
-  width: 350px;
+  width: 40em;
   height: 600px;
   border-radius: 12px;
   background-color: white;
@@ -55,7 +55,7 @@ display: inline-block;
     //scroll
     overflow: auto;
     height: 440px;
-    width: 350px;
+    width: 40em;
     border: 1px solid black;
     margin-top: 35px;
     border-radius: 12px;
@@ -67,16 +67,20 @@ display: inline-block;
       display: flex;
       justify-content: flex-start;
       > .class {
+        width: 5em;
         margin: 10px;
         margin-top: 1px;
+        margin-right: 1.5em;
      }
 
      > .name {
        margin: 10px;
        margin-top: 1px;
+       margin-right: auto;
      }
 
      > .mileage {
+       width: 3em;
        margin: 10px;
        margin-top: 1px;
        margin-left: 10px;

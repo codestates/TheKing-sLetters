@@ -8,7 +8,7 @@ import SignInModal from './SignInModal';
 import SignUpModal from './SignUpModal';
 import MyPageModal from './MyPageModal';
 
-const ModalController = () => {
+const ModalController = ({children}) => {
   /* 모달창 온오프 컨트롤용 state */
   const [signInOpen, setSignUpnOpen] = useState(false);
   const [signUpOpen, setSignUnOpen] = useState(false);
@@ -35,6 +35,7 @@ const ModalController = () => {
     <Portal elementId="modal_signup_toggle">
       <SignUpModal isOpen={signUpOpen} setIsOpen={setSignUnOpen}></SignUpModal>
     </Portal>
+    {children}
     </>
   )
 };

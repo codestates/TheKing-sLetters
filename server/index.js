@@ -24,13 +24,17 @@ app.get('/', (req, res) => {
 app.post('/signup', controllers.signup)
 app.post('/login', controllers.login)
 app.patch('/users/edit', controllers.edit)
-app.post('/signout', controllers.signout)
+app.get('/signout', controllers.signout)
 app.delete('/resign', controllers.resign)
 app.get('/users/info', controllers.info)  // GET으로 변경
 app.get('/users/rank', controllers.rank)
 app.delete('/users/deletequiz', controllers.userDeleteQuiz)
 // email auth API
 app.get('/confirmEmail', controllers.emailAuth)
+
+// oauth API
+app.get('/auth/google', controllers.google)
+app.get('/auth/git', controllers.gitOauth)
 
 // quiz API
 app.get('/mynote', controllers.mynote)

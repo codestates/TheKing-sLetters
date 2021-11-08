@@ -65,7 +65,7 @@ module.exports = async (req, res) => {
     }
 
     if(myNote.length <= 0) {
-      res.status(200).send("my note is empty")
+      res.status(200).json({ data: { userData: sendUserData, myNote } })
     }
 
     let n = myNote.length-1

@@ -28,6 +28,8 @@ module.exports = async (req, res) => {
           console.log(userList[minIdx])
             if (userList[minIdx].mileage < userList[j].mileage) {
                 minIdx = j
+            } else if (userList[minIdx].id > userList[j].id && userList[minIdx].mileage === userList[j].mileage) {
+              minIdx = j
             }
         }
         if (minIdx !== i) {
@@ -45,7 +47,7 @@ module.exports = async (req, res) => {
     rankList = rankList.slice(offset, limit)
   }
 
-  if(userList.length <= limit) {
+  if(userList.length-1 <= limit) {
     res.status(200).json({ data: { rankList, message: "Done" } })
   }
 

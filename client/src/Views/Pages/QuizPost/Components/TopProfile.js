@@ -113,7 +113,7 @@ const TopProfile = ({ userData }) => {
   return (
     <TopProfileContainer>
       <TopProfileTitle>
-        <h2 className="top__profile__title">문제 登錄</h2>
+        <h2 className="top__profile__title">문제 등록</h2>
       </TopProfileTitle>
       <TopProfileWrapper>
         <div className="user_profile_image_wrapper">

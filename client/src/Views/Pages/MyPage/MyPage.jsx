@@ -174,7 +174,10 @@ const Li = styled.li`
 > .tab:hover {
   background: #8CA1A5;
 }
-> .container {
+
+/* ----------------------상품 목록------------------------ */
+
+> .itemListContainer {
   display: flex;
   justify-content: space-between;
   margin-bottom: 1em;
@@ -187,6 +190,7 @@ const Li = styled.li`
     overflow: auto;
     display: flex;
     padding: 1% 0 2% 0;
+
    
   //------------------------------상품 내역--------------------------
 >  .buyItemsBox {
@@ -230,7 +234,24 @@ const Li = styled.li`
     margin-bottom: .8rem;
   }
 }
-  //---------------------------------구매 내역-----------------------
+  }
+}
+
+/* ----------------------구매 내역------------------------ */
+
+> .purchasedContainer {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1em;
+  padding: 0;
+  max-height: 0;
+  background: rgba(209,213,218,0.5);
+  overflow: hidden;
+  transition: all .4s ease;
+  > div { 
+    overflow: auto;
+    display: flex;
+    padding: 1% 0 2% 0;
   > .itemBox{
     padding: 1rem 0;
     padding-left: 0.6rem;
@@ -271,8 +292,24 @@ const Li = styled.li`
  
   }
 
-   //-------------------------------내가 만든 문제---------------------
-  
+  }
+}
+
+/* ----------------------내가 만든 퀴즈---------------------- */
+
+> .madeQuizContainer {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1em;
+  padding: 0;
+  /* max-height: 0; */
+  background: rgba(209,213,218,0.5);
+  overflow: hidden;
+  transition: all .4s ease;
+  > div { 
+    overflow: auto;
+    display: flex;
+    padding: 1% 0 2% 0;
   > .quizBox {
     padding: 1rem 0;
     padding-left: 0.6rem;
@@ -325,14 +362,25 @@ const Li = styled.li`
     letter-spacing: 3px;
       }
     }
-  }
+}
 }
 
-> .checkbox:checked ~ .container {  
+> .checkbox:checked ~ .itemListContainer {  
   height: auto;
   max-height: 600px;
   transition: max-height 0.5s linear 0.25s;
 }
+> .checkbox:checked ~ .purchasedContainer {  
+  height: auto;
+  max-height: 600px;
+  transition: max-height 0.5s linear 0.25s;
+}
+> .checkbox:checked ~ .madeQuizContainer {  
+  height: auto;
+  max-height: 600px;
+  transition: max-height 0.5s linear 0.25s;
+}
+
 > .checkbox:checked + .tab {  
   background-color: #738A90;
   padding: 0.5rem 0;
@@ -475,7 +523,7 @@ const MyPage = (props) => {
                 <div className="mileage">{userData.mileage} 냥</div>
                 <div className="mileage-store">저잣거리 보기</div>
             </label>
-            <div className="container" >
+            <div className="itemListContainer" >
               <div className="buyItems">
               {buyItems.map((el)=>(
                 <div className="buyItemsBox">
@@ -496,7 +544,7 @@ const MyPage = (props) => {
             <label className="tab" for="section-2-radio" id="section-2-tab">
                 <div className="purchase-history">구매 내역</div>
             </label>
-            <div className="container" id="section-2-panel">
+            <div className="purchasedContainer" id="section-2-panel">
               <div className="usedItems">
                 {usedItems.map((el) => (
                   <div className="itemBox">
@@ -516,10 +564,9 @@ const MyPage = (props) => {
             <label className="tab" for="section-3-radio" id="section-3-tab">
                 <div className="created-problem">내가 만든 문제</div>
             </label>
-            <div className="container" id="section-3-panel">
+            <div className="madeQuizContainer" id="section-3-panel">
               <div>
                 {quiz.map((el)=>
-                
                 <div className="quizBox">
                 <button onClick={() => { setSelectedQuiz(el.id); setDeleteCheckOpen(true) }}>&times;</button>
                   <div className="thumbnail">

@@ -1,27 +1,32 @@
 <html>
   <header>
-    <style>
-      @font-face {
-        font-family: 'Malssami815';
-        src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_four@1.0/Malssami815.woff') format('woff');
-        font-weight: normal;
-        font-style: normal;
-      }
-      body { font-family:'Malssami815'}
-    </style>
   </header>
   <body>
-    <div align="center">
-      <a href="<%= url %>" style="text-decoration:none" height=38em width=38em>
-      <table style="background-image:url('https://cdn.discordapp.com/attachments/859214492265480213/902605438594457641/email2.png?width=466&height=466'); background-size:cover;background-repeat:no-repeat" width="466" height="466" align="center">
+    <div align="center" style="background-image:url(https://lh3.googleusercontent.com/proxy/LUQ2Nr3yT76rwRampLSTzpn4H6u6Q7P_KEY9-KmXMkvHvN1HAfScJINqSdZZCNfBcSxpvm03PR7v1HzDYppixwxeItx4GGQqavhlLQk5CX6MQ2rEvQGRFStwSUx4RWPbew);">
+      <a href="<%= url %>" style="text-decoration:none" height=35em width=35em>
+      <table style="background-image:url('https://cdn.discordapp.com/attachments/859214492265480213/905511719164583936/001.png?width=350&height=350'); background-size:cover;background-repeat:no-repeat" width="350" height="350" align="center">
+      </a>
+      <div style="background-color: rgb(150, 180, 135); border-bottom: 0.4rem solid beige; height: 2rem;">
+      </div>
         <tbody align="center">
-          <td align="center" style="font-size:20px; color:black">
-            반갑소. <%= name %>나리<br><br>
-            입학을 마무리하기 위해<br>
-            족자를 눌러 제출해주시오.
+          <td align="center" style="font-size:1rem; font-weight: bold; color:rgb(58, 58, 58)">
+            반갑소. <%= name %> 나리<br><br><br>
+            족자를 눌러<br>
+            입학을 마무리 해주시오.
           <td>
         </tbody>
       </table>
+      <div align="center" style="background-color: rgb(150, 180, 135); border-top: 0.4rem solid beige; font-size:20px; color:rgb(58, 58, 58); height: 2rem; font-size: 0.7rem;">
+        url: <a href=<%= url %>><%= url %></a><br>
+        위 이미지를 클릭하시거나 url을 클릭해 인증을 완료해주세요.
+      </div>
+      <p align="center" style="background-color: rgb(150, 180, 135); color: blanchedalmond;">
+        <br>
+        &copy; 2021 by The King's letter Inc. All right reserved
+        <br>
+        해당 이메일은 발신 전용입니다.
+        <br>
+      </p>
     </div>
   </body>
 </html>

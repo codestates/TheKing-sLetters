@@ -23,12 +23,26 @@ module.exports = async (req, res) => {
       ]
     })
 
+    const unlineupRankList = []
+    userList.map((user) => {
+      if(user.name !== "unknown") {
+        unlineupRankList.push({
+          id: user.id,
+          name: user.name,
+          image: user.image,
+          mileage: user.mileages[0].mileage
+        })
+      }
+    })
+
     const lineupUser = (userList) => {
       for (let i=0; i<userList.length; i++) {
           let minIdx = i;
           for (let j=i+1; j<userList.length; j++) {
-              if (userList[minIdx].mileages[0].mileage < userList[j].mileages[0].mileage) {
+              if (userList[minIdx].mileage < userList[j].mileage) {
                   minIdx = j
+              } else if (userList[minIdx].id > userList[j].id && userList[minIdx].mileage === userList[j].mileage) {
+                minIdx = j
               }
           }
           if (minIdx !== i) {
@@ -40,7 +54,7 @@ module.exports = async (req, res) => {
       return userList
     }
 
-    const lineupUserList = lineupUser(userList)
+    const lineupUserList = lineupUser(unlineupRankList)
 
     const searchUser = (userList, userData) => {
       let left = 0;
@@ -48,11 +62,11 @@ module.exports = async (req, res) => {
 
       while(left <= right) {
         let mid = parseInt((left + right) / 2)
-        
-        if(userList[mid].mileages[0].mileage === userData.mileages[0].mileage) {
+
+        if(userList[mid].mileage === userData.mileages[0].mileage) {
           return mid+1;
         }
-        else if(userList[mid].mileages[0].mileage > userData.mileages[0].mileage) {
+        else if(userList[mid].mileage > userData.mileages[0].mileage) {
           left = mid + 1;
         }
         else {

@@ -15,7 +15,7 @@ module.exports = {
       updatedAt: data.updatedAt
     }
 
-    return sign(userData, process.env.ACCESS_SECRET, {expiresIn: '24h'});
+    return sign(userData, process.env.ACCESS_SECRET, {expiresIn: '3d'});
   },
   sendAccessToken: (req, res, userData, accessToken) => {
     // res.cookie("accessToken", accessToken, {
@@ -29,14 +29,17 @@ module.exports = {
     // const token = req.cookies.jwt;
     // const cookie = req.headers.cookie
     try {
+console.log(req.headers)
       const header = req.headers.authorization;
+console.log("header"+header)
       const accessToken = header.split(' ')[1];
+console.log("access"+accessToken)
       try {
         const verified = verify(accessToken, process.env.ACCESS_SECRET);
-  
+console.log("verify"+verified)
         return verified
       } catch {
-        res.status(404).send('사용 권한이 없습니다. 다시 로그인해주세요.')
+        res.status(404).json({ message: '사용 권한이 없습니다. 다시 로그인해주세요.' })
       }
     } catch {
       res.status(404).send('인증 토큰이 존재하지 않습니다.')

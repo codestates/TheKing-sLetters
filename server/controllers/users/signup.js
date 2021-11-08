@@ -6,6 +6,7 @@ const path = require('path')
 const appDir = path.dirname(require.main.filename);
 
 module.exports = async (req, res) => {
+console.log(req.body)
   const { name, email, password, mobile, gender } = req.body
 
   if(!name || !email || !password || !mobile || !gender) {
@@ -78,7 +79,7 @@ module.exports = async (req, res) => {
     });
     
     //옵션
-    let from = `나랏말싸미 <kingsletter1020@gmail.com>`
+    let from = `나랏말싸미 <kingsletter1443@gmail.com>`
     const mailOptions = {
       from: from,
       to: email,

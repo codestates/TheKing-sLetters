@@ -1,9 +1,6 @@
-import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import SignInModal from '../Views/Modals/SignInModal';
-import SignUpModal from '../Views/Modals/SignUpModal';
 
 const NavBar = styled.div`
   background-color: #d7dbd1;
@@ -72,37 +69,23 @@ const NavBarMenu = styled.ul`
   }
 `;
 
-const NavBarUser = styled.ul`
+const NavBarUser = styled.div`
   display: flex;
-  padding-left: 0px;
-  cursor: pointer;
-  > li {
-    padding: 8px 12px;
-    color: #000000;
-    font-size: 15px;
-    text-align: center;
-  }
-  > li:first-child {
+  flex-direction: row;
+  gap: 1em;
+  > .modal_button {
     border: 1px solid #303030;
     border-radius: 5px;
     padding: 8px 18px;
-    &:hover {
+    font-size: 1em;
+    :hover {
+      cursor: pointer;
       background-color: #303030;
       transition: all 0.4s;
-      color: #fff;
-    }
-  }
-  > li:last-child {
-    margin-left: 6px;
-    background-color: #303030;
-    border: 1px solid #303030;
-    border-radius: 5px;
-    color: #fff;
-    &:hover {
-      border: 1px solid #303030;
-      background-color: #d7dbd1;
-      transition: all 0.4s;
-      color: #000000;
+      > button {
+        cursor: pointer;
+        color: #fff;
+      }
     }
   }
 
@@ -123,54 +106,6 @@ const NavBarToggle = styled.div`
 `;
 
 const Header = () => {
-  const [isLogin, setIsLogin] = useState(false);
-  const [loginOpen, setLoginOpen] = useState(false); //로그인모달 on off 관련상태
-  const [signupOpen, setSignupOpen] = useState(false); // 회원가입 모달 on off 관련 상태
-
-  useEffect(() => {
-    if(localStorage.getItem('accessToken')) {
-      axios.get('https://api.thekingsletters.ml/users/info', 
-      {headers : {
-        Authorization : `Bearer ${localStorage.getItem('accessToken')}`
-      }})
-      .then(() => setIsLogin(true))
-      .catch(() => setIsLogin(false))
-    }
-  }, [])
-  
-  const logoutHandler = async () => {
-    await axios
-      .get('https://api.thekingsletters.ml/signout', {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-        },
-      })
-      .then((response) => {
-        if (response.status === 200) {
-          window.location='/'
-          localStorage.removeItem('accessToken');
-          setIsLogin(false);
-        }
-      })
-      .catch((response) => {
-        console.log(response);
-      });
-  };
-
-  const openModalHandler = () => {
-    setLoginOpen(!loginOpen); // 로그인 모달 on 이벤트
-  };
-
-  const handleLogin = (event) => {
-    //회원가입 모달 off 이벤트
-    setSignupOpen(false);
-  };
-
-  const handleSignup = (event) => {
-    //로그인 모달 안에서 회원가입 모달 on 이벤트
-    setLoginOpen(false); // 로그인이 모달 off
-    setSignupOpen(true); // 회원가입 모달 on
-  };
   const handleButtonClick = () => {
     let nav = document.querySelector('nav');
     let menuBtn = document.querySelector('.menu-btn');
@@ -205,45 +140,14 @@ const Header = () => {
             <Link to="/mileageshop">저잣거리</Link>
           </li>
         </NavBarMenu>
-        <NavBarUser className="navbar__user">
-          {isLogin === false ? (
-            <>
-              <li onClick={openModalHandler}>
-                {loginOpen === false ? '로그인' : '로그인'}
-              </li>
-              <li onClick={handleSignup}>
-                {signupOpen === false ? '회원가입' : '회원가입'}
-              </li>
-            </>
-          ) : (
-            <>
-                <li>
-                  <Link
-                    to={{ pathname: `/mypage`,
-                    state: { isLogin: isLogin, }, }}
-                    style={{ color: 'black' }}
-                  >
-                    마이 페이지
-                  </Link>
-              </li>
-              <li onClick={logoutHandler}>로그아웃</li>
-            </>
-          )}
+        <NavBarUser>
+          <div className="modal_button" id="modal_signin"></div>
+          <div className="modal_button" id="modal_signup"></div>
+          <li className="link">
+              <Link to="/mypage">내정보</Link>
+            </li>
         </NavBarUser>
       </NavBar>
-      <SignInModal
-        open={loginOpen}
-        openModalHandler={openModalHandler}
-        handleSignup={handleSignup}
-        signupOpen={signupOpen}
-        handleLogin={handleLogin}
-        setIsLogin={setIsLogin}
-      />
-      <SignUpModal
-        open={signupOpen}
-        handleSignup={handleSignup}
-        handleLogin={handleLogin}
-      />
 
       <NavBarToggle>
         <Nav className="nav">
@@ -270,24 +174,14 @@ const Header = () => {
             <li className="link">
               <Link to="/mileageshop">저잣거리</Link>
             </li>
-            {isLogin === false ? (
-              <>
-                <li className="link" onClick={openModalHandler}>
-                  {loginOpen === false ? <a>로그인</a> : <a>로그인</a>}
-                </li>
-                <li className="link" onClick={handleSignup}>
-                  {signupOpen === false ? <a>회원가입</a> : <a>회원가입</a>}
-                </li>
-              </>
-            ) : (
-              <>
-                <li onClick={logoutHandler} className="link">
-                  <a>로그아웃</a>
-                </li>
-              </>
-            )}
+            <div className="modal_button" id="modal_signin_toggle"></div>
+            <div className="modal_button" id="modal_signup_toggle"></div>
+            <li className="modal_button">
+              <Link to="/mypage">내정보</Link>
+            </li>
           </NavLinks>
         </Nav>
+
       </NavBarToggle>
     </div>
   );
@@ -410,6 +304,28 @@ const NavLinks = styled.ul`
     }
   }
 
+  > .modal_button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: var(--link-height);
+    > button {
+      text-transform: uppercase;
+      font-family: 'EBSHunminjeongeumSBA';
+      font-size: 1.5rem;
+      font-weight: 900;
+      color: #fff;
+    }
+    > button:hover {
+      cursor: pointer;
+    }
+  }
+  > .modal_button:hover {
+    background-color: #222;
+    transition: all 0.35s ease-in-out;
+  }
+  
   > .title {
     position: absolute;
     top: -30%;

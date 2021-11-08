@@ -1,239 +1,259 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
-import EmailAuthAlertModal from './EmailAuthAlertModal'
-const BORDER_DEV = ``;
+import EmailAuthAlertModal from './SubModals/EmailAuthAlertModal'
+import loadingIcon from './Assets/loading-1.svg';
+
 axios.defaults.baseURL = `https://api.thekingsletters.ml`;
 axios.defaults.withCredentials = true;
 
 export const ModalBackdrop = styled.div`
+  /* css 부모로부터 상속 방지 */
+  all: initial;
   position: fixed;
   z-index: 999;
-  top: 0;
   left: 0;
-  bottom: 0;
-  right: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
   background-color: rgba(0,0,0,0.75);
-  display: grid;
-  place-items: center;
 `;
 
-export const ModalContainer = styled.div`
-  height: 100px;
-  text-align: center;
-  margin: 120px auto;
-  `;
-
 export const ModalBtn = styled.button`
-  background-color: white;
+  background-color: transparent;
   text-decoration: none;
   border: none;
-  padding: 20px;
-  color: #0a0a0a;
-  cursor: pointer;
-  `;
+`;
 
 export const ModalView = styled.div`
-position: relative;
-text-align: center;
-
-> div.close_btn {
-  margin-top: 5px;
-  cursor: pointer;
-}
-
-> div.box {
   position: absolute;
-        transition: all 0.4s;
+  overflow: hidden;
+  font-size: 16px;
+  transition: all 0.4s;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   width: 500px;
-  height: 700px;
-  padding: 50px;
+  height: 680px;
   background:  white;
   box-sizing: border-box;
   box-shadow: 0 15px 25px rgba(0, 0, 0, 0.5);
   border-radius: 10px;
-      @media (max-width: 768px) {
-        transition: all 0.4s;
-        height: 100vh;
-        width: 100vw;
+  @media (max-width: 768px) {
+    transition: all 0.4s;
+    height: 100vh;
+    width: 100vw;
+  }
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+
+  > .close_btn {
+    position: absolute;
+    right: 0.3em;
+    top: 0.3em;
+    font-size: 1.3em;
+    font-weight: 800;
+    color: white;
+    :hover {
+      cursor: pointer;
+    }
+  }
+
+  > .modal_title {
+    color: #0a0a0a;
+    background-color: #5bb85d;
+    color: white;
+    font-size: 2em;
+    font-weight: 600;
+    letter-spacing: 0.5em;
+    padding-left: 0.5em;
+    text-align: center;
+
+    width: 100%;
+    height: 2.5em;
+    line-height: 2.5em;
+  }
+
+  > .modal_form {
+    width: 86%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+    
+  > .modal_form .input_box {
+    position: relative;
+    width: 100%;
+    height: auto;
+    margin: 1.8em 0 0 0;
+  }
+
+  > .modal_form .input_box input {
+    width: 98%;
+    padding: 0 1% 0 1%;
+    height: 2.5em;
+    color: rgba(0, 0, 0, 1);
+    background-color: rgba(0, 0, 0, 0.1);
+    letter-spacing: 1px;
+    border: none;
+    outline: none;
+    border-radius: 5px;
+  }
+  > .modal_form .input_box label {
+    font-family: 'EBSHMJESaeronRA';
+    position: absolute;
+    top: 0.5em;
+    left: 0.5em;
+    letter-spacing: 1px;
+    color: rgba(0, 0, 0, 0.3);
+    font-weight: 500;
+    pointer-events: none;
+    transition: 0.5s;
+  }
+  > .modal_form .input_box .submit-error-msg {
+    position: absolute;
+    right: 0.5em;
+    top: 50%;
+    transform: translate(0%, -50%);
+    font-size: 0.8em;
+    text-align: right;
+    color: #e6162a;
+  }
+  > .modal_form .input_box .label_active {
+    top: -1.3em;
+    left: 0;
+    color: blueviolet;
+    font-weight: 600;
+  }
+  > .modal_form .vaild-check-box {
+    position: relative;
+    font-family: 'EBSHMJESaeronRA';
+    width: 100%;
+    height: auto;
+  }
+  > .modal_form .vaild-check-box .vaild-check-msg {
+    width: 100%;
+    padding: 0.2em 0.5em 0em 0.5em;
+    font-size: 0.8em;
+    text-align: left;
+    /* 깜빡이는 애니메이션 */
+    animation: 0.5s linear 0s 2 normal none running none;
+    @keyframes blink {
+      0% {
+        opacity: 0.8;
       }
-}
+      50% {
+        opacity: 0.3;
+      }
+      100% {
+        opacity: 0.8;
+      }
+    }
+  }
 
-> div.box span {
-      position: absolute;
-      top: 3px;
-      right: 5px;
-      color: black;
-      font-size: 20px;
+  > .modal_form .radio_box {
+    line-height: 1.5em;
+    width: 100%;
+    height: auto;
+    margin: 1.8em 0 0 0;
+  }
+  > .modal_form .radio_box input {
+    position: relative;
+    margin: 0 0.3em 0 0.3em;
+  }
+  > .modal_form .radio_box input::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 1em;
+    height: 1em;
+    border-radius: 50%;
+    background-color: lightgray;
+    z-index: 101;
+  }
+  > .modal_form .radio_box input:checked::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 1em;
+    height: 1em;
+    border-radius: 50%;
+    background: #2196F3;
+    z-index: 102;
+  }
+  .modal_form .radio_box input:checked::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 0.4em;
+    height: 0.4em;
+    border-radius: 50%;
+    background: white;
+    z-index: 103;
+  }
+  > .modal_form .radio_box label {
+    font-family: 'EBSHMJESaeronRA';
+    letter-spacing: 1px;
+    color: #0a0a0a;
+    font-weight: 500;
+    transition: 0.5s;
+    font-size: 1em;
+  }
+
+  > .submit_buttons {
+    margin: 0 0 1em 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 1em;
+    > :hover {
       cursor: pointer;
     }
-    
-    > div.box h1 {
-      font-family: 'EBSHMJESaeronRA';
-      position: relative;
-      bottom: 25px;
-      margin-top: -20px;
-      margin: 1px;
-      /* margin: 0 0 30px; */
-      padding: 0;
-      color: #0a0a0a;
-      text-align: center;
-      font-size: 1.7em;
-    }
-    
-    > div.box .inputBox {
-      position: relative;
-    }
-
-    > div.box .inputBox input {
-      width: 100%;
-      padding: 10px;
-      font-size: 16px;
-      color:  black;
-      letter-spacing: 1px;
-      margin-bottom: 30px;
-      border: none;
-      border-bottom: 1px solid black;
-      outline: none;
-      background: transparent;
-      border-radius: 0;
-    }
-
-    > div.box .inputBox label {
-      font-family: 'EBSHMJESaeronRA';
-      position: absolute;
-      top: -10px;
-      left: 0;
-      letter-spacing: 1px;
-      padding: 10px 0;
-      font-size: 18px;
-      color: #0a0a0a;
-      pointer-events: none;
-      transition: 0.5s;
-    }
-
-    /* > div.box .inputBox input:valid ~ label {
-        top: -18px;
-        left: 0;
-        color: black;
-        font-size: 12px;
-      } */
-    /* > div.box .register {
-      color: #03a9f4;
-    } */
-    
-    > div.box input {
-      font-family: 'EBSHMJESaeronRA';
-      background: transparent;
+    > .submit_button_yes {
+      width: 10em;
+      height: 3em;
       border: none;
       outline: none;
-      color: #fff;
-      background: #8bb07f;
-      width: 150px;
-      padding: 10px 20px;
-      cursor: pointer;
       border-radius: 5px;
-      font-size: 20px;
-      margin-top: 15px;
-      margin-left: -2%;
-      margin-bottom: 32px;
-      position: relative;
+      background-color: #2196F3;
+      color: white;
     }
-
-    > div.box input:last-child{
-      margin-right: 0;
+    > .submit_button_no {
+      width: 10em;
+      height: 3em;
+      border: none;
+      outline: none;
+      border-radius: 5px;
     }
-
-    > div.box a { 
-        
-      color: #97bb92;
-      margin-left: 2%;
-    }
-
-    > div.box .radioBox {
-      font-family: 'EBSHMJESaeronRA';
-      border: ${BORDER_DEV};
-      position: relative;
-      
-      > input {
-        width: 15px;
-        height: 15px;
-        margin-left: 30px;
-      }
-
-      > label {
-        font-size: 16px;
-        color: black;
-        letter-spacing: 1px;
-        outline: none;
-        margin-left: 5px;
-        margin-right: 30px;
-      }
-    }
-
-    > div.box .vaild-check-box {
-      font-family: 'EBSHMJESaeronRA';
-      border: ${BORDER_DEV};
-      position: relative;
-      height: 12px;
-    
-      > .vaild-check-msg {
-        position: relative;
-        top: -15px;
-        width: 100%;
-        font-size: 12px;
-        color: black;
-        letter-spacing: 0px;
-        outline: none;
-        background: transparent;
-        
-      }
-
-      > .vaild-check-msg {
-        position: relative;
-        top: -25px;
-        width: 100%;
-        font-size: 15px;
-        color: #8e4444;
-        letter-spacing: 0px;
-        outline: none;
-        background: transparent;
-        
-      }
-    }
-
-    > div.box .submit-result-table {      
-      position: relative;
-      height: 20px;
-
-      > span {
-        display: none;
-        position: absolute;
-        top: 0;
-        width: 100%;
-        font-size: 16px;
-        color: #fff;
-        letter-spacing: 1px;
-        outline: none;
-        background: transparent;
-        transition: all 1.5s ease-out;
-      }
-    }
-
+  }
 `;
 
-const SignUpModal = ({ open, handleLogin, handleSignup }) => {
-  const [emailAlertOpen, setEmailAlertOpen] = useState(false);
+const SignUpModal = ({ isOpen, setIsOpen }) => {
   const [isVaildEmail, setIsVaildEmail] = useState(false);
   const [isVaildName, setIsVaildName] = useState(false);
   const [isVaildMobile, setIsVaildMobile] = useState(false);
   const [isVaildGender, setIsVaildGender] = useState(false);
   const [isVaildPassword, setIsVaildPassword] = useState(false);
+  const [isVaildPasswordCheck, setIsVaildPasswordCheck] = useState(false);
   const [isPasswordEmpty, setIsPasswordEmpty] = useState(false);
-  const submitResultControl = useRef();
+
+  // 회원가입 확인버튼 로딩
+  const [isLoading, setIsLoading] = useState(false);
+
+  // 회원가입 완료 여부를 저장하는 state
+  const [isDoneSubmit, setIsDoneSubmit] = useState(false);
+  
+  // 에러 저장용 state
+  const [errorList, setErrorList] = useState({emailAlreadyExist: false});
 
   const initialValue = {
     email: "",
@@ -242,20 +262,17 @@ const SignUpModal = ({ open, handleLogin, handleSignup }) => {
     image: "",
     gender: "",
     password: "",
+    passwordCheck: "",
   };
   const [inputUserInfo, SetInputUserInfo] = useState(initialValue);
 
+  /* 모달창이 열리고 닫힐 때 마다 모든 state를 초기화 */
   useEffect(() => {
-    const initialValue = {
-      email: "",
-      name: "",
-      mobile: "",
-      image: "",
-      gender: "",
-      password: "",
-    };
     SetInputUserInfo(initialValue);
-  }, [open]);
+    setIsLoading(false);
+    setIsDoneSubmit(false);
+    setErrorList({emailAlreadyExist: false});
+  }, [isOpen]);
 
   const vaildGenderCheck = (input) => {
     return input !== '';
@@ -298,6 +315,13 @@ const SignUpModal = ({ open, handleLogin, handleSignup }) => {
       setIsVaildPassword(false);
     }
 
+    if (inputUserInfo.password === inputUserInfo.passwordCheck) {
+      console.log('비밀번호가 일치합니다.')
+      setIsVaildPasswordCheck(true);
+    } else {
+      setIsVaildPasswordCheck(false);
+    }
+
     if (vaildNameCheck(inputUserInfo.name)) {
       console.log('형식에 맞는 이름입니다.')
       setIsVaildName(true);
@@ -329,28 +353,41 @@ const SignUpModal = ({ open, handleLogin, handleSignup }) => {
 
   const submitButtonHandler = (e) => {
     e.preventDefault();
-    if (!isPasswordEmpty && isVaildPassword && isVaildEmail && isVaildName && isVaildMobile && isVaildGender) {
+    // 확인 버튼 로딩 아이콘 활성화
+    setIsLoading(true);
+    if (!isPasswordEmpty && isVaildPassword && isVaildPasswordCheck && isVaildEmail && isVaildName && isVaildMobile && isVaildGender) {
       console.log('모두 양식에 맞습니다.');
       fetchSubmittedInfo((result) => {
-        if (result === 'success') {
-          submitResultControl.current.style.display = "inline-block";
-          setTimeout(() => {
-            submitResultControl.current.style.display = "none";
-            setTimeout(() => {
-              setEmailAlertOpen(true);
-              handleLogin();
-            }, 500);
-          }, 1000);
+        if (result === '이메일을 확인하세요.') {
+          // 인증메일 확인하라는 모달창으로 넘김
+          setIsDoneSubmit(true);
+        } else if (result = '이미 존재하는 이메일입니다.') {
+          setErrorList((state) => ({...state, emailAlreadyExist: true}));
         }
       });
+      // 확인버튼 로딩 아이콘 비활성화
+      setIsLoading(false);
     } else {
+      // 만약 유효성 검사를 통과하지 못한다면
+      // 최상단 유효성 검사 메시지를 선택
+      const target = document.querySelector('.vaild-check-msg');
+      if (target) {
+        // 유효성 검사 메시지를 1초간 깜빡이게
+        target.style.animationName = 'blink';
+        setTimeout(() => {
+          target.style.animationName = 'none';
+        }, 1000);
+      }
+      // 확인버튼 로딩 아이콘 비활성화
+      setIsLoading(false);
       console.log('양식에 맞지 않습니다.');
+      console.log(isPasswordEmpty, isVaildPassword, isVaildPasswordCheck, isVaildEmail, isVaildName, isVaildMobile, isVaildGender);
     }
   };
   
   const fetchSubmittedInfo = async (callback) => {
     const URL = `/signup`;
-    const BASE64_IMAGE = `https://preview.redd.it/2rcjpn4o1sn51.png?width=440&format=png&auto=webp&s=c372e948dbd9efe0aad20ae54382f9244c9110b6`;
+    const DEFAULT_IMAGE = `https://preview.redd.it/2rcjpn4o1sn51.png?width=440&format=png&auto=webp&s=c372e948dbd9efe0aad20ae54382f9244c9110b6`;
     const MOBILE = inputUserInfo.mobile;
     const GENDER = inputUserInfo.gender;
     const NAME = inputUserInfo.name;
@@ -363,7 +400,7 @@ const SignUpModal = ({ open, handleLogin, handleSignup }) => {
       password: PASSWORD,
       mobile: MOBILE,
       gender: GENDER,
-      image: BASE64_IMAGE,
+      image: DEFAULT_IMAGE,
     }
     const OPTION = {};
   
@@ -371,11 +408,11 @@ const SignUpModal = ({ open, handleLogin, handleSignup }) => {
     try {
       response = await axios.post(URL, PAYLOAD, OPTION);
       console.log('POST /user/signup 요청에 성공했습니다.');
-      callback('success');
+      callback(response.data);
     } catch(error) {
       response = error.response;
       console.log('POST /user/signup 요청에 실패했습니다.');
-      callback('failed');
+      callback(response.data);
     } finally {
       console.log(response);
     }
@@ -395,88 +432,164 @@ const SignUpModal = ({ open, handleLogin, handleSignup }) => {
     } else if (tag === 'password') {
       const newValue = {...inputUserInfo, password: inputValue};
       SetInputUserInfo(newValue);
+    } else if (tag === 'passwordCheck') {
+      const newValue = {...inputUserInfo, passwordCheck: inputValue};
+      SetInputUserInfo(newValue);
     } else if (tag === 'gender') {
       const newValue = {...inputUserInfo, gender: inputValue};
       SetInputUserInfo(newValue);
     }
   };
 
+  /* 입력 테스트용 */
   useEffect(() => {
     // console.log(inputUserInfo);
   }, [inputUserInfo]);
 
+  const modalOpenHandler = () => {
+    setIsOpen(!isOpen);
+  };
+
   return (
     <>
-        {emailAlertOpen && <EmailAuthAlertModal setEmailAlertOpen={setEmailAlertOpen}/>   }  
-        {open === true ? <ModalBackdrop>
-          <ModalView>
-          <div className='box'>
-          <span onClick={handleLogin} className='close-btn'>&times;</span>
-          <h1 className="signupModalTag">나랏말싸미</h1>
-          <h1 className="signupModalTag" align="center">회원가입</h1>
-          <form>
-      
-            <div className="inputBox">
-              <input type="email" name="email" onChange={(e) => inputValueHandler(e, 'email')} />
-            <label>이메일</label>
-            </div>
+    <ModalBtn onClick={modalOpenHandler}>회원가입</ModalBtn>
 
-            <div className="vaild-check-box">
-            {!isVaildEmail && inputUserInfo.email !== '' ? <span className="vaild-check-msg">@을 포함한 이메일 주소를 입력해 주세요.</span> : null}
-            </div>
-            
-            <div className="inputBox">
-              <input type="text" name="text" onChange={(e) => inputValueHandler(e, 'name')} required />
-           <label>이름</label>
-            </div>
+    {isOpen ?
+    <ModalBackdrop className="modal_backdrop">
+      <ModalView>
+      {/* 회원가입이 완료되었으면 아래 모달창을 출력 */}
+      {isDoneSubmit ?
+      <EmailAuthAlertModal openHandler={modalOpenHandler} />
+      : null}
 
-            <div className="vaild-check-box">
-            {!isVaildName && inputUserInfo.name !== '' ? <span className="vaild-check-msg">2자리 이상 10이하의 이름을 입력해 주세요.</span> : null}
-            </div>
+      {/* 회원가입이 완료되지 않았으면 아래 모달창을 출력 */}
+      {!isDoneSubmit ?
+      <>
+      <div className='close_btn' onClick={modalOpenHandler}>&times;</div>
+      <h1 className="modal_title" align="center">회원가입</h1>
+      <form className="modal_form">
+        <div className="input_box">
+          <input type="email" name="email"
+            onChange={(e) => {
+              inputValueHandler(e, 'email');
+              setErrorList({...errorList, emailAlreadyExist: false});}}
+            required autocomplete="off" />
+          <label
+            className={inputUserInfo.email === '' ?
+              '' : 'label_active'}>
+              이메일</label>
+          <p 
+            className="submit-error-msg"
+            style={{visibility: errorList.emailAlreadyExist ? "visible" : "hidden"}}>
+            이미 존재하는 이메일입니다
+            </p>
+        </div>
 
-            <div className="inputBox">
-              <input type="password" name="password" onChange={(e) => inputValueHandler(e, 'password')} required />
-               <label>비밀번호</label>
-            </div>
+        <div className="vaild-check-box">
+          <p className="vaild-check-msg" style={{visibility: !isVaildEmail || inputUserInfo.email === '' ? "visible" : "hidden"}}>골뱅이표(@)를 포함한 이메일 주소</p>
+        </div>
+        
+        <div className="input_box">
+          <input type="text" name="text" onChange={(e) => inputValueHandler(e, 'name')} required autocomplete="off" />
+          <label
+            className={inputUserInfo.name === '' ?
+              '' : 'label_active'}>
+              이름</label>
+        </div>
 
-            <div className="vaild-check-box">
-            {!isVaildPassword && inputUserInfo.password !== '' ? <span className="vaild-check-msg">6~20자리 영문자, 최소 1개의 숫자 혹은 특수 문자를 포함한 <br/> 비밀번호를 입력해주세요.</span> : null}
-            </div>
+        <div className="vaild-check-box">
+          <p
+            className="vaild-check-msg"
+            style={{visibility: !isVaildName
+              || inputUserInfo.name === '' ? "visible" : "hidden"}}>
+            2글자 이상 10글자 이하의 이름</p>
+        </div>
 
-            <div className="inputBox">
-              <input type="tel" name="tel" required onChange={(e) => inputValueHandler(e, 'mobile')} />
-             <label>전화번호</label>
-            </div>
+        <div className="input_box">
+          <input type="password" name="password" onChange={(e) => inputValueHandler(e, 'password')} required autocomplete="off" />
+          <label
+            className={inputUserInfo.password === '' ?
+              '' : 'label_active'}>
+              비밀번호</label>
+        </div>
 
-            <div className="vaild-check-box">
-            {!isVaildMobile && inputUserInfo.mobile !== '' ? <span className="vaild-check-msg">올바른 휴대전화 번호를 입력해주세요.</span> : null}
-            </div>
+        <div className="input_box">
+          <input type="password" name="password_check" onChange={(e) => inputValueHandler(e, 'passwordCheck')} required autocomplete="off" />
+          <label
+            className={inputUserInfo.passwordCheck === '' ?
+              '' : 'label_active'}>
+              비밀번호 확인</label>
+        </div>
 
-            <div className="radioBox">
-              <input type="radio" id='scales1' name="scales" onChange={(e) => inputValueHandler(e, 'gender')} value="male" />
-              <label for="scales1">남자</label>
+        <div className="vaild-check-box">
+          <p 
+            className="vaild-check-msg"
+            style={{visibility: !isVaildPassword
+              || inputUserInfo.password === '' ? "visible" : "hidden"}}>
+            6~20자리 영문자와 최소 1개의 숫자 혹은 특수 문자를 포함한 비밀번호
+            </p>
+          <p 
+            className="vaild-check-msg"
+            style={{visibility: isVaildPassword 
+              && inputUserInfo.password !== inputUserInfo.passwordCheck ? "visible" : "hidden"}}>
+            비밀번호가 일치하지 않습니다
+            </p>
+        </div>
 
-              <input type="radio" id='scales2' name="scales" onChange={(e) => inputValueHandler(e, 'gender')} value="female" />
-              <label for="scales2">여자</label>
-            </div>
+        <div className="input_box">
+          <input type="tel" name="tel" required onChange={(e) => inputValueHandler(e, 'mobile')} required autocomplete="off" />
+          <label
+            className={inputUserInfo.mobile === '' ?
+              '' : 'label_active'}>
+              연락처</label>
+        </div>
 
-            <div className="vaild-check-box">
-            {!isVaildGender ? <span className="vaild-check-msg">성별을 선택해 주세요.</span> : null}
-            </div>
+        <div className="vaild-check-box">
+          <p 
+            className="vaild-check-msg"
+            style={{visibility: !isVaildMobile  
+              || inputUserInfo.mobile === '' ? "visible" : "hidden"}}>
+            하이픈(-)을 포함한 연락처를 입력
+            </p>
+        </div>
 
-            <div className="submit-result-table">
-              <span ref={submitResultControl}>회원가입 완료</span>
-            </div>
+        <div className="radio_box">
+          <input type="radio" id="male_selected" name="select_gender" value="male" onChange={(e) => inputValueHandler(e, 'gender')} />
+          <label htmlFor="male_selected">남성</label>
+          <input type="radio" id="female_selected" name="select_gender" value="female" onChange={(e) => inputValueHandler(e, 'gender')} />
+          <label htmlFor="female_selected">여성</label>
+        </div>
 
-            <input className="signupModalTag" type="submit" name="회원가입" value="회원가입" onClick={submitButtonHandler} />            
-            <input className="signupModalTag" type="button" id="btn" value="취소합니다" style={{marginLeft: "80px"}} onClick={handleLogin} />
-          </form>
-          </div>
-          </ModalView>
-        </ModalBackdrop> : null}
+        <div className="vaild-check-box">
+          <p 
+            className="vaild-check-msg"
+            style={{visibility: !isVaildGender ? "visible" : "hidden"}}>
+            성별을 선택해주세요
+            </p>
+        </div>
+      </form>
+      <div className="submit_buttons">
+        <button 
+          className="submit_button_yes"
+          onClick={submitButtonHandler}>
+          {isLoading ?
+          <img
+            src={loadingIcon}
+            alt="로딩 아이콘"
+            style={{width: "1em", height: "1em"}}>
+            </img> :
+          "확인"}
+          </button>
+        <button className="submit_button_no" onClick={modalOpenHandler}>취소</button>
+      </div>
+      </>
+      : null}
+      </ModalView>
+    </ModalBackdrop>
+    : null}
     </>
   );
-  };
+};
  
- export default SignUpModal;
+export default SignUpModal;
 

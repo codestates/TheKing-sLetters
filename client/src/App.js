@@ -14,9 +14,14 @@ import Admin from './Views/Pages/Admin/AdminPage';
 import ProblemBox from './Views/Pages/ProblemBox/ProblemBox';
 import GoogleAuth from './Views/Pages/MyPage/GoogleAuth';
 import GithubAuth from './Views/Pages/MyPage/GithubAuth';
+
+/* Modal */
+import ModalController from './Views/Modals/ModalController';
+
 function App() {
   return (
     <>
+      <ModalController />
       <Header />      
       <Switch>        
         <Route exact path="/" component={LandingPage}></Route>

@@ -87,7 +87,7 @@ const categoryDropDownListData = [
 ];
 const quizTypeDropDownListData = ['텍스트 문제', '이미지 문제'];
 const answerTypeDropDownListData = ['OX 답안', '선다형 답안', '이미지 답안'];
-const scoreDropDownListData = ['1점', '2점', '3점', '4점', '5점'];
+const scoreDropDownListData = ['1냥', '2냥', '3냥', '4냥', '5냥'];
 
 const CategorySelect = ({ dataCategorySelect, setDataCategorySelect }) => {
   const [selectedDropDown, setSelectedDropDown] = useState(0);

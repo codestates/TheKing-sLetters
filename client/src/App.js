@@ -12,12 +12,13 @@ import QuizSolve from './Views/Pages/QuizSolve/QuizSolve';
 import MileageShop from './Views/Pages/MileageShop/MileageShop';
 import Admin from './Views/Pages/Admin/AdminPage';
 import ProblemBox from './Views/Pages/ProblemBox/ProblemBox';
-
+import GoogleAuth from './Views/Pages/MyPage/GoogleAuth';
+import GithubAuth from './Views/Pages/MyPage/GithubAuth';
 function App() {
   return (
     <>
-      <Header />
-      <Switch>
+      <Header />      
+      <Switch>        
         <Route exact path="/" component={LandingPage}></Route>
         <Route exact path="/main" component={Main}></Route>
         <Route exact path="/mypage" component={Mypage}></Route>
@@ -27,6 +28,8 @@ function App() {
         <Route exact path="/mynote" component={ProblemBox}></Route>
         <Route exact path="/shop" component={MileageShop}></Route>
         <Route path="/quizsolve/:id" component={QuizSolve}></Route>
+        <Route exact path="/auth/google" component={GoogleAuth}></Route>
+        <Route exact path="/auth/git" component={GithubAuth}></Route>
       </Switch>
       <Footer />
     </>

@@ -86,7 +86,7 @@ const Title = styled.div`
   }
   `;
 
-const DeleteApproveModal = ({ setDeleteApproval, setDeleteCheckOpen, deleteMyQuiz }) => {
+const DeleteApproveModal = ({ setDeleteCheckOpen, deleteMyQuiz }) => {
   return (
     <ModalBackground>
       <div className="modalContainer">
@@ -95,7 +95,7 @@ const DeleteApproveModal = ({ setDeleteApproval, setDeleteCheckOpen, deleteMyQui
           <div>
             정말 삭제하시겠습니까?
           </div>
-          <button onClick={() => { setDeleteApproval(true); deleteMyQuiz(); setDeleteCheckOpen(false) }}>
+          <button onClick={() => { deleteMyQuiz(); setDeleteCheckOpen(false) }}>
             예
           </button>
           <button onClick={() => setDeleteCheckOpen(false)}>

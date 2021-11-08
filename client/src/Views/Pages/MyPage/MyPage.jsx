@@ -5,8 +5,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUserCog } from "@fortawesome/free-solid-svg-icons";
 import { faTrophy } from "@fortawesome/free-solid-svg-icons";
 import MyPageModal from '../../Modals/MyPageModal';
-import Modal6 from '../../Modals/SubModals/RankModal'
-import DeleteApproveModal from '../../Modals/SubModals/DeleteApproveModal';
+import Modal6 from './RankModal'
+import DeleteApproveModal from './DeleteApproveModal';
 import { Link } from 'react-router-dom';
 
 
@@ -159,11 +159,7 @@ const Li = styled.li`
   > .mileage-title {
     position: relative;
     left: 15px;
-  }
-  > .mileage {
-    position: relative;
-    left: -300px;
-  }
+  }  
 
   > .mileage-store {
     position: relative;
@@ -319,7 +315,6 @@ const MyPage = (props) => {
     image: '',
     mileage: '',
   })
-  const [deleteApproval, setDeleteApproval] = useState(false);
   const [deleteCheckOpen, setDeleteCheckOpen] = useState(false);
   const [selectedQuiz, setSelectedQuiz] = useState('')
 
@@ -335,21 +330,19 @@ const MyPage = (props) => {
   
 
   const deleteMyQuiz = async () => {
-    if(deleteApproval) {
-      await axios.delete(`https://api.thekingsletters.ml/users/deletequiz?quizid=${selectedQuiz}`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('accessToken')}`
-        }
-      })
-          
-      await axios.get("https://thekingsletters.ml/mypublish", {
+    await axios.delete(`https://api.thekingsletters.ml/users/deletequiz?quizid=${selectedQuiz}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('accessToken')}`
+      }
+    }).then( async () => {
+      await axios.get("https://api.thekingsletters.ml/mypublish", {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('accessToken')}`
         } 
       }).then((response)=> {
         setQuiz(response.data.data.madeQuiz)
       })
-    }
+    })
   }
 
 
@@ -373,7 +366,7 @@ const MyPage = (props) => {
   //     }).then(function() {
   //         // 항상 실행
   //     });
-  axios.get("http://ec2-13-209-96-200.ap-northeast-2.compute.amazonaws.com/users/info", {
+  axios.get("https://api.thekingsletters.ml/users/info", {
     headers: {
       Authorization: `Bearer ${localStorage.getItem('accessToken')}` // 로컬 브라우저에서 받은 토큰이다 //localStorage.getItem : 로컬 스토리지에 갖고 있는 값을 가지고 온 것
     }
@@ -389,7 +382,7 @@ const MyPage = (props) => {
     // setName(response.data.data.userData.name)
     // setImage(response.data.data.userData.image)
   })    
-  axios.get("http://ec2-13-209-96-200.ap-northeast-2.compute.amazonaws.com/mypublish", {
+  axios.get("https://api.thekingsletters.ml/mypublish", {
   headers: {
     Authorization: `Bearer ${localStorage.getItem('accessToken')}` // 로컬 브라우저에서 받은 토큰이다 //localStorage.getItem : 로컬 스토리지에 갖고 있는 값을 가지고 온 것
   }
@@ -423,7 +416,7 @@ const MyPage = (props) => {
 
     return (
       <>
-      {deleteCheckOpen && <DeleteApproveModal setDeleteApproval={setDeleteApproval} setDeleteCheckOpen={setDeleteCheckOpen} deleteMyQuiz={deleteMyQuiz} />}
+      {deleteCheckOpen && <DeleteApproveModal setDeleteCheckOpen={setDeleteCheckOpen} deleteMyQuiz={deleteMyQuiz} />}
       {modalOpen && <Modal6 setOpenModal={setModalOpen} />}
       <FirstBox>
         <div className="title">내 정보</div>
@@ -467,8 +460,7 @@ const MyPage = (props) => {
         <Li>
             <input className="checkbox" type="checkbox"  id="section-1-radio"/>
             <label className="tab" for="section-1-radio" id="section-1-tab">
-                <div className="mileage-title">보유 마일리지</div>
-                <div className="mileage">{userData.mileage}</div>
+                <div className="mileage-title">보유 마일리지 {userData.mileage}</div>
                 <div className="mileage-store">마일리지 상점</div>
             </label>
             <div className="container" >
@@ -476,7 +468,7 @@ const MyPage = (props) => {
               {buyItems.map((el)=>(
                 <div className="buyItemsBox">
                   <div className="itemImage">
-                    <Link to="/" ><img src={el.itemImage} /></Link>
+                    <Link to="/mileageshop" ><img src={el.itemImage} /></Link>
                   </div>
                   <div className="itemName">{el.itemName}</div>
                   <div className="cost">{el.cost}</div>

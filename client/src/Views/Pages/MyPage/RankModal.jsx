@@ -15,18 +15,10 @@ const ModalBackground = styled.div`
   background-color: rgba(0,0,0,0.75);
   display: grid;
   place-items: center;
-/* width: 100vw;
-height: 100vh;
-background-color: rgba(0, 0, 0, 0.75);
-position: fixed;
-display: flex;
-justify-content: center;
-align-items: center; */
 
 > div {
-
-  width: 600px;
-  height: 400px;
+  width: 350px;
+  height: 600px;
   border-radius: 12px;
   background-color: white;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
@@ -37,7 +29,7 @@ align-items: center; */
 `;
 
 const TitleCloseBtn = styled.div`
-display: flex;
+  display: flex;
   justify-content: flex-end;
   > button {
   position: relative;
@@ -54,58 +46,52 @@ const Title = styled.div`
 display: inline-block;
   text-align: center;
   margin-top: 10px;  
-  > h1 {    
+  > h1 { 
+    font-family: 'EBSHMJESaeronRA';   
     font-size: 40px;
     margin: -5%;
   }
   > div {
     //scroll
-    overflow-y: scroll;
-    height: 205px;
+    overflow: auto;
+    height: 440px;
+    width: 350px;
     border: 1px solid black;
-    margin-top: 40px;
-    font-size: 20px;
+    margin-top: 35px;
     border-radius: 12px;
     margin-bottom: 10px;
    
     > div {
+      font-family: 'EBSHMJESaeronRA';
+      font-size: 25px;
       display: flex;
-      justify-content: space-between;
-     > .class {
-       position: relative;
-       left: 80px;
+      justify-content: flex-start;
+      > .class {
+        margin: 10px;
+        margin-top: 1px;
      }
 
      > .name {
-       position: relative;
-       left: 15px;
-       
+       margin: 10px;
+       margin-top: 1px;
      }
 
      > .mileage {
-       position: relative;
-       left: -65px;
+       margin: 10px;
+       margin-top: 1px;
+       margin-left: 10px;
      }
-
    }    
   }
   `;
- const Body = styled.div`
-  flex: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 0.05px;
-  text-align: center;
-  `;
-
+ 
   const Footer = styled.div`
   flex: 20%;
   display: flex;
   justify-content: center;
   align-items: center;
   > .trueBtn {
-  
+  font-family: 'EBSHMJESaeronRA';
   width: 150px;
   height: 45px;
   margin-bottom: 30px;
@@ -117,7 +103,7 @@ display: inline-block;
   cursor: pointer;
   font-size: 1em;
   /* margin: 20px; */
-  > .falseBtn {
+  /* > .falseBtn {
 
   width: 150px;
   height: 45px;
@@ -131,17 +117,12 @@ display: inline-block;
   font-size: 1em;
   display: none;
 
-  }
+  } */
   
 }
   `;
 
 const AppBox = styled.div`
-/* width: 100vw;
-  height: 100vh;
-  display: flex;
-  align-items: center;
-  flex-direction: column; */
   > button {
   width: 200px;
   height: 40px;
@@ -156,7 +137,7 @@ const AppBox = styled.div`
 
 const Modal6 = ({ setOpenModal }) => {
   const [rank, setRank] = useState([]);
-  const [limit, setLimit] = useState(3);
+  const [limit, setLimit] = useState(7);
   const [button, setButton] = useState(true)
   useEffect(() => {  
        axios.get(`http://ec2-13-209-96-200.ap-northeast-2.compute.amazonaws.com/users/rank/?offset=0&limit=${limit}`, {
@@ -206,16 +187,13 @@ const Modal6 = ({ setOpenModal }) => {
           <div>
           {rank.map((el, i)=> 
             <div key={i}>
-              <span className="class">{i+1}</span>
+              <span className="class">{i+1}위</span>
               <span className="name">{el.name}</span>
               <span className="mileage">{el.mileage}</span>            
             </div>
           )}
           </div>  
-        </Title>
-        <Body>
-          
-        </Body>
+        </Title>        
         <Footer>
             {
               button ?
@@ -232,13 +210,7 @@ const Modal6 = ({ setOpenModal }) => {
           >
             
           </button>
-}
-          {/* <button
-            onClick={moreData}
-            id="cancelBtn"
-          >
-            나가기
-          </button> */}
+             }          
           </Footer>
       </div>
       </ModalBackground>

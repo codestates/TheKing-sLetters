@@ -11,6 +11,12 @@ const FooterContainer = styled.div`
   padding: 8px 20px;
   font-family: 'EBSHunminjeongeumSBA';
 
+  > .masterLogin{
+    position: relative;
+    left: 15px;
+    cursor: pointer;
+  }
+
   > .footer__logo {
     font-size: 24px;
     > a {
@@ -73,7 +79,7 @@ const Footer = () => {
       <div className="footer__logo">
         <a>나랏말싸미</a>
       </div>
-        <li onClick={openModalHandler}>
+        <li className="masterLogin" onClick={openModalHandler}>
           {loginOpen === false ? '관리자 로그인' : '관리자 로그인'}
         </li> 
       <FooterGithub>
@@ -90,7 +96,11 @@ const Footer = () => {
           <a href="https://github.com/otter9459">이정훈</a>
         </li>
       </FooterGithub>
-      <MasterLoginModal className="footer__admin" isOpen={loginOpen} openModalHandler={openModalHandler} />
+      <MasterLoginModal className="footer__admin" 
+      isOpen={loginOpen} 
+      openModalHandler={openModalHandler}
+      setLoginOpen={setLoginOpen} 
+      />
     </FooterContainer>
   );
 };

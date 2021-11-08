@@ -296,7 +296,7 @@ export const ModalView = styled.div`
 
 
   const resignHandler = async () => {
-    const URL = `http://ec2-13-209-96-200.ap-northeast-2.compute.amazonaws.com/resign`;
+    const URL = `https://api.thekingsletters.ml/resign`;
     const TOKEN = localStorage.getItem('accessToken');
   
     let response = null;
@@ -466,7 +466,7 @@ export const ModalView = styled.div`
   useEffect( async () => {
     if(isOpen === true) {
       setIsLoading(true);
-      const URL = `http://ec2-13-209-96-200.ap-northeast-2.compute.amazonaws.com/users/info`;
+      const URL = `https://api.thekingsletters.ml/users/info`;
       const TOKEN = localStorage.getItem('accessToken');
     
       let response = null;

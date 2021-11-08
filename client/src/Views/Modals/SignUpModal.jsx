@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
-import EmailAuthAlertModal from './SubModals/EmailAuthAlertModal'
+import EmailAuthAlertModal from './EmailAuthAlertModal'
 const BORDER_DEV = ``;
-axios.defaults.baseURL = `http://ec2-13-209-96-200.ap-northeast-2.compute.amazonaws.com`;
+axios.defaults.baseURL = `https://api.thekingsletters.ml`;
 axios.defaults.withCredentials = true;
 
 export const ModalBackdrop = styled.div`

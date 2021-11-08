@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import SignInModal from '../Views/Modals/SignInModal';
@@ -127,6 +127,17 @@ const Header = () => {
   const [loginOpen, setLoginOpen] = useState(false); //로그인모달 on off 관련상태
   const [signupOpen, setSignupOpen] = useState(false); // 회원가입 모달 on off 관련 상태
 
+  useEffect(() => {
+    if(localStorage.getItem('accessToken')) {
+      axios.get('https://api.thekingsletters.ml/users/info', 
+      {headers : {
+        Authorization : `Bearer ${localStorage.getItem('accessToken')}`
+      }})
+      .then(() => setIsLogin(true))
+      .catch(() => setIsLogin(false))
+    }
+  }, [])
+  
   const logoutHandler = async () => {
     await axios
       .get('https://api.thekingsletters.ml/signout', {

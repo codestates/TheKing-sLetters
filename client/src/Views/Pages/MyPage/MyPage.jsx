@@ -4,7 +4,6 @@ import axios from 'axios';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUserCog } from "@fortawesome/free-solid-svg-icons";
 import { faTrophy } from "@fortawesome/free-solid-svg-icons";
-import MyPageModal from '../../Modals/MyPageModal';
 import Modal6 from './RankModal'
 import DeleteApproveModal from './DeleteApproveModal';
 import { Link } from 'react-router-dom';
@@ -401,14 +400,8 @@ const MyPage = (props) => {
   const [buyItems, setBuyItems] = useState([]);
   const [usedItems, setUsedItem] = useState([]);
   const [quiz, setQuiz] = useState([]);
-  const [isMypageOpen, setIsMypageOpen] = useState(false); // 마이페이지 모달 on off 관련 상태
   const [modalOpen, setModalOpen] = useState(false);
-
-  const handleMypage = () => {
-    setIsMypageOpen(!isMypageOpen)
-  }
   
-
   const deleteMyQuiz = async () => {
     await axios.delete(`https://api.thekingsletters.ml/users/deletequiz?quizid=${selectedQuiz}`, {
       headers: {
@@ -481,15 +474,13 @@ const MyPage = (props) => {
       <FirstBox>
         <div className="title">내 정보</div>
         <div className="setting">
-            <li onClick={handleMypage}>
-              {isMypageOpen === false ? <FontAwesomeIcon icon={faUserCog} size="2x" className="setting" /> : <FontAwesomeIcon icon={faUserCog} size="2x" className="setting" />}
+            <li>
+              <FontAwesomeIcon icon={faUserCog} size="2x" className="setting" />
+              <div id="modal_mypage"></div>
             </li>
         </div>
       </FirstBox>
 
-      {/* mypage 모달 컴포넌트 */}
-      <MyPageModal isOpen={isMypageOpen} openModalHandler={handleMypage}/>
-      
       <SecondBox>
         {/* <div className='data1'> */}
           <img 

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styled from 'styled-components';
 
 const ModalBackground = styled.div`
@@ -12,6 +12,7 @@ position: fixed;
 display: flex;
 justify-content: center;
 align-items: center;
+font-family: 'EBSHunminjeongeumSBA';
 
 > div {
   width: 40em;
@@ -23,7 +24,11 @@ align-items: center;
   flex-direction: column;
   padding: 25px;
   @media (max-width: 768px) {
-    width: 30em;
+    transition: all 0.4s;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
   }
 }
 `;
@@ -38,8 +43,6 @@ const Title = styled.div`
     font-size: 3em;
     margin: -5%;
     transition: all 0.4s;
-    font-family: 'EBSHMJESaeronRA';
-    letter-spacing: 3px;
     @media (max-width: 768px) {
       transition: all 0.4s;
       font-size: 2.5em;
@@ -53,8 +56,6 @@ const Title = styled.div`
     margin-bottom: 10px;
     display: flex;
     flex-direction: column;
-    font-family: 'EBSHMJESaeronRA';
-    letter-spacing: 3px;
     > div {
       >  span {
         padding: 50px;
@@ -62,17 +63,14 @@ const Title = styled.div`
     }
   }
   > button {
-    font-size: 1.2em;
-    border-radius: 6px;
-    
+    font-size: 1em;
+    border-radius: 2em;
+    background-color: #d7dbd1;
     height: 3em;
-    padding: 0 2em;
-    margin: 4em 2em 0 2em;
+    padding: 0 5em 0 5em;
+    margin: 4em 3em 0 3em;
     cursor: pointer;
-    transition: all 0.4s ease;
-    font-family: 'EBSHMJESaeronRA';
-    letter-spacing: 3px;
-  
+    transition: all 0.3s;
     @media (max-width: 768px) {
       top: 0;
       left: 0;
@@ -84,7 +82,7 @@ const Title = styled.div`
   }
   > button:hover {
     background-color: #303030;
-   color: #fafafa;
+    transition: all 0.3s;
   }
   `;
 

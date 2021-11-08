@@ -190,6 +190,9 @@ const Li = styled.li`
     overflow: auto;
     display: flex;
     padding: 1% 0 2% 0;
+
+   
+  //------------------------------상품 내역--------------------------
 >  .buyItemsBox {
   padding: .5rem 0;
   padding-left: 0.6rem;

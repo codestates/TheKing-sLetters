@@ -2,6 +2,8 @@ const { user, quiz, quiz_type, quizContent, answer_type, answerContent, category
 const { isAuthorized } = require('../tokenFunction')
 
 module.exports = async (req, res) => {
+  const offset = req.query.offset;
+  const limit = req.query.limit;
   const header = req.headers.authorization;
 
   if (!header) {
@@ -25,7 +27,7 @@ module.exports = async (req, res) => {
       where: { valid: true }
     })
 
-    const quizList = [];
+    let quizList = [];
     quizzes.map((quiz) => {
       quizList.push({
         id: quiz.id,
@@ -53,7 +55,7 @@ module.exports = async (req, res) => {
         ],
         answer_types: [
           {
-            id: quiz.answer_types[0].id,
+            // id: quiz.answer_types[0].id,
             quizId: quiz.answer_types[0].quizId,
             answerContentId: quiz.answer_types[0].answerContentId,
             answerContent: {
@@ -64,6 +66,20 @@ module.exports = async (req, res) => {
         ]
       })
     })
+
+    let n = quizList.length-1
+    let m = quizList.length-1
+
+    for(let i=0; i<=m/2; i++) {
+      let temp = quizList[i];
+      quizList[i] = quizList[n]
+      quizList[n] = temp
+      n--
+    }
+
+    if(offset && limit) {
+      quizList = quizList.slice(offset, limit)
+    }
   
     res.status(200).json({ data: { quizList } })
   } else {
@@ -97,7 +113,7 @@ module.exports = async (req, res) => {
         where: { valid: true }
       })
   
-      const quizList = [];
+      let quizList = [];
       quizzes.map((quiz) => {
         quizList.push({
           id: quiz.id,
@@ -136,7 +152,21 @@ module.exports = async (req, res) => {
           ]
         })
       })
-    
+
+      n = quizList.length-1
+      m = quizList.length-1
+  
+      for(let i=0; i<=m/2; i++) {
+        let temp = quizList[i];
+        quizList[i] = quizList[n]
+        quizList[n] = temp
+        n--
+      }
+
+      if(offset && limit) {
+        quizList = quizList.slice(offset, limit)
+      }
+
       res.status(200).json({ data: { quizList } })
     }
   
@@ -170,7 +200,7 @@ module.exports = async (req, res) => {
       recommended.push(quiz.quizId)
     })
 
-    const quizList = [];
+    let quizList = [];
     quizzes.map((quiz) => {
       if(recommended.includes(quiz.id)) {
         quizList.push({
@@ -250,6 +280,20 @@ module.exports = async (req, res) => {
         })
       }
     })
+
+    n = quizList.length-1
+    m = quizList.length-1
+
+    for(let i=0; i<=m/2; i++) {
+      let temp = quizList[i];
+      quizList[i] = quizList[n]
+      quizList[n] = temp
+      n--
+    }
+
+    if(offset && limit) {
+      quizList = quizList.slice(offset, limit)
+    }
   
     res.status(200).json({ data: { quizList } })
   }

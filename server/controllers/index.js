@@ -17,8 +17,10 @@ module.exports = {
 
   emailAuth: require('./emailAuth/emailAuth'),
 
-  mynote: require('./quizzes/myNote'),
+  google: require('./social/google'),
+  gitOauth: require('./social/gitOauth'),
 
+  mynote: require('./quizzes/myNote'),
   newQuiz: require('./quizzes/newQuiz'),
   quizzesAll: require('./quizzes/quizzesAll'),
   quizId: require('./quizzes/quizId'),

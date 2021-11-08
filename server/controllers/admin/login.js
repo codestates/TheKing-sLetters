@@ -30,12 +30,12 @@ module.exports = async (req, res) => {
         updatedAt: data.updatedAt
       }
   
-      return sign(userData, process.env.ADMIN_SECRET, {expiresIn: '24h'});
+      return sign(userData, process.env.ADMIN_SECRET, {expiresIn: '3d'});
     }
 
     const accessToken = generateAdminAccessToken(adminInfo)
 
-    const userData = {
+    const adminData = {
       id: adminInfo.id,
       name: adminInfo.name,
       email: adminInfo.email,
@@ -47,7 +47,7 @@ module.exports = async (req, res) => {
     }
 
     res.status(200)
-    .json({ data: { userData: userData, accessToken: accessToken }});
+    .json({ data: { adminData: adminData, adminToken: accessToken }});
   } else {
     res.status(401).send('Invalid user or Wrong password')
   }

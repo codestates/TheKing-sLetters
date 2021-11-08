@@ -5,7 +5,7 @@ module.exports = async (req, res) => {
   const { quizId, answer } = req.body
   
   const selectedQuiz = await quiz.findOne({
-    where: { id: quizId }
+    where: { id: quizId, valid: true }
   })
 
   if(selectedQuiz && quizId && answer) {
@@ -76,8 +76,18 @@ module.exports = async (req, res) => {
 
         res.status(200).json({ message: "correct answer!", comment: realAnswer.answerComment })
       }
-    } else if(realAnswer.correctAnswer === answer && outUserData && (isCleared || isPublished)) {
-      res.status(200).json({ message: "correct answer! but can't gain point", comment: realAnswer.answerComment })
+    } else if(realAnswer.correctAnswer === answer && outUserData && isPublished) {
+      res.status(200).json({ message: "correct answer! but can't gain point(publish)", comment: realAnswer.answerComment })
+    } else if(realAnswer.correctAnswer === answer && outUserData && isCleared) {
+      res.status(200).json({ message: "correct answer! but can't gain point(cleared)", comment: realAnswer.answerComment })
+    } else if(realAnswer.correctAnswer !== answer && outUserData && !isCleared) {
+
+      await user_clearQuiz.create({
+        quizId: quizId,
+        userId: outUserData.id
+      })
+
+      res.status(200).json({ message: "incorrect answer!", comment: realAnswer.answerComment })
     } else {
       res.status(200).json({ message: "incorrect answer!", comment: realAnswer.answerComment })
     }
@@ -85,3 +95,4 @@ module.exports = async (req, res) => {
     res.status(404).send("there is no quiz")
   }
 }
+

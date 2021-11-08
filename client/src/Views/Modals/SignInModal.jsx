@@ -3,9 +3,8 @@ import styled from 'styled-components';
 import axios from 'axios';
 
 import { useUserState, useUserDispatch } from '../../context/UserContext';
-import bannerOne from './Assets/banner-1.png';
-import bannerTwo from './Assets/banner-2.png';
-import bannerThree from './Assets/banner-3.png';
+import GitHubLogo from './Assets/github-1.png';
+import GoogleLogo from './Assets/google-1.png';
 
 axios.defaults.baseURL = `https://api.thekingsletters.ml`;
 axios.defaults.withCredentials = true;
@@ -20,8 +19,6 @@ const ModalBackdrop = styled.div`
   bottom: 0;
   right: 0;
   background-color: rgba(0,0,0,0.75);
-  display: grid;
-  place-items: center;
 `;
 
 const ModalBtn = styled.button`
@@ -31,48 +28,59 @@ const ModalBtn = styled.button`
 `;
 
 const ModalView = styled.div`
-  position: relative;
-  text-align: center;
-  font-size: 16px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 500px;
+  height: 680px;
   z-index: 301;
+  @media (max-width: 768px) {
+    transition: all 0.4s;
+    height: 100vh;
+    width: 100vw;
+  }
   
   > .modal_box .close_btn {
     position: absolute;
-    right: 1em;
-    top: 1em;
+    right: 1rem;
+    top: 1rem;
     cursor: pointer;
-    font-size: 1em;
+    color: white;
+    font-size: 1rem;
     font-weight: 800;
   }
 
   > .modal_box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
     transition: all 0.4s;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 550px;
-    height: 650px;
-    padding: 50px;
     background: white;
     box-sizing: border-box;
     box-shadow: 0 15px 25px rgba(0, 0, 0, 0.5);
     border-radius: 10px;
-    @media (max-width: 768px) {
-      transition: all 0.4s;
-      height: 100vh;
-      width: 100vw;
-    }
   }
   
-  > .modal_box .inputBox {
-    position: relative;
+  > .modal_box .modal_form {
+    width: 100%;
+    margin: 2rem 0 1rem 0;
   }
 
-  > .modal_box .inputBox input {
+  > .modal_box .modal_form .inputBox {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     width: 100%;
+  }
+
+  > .modal_box .modal_form .inputBox input {
+    width: 75%;
     padding: 10px;
-    font-size: 16px;
+    font-size: 1rem;
     color:  black;
     letter-spacing: 1px;
     margin-bottom: 30px;
@@ -83,15 +91,12 @@ const ModalView = styled.div`
     border-radius: 0;
   }
   
-  > .modal_box .inputBox label {
+  > .modal_box .modal_form .inputBox label {
     //이메일 패스워드 색
+    width: 80%;
     font-family: 'EBSHMJESaeronRA';
-    position: absolute;
-    top: -25px;
-    left: 0;
     letter-spacing: 1px;
-    padding: 10px 0;
-    font-size: 18px;
+    font-size: 1rem;
     color:  black;
     pointer-events: none;
     transition: 0.5s;
@@ -105,44 +110,98 @@ const Sign = styled.div`
     outline: none;
     color: #fff;
     background: green;
-    width: 420px;
+    width: 400px;
     padding: 10px 20px;
     cursor: pointer;
     border-radius: 5px;
-    font-size: 1.2em;
-    margin-top: 1em;
-    margin-bottom: 1em;
-  }
-`;
-
-const SignupButton = styled.div`
-  display: inline-block;
-  position: relative;
-  margin-left: 10px;
-  color: black !important;
-
-  > .signup_modal_button {
-    font-size: 1em;
+    font-size: 1.3rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
   }
 `;
 
 const SigninTitle = styled.div`
+  width: 100%;
+  height: 100px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-color: #5bb85d;
   > h1 {
     font-family: 'EBSHMJESaeronRA';
-    position: relative;
-    bottom: 50px;
-    margin-top: 20px;
-    padding: 0;
-    color: black;
+    color: white;
     text-align: center;
-    font-size: 30px;
+    font-size: 2rem;
   }
 `;
 
 const Img = styled.div`
-  width: 420px;
-  margin: auto;
-  border-color: black;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 3rem 0 2rem 0;
+  //-----------git logo
+  > .github_link {
+    display: block;
+    width: 350px;
+    height: 50px;
+    border-radius: 12px;
+    overflow: hidden;
+    > .gitBox {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      background-color: black;
+      color: white;
+      > .gitlogoTitle {
+        position: absolute;
+        font-size: 1rem;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+      }
+      > .gitHubImg {
+        position: absolute;
+        width: 1.5rem;
+        height: 1.5rem;
+        left: 1rem;
+        top: 50%;
+        transform: translate(0%, -50%);
+      }
+    }
+  }
+  //-----------google logo
+  > .google_link {
+    display: block;
+    width: 350px;
+    height: 50px;
+    outline: 1px solid black;
+    border-radius: 12px;
+    overflow: hidden;
+    > .googleBox {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      background-color: white;
+      color: black;
+      > .googleTitle {
+        font-size: 1rem;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+      }
+      > .googleImg {
+        position: absolute;
+        width: 1.5rem;
+        height: 1.5rem;
+        left: 1rem;
+        top: 50%;
+        transform: translate(0%, -50%);
+      }
+    }
+  }
 `;
 
 const SignInModal = ({isOpen, setIsOpen, switcher}) => {
@@ -263,31 +322,38 @@ const SignInModal = ({isOpen, setIsOpen, switcher}) => {
         <div className="modal_box">
           <span onClick={modalOpenHandler} className="close_btn">&times;</span>
           <SigninTitle>
-              <h1 style={{fontWeight: "600", fontSize: "3em"}}>나랏말싸미</h1>
-              <h1 align="center">로그인</h1>
+              <h1 style={{fontWeight: "500"}}>나랏말싸미</h1>
+              <h1>로그인</h1>
           </SigninTitle>
-          <form onSubmit={(e) => e.preventDefault()}>
+          <form className="modal_form" onSubmit={(e) => e.preventDefault()}>
             <div className="inputBox">
-              <input onChange={handleInputValue('email')} type="email" name="user_email" autocomplete="off" required></input>
               <label>이메일</label>
+              <input onChange={handleInputValue('email')} type="email" name="user_email" autocomplete="off" required></input>
             </div>
             <div className="inputBox">
-              <input onChange={handleInputValue('password')} type="password" name="password" required></input>
               <label>비밀번호</label>
+              <input onChange={handleInputValue('password')} type="password" name="password" required></input>
             </div>
           </form>
-          <Img>
-            <img src={bannerOne} />
-            <img src={bannerTwo} />
-            <img src={bannerThree} />
-          </Img>
           <Sign>
             <button onClick={loginHandler}>로그인하기</button>
           </Sign>
-          <span>아직 회원이 아니신가요?</span>
-          <SignupButton>
-            <div className="signup_modal_button" onClick={modalSwitcher}>회원가입</div>
-          </SignupButton>
+
+          <Img>
+            <a className="github_link" href="https://github.com/login/oauth/authorize?client_id=a27b9ace9f66b90ffe4d&scope=user">
+              <div className="gitBox">
+                <p className="gitlogoTitle">GitHub 로그인</p>  
+                <img className="gitHubImg" src={GitHubLogo} alt="gitHubLogo"/>
+              </div>
+              </a>
+              <a className="google_link" href="https://accounts.google.com/o/oauth2/v2/auth?client_id=992308342199-tdkmk92urgpuam42mo74pmq7m8c17ud3.apps.googleusercontent.com&redirect_uri=http://localhost:3000/auth/google&response_type=code&scope=https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email openid">
+                <div className="googleBox">
+                  <p className="googleTitle">Google 로그인</p>
+                  <img className="googleImg" src={GoogleLogo} alt="googleLogo"/>
+                </div>
+              </a>
+          </Img>
+          <p>아직 회원이 아니신가요? <span onClick={modalSwitcher} style={{color: "blue", cursor: "pointer"}}>회원가입</span></p>
         </div>
       </ModalView>
     </ModalBackdrop>

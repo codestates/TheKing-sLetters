@@ -51,9 +51,9 @@ export const ModalView = styled.div`
 
   > .close_btn {
     position: absolute;
-    right: 0.3em;
-    top: 0.3em;
-    font-size: 1.3em;
+    right: 0.3rem;
+    top: 0.3rem;
+    font-size: 1.3rem;
     font-weight: 800;
     color: white;
     :hover {
@@ -62,23 +62,23 @@ export const ModalView = styled.div`
   }
 
   > .modal_title {
-    color: #0a0a0a;
-    background-color: #5bb85d;
-    color: white;
-    font-size: 2em;
-    font-weight: 600;
-    letter-spacing: 0.5em;
-    padding-left: 0.5em;
-    text-align: center;
-
     width: 100%;
-    height: 2.5em;
-    line-height: 2.5em;
+    height: 100px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: #5bb85d;
+    > h1 {
+      font-family: 'EBSHMJESaeronRA';
+      color: white;
+      text-align: center;
+      font-size: 2rem;
+    }
   }
 
   > .modal_form {
     width: 86%;
-    height: 100%;
+    flex: 70% 1 0;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -88,13 +88,13 @@ export const ModalView = styled.div`
     position: relative;
     width: 100%;
     height: auto;
-    margin: 1.8em 0 0 0;
+    margin: 1.8rem 0 0 0;
   }
 
   > .modal_form .input_box input {
     width: 98%;
     padding: 0 1% 0 1%;
-    height: 2.5em;
+    height: 2.5rem;
     color: rgba(0, 0, 0, 1);
     background-color: rgba(0, 0, 0, 0.1);
     letter-spacing: 1px;
@@ -105,8 +105,8 @@ export const ModalView = styled.div`
   > .modal_form .input_box label {
     font-family: 'EBSHMJESaeronRA';
     position: absolute;
-    top: 0.5em;
-    left: 0.5em;
+    top: 0.5rem;
+    left: 0.5rem;
     letter-spacing: 1px;
     color: rgba(0, 0, 0, 0.3);
     font-weight: 500;
@@ -115,15 +115,15 @@ export const ModalView = styled.div`
   }
   > .modal_form .input_box .submit-error-msg {
     position: absolute;
-    right: 0.5em;
+    right: 0.5rem;
     top: 50%;
     transform: translate(0%, -50%);
-    font-size: 0.8em;
+    font-size: 0.8rem;
     text-align: right;
     color: #e6162a;
   }
   > .modal_form .input_box .label_active {
-    top: -1.3em;
+    top: -1.3rem;
     left: 0;
     color: blueviolet;
     font-weight: 600;
@@ -136,8 +136,8 @@ export const ModalView = styled.div`
   }
   > .modal_form .vaild-check-box .vaild-check-msg {
     width: 100%;
-    padding: 0.2em 0.5em 0em 0.5em;
-    font-size: 0.8em;
+    padding: 0.2rem 0.5rem 0rem 0.5rem;
+    font-size: 0.8rem;
     text-align: left;
     /* 깜빡이는 애니메이션 */
     animation: 0.5s linear 0s 2 normal none running none;
@@ -155,14 +155,14 @@ export const ModalView = styled.div`
   }
 
   > .modal_form .radio_box {
-    line-height: 1.5em;
+    line-height: 1.5rem;
     width: 100%;
     height: auto;
-    margin: 1.8em 0 0 0;
+    margin: 1.8rem 0 0 0;
   }
   > .modal_form .radio_box input {
     position: relative;
-    margin: 0 0.3em 0 0.3em;
+    margin: 0 0.3rem 0 0.3rem;
   }
   > .modal_form .radio_box input::after {
     content: "";
@@ -170,8 +170,8 @@ export const ModalView = styled.div`
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 1em;
-    height: 1em;
+    width: 1rem;
+    height: 1rem;
     border-radius: 50%;
     background-color: lightgray;
     z-index: 101;
@@ -182,8 +182,8 @@ export const ModalView = styled.div`
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 1em;
-    height: 1em;
+    width: 1rem;
+    height: 1rem;
     border-radius: 50%;
     background: #2196F3;
     z-index: 102;
@@ -194,8 +194,8 @@ export const ModalView = styled.div`
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 0.4em;
-    height: 0.4em;
+    width: 0.4rem;
+    height: 0.4rem;
     border-radius: 50%;
     background: white;
     z-index: 103;
@@ -206,21 +206,22 @@ export const ModalView = styled.div`
     color: #0a0a0a;
     font-weight: 500;
     transition: 0.5s;
-    font-size: 1em;
+    font-size: 1rem;
   }
 
   > .submit_buttons {
-    margin: 0 0 1em 0;
+    margin: 0 0 1rem 0;
     display: flex;
     flex-direction: row;
     justify-content: center;
-    gap: 1em;
+    gap: 1rem;
     > :hover {
       cursor: pointer;
     }
     > .submit_button_yes {
-      width: 10em;
-      height: 3em;
+      font-family: 'EBSHMJESaeronRA';
+      width: 10rem;
+      height: 3rem;
       border: none;
       outline: none;
       border-radius: 5px;
@@ -228,8 +229,9 @@ export const ModalView = styled.div`
       color: white;
     }
     > .submit_button_no {
-      width: 10em;
-      height: 3em;
+      font-family: 'EBSHMJESaeronRA';
+      width: 10rem;
+      height: 3rem;
       border: none;
       outline: none;
       border-radius: 5px;
@@ -466,7 +468,10 @@ const SignUpModal = ({ isOpen, setIsOpen }) => {
       {!isDoneSubmit ?
       <>
       <div className='close_btn' onClick={modalOpenHandler}>&times;</div>
-      <h1 className="modal_title" align="center">회원가입</h1>
+      <div className="modal_title">
+        <h1 style={{fontWeight: "500"}}>나랏말싸미</h1>
+        <h1>회원가입</h1>
+      </div>
       <form className="modal_form">
         <div className="input_box">
           <input type="email" name="email"
@@ -576,7 +581,7 @@ const SignUpModal = ({ isOpen, setIsOpen }) => {
           <img
             src={loadingIcon}
             alt="로딩 아이콘"
-            style={{width: "1em", height: "1em"}}>
+            style={{width: "1rem", height: "1rem"}}>
             </img> :
           "확인"}
           </button>

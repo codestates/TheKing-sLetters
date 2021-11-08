@@ -7,6 +7,7 @@ module.exports = async (req, res) => {
   if (!accessTokenData) {
     res.status(404).send("not admin")
   } else {
+
     const invalidQuizList = await quiz.findAll({
       include: [
         { model: category, attributes: ["id", "category"] },
@@ -26,6 +27,16 @@ module.exports = async (req, res) => {
       attributes: ["id", "title", "thumbnail", "rewardPoint", "heart"],
       where: { valid: false }
     })
+
+    let n = invalidQuizList.length-1
+    let m = invalidQuizList.length-1
+
+    for(let i=0; i<=m/2; i++) {
+      let temp = invalidQuizList[i];
+      invalidQuizList[i] = invalidQuizList[n]
+      invalidQuizList[n] = temp
+      n--
+    }
 
     // const invalidQuizList = [];
     // if(quizzes.length !== 0) {
@@ -52,6 +63,16 @@ module.exports = async (req, res) => {
       where: { valid: true }
     })
 
+    n = validQuizList.length-1
+    m = validQuizList.length-1
+
+    for(let i=0; i<=m/2; i++) {
+      let temp = validQuizList[i];
+      validQuizList[i] = validQuizList[n]
+      validQuizList[n] = temp
+      n--
+    }
+
     // const validQuizList = [];
     // if(quizList.length !== 0) {
     //   quizList.map((quiz) => {
@@ -67,7 +88,7 @@ module.exports = async (req, res) => {
     //     })
     //   })
     // }
-  
+
     res.status(200).json({ data: { invalidQuizList, validQuizList } })
   }
 }

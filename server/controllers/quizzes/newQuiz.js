@@ -3,9 +3,10 @@ const { isAuthorized } = require('../tokenFunction/index')
 
 module.exports = async (req, res) => {
   const accessTokenData = isAuthorized(req, res);
-  const { quizContents, answerContents, answerComments } = req.body;
+  const {title, categories, quizContents, quizTypes, rewardPoints, answerContents, answerCorrects, answerTypes, answerComments } = req.body;
+  let { thumbnail } = req.body
 
-  if(accessTokenData && quizContents && answerContents && answerComments) {
+  if(accessTokenData && title && categories && quizContents && quizTypes && rewardPoints && answerContents && answerCorrects && answerTypes && answerComments) {
 
     const data = await accessTokenData
     .then(user => { return user })
@@ -14,23 +15,44 @@ module.exports = async (req, res) => {
       where: { email: data.email }
     })
 
-    console.log("퀴즈 생성")
+    // 썸네일 카테고리별 default 설정
+    if(thumbnail === "default") {
+      if(categories === "정치") {
+        thumbnail = "https://cdn.discordapp.com/attachments/830706676852064307/901776488054030336/001.png"
+      } else if(categories === "경제") {
+        thumbnail = "https://cdn.discordapp.com/attachments/894748673240629331/905653950043291698/005.png"
+      } else if(categories === "사회") {
+        thumbnail = "https://cdn.discordapp.com/attachments/830706676852064307/901776508018913320/002.png"
+      } else if(categories === "스포츠") {
+        thumbnail = "https://cdn.discordapp.com/attachments/830706676852064307/901776576771919872/003.png"
+      } else if(categories === "정보기술") {
+        thumbnail = "https://cdn.discordapp.com/attachments/830706676852064307/901776526901661747/010.png"
+      } else if(categories === "관광") {
+        thumbnail = "https://cdn.discordapp.com/attachments/830706676852064307/901776537228042270/004.png"
+      } else if(categories === "요리") {
+        thumbnail = "https://cdn.discordapp.com/attachments/830706676852064307/901776601119875092/006.png"
+      } else if(categories === "여행") {
+        thumbnail = "https://cdn.discordapp.com/attachments/830706676852064307/901776586670473247/007.png"
+      } else if(categories === "음악") {
+        thumbnail = "https://cdn.discordapp.com/attachments/830706676852064307/901776476565807124/008.png"
+      } else if(categories === "외래어") {
+        thumbnail = "https://cdn.discordapp.com/attachments/830706676852064307/901776498816589854/009.png"
+      }
+    }
+
       // quiz 테이블 생성
     const createdQuiz = await quiz.create({
-      title: quizContents.title,
-      thumbnail: quizContents.thumbnail || "some image",
-      rewardPoint: quizContents.rewardPoints,
+      title: title,
+      thumbnail: thumbnail,
+      rewardPoint: rewardPoints,
       heart: 0,
       valid: true,
       userId: userData.id
     });
 
-
-
-    console.log("카테고리 생성")
       // category 테이블 생성
     const createdCategory = await category.create({
-      category: answerContents.categories,
+      category: categories,
       quizId: createdQuiz.id
     });
 
@@ -44,16 +66,12 @@ module.exports = async (req, res) => {
       }
     */
 
-    console.log("퀴즈 코드 생성")
       // quizContent 테이블 생성
     const createdQuizContent = await quizContent.create({
-      quizCode: quizContents.contents.image_url || quizContents.contents,
-      quizType: quizContents.quizTypes
+      quizCode: quizContents.image_url || quizContents.text,
+      quizType: quizTypes
     });
 
-
-
-    console.log("퀴즈 코드 조인 생성")
       // quiz_type 테이블 생성
     const createdQuiz_type = await quiz_type.create({
       quizContentId: createdQuizContent.id,
@@ -73,14 +91,13 @@ module.exports = async (req, res) => {
       }
     */
 
-    console.log("정답 코드 생성")
       // answerContent, answer_tyoe 테이블 생성
-    answerContents.contents.map( async (answerExample) => {
+    answerContents.map( async (answerExample) => {
       await answerContent.create({
         answerCode: answerExample.file_url || answerExample.name || answerExample.text,
         answerComment: answerComments,
-        answerType: answerContents.answerTypes,
-        correctAnswer: answerContents.answerCorrects
+        answerType: answerTypes,
+        correctAnswer: answerCorrects
       })
       .then( async (created) => {
         await answer_type.create({
@@ -96,3 +113,4 @@ module.exports = async (req, res) => {
     res.status(400).send("invalid accessToken")
   }
 }
+

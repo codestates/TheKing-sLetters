@@ -28,7 +28,7 @@ module.exports = async (req, res) => {
       salt: salt
     })
 
-    const userData = {
+    const adminData = {
       id: newUser.id,
       name: newUser.name,
       email: newUser.email,
@@ -41,7 +41,7 @@ module.exports = async (req, res) => {
 
     // res.cookie('accessToken', accessToken)
     res.status(201)
-    .json({ data: { userData: userData }});
+    .json({ data: { adminData: adminData }});
     // 유저 정보, 토큰 전달
   }
 };

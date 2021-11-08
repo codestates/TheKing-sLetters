@@ -16,6 +16,9 @@ module.exports = async (req, res) => {
       where: { email: data.email }
     })
 
+    if(itemData.length <= 0) {
+      res.status(404).send("please select some items")
+    }
     const itemIdList = [];
     await item.findAll({
       attributes: ["id"]
@@ -42,16 +45,16 @@ module.exports = async (req, res) => {
     })
 
 
-    
+
     if(!purchasedItems) {
       res.status(404).send("item dosen't exist")
     }else if (userData.mileages[0].mileage >= overallPrice) {
       itemData.map( async (itemId) => {
-      
+
         const purchasedItem = await item.findOne({
           where: { id: itemId }
         })
-  
+
         const createdUsedItem = await usedItem.create({
           company: purchasedItem.company,
           itemName: purchasedItem.itemName,

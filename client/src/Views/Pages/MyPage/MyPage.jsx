@@ -8,7 +8,7 @@ import MyPageModal from '../../Modals/MyPageModal';
 import Modal6 from './RankModal'
 import DeleteApproveModal from './DeleteApproveModal';
 import { Link } from 'react-router-dom';
-
+import { useUserState } from "../../../context/UserContext";
 
 //----------------첫번째 박스-----------------------------------
 const FirstBox = styled.div`
@@ -16,6 +16,7 @@ display: flex;
 justify-content: flex-start;
 align-items: center;
 width: 100%;
+background-color: white;
 
 > .title {
   font-family: 'EBSHMJESaeronRA';
@@ -309,6 +310,7 @@ const Li = styled.li`
 `;
 
 const MyPage = (props) => {
+  const userState = useUserState();
   const [userData, setUserData] = useState({
     email: '',
     name: '',
@@ -347,25 +349,8 @@ const MyPage = (props) => {
 
 
   useEffect(() => {
-    if(props.location.state.isLogin === true) {
-// const [email, setEmail] = useState('');
-  // const [name, setName] = useState('');
-  // const [image, setImage] = useState(''); 
-  // axios.post("http://ec2-13-209-96-200.ap-northeast-2.compute.amazonaws.com/login" , {
-  //   email:'test@test.com',
-  //   password:'1234'
-  // })
-  // //창은 없지만 로그인 요청을 보내는 과정 
-  //     .then(function (response) {
-  //       localStorage.setItem('accessToken',response.data.data.accessToken);
-  //       //로그인 요청에 대한 응답 ocalStorage.setItem 브라우저 로컬 스토리지에 데이터를 저장  email:'test@test.com',password:'1234' 시크릿키를 섞어서 생성한 토큰
-  //       //const accessToken = res.data.data.token
-  //          // response  
-  //     }).catch(function (error) {
-  //         // 오류발생시 실행
-  //     }).then(function() {
-  //         // 항상 실행
-  //     });
+    if(userState.isUserLoggedIn) {
+
   axios.get("https://api.thekingsletters.ml/users/info", {
     headers: {
       Authorization: `Bearer ${localStorage.getItem('accessToken')}` // 로컬 브라우저에서 받은 토큰이다 //localStorage.getItem : 로컬 스토리지에 갖고 있는 값을 가지고 온 것
@@ -377,10 +362,7 @@ const MyPage = (props) => {
       name : response.data.data.userData.name,
       image : response.data.data.userData.image,
       mileage : response.data.data.userData.mileage,
-    })
-    // setEmail(response.data.data.userData.email)
-    // setName(response.data.data.userData.name)
-    // setImage(response.data.data.userData.image)
+    })    
   })    
   axios.get("https://api.thekingsletters.ml/mypublish", {
   headers: {

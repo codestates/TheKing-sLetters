@@ -3,43 +3,6 @@ import React, { createContext, useContext, useReducer } from "react";
 const UserStateContext = createContext(null);
 const UserDispatchContext = createContext(null);
 
-const reducer = (state, action) => {
-  switch (action.type) {
-    case "USER_LOGIN":
-      return {
-        ...state,
-        isUserLoggedIn: true,
-      };
-    case "USER_LOGOUT":
-      return {
-        ...state,
-        isUserLoggedIn: false,
-      };
-    case "SET_USER_DATA":
-      return {
-        ...state,
-        userData: {...action.userData},
-      };
-    case "ADMIN_LOGIN":
-      return {
-        ...state,
-        isAdminLoggedIn: true,
-      };
-    case "ADMIN_LOGOUT":
-      return {
-        ...state,
-        isAdminLoggedIn: false,
-      };
-    case "SET_ADMIN_DATA":
-      return {
-        ...state,
-        adminData: {...action.adminData},
-      };
-    default:
-      return state;
-  }
-};
-
 const initialState = {
   isUserLoggedIn: false,
   isAdminLoggedIn: false,
@@ -62,6 +25,53 @@ const initialState = {
     name: "",
     createdAt: "",
     updatedAt: ""
+  }
+};
+
+const reducer = (state, action) => {
+  switch (action.type) {
+    case "USER_LOGIN":
+      return {
+        ...state,
+        isUserLoggedIn: true,
+      };
+    case "USER_LOGOUT":
+      return {
+        ...state,
+        isUserLoggedIn: false,
+      };
+    case "SET_USER_DATA":
+      return {
+        ...state,
+        userData: {...action.userData},
+      };
+    case "SET_USER_DATA_NULL":
+      return {
+        ...state,
+        userData: {...initialState.userData},
+      };
+    case "ADMIN_LOGIN":
+      return {
+        ...state,
+        isAdminLoggedIn: true,
+      };
+    case "ADMIN_LOGOUT":
+      return {
+        ...state,
+        isAdminLoggedIn: false,
+      };
+    case "SET_ADMIN_DATA":
+      return {
+        ...state,
+        adminData: {...action.adminData},
+      };
+    case "SET_ADMIN_DATA_NULL":
+      return {
+        ...state,
+        adminData: {...initialState.adminData},
+      };
+    default:
+      return state;
   }
 };
 
@@ -151,6 +161,9 @@ export const useUserDispatch = () => {
 //   }
 // });
 
+// /* 유저 정보 초기화 */
+// dispatch({type: "SET_USER_DATA_NULL"});
+
 
 /* ------------------- 어드민 관련 ------------------- */
 /* useUserState, useUserDispatch의 선언은 컴포넌트 안에 해야함 */
@@ -188,3 +201,6 @@ export const useUserDispatch = () => {
 //       updatedAt: ""
 //     }
 // });
+
+// /* 어드민 정보 초기화 */
+// dispatch({type: "SET_ADMIN_DATA_NULL"});

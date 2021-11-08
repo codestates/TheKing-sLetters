@@ -153,7 +153,7 @@ margin-top:20px;
 border-color: black;
 `;
 
-const MasterLoginModal = ({ isOpen, openModalHandler
+const MasterLoginModal = ({ isOpen, openModalHandler, setLoginOpen 
   // loginHandler, handleInputValue
 }) => {
   
@@ -171,7 +171,7 @@ const MasterLoginModal = ({ isOpen, openModalHandler
   const loginHandler = async (e) => {
       e.preventDefault(); 
 
-    const URL = `http://ec2-13-209-96-200.ap-northeast-2.compute.amazonaws.com/admin/login`;
+    const URL = `https://api.thekingsletters.ml/admin/login`;
     const PAYLOAD = {
       email: loginInfo.email,
       password: loginInfo.password,
@@ -182,6 +182,7 @@ const MasterLoginModal = ({ isOpen, openModalHandler
     let response = null;
     try {
       response = await axios.post(URL, PAYLOAD, OPTION);
+      setLoginOpen(false);
       console.log('POST /admin/login 요청에 성공했습니다.');
     } catch(error) {
       response = error.response;
@@ -190,7 +191,6 @@ const MasterLoginModal = ({ isOpen, openModalHandler
       console.log(response);
     } finally {
       if (response.status === 200) {
-        console.log(response.data.data)
         localStorage.setItem('accessToken', response.data.data.adminToken);
         setIsLogin(true)
       }
@@ -200,6 +200,7 @@ const MasterLoginModal = ({ isOpen, openModalHandler
 
   return (
     <>
+        
         {isOpen === true ? 
           (
             <ModalBackdrop>
@@ -224,13 +225,7 @@ const MasterLoginModal = ({ isOpen, openModalHandler
                 <Sign>
                   <input type="submit" name="login" value="Login" 
                   onClick={loginHandler} 
-                  />
-                  {/* <Img>
-                  <img src='https://media.vlpt.us/images/yonghk423/post/77fcc7e6-408e-4316-83dd-9d195c4c74dc/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA%202021-10-28%20%E1%84%8B%E1%85%A9%E1%84%8C%E1%85%A5%E1%86%AB%2012.54.14.png'/>
-                  <img src='https://media.vlpt.us/images/yonghk423/post/9555f46c-ef03-46f1-83ed-a51425df55f2/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA%202021-10-28%20%E1%84%8B%E1%85%A9%E1%84%8C%E1%85%A5%E1%86%AB%2012.54.14%20(1).png'/>
-                  <img src='https://media.vlpt.us/images/yonghk423/post/98cfd1f3-a3c2-4ebb-9813-b0bb277b7ac0/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA%202021-10-28%20%E1%84%8B%E1%85%A9%E1%84%8C%E1%85%A5%E1%86%AB%2012.54.14%20(2).png'/>
-                  </Img>
-                  <br/> 아직 회원이 아니신가요?                   */}
+                  />                 
                 </Sign>
               </form>      
               </div>

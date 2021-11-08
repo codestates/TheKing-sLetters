@@ -26,7 +26,7 @@ const ProblemBox = () => {
   const getUserInfo = async () => {
     await axios
       .post(
-        'https://api.thekingsletters.ml/login',
+        'http://ec2-13-209-96-200.ap-northeast-2.compute.amazonaws.com/login',
         {
           email: 'test@test.com',
           password: '1234',
@@ -46,7 +46,7 @@ const ProblemBox = () => {
     if (isLogin) {
       await axios
         .get(
-          'https://api.thekingsletters.ml/mynote',
+          'http://ec2-13-209-96-200.ap-northeast-2.compute.amazonaws.com/mynote',
           {
             headers: { authorization: `Bearer ${adminAccessToken}` },
             withCredentials: true,

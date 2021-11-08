@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import SignInModal from '../Views/Modals/SignInModal';
 import SignUpModal from '../Views/Modals/SignUpModal';
-import { useUserState, useUserDispatch } from '../context/UserContext';
 
 const NavBar = styled.div`
   background-color: #d7dbd1;
@@ -124,43 +123,21 @@ const NavBarToggle = styled.div`
 `;
 
 const Header = () => {
-  const dispatch = useUserDispatch();
   const [isLogin, setIsLogin] = useState(false);
   const [loginOpen, setLoginOpen] = useState(false); //로그인모달 on off 관련상태
   const [signupOpen, setSignupOpen] = useState(false); // 회원가입 모달 on off 관련 상태
 
-  /* --------------토큰 존재 여부 확인 후 로그인 상태로 변경---------------- */
-  useEffect( async () => {
+  useEffect(() => {
     if(localStorage.getItem('accessToken')) {
-      const response = await axios.get('https://api.thekingsletters.ml/users/info', 
+      axios.get('https://api.thekingsletters.ml/users/info', 
       {headers : {
         Authorization : `Bearer ${localStorage.getItem('accessToken')}`
       }})
-      if(response.status === 200) {
-        const userData = response.data.data.userData
-        dispatch({type: "USER_LOGIN"});
-        dispatch({
-          type: "SET_USER_DATA",
-          userData: {
-            email: userData.email || "0",
-            gender: userData.gender || "0",
-            image: userData.image || "0",
-            mobile: userData.mobile || "0",
-            name: userData.name || "",
-            mileage: userData.mileage || "0",
-            rank: userData.rank || "0",
-            createdAt: userData.createdAt || "0",
-            updatedAt: userData.updatedAt || "0"
-          }
-        });
-        setIsLogin(true)
-      } else {
-        setIsLogin(false)
-      }
+      .then(() => setIsLogin(true))
+      .catch(() => setIsLogin(false))
     }
   }, [])
-  /* --------------------------------------------------------------- */
-
+  
   const logoutHandler = async () => {
     await axios
       .get('https://api.thekingsletters.ml/signout', {
@@ -207,8 +184,6 @@ const Header = () => {
     nav.classList.toggle('nav-open');
     menuBtn.classList.toggle('close');
   };
-  const userState = useUserState();
-  console.log(userState.isUserLoggedIn);
 
   return (
     <div>
@@ -266,6 +241,7 @@ const Header = () => {
       />
       <SignUpModal
         open={signupOpen}
+        handleSignup={handleSignup}
         handleLogin={handleLogin}
       />
 

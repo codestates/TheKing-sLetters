@@ -3,7 +3,8 @@ import styled from 'styled-components';
 import SignUpModal from './SignUpModal'
 import axios from 'axios';
 import { useUserDispatch } from '../../context/UserContext';
-
+import GitHubLogo from './GitHubLogo.png';
+import GoogleLogo from './GoogleLogo.png';
 const ModalBackdrop = styled.div`
   position: fixed;
   z-index: 999;
@@ -14,11 +15,6 @@ const ModalBackdrop = styled.div`
   background-color: rgba(0,0,0,0.75);
   display: grid;
   place-items: center;
-
-  .active {
-
-  }
-
   `;
 
 const ModalView = styled.div`
@@ -32,6 +28,7 @@ const ModalView = styled.div`
 
     > div.box {
       transition: all 0.4s;
+      transition: all 0.4s;
       position: absolute;
       top: 50%;
       left: 50%;
@@ -42,12 +39,7 @@ const ModalView = styled.div`
       background: white;
       box-sizing: border-box;
       box-shadow: 0 15px 25px rgba(0, 0, 0, 0.5);
-      border-radius: 10px;
-      @media (max-width: 768px) {
-      transition: all 0.4s;
-        height: 100vh;
-        width: 100vw;
-      }
+      border-radius: 10px;     
     }
     > div.box span {
       //x 취소버튼
@@ -108,14 +100,14 @@ const ModalView = styled.div`
       margin-bottom: 10px;
     }
 
-    > div.box input:last-child{
+    /* > div.box input:last-child{
       margin-right: 0;
-    }
+    } */
 
-    > div.box a {   
+    /* > div.box a {   
       color: #fff;
       margin-left: 2%;
-    }
+    } */
 `;
 
 const Sign = styled.div`
@@ -159,9 +151,79 @@ const SigninTitle = styled.div`
 `;
 
 const Img = styled.div`
-width: 300px;
-margin: auto;
-border-color: black;
+ 
+//-----------git logo
+> a {
+  > .gitBox {
+    @media (max-width: 768px) {
+     margin: auto;
+     position: relative;
+     left: 5px; 
+    }
+  border-radius: 12px;
+  position: relative;
+  left: 28px;
+  width: 400px;
+  height: 50px;
+  background-color: black;
+  color: white;
+  font-size: 20px;
+
+  > .gitlogoTitle {
+position: absolute;
+left: 50%;
+top: 50% auto;
+transform: translate(-50%, 50%);
+  }
+
+  > .gitHubImg {
+   align-content: center;
+   position: relative;
+   width: 40px;
+   height: 40px;
+   left: -165px;
+   top: 5px;
+ }
+}
+
+}
+//-----------google logo
+> a {
+  > .googleBox {
+    @media (max-width: 768px) {
+     margin: auto;
+     position: relative;
+     left: 5px;
+    }
+  border-radius: 12px;
+  position: relative;
+  left: 28px;
+  top:10px;
+  width: 400px;
+  height: 50px;
+  background-color: white;
+  color: black;
+  font-size: 20px;
+  border: 1px solid black;
+  
+> .googleTitle {
+  position: absolute;
+left: 50%;
+top: 50%auto;
+transform: translate(-50%, 50%);
+} 
+
+> .googleImg {
+  align-content: center;
+   position: relative;
+   width: 50px;
+   height: 50px;
+   left: -165px;
+   top: 0px;
+}
+ }
+}
+ 
 `;
 
 const SignInModal = ({ setIsLogin, open, openModalHandler, handleSignup, signupOpen, handleLogin }) => {
@@ -221,7 +283,6 @@ const SignInModal = ({ setIsLogin, open, openModalHandler, handleSignup, signupO
     }
   };
 
-
   return (
     <>
         {open === true ? 
@@ -236,14 +297,12 @@ const SignInModal = ({ setIsLogin, open, openModalHandler, handleSignup, signupO
               </SigninTitle>
               <form onSubmit={(e) => e.preventDefault()}>      
                 <div className="inputBox">
-                  <input type="email" name="user email" required  
-                  onChange={handleInputValue('email')}
+                  <input type="email" name="user email" required  onChange={handleInputValue('email')}
                   />
                   <label>이메일</label>
                 </div>
                 <div className="inputBox">
-                  <input type="password" name="password" required 
-             onChange={handleInputValue('password')} 
+                  <input type="password" name="password" required onChange={handleInputValue('password')} 
                   />
                   <label>비밀번호</label>
                 </div>  
@@ -252,12 +311,22 @@ const SignInModal = ({ setIsLogin, open, openModalHandler, handleSignup, signupO
                   onClick={loginHandler} 
                   />
                   <Img>
-                  <img src='https://media.vlpt.us/images/yonghk423/post/77fcc7e6-408e-4316-83dd-9d195c4c74dc/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA%202021-10-28%20%E1%84%8B%E1%85%A9%E1%84%8C%E1%85%A5%E1%86%AB%2012.54.14.png'/>
-                  <img src='https://media.vlpt.us/images/yonghk423/post/9555f46c-ef03-46f1-83ed-a51425df55f2/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA%202021-10-28%20%E1%84%8B%E1%85%A9%E1%84%8C%E1%85%A5%E1%86%AB%2012.54.14%20(1).png'/>
-                  <img src='https://media.vlpt.us/images/yonghk423/post/98cfd1f3-a3c2-4ebb-9813-b0bb277b7ac0/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA%202021-10-28%20%E1%84%8B%E1%85%A9%E1%84%8C%E1%85%A5%E1%86%AB%2012.54.14%20(2).png'/>
+                  <a href="https://github.com/login/oauth/authorize?client_id=a27b9ace9f66b90ffe4d&scope=user">
+                  <div className="gitBox">
+                    <div className="gitlogoTitle">GitHub 로그인</div>  
+                    <img className="gitHubImg" src={GitHubLogo} alt="gitHubLogo"/>
+                  </div>
+                  </a>
+                  
+                  <a href="https://accounts.google.com/o/oauth2/v2/auth?client_id=992308342199-tdkmk92urgpuam42mo74pmq7m8c17ud3.apps.googleusercontent.com&redirect_uri=http://localhost:3000/auth/google&response_type=code&scope=https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email openid">
+                  <div className="googleBox">
+                    <div className="googleTitle">Google 로그인</div>
+                    <img className="googleImg" src={GoogleLogo} alt="googleLogo"/>
+                  </div>
+                  </a>
                   </Img>
-                  <a href='https://accounts.google.com/o/oauth2/v2/auth?client_id=992308342199-tdkmk92urgpuam42mo74pmq7m8c17ud3.apps.googleusercontent.com&redirect_uri=http://localhost:3000/auth/google&response_type=code&scope=https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email openid'><div>구글</div></a>
-                  <a href='https://github.com/login/oauth/authorize?client_id=a27b9ace9f66b90ffe4d&scope=user'><div>깃헙</div></a>
+                                  
+
                   <br/> 아직 회원이 아니신가요?
                   <SignupButton onClick={handleSignup}>
                     {signupOpen === false ? <div className="signupModalButton">회원가입</div> : <div className="signupModalButton">회원가입</div>}
@@ -267,7 +336,7 @@ const SignInModal = ({ setIsLogin, open, openModalHandler, handleSignup, signupO
                   handleSignup={handleSignup} 
                   handleLogin={handleLogin}/>
                 </Sign> 
-              </form>                 
+              </form>                              
               </div>
             </ModalView>
           </ModalBackdrop>

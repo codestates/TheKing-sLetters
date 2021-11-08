@@ -14,12 +14,11 @@ import Admin from './Views/Pages/Admin/AdminPage';
 import ProblemBox from './Views/Pages/ProblemBox/ProblemBox';
 import GoogleAuth from './Views/Pages/MyPage/GoogleAuth';
 import GithubAuth from './Views/Pages/MyPage/GithubAuth';
-
 function App() {
   return (
     <>
-      <Header />
-      <Switch>
+      <Header />      
+      <Switch>        
         <Route exact path="/" component={LandingPage}></Route>
         <Route exact path="/main" component={Main}></Route>
         <Route exact path="/mypage" component={Mypage}></Route>

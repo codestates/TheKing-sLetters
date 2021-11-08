@@ -9,7 +9,7 @@ const MsgShowUp = styled.p`
   background-color: rgba(0, 0, 0, 0.45);
   width: 35%;
   color: #fafafa;
-  letter-spacing: 1px;
+  letter-spacing: 2px;
   text-align: center;
   /* 기본값 보임 */
   visibility: hidden;
@@ -18,6 +18,7 @@ const MsgShowUp = styled.p`
   z-index: 499;
   /* padding을 고려해서 왼쪽 끝으로 이동 */
   left: 6%;
+
   /* 가운데에서 살짝 위로 */
   top: -30px;
   /* 애니메이션으로 서서히 사라지게함 */

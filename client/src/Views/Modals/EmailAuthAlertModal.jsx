@@ -41,22 +41,25 @@ const Title = styled.div`
 
 display: inline-block;
   text-align: center;
-  > span {
+  margin-top: 10px;  
+  > h1 {
     font-size: 40px;
     margin: -5%;
   }
   > div {
     //scroll
-    margin-top: 2rem;
+    height: 205px;
+    margin-top: 5rem;
     font-size: 20px;
+    border-radius: 12px;
+    margin-bottom: 10px;
     display: flex;
     flex-direction: column;
-  }
-  .spam_box_notice {
-    margin-top: 1rem;
-    font-size: 1rem;
-    font-weight: bold;
-    color: #042249;
+    > div {
+      >  span {
+        padding: 50px;
+      }
+    }
   }
   `;
 
@@ -74,14 +77,9 @@ const EmailAuthAlertModal = ({ setEmailAlertOpen  }) => {
           </button>
         </TitleCloseBtn>
         <Title>
-          <span>
-            인증 이메일 전송 완료
-          </span>
+          <h1>인증 이메일 전송 완료</h1>
           <div>
-            입력하신 이메일의 수신함을 확인해주세요!
-          </div>
-          <div className="spam_box_notice">
-            -이메일이 보이지 않으면 스팸함을 확인해주세요-
+          입력하신 이메일의 수신함을 확인해주세요!
           </div>
         </Title>
       </div>

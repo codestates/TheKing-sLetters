@@ -17,17 +17,25 @@ const ModalSubmitBackground = styled.div`
 `;
 
 const ModalSubmitButtonContainer = styled.div`
-  padding: 2% 6% 2% 6%;
+  padding: 2% 6% 10% 6%;
+
   > .modal_submit_button {
+    font-family: 'EBSHMJESaeronRA';
     width: 100%;
     padding: 1% 1% 1% 1%;
     border-radius: 5px;
-    background-color: rgba(0, 0, 0, 0.2);
-    font-size: 18px;
+    background-color: transparent;
+    border: 1px solid #303030;
+    font-size: 20px;
+    transition: all 0.4s ease;
+    color: #303030;
+    letter-spacing: 3px;
   }
   > .modal_submit_button:hover {
     cursor: pointer;
-    background-color: rgba(0, 0, 0, 0.3);
+    color: #fafafa;
+    background-color: #303030;
+    border: 1px solid #303030;
   }
 `;
 
@@ -81,25 +89,25 @@ const ModalSubmitView = styled.div`
     flex-direction: row;
     justify-content: center;
     gap: 1em;
-    margin-top: 1.5rem;
+    margin-top: 0.7rem;
   }
   > .modal_button_container .modal_confirm_yes {
     font-family: 'EBSHMJESaeronRA';
     width: 30%;
-    border: 1px solid #303030;
-    background-color: transparent;
-    color: #303030;
+    color: #fafafa;
     font-weight: 500;
     border-radius: 6px;
     padding: 8px 18px;
     font-size: 1rem;
     letter-spacing: 1px;
+    border: 1px solid #0066ff;
+    background-color: #0066ff;
   }
   > .modal_button_container .modal_confirm_yes:hover {
     cursor: pointer;
-    border: 1px solid #0066ff;
-    background-color: #0066ff;
-    color: #fafafa;
+    border: 1px solid #303030;
+    background-color: transparent;
+    color: #303030;
     transition: all 0.4s ease;
   }
   > .modal_button_container .modal_confirm_no {

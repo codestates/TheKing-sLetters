@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
-import EmailAuthAlertModal from './SubModals/EmailAuthAlertModal'
+import EmailAuthAlertModal from './EmailAuthAlertModal'
 const BORDER_DEV = ``;
-axios.defaults.baseURL = `http://ec2-13-209-96-200.ap-northeast-2.compute.amazonaws.com`;
+axios.defaults.baseURL = `https://api.thekingsletters.ml`;
 axios.defaults.withCredentials = true;
 
 export const ModalBackdrop = styled.div`
@@ -222,9 +222,10 @@ text-align: center;
         transition: all 1.5s ease-out;
       }
     }
+
 `;
 
-const SignUpModal = ({ open, handleLogin }) => {
+const SignUpModal = ({ open, handleLogin, handleSignup }) => {
   const [emailAlertOpen, setEmailAlertOpen] = useState(false);
   const [isVaildEmail, setIsVaildEmail] = useState(false);
   const [isVaildName, setIsVaildName] = useState(false);
@@ -276,7 +277,7 @@ const SignUpModal = ({ open, handleLogin }) => {
   };
 
   const vaildPasswordCheck = (input) => {
-    const pattern = /^(?=.*[a-zA-Z])((?=.*\d)|(?=.*\W)).{4,20}$/;
+    const pattern = /^(?=.*[a-zA-Z])((?=.*\d)|(?=.*\W)).{6,20}$/;
     //6~20 영문 대소문자
     //최소 1개의 숫자 혹은 특수 문자를 포함해야 함
     return pattern.test(input);

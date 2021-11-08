@@ -3,7 +3,6 @@ import '../Loading/Loading.css';
 
 const Loading = () => {
     return (
-      <div id="container">
         <div id="load">
             <div>미</div>
             <div>싸</div>
@@ -11,7 +10,6 @@ const Loading = () => {
             <div>랏</div>
             <div>나</div>
         </div>
-      </div>
     )
 }
 

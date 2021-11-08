@@ -36,8 +36,9 @@ const GithubAuth = (props) => {
       await axios.get(`https://api.thekingsletters.ml/auth/git?code=${authorizationCode}`)
       .then((res) => localStorage.setItem('accessToken', res.data.data.accessToken))
       .then(() => window.location='/')
-      .catch(() => {alert('해당 이메일로 가입된 계정이 존재합니다.'); window.location.href='/'})
+      .catch(() => {alert('해당 이메일로 가입된 계정이 존재합니다.'); window.location='/'})
     }
+    console.log(userState.isUserLoggedIn);
   }, [])
   
   return (

@@ -179,7 +179,8 @@ const Modal6 = ({ setOpenModal }) => {
               setOpenModal(false);
             }}
           >
-            <FontAwesomeIcon icon={faWindowClose} size="2x" ></FontAwesomeIcon>
+            &times;
+            {/* <FontAwesomeIcon icon={faWindowClose} size="2x" ></FontAwesomeIcon> */}
           </button>
         </TitleCloseBtn>
         <Title>
@@ -223,7 +224,6 @@ const RankModal = () => {
 
   return (
     <AppBox>
-      {/* <h1>Hey, click on the button to open the modal.</h1> */}
       <button
         className="openModalBtn"
         onClick={() => {

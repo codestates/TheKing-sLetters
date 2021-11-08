@@ -4,6 +4,8 @@ import ShoppingCart from './Components/ShoppingCart';
 import ItemDisplay from './Components/ItemDisplay';
 import React, { useState, useEffect, useRef } from 'react';
 import { useUserState } from '../../../context/UserContext';
+import Loading from '../../../Loading/Loading'
+
 import {
   fetchItemsData,
   refineItemsData,
@@ -265,6 +267,8 @@ const initialUserInfo = {
   mileage: 1000,
 };
 
+
+
 const MileageShop = () => {
   // 유저 정보 저장
   const [userInfo, setUserInfo] = useState(initialUserInfo);
@@ -454,7 +458,16 @@ const MileageShop = () => {
     setConfirmIsOpen(!confrimIsOpen);
   };
 
+  const [isLoading, setIsLoading] = useState(true);
+  useEffect(()=> {
+    setTimeout(()=> {
+      setIsLoading(false);
+    }, 1000)
+  })
+
   return (
+    <>
+    {isLoading && <Loading/>}
     <MileageShopWrapper>
       {/* 로그인이 안되어 있다면 표시 */}
       {!userLoginSuccess ? (
@@ -527,6 +540,7 @@ const MileageShop = () => {
         </ConfirmModalOverlay>
       ) : null}
     </MileageShopWrapper>
+    </>
   );
 };
 

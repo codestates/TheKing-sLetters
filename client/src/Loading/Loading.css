@@ -5,20 +5,11 @@ body {
 #load {
   position: fixed;
   z-index: 999;
-  left: 50%;
-  top: 40%;
-  margin-left: -300px;
-  overflow: visible;
-  background-color: black;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  cursor: default;
   top: 0;
   left: 0;
   bottom: 0;
   right: 0;
+  background-color: black;
   display: grid;
   place-items: center;
 }
@@ -38,7 +29,7 @@ body {
   -o-transform: rotate(180deg);
   -moz-transform: rotate(180deg);
   -webkit-transform: rotate(180deg);
-  color: #ffffff;
+  color: white;
 }
 
 #load div:nth-child(2) {

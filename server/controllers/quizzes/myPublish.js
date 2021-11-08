@@ -17,11 +17,15 @@ module.exports = async (req, res) => {
       attributes: ["id", "thumbnail", "title"]
     })
 
-    const published = []
+    let n = madeQuiz.length-1
+    let m = madeQuiz.length-1
 
-    madeQuiz.map((quiz) => {
-      console.log(quiz)
-    })
+    for(let i=0; i<=m/2; i++) {
+      let temp = madeQuiz[i];
+      madeQuiz[i] = madeQuiz[n]
+      madeQuiz[n] = temp
+      n--
+    }
 
     const publish = {
       id: originUserData.id,
@@ -33,7 +37,7 @@ module.exports = async (req, res) => {
       createdAt: originUserData.createdAt,
       updatedAt: originUserData.updatedAt
     }
-    
+
     // const accessToken = req.headers.cookie.split('=')[1].split(';')[0];
 
     const header = req.headers.authorization;

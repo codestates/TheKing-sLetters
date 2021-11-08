@@ -1,8 +1,12 @@
 const { user, mileage } = require('../../models');
 const crypto = require('crypto');
 const nodemailer = require('nodemailer');
+const ejs = require('ejs')
+const path = require('path')
+const appDir = path.dirname(require.main.filename);
 
 module.exports = async (req, res) => {
+console.log(req.body)
   const { name, email, password, mobile, gender } = req.body
 
   if(!name || !email || !password || !mobile || !gender) {
@@ -37,6 +41,15 @@ module.exports = async (req, res) => {
         }
       }
     }
+    forVerify()
+
+    let emailTemplete;
+    //url
+    const url = 'http://' + req.get('host')+'/confirmEmail'+'?key='+verifyKey;
+    ejs.renderFile(appDir+'/controllers/users/template/mail.ejs', {url : url, name: name}, function (err, data) {
+      if(err){console.log(err)}
+      emailTemplete = data;
+    });
 
     const newUser = await user.create({
       name: name,
@@ -44,7 +57,7 @@ module.exports = async (req, res) => {
       password: hashedPassword,
       mobile: mobile,
       gender: gender,
-      image: req.body.image || "https://media.vlpt.us/images/otter/post/ec1e02e9-f350-44dd-a341-9f2192e11015/default_profile.png",
+      image: req.body.image || "https://cdn.discordapp.com/attachments/859214492265480213/902849333752377354/106_20211027182045.png",
       salt: salt,
       verified: false,
       verifyKey: verifyKey
@@ -65,22 +78,13 @@ module.exports = async (req, res) => {
       },
     });
     
-    //url
-    const url = 'http://' + req.get('host')+'/confirmEmail'+'?key='+verifyKey;
     //옵션
-    let from = `나랏말싸미 <kingsletter1020@gmail.com>`
+    let from = `나랏말싸미 <kingsletter1443@gmail.com>`
     const mailOptions = {
       from: from,
       to: email,
-      subject: '[나랏말싸미] 회원가입을 위한 인증번호입니다.',
-      html: `
-      <div align="center">
-        <img src="https://media.discordapp.net/attachments/894796696494682135/900176319730581514/-_-001.png?width=466&height=466" />
-        <h1 style='color:black'>이메일 인증을 위해 URL을 클릭해주세요.</h1>
-        <br>
-        <span>url: </span><a href="${url}">${url}</a>
-      </div>
-      `,
+      subject: '[나랏말싸미] 회원가입 인증 메일입니다.',
+      html: emailTemplete
     };
 
     //전송
@@ -96,3 +100,4 @@ module.exports = async (req, res) => {
     res.status(201).send('이메일을 확인하세요.');
   }
 };
+

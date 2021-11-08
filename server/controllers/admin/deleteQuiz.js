@@ -22,8 +22,10 @@ module.exports = async (req, res) => {
         where: { quizId: quizId }
       })
   
-      await quizContent.destroy({
-        where: { id: quizType.quizContentId }
+      quizType.map( async (quizType) => {
+        await quizContent.destroy({
+          where: { id: quizType.quizContentId }
+        })
       })
   
       const answerType = await answer_type.findAll({
@@ -33,8 +35,10 @@ module.exports = async (req, res) => {
         where: { quizId: quizId }
       })
   
-      await answerContent.destroy({
-        where: { id: answerType.answerContentId }
+      answerType.map( async (answerType) => {
+        await answerContent.destroy({
+          where: { id: answerType.answerContentId }
+        })
       })
   
       await quiz.destroy({

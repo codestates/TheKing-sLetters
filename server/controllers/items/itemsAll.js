@@ -12,14 +12,17 @@ module.exports = async (req, res) => {
       if(!itemFullName.includes(item.company+item.itemName)) {
         itemList.push({
           id: item.id,
+          itemImage: item.itemImage,
           company: item.company,
           itemName: item.itemName,
           cost: item.cost,
-          quantity: 1
+          quantity: 1,
+          itemIds: [item.id]
         });
         itemFullName.push(item.company+item.itemName)
       } else {
         itemList[itemFullName.indexOf(item.company+item.itemName)].quantity++
+        itemList[itemFullName.indexOf(item.company+item.itemName)].itemIds.push(item.id)
       }
     })
 

@@ -1,20 +1,17 @@
 body {
-  background: #000;
+  background: white;
 }
 
 #load {
-  position: absolute;
-  width: 600px;
-  height: 36px;
-  left: 50%;
-  top: 40%;
-  margin-left: -300px;
-  overflow: visible;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  cursor: default;
+  position: fixed;
+  z-index: 999;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-color: black;
+  display: grid;
+  place-items: center;
 }
 
 #load div {
@@ -23,7 +20,7 @@ body {
   height: 36px;
   font-size: 50px;
   opacity: 0;
-  font-family: 'EBSHunminjeongeumSBA';
+  font-family: "EBSHunminjeongeumSBA";
   animation: move 3s linear infinite;
   -o-animation: move 3s linear infinite;
   -moz-animation: move 3s linear infinite;
@@ -32,7 +29,7 @@ body {
   -o-transform: rotate(180deg);
   -moz-transform: rotate(180deg);
   -webkit-transform: rotate(180deg);
-  color: #ffffff;
+  color: white;
 }
 
 #load div:nth-child(2) {

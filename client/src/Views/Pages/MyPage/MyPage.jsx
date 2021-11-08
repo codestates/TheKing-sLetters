@@ -8,6 +8,7 @@ import MyPageModal from '../../Modals/MyPageModal';
 import Modal6 from './RankModal'
 import DeleteApproveModal from './DeleteApproveModal';
 import { Link } from 'react-router-dom';
+import { useUserState } from '../../../context/UserContext'
 
 
 //----------------첫번째 박스-----------------------------------
@@ -309,6 +310,7 @@ const Li = styled.li`
 `;
 
 const MyPage = (props) => {
+  const userState = useUserState();
   const [userData, setUserData] = useState({
     email: '',
     name: '',
@@ -347,7 +349,7 @@ const MyPage = (props) => {
 
 
   useEffect(() => {
-    if(props.location.state.isLogin === true) {
+    if(userState.isUserLoggedIn) {
 // const [email, setEmail] = useState('');
   // const [name, setName] = useState('');
   // const [image, setImage] = useState(''); 
@@ -389,7 +391,6 @@ const MyPage = (props) => {
   // 로그인시 받은 토큰을 헤더에 담아 로그인 된상태고 get요청을 한 이유는 mypage에서 사용하기 위해  요청한 것  
 }).then((response)=> {
   setQuiz(response.data.data.madeQuiz)
-  console.log(response.data.data.madeQuiz)
 })
 
   axios.get("https://api.thekingsletters.ml/myitems" , {
@@ -500,26 +501,23 @@ const MyPage = (props) => {
             </div>
         </Li>
         <Li>
-            <input className="checkbox" type="checkbox" id="section-3-radio"/>
+            <div className="checkbox" type="checkbox" id="section-3-radio"/>
             <label className="tab" for="section-3-radio" id="section-3-tab">
                 <div className="created-problem">내가 만든 문제</div>
             </label>
-            <div className="container" id="section-3-panel">
-              <div>
                 {quiz.map((el)=>
-                
-                <div className="quizBox">
-                <button onClick={() => { setSelectedQuiz(el.id); setDeleteCheckOpen(true) }}>&times;</button>
-                  <div className="thumbnail">
-                    <Link to={`/quizsolve/${el.id}`}>
-                      <img  src={el.thumbnail}></img> 
-                    </Link>
+                  <div className="container" id="section-3-panel">
+                      <div className="quizBox">
+                      <button onClick={() => { setSelectedQuiz(el.id); setDeleteCheckOpen(true) }}>&times;</      button>
+                        <div className="thumbnail">
+                          <Link to={`/quizsolve/${el.id}`}>
+                            <img  src={el.thumbnail}></img> 
+                          </Link>
+                        </div>
+                      <div className="title">{el.title}</div>   
+                    </div>
                   </div>
-                <div className="title">{el.title}</div>   
-              </div>
                 )}
-              </div>
-            </div>
         </Li>
       </Ul>      
       </>

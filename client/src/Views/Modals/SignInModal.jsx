@@ -3,9 +3,7 @@ import styled from 'styled-components';
 import axios from 'axios';
 
 import { useUserState, useUserDispatch } from '../../context/UserContext';
-import bannerOne from './Assets/banner-1.png';
-import bannerTwo from './Assets/banner-2.png';
-import bannerThree from './Assets/banner-3.png';
+import GitHubLogo from './GitHubLogo.png'
 
 axios.defaults.baseURL = `https://api.thekingsletters.ml`;
 axios.defaults.withCredentials = true;
@@ -139,10 +137,73 @@ const SigninTitle = styled.div`
   }
 `;
 
-const Img = styled.div`
-  width: 420px;
-  margin: auto;
-  border-color: black;
+const Img = styled.div`//-----------git logo
+> a {
+  > .gitBox {
+    @media (max-width: 768px) {
+     margin: auto;
+     position: relative;
+     left: 5px; 
+    }
+  border-radius: 12px;
+  position: relative;
+  left: 28px;
+  width: 400px;
+  height: 50px;
+  background-color: black;
+  color: white;
+  font-size: 20px;
+  > .gitlogoTitle {
+position: absolute;
+left: 50%;
+top: 50% auto;
+transform: translate(-50%, 50%);
+  }
+  > .gitHubImg {
+   align-content: center;
+   position: relative;
+   width: 40px;
+   height: 40px;
+   left: -165px;
+   top: 5px;
+ }
+}
+}
+//-----------google logo
+> a {
+  > .googleBox {
+    @media (max-width: 768px) {
+     margin: auto;
+     position: relative;
+     left: 5px;
+    }
+  border-radius: 12px;
+  position: relative;
+  left: 28px;
+  top:10px;
+  width: 400px;
+  height: 50px;
+  background-color: white;
+  color: black;
+  font-size: 20px;
+  border: 1px solid black;
+  
+> .googleTitle {
+  position: absolute;
+left: 50%;
+top: 50%auto;
+transform: translate(-50%, 50%);
+} 
+> .googleImg {
+  align-content: center;
+   position: relative;
+   width: 50px;
+   height: 50px;
+   left: -165px;
+   top: 0px;
+}
+ }
+}
 `;
 
 const SignInModal = ({isOpen, setIsOpen, switcher}) => {
@@ -277,9 +338,12 @@ const SignInModal = ({isOpen, setIsOpen, switcher}) => {
             </div>
           </form>
           <Img>
-            <img src={bannerOne} />
-            <img src={bannerTwo} />
-            <img src={bannerThree} />
+          <a href="https://github.com/login/oauth/authorize?client_id=a27b9ace9f66b90ffe4d&scope=user">
+                  <div className="gitBox">
+                    <div className="gitlogoTitle">GitHub 로그인</div>  
+                    <img className="gitHubImg" src={GitHubLogo} alt="gitHubLogo"/>
+                  </div>
+                  </a>
           </Img>
           <Sign>
             <button onClick={loginHandler}>로그인하기</button>

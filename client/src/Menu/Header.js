@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { useUserDispatch, useUserState } from '../context/UserContext';
 
 const NavBar = styled.div`
   background-color: #d7dbd1;
@@ -106,6 +108,20 @@ const NavBarToggle = styled.div`
 `;
 
 const Header = () => {
+  const dispatch = useUserDispatch();
+  const userState = useUserState()
+  
+  useEffect(() => {
+    const token = localStorage.getItem('accessToken')
+    axios.get(`https://api.thekingsletters.ml/users/info`, {
+      headers: {
+        authorization: `Bearer ${token}`
+      }
+    })
+    .then(() => dispatch({type: "USER_LOGIN"}))
+  }, [])
+  console.log(userState.isUserLoggedIn)
+
   const handleButtonClick = () => {
     let nav = document.querySelector('nav');
     let menuBtn = document.querySelector('.menu-btn');

@@ -1,20 +1,26 @@
 body {
-  background: #000;
+  background: white;
 }
 
 #load {
-  position: absolute;
-  width: 600px;
-  height: 36px;
+  position: fixed;
+  z-index: 999;
   left: 50%;
   top: 40%;
   margin-left: -300px;
   overflow: visible;
+  background-color: black;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
   cursor: default;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  display: grid;
+  place-items: center;
 }
 
 #load div {
@@ -23,7 +29,7 @@ body {
   height: 36px;
   font-size: 50px;
   opacity: 0;
-  font-family: 'EBSHunminjeongeumSBA';
+  font-family: "EBSHunminjeongeumSBA";
   animation: move 3s linear infinite;
   -o-animation: move 3s linear infinite;
   -moz-animation: move 3s linear infinite;

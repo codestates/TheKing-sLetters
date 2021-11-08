@@ -4,6 +4,7 @@ import MainHot from './Components/MainHot';
 import MainCategorySelect from './Components/MainCategorySelect';
 import MainQuiz from './Components/MainQuiz';
 import axios from 'axios';
+import Loading from '../../../Loading/Loading'
 
 const MainContainer = styled.div`
   width: 100%;
@@ -17,8 +18,12 @@ const Main = () => {
     rewardPoints: '',
   });
   const [MainHotData, setMainHotData] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    setTimeout(()=> {
+      setIsLoading(false);
+    }, 1500)
     getMainHotQuiz();
   }, []);
 
@@ -37,6 +42,7 @@ const Main = () => {
 
   return (
     <MainContainer>
+      {isLoading && <Loading/>}
       <MainHot MainHotData={MainHotData} />
       <MainCategorySelect
         dataCategorySelect={dataCategorySelect}

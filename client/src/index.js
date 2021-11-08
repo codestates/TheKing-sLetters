@@ -2,12 +2,14 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-import store from './store/store';
-import { Provider } from 'react-redux';
+import { BrowserRouter } from 'react-router-dom';
+import { UserProvider } from './context/UserContext';
 
 ReactDOM.render(
-  <Provider store={store}>
-    <App />
-  </Provider>,
+  <UserProvider>
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </UserProvider>,
   document.getElementById('root')
 );

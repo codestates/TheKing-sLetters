@@ -15,8 +15,19 @@ display: flex;
 justify-content: flex-start;
 align-items: center;
 width: 100%;
-background-color: white;
 
+#modal_mypage {
+    position: relative;
+    
+> button {
+      position: absolute;
+      left: 0;
+      opacity: 0;
+    }
+> button:hover {
+      cursor: pointer;
+    }
+  }
 
 > .title {
   font-family: 'EBSHMJESaeronRA';
@@ -58,6 +69,7 @@ const SecondBox =styled.div`
 width: 100%;
 display: flex;
 justify-content: flex-start;
+position: relative;
 
 > .profile {
     width: 7rem;
@@ -475,8 +487,7 @@ const MyPage = (props) => {
         <div className="title">내 정보</div>
         <div className="setting">
             <li>
-              <FontAwesomeIcon icon={faUserCog} size="2x" className="setting" />
-              <div id="modal_mypage"></div>
+              <div id="modal_mypage"><FontAwesomeIcon icon={faUserCog} size="2x" className="setting" /></div>
             </li>
         </div>
       </FirstBox>

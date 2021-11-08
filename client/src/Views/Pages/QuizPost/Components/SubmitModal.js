@@ -94,7 +94,6 @@ const ModalSubmitView = styled.div`
   > .modal_button_container .modal_confirm_yes {
     font-family: 'EBSHMJESaeronRA';
     width: 30%;
-    color: #fafafa;
     font-weight: 500;
     border-radius: 6px;
     padding: 8px 18px;

@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import CropModal from './CropModal';
 import loadingIcon from '../Assets/loading-1.svg';
 
@@ -84,6 +84,7 @@ const ModalSubmitView = styled.div`
     font-family: 'EBSHMJESaeronRA';
   }
   > .modal_button_container {
+    position: relative;
     width: 100%;
     display: flex;
     flex-direction: row;
@@ -100,21 +101,22 @@ const ModalSubmitView = styled.div`
     padding: 8px 18px;
     font-size: 1rem;
     letter-spacing: 1px;
-    border: 1px solid #0066ff;
-    background-color: #0066ff;
+    background-color: rgba(77, 109, 254, 0.9);
   }
   > .modal_button_container .modal_confirm_yes:hover {
     cursor: pointer;
-    border: 1px solid #303030;
-    background-color: transparent;
-    color: #303030;
+    background-color: #0066ff;
     transition: all 0.4s ease;
+    
+  }
+  > .modal_button_container .modal_confirm_yes:hover p {
+    display: block;
   }
   > .modal_button_container .modal_confirm_no {
     font-family: 'EBSHMJESaeronRA';
     width: 30%;
     padding: 8px 18px;
-    border: 1px solid #303030;
+    outline: 1px solid #303030;
     background-color: transparent;
     font-weight: 500;
     border-radius: 6px;
@@ -123,8 +125,9 @@ const ModalSubmitView = styled.div`
   }
   > .modal_button_container .modal_confirm_no:hover {
     cursor: pointer;
-    background-color: #303030;
+    background-color: #222222b0;
     color: #fafafa;
+    outline: none;
     transition: all 0.4s ease;
   }
   > .modal_button_container .modal_confirm_loading {
@@ -146,12 +149,45 @@ const ModalSubmitView = styled.div`
   }
 `;
 
+const TestModeMsg = styled.p`
+  font-family: 'EBSHMJESaeronRA';
+  border: none;
+  border-radius: 6px;
+  padding: 5px 5px 5px 5px;
+  background-color: #555;
+  color: #fafafa;
+  letter-spacing: 2px;
+  text-align: center;
+  /* 기본값 보임 */
+  display: none;
+  /* 메시지 위치 설정 */
+  position: absolute;
+  z-index: 499;
+  /* padding을 고려해서 오른쪽으로 이동 */
+  left: 18%;
+  /* 살짝 위로 */
+  top: -2.5rem;
+  /* 크기는 고정 */
+  width: 17rem;
+  /* 화살표 css */
+  ::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 5%;
+    border-width: 8px 6px 8px 6px;
+    border-style: solid;
+    border-color: #555 transparent transparent transparent;
+  }
+`;
+
 const ModalSubmit = ({
   isReadyToSubmit,
   uploadLoading,
   submitHandler,
   dataThumbnail,
   setDataThumbnail,
+  isTestModeOn,
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isUploaded, setIsUploaded] = useState(false);
@@ -198,13 +234,13 @@ const ModalSubmit = ({
         <ModalSubmitBackground>
           <ModalSubmitView>
             <p className="modal_image_preview_title">
-              문제의 썸네일 사진을 업로드 해주세요
+              문제의 <span style={{color: "blue"}}>썸네일 사진</span>을 업로드 해주세요
               <br />
-              업로드하지 않으면 기본 이미지가 들어갑니다
+              업로드하지 않으면 <span style={{color: "blue"}}>기본 이미지</span>가 들어갑니다
             </p>
             <div className="modal_image_preview_wrapper">
               {isUploaded ? (
-                <img src={dataThumbnail.image_url} alt="썸네일 이미지"></img>
+                <img style={{maxWidth: "80vw", maxHeight: "50vh"}} src={dataThumbnail.image_url} alt="썸네일 이미지"></img>
               ) : (
                 <CropModal
                   handler={imageCropperHandler}
@@ -213,32 +249,36 @@ const ModalSubmit = ({
               )}
             </div>
             <p className="modal_confirm_msg">
-              제출하시려면 "확인" 버튼을 눌러주세요
+              제출하시려면 <span style={{color: "blue"}}>확인</span>버튼을 눌러주세요
             </p>
             <div className="modal_button_container">
-              {!uploadLoading ? (
-                <button
-                  className="modal_confirm_yes"
-                  onClick={() => submitHandler()}
-                >
-                  확인
+              {!uploadLoading ?
+              <button
+                className="modal_confirm_yes"
+                onClick={() => submitHandler()}>
+                확인
+                {/* 테스트 모드가 켜져있으면 메시지 */}
+                {isTestModeOn ?
+                <TestModeMsg>
+                  로그인이 필요합니다</TestModeMsg>
+                : null }
                 </button>
-              ) : (
-                <button className="modal_confirm_loading">
-                  <img
-                    className="loading_image"
-                    src={loadingIcon}
-                    alt="업로드 로딩"
-                  ></img>
-                  업로드 중
-                </button>
-              )}
+              : null}
+
+              {uploadLoading ?
+              <button className="modal_confirm_loading">
+                <img
+                  className="loading_image"
+                  src={loadingIcon}
+                  alt="업로드 로딩"></img>
+                업로드 중
+              </button>
+              : null}
+
               <button
                 className="modal_confirm_no"
-                onClick={() => modalOpenHandler()}
-              >
-                취소
-              </button>
+                onClick={() => modalOpenHandler()}>
+                취소</button>
             </div>
           </ModalSubmitView>
         </ModalSubmitBackground>

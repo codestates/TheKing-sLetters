@@ -4,7 +4,7 @@ import ShoppingCart from './Components/ShoppingCart';
 import ItemDisplay from './Components/ItemDisplay';
 import React, { useState, useEffect, useRef } from 'react';
 import { useUserState } from '../../../context/UserContext';
-import Loading from '../../../Loading/Loading'
+import Loading from '../../../Loading/Loading';
 
 import {
   fetchItemsData,
@@ -102,13 +102,14 @@ const ConfirmModalOverlay = styled.div`
 const ConfirmModalView = styled.div`
   position: relative;
   border-radius: 10px;
-  width: 40%;
-  height: 40%;
+  width: 45%;
+  height: 45%;
   background-color: white;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
   > .modal_close_icon {
     position: absolute;
     top: 1em;
@@ -140,7 +141,7 @@ const ConfirmModalView = styled.div`
     > .modal_confirm_yes {
       font-family: 'EBSHMJESaeronRA';
       padding: 8px 18px;
-      border: 2px solid rgba(77, 109, 254, 0.9);
+      border: 1px solid rgba(77, 109, 254, 0.9);
       background-color: rgba(77, 109, 254, 0.9);
       color: #fafafa;
       font-weight: 500;
@@ -151,14 +152,14 @@ const ConfirmModalView = styled.div`
       transition: all 0.4s ease;
       margin-right: 3rem;
       &:hover {
-        border: 2px solid #0066ff;
+        border: 1px solid #0066ff;
         background-color: #0066ff;
       }
     }
     > .modal_confirm_no {
       font-family: 'EBSHMJESaeronRA';
       padding: 8px 18px;
-      border: 2px solid rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(0, 0, 0, 0.3);
       background-color: transparent;
       color: rgba(0, 0, 0, 0.3);
       font-weight: 500;
@@ -168,10 +169,31 @@ const ConfirmModalView = styled.div`
       cursor: pointer;
       transition: all 0.4s ease;
       &:hover {
-        border: 2px solid #303030;
+        border: 1px solid #303030;
         background-color: #303030;
         color: #fafafa;
       }
+    }
+  }
+  @media (max-width: 1280px) {
+    width: 70%;
+    height: 40%;
+    > .modal_confirm_msg {
+      font-size: 1.5rem;
+    }
+  }
+  @media (max-width: 960px) {
+    width: 80%;
+    height: 35%;
+    > .modal_confirm_msg {
+      font-size: 1.3rem;
+    }
+  }
+  @media (max-width: 768px) {
+    width: 90%;
+    height: 30%;
+    > .modal_confirm_msg {
+      font-size: 1.2rem;
     }
   }
 `;
@@ -266,8 +288,6 @@ const initialUserInfo = {
   rank: '1',
   mileage: 1000,
 };
-
-
 
 const MileageShop = () => {
   // 유저 정보 저장
@@ -459,87 +479,87 @@ const MileageShop = () => {
   };
 
   const [isLoading, setIsLoading] = useState(true);
-  useEffect(()=> {
-    setTimeout(()=> {
+  useEffect(() => {
+    setTimeout(() => {
       setIsLoading(false);
-    }, 1000)
-  })
+    }, 1000);
+  });
 
   return (
     <>
-    {isLoading && <Loading/>}
-    <MileageShopWrapper>
-      {/* 로그인이 안되어 있다면 표시 */}
-      {!userLoginSuccess ? (
-        <div className="page_error_message_container">
-          <img
-            className="page_error_image"
-            src={lockIcon}
-            alt="자물쇠 아이콘"
-          ></img>
-          <p className="page_error_msg">
-            로그인 정보가 없습니다<br></br>다시 로그인 해주세요
-          </p>
-        </div>
-      ) : null}
-      {/* 로그인이 되어있다면 마일리지샵 표시 */}
-      {userLoginSuccess ? (
-        <>
-          <MileageShopTitle>저잣거리</MileageShopTitle>
-          <MileageDisplay userInfo={userInfo} totalPrice={totalPrice} />
-          <ShoppingCart
-            items={items}
-            setItems={setItems}
-            totalPrice={totalPrice}
-          />
-          <ItemDisplay items={items} setItems={setItems} />
-          <MileageShopSubmit>
-            <button onClick={() => setConfirmIsOpen(!confrimIsOpen)}>
-              구매하기
-            </button>
-          </MileageShopSubmit>
-        </>
-      ) : null}
-      {/* 로그인이 되어있고 모달창 버튼을 클릭했을 경우 표시 */}
-      {userLoginSuccess && confrimIsOpen ? (
-        <ConfirmModalOverlay>
-          <ConfirmModalView>
-            <button className="modal_close_icon" onClick={ModalOpenHandler}>
-              &times;
-            </button>
-            {isSubmitDone && Object.keys(modalMsgList).length === 0 ? (
-              <>
-                <p className="modal_confirm_msg">
-                  확인 버튼을 누르시면 구매가 완료됩니다
-                </p>
-                <div className="modal_button_container">
-                  <button
-                    className="modal_confirm_yes"
-                    onClick={itemsBuyHandler}
-                  >
-                    확인
-                  </button>
-                  <button
-                    className="modal_confirm_no"
-                    onClick={ModalOpenHandler}
-                  >
-                    취소
-                  </button>
-                </div>
-              </>
-            ) : null}
-            {!isSubmitDone && Object.keys(modalMsgList).length === 0 ? (
-              <img
-                className="modal_loading_icon"
-                src={loadingIcon}
-                alt="구매 로딩 이미지"
-              ></img>
-            ) : null}
-            {ModalMsgDisplay()}
-          </ConfirmModalView>
-        </ConfirmModalOverlay>
-      ) : null}
-    </MileageShopWrapper>
+      {isLoading && <Loading />}
+      <MileageShopWrapper>
+        {/* 로그인이 안되어 있다면 표시 */}
+        {!userLoginSuccess ? (
+          <div className="page_error_message_container">
+            <img
+              className="page_error_image"
+              src={lockIcon}
+              alt="자물쇠 아이콘"
+            ></img>
+            <p className="page_error_msg">
+              로그인 정보가 없습니다<br></br>다시 로그인 해주세요
+            </p>
+          </div>
+        ) : null}
+        {/* 로그인이 되어있다면 마일리지샵 표시 */}
+        {userLoginSuccess ? (
+          <>
+            <MileageShopTitle>저잣거리</MileageShopTitle>
+            <MileageDisplay userInfo={userInfo} totalPrice={totalPrice} />
+            <ShoppingCart
+              items={items}
+              setItems={setItems}
+              totalPrice={totalPrice}
+            />
+            <ItemDisplay items={items} setItems={setItems} />
+            <MileageShopSubmit>
+              <button onClick={() => setConfirmIsOpen(!confrimIsOpen)}>
+                구매하기
+              </button>
+            </MileageShopSubmit>
+          </>
+        ) : null}
+        {/* 로그인이 되어있고 모달창 버튼을 클릭했을 경우 표시 */}
+        {userLoginSuccess && confrimIsOpen ? (
+          <ConfirmModalOverlay>
+            <ConfirmModalView>
+              <button className="modal_close_icon" onClick={ModalOpenHandler}>
+                &times;
+              </button>
+              {isSubmitDone && Object.keys(modalMsgList).length === 0 ? (
+                <>
+                  <p className="modal_confirm_msg">
+                    확인 버튼을 누르시면 구매가 완료됩니다
+                  </p>
+                  <div className="modal_button_container">
+                    <button
+                      className="modal_confirm_yes"
+                      onClick={itemsBuyHandler}
+                    >
+                      확인
+                    </button>
+                    <button
+                      className="modal_confirm_no"
+                      onClick={ModalOpenHandler}
+                    >
+                      취소
+                    </button>
+                  </div>
+                </>
+              ) : null}
+              {!isSubmitDone && Object.keys(modalMsgList).length === 0 ? (
+                <img
+                  className="modal_loading_icon"
+                  src={loadingIcon}
+                  alt="구매 로딩 이미지"
+                ></img>
+              ) : null}
+              {ModalMsgDisplay()}
+            </ConfirmModalView>
+          </ConfirmModalOverlay>
+        ) : null}
+      </MileageShopWrapper>
     </>
   );
 };

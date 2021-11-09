@@ -458,7 +458,7 @@ export const ModalView = styled.div`
 
             <div className="user_gender">
               <p className="user_gender_title">성별</p>
-              <p>{modifiedUserInfo.gender === 'male' ? "남" : "여"}</p>
+              <p>{modifiedUserInfo.gender === 'MALE' ? "남" : "여"}</p>
             </div> 
 
             <div className="inputBox">

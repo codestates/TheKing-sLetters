@@ -36,12 +36,11 @@ const ModalView = styled.div`
     border-radius: 10px;
     > .main_text {
       font-size: 1.5em;
-      margin-top: 1em;
     }
     > .help_comment {
       font-size: 1em;
       color: #353535;
-      margin-top: 3em;
+      margin-top: 2em;
     }
   }
 `;
@@ -62,7 +61,7 @@ const Check = styled.div`
     padding: 10px 20px;
     transition: all 0.4s ease;
     font-size: 1.2em;
-    margin-top: 1em;
+    margin-top: 2em;
       &:hover {
         border: 2px solid #0066ff;
         background-color: #0066ff;

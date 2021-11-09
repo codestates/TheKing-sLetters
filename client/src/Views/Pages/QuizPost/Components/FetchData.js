@@ -63,7 +63,9 @@ export const refineData = async (dataCategorySelect, dataQuizSelect, dataAnswerS
     );
   }
   if (toUpload.thumbnail.image_url !== '') {
-    toUpload.thumbnail = await UploadImage(toUpload.thumbnail.image_object);
+    const result = await UploadImage(toUpload.thumbnail.image_object);
+    URL.revokeObjectURL(toUpload.thumbnail.image_url);
+    toUpload.thumbnail = result.Location;
   } else {
     toUpload.thumbnail = 'default';
   }

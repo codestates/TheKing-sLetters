@@ -94,7 +94,7 @@ const MileageDisplay = ({ userInfo, totalPrice }) => {
       <div className="mileage_contents">
         <MileageCategoryWrapper>
           <div className="mileage_cat_name_1">사용가능한 상평통보</div>
-          <div className="mileage_cat_name_2">장바구니 合計</div>
+          <div className="mileage_cat_name_2">장바구니 합계</div>
           <div className="mileage_cat_name_3">사용 후 상평통보</div>
         </MileageCategoryWrapper>
         <MileageValueWrapper>

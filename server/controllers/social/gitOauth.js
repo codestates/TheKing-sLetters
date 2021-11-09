@@ -45,6 +45,7 @@ module.exports = async (req, res) => {
 
   const { id, login, avatar_url } = gitUserData.data
   const { email } = gitEmailData.data[0]
+  let { login } = gitUserData.data
 
   const userInfo = await user.findOne({
     include: [
@@ -62,6 +63,20 @@ module.exports = async (req, res) => {
     if(emailExist) {
       res.status(409).json({message: "일반 계정이 존재합니다." })
       return
+    }
+
+    const nameExist = await user.findOne({
+      where: { name: login}
+    })
+
+    if(nameExist) {
+      const makeRandom = (min, max) => {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+      }
+  
+      const randomNum = makeRandom(1111, 9999)
+
+      login = `${login}-${randomNum}`
     }
 
     const newUser = await user.create({

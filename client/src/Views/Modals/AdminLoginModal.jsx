@@ -3,8 +3,6 @@ import styled from 'styled-components';
 import axios from 'axios';
 
 import { useUserState, useUserDispatch } from '../../context/UserContext';
-import GitHubLogo from './Assets/github-1.png';
-import GoogleLogo from './Assets/google-1.png';
 
 axios.defaults.baseURL = `https://api.thekingsletters.ml`;
 axios.defaults.withCredentials = true;
@@ -33,7 +31,7 @@ const ModalView = styled.div`
   left: 50%;
   transform: translate(-50%, -50%);
   width: 500px;
-  height: 680px;
+  height: 450px;
   z-index: 301;
   @media (max-width: 768px) {
     transition: all 0.4s;
@@ -135,76 +133,7 @@ const SigninTitle = styled.div`
   }
 `;
 
-const Img = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.5rem;
-  margin: 3rem 0 2rem 0;
-  //-----------git logo
-  > .github_link {
-    display: block;
-    width: 350px;
-    height: 50px;
-    border-radius: 12px;
-    overflow: hidden;
-    > .gitBox {
-      position: relative;
-      width: 100%;
-      height: 100%;
-      background-color: black;
-      color: white;
-      > .gitlogoTitle {
-        position: absolute;
-        font-size: 1rem;
-        left: 50%;
-        top: 50%;
-        transform: translate(-50%, -50%);
-      }
-      > .gitHubImg {
-        position: absolute;
-        width: 1.5rem;
-        height: 1.5rem;
-        left: 1rem;
-        top: 50%;
-        transform: translate(0%, -50%);
-      }
-    }
-  }
-  //-----------google logo
-  > .google_link {
-    display: block;
-    width: 350px;
-    height: 50px;
-    outline: 1px solid black;
-    border-radius: 12px;
-    overflow: hidden;
-    > .googleBox {
-      position: relative;
-      width: 100%;
-      height: 100%;
-      background-color: white;
-      color: black;
-      > .googleTitle {
-        font-size: 1rem;
-        position: absolute;
-        left: 50%;
-        top: 50%;
-        transform: translate(-50%, -50%);
-      }
-      > .googleImg {
-        position: absolute;
-        width: 1.5rem;
-        height: 1.5rem;
-        left: 1rem;
-        top: 50%;
-        transform: translate(0%, -50%);
-      }
-    }
-  }
-`;
-
-const SignInModal = ({isOpen, setIsOpen, switcher}) => {
+const SignInModal = ({isOpen, setIsOpen}) => {
   const [loginInfo, setLoginInfo] = useState({
     email: '',
     password: '',
@@ -222,15 +151,6 @@ const SignInModal = ({isOpen, setIsOpen, switcher}) => {
     });
     setIsOpen(!isOpen);
   };
-
-  /* 로그인창에서 회원가입창으로 넘어가는 switcher */
-
-  const modalSwitcher = () => {
-    // 현재 모달창을 끄고
-    modalOpenHandler();
-    // 다른 모달창을 오픈
-    switcher((state)=> !state);
-  };
   
   const handleInputValue = (key) => (e) => {
     setLoginInfo({ ...loginInfo, [key]: e.target.value });
@@ -243,7 +163,7 @@ const SignInModal = ({isOpen, setIsOpen, switcher}) => {
       return;
     }
 
-    const URL = `/login`;
+    const URL = `/admin/login`;
     const PAYLOAD = {
       email: loginInfo.email,
       password: loginInfo.password,
@@ -254,20 +174,19 @@ const SignInModal = ({isOpen, setIsOpen, switcher}) => {
     try {
       response = await axios.post(URL, PAYLOAD, OPTION);
       if (response.status === 200) {
-        const data = response.data.data.userData;
-        const token = response.data.data.accessToken;
+        const data = response.data.data.adminData;
+        const token = response.data.data.adminToken;
         localStorage.setItem('accessToken', token);
-        dispatch({type: "USER_LOGIN"});
+        console.log(response);
+        dispatch({type: "ADMIN_LOGIN"});
         dispatch({
-          type: "SET_USER_DATA",
-          userData: {
+          type: "SET_ADMIN_DATA",
+          adminData: {
             email: data.email || "0",
             gender: data.gender || "0",
             image: data.image || "0",
             mobile: data.mobile || "0",
             name: data.name || "",
-            mileage: data.mileage || "0",
-            rank: data.rank || "0",
             createdAt: data.createdAt || "0",
             updatedAt: data.updatedAt || "0"
           }
@@ -284,7 +203,7 @@ const SignInModal = ({isOpen, setIsOpen, switcher}) => {
 
   const logoutHandler = async () => {
     await axios
-      .get('/signout', {
+      .get('/admin/signout', {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
         },
@@ -292,8 +211,8 @@ const SignInModal = ({isOpen, setIsOpen, switcher}) => {
       .then((response) => {
         if (response.status === 200) {
           localStorage.removeItem('accessToken');
-          dispatch({type: "USER_LOGOUT"});
-          dispatch({type: "SET_USER_DATA_NULL"});
+          dispatch({type: "ADMIN_LOGOUT"});
+          dispatch({type: "SET_ADMIN_DATA_NULL"});
         }
         console.log(response);
       })
@@ -306,13 +225,13 @@ const SignInModal = ({isOpen, setIsOpen, switcher}) => {
     <>
     {/* 모달 열기 버튼 */}
     {/* 유저가 로그인하지 않았을 경우 로그인 버튼 표시 */}
-    {!userState.isUserLoggedIn ?
-    <ModalBtn onClick={modalOpenHandler}>로그인</ModalBtn>
+    {!userState.isAdminLoggedIn ?
+    <ModalBtn onClick={modalOpenHandler}>관리자 로그인</ModalBtn>
     : null}
     
     {/* 유저가 로그인 했을 경우 로그아웃 버튼 표시 */}
-    {userState.isUserLoggedIn ?
-    <ModalBtn onClick={logoutHandler}>로그아웃</ModalBtn>
+    {userState.isAdminLoggedIn ?
+    <ModalBtn onClick={logoutHandler}>관리자 로그아웃</ModalBtn>
     : null}
 
     {/* 모달 창 */}
@@ -323,7 +242,7 @@ const SignInModal = ({isOpen, setIsOpen, switcher}) => {
           <span onClick={modalOpenHandler} className="close_btn">&times;</span>
           <SigninTitle>
               <h1 style={{fontWeight: "500"}}>나랏말싸미</h1>
-              <h1>로그인</h1>
+              <h1>관리자 로그인</h1>
           </SigninTitle>
           <form className="modal_form" onSubmit={(e) => e.preventDefault()}>
             <div className="inputBox">
@@ -338,22 +257,6 @@ const SignInModal = ({isOpen, setIsOpen, switcher}) => {
           <Sign>
             <button onClick={loginHandler}>로그인하기</button>
           </Sign>
-
-          <Img>
-            <a className="github_link" href="https://github.com/login/oauth/authorize?client_id=a27b9ace9f66b90ffe4d&scope=user">
-              <div className="gitBox">
-                <p className="gitlogoTitle">GitHub 로그인</p>  
-                <img className="gitHubImg" src={GitHubLogo} alt="gitHubLogo"/>
-              </div>
-              </a>
-              <a className="google_link" href="https://accounts.google.com/o/oauth2/v2/auth?client_id=992308342199-tdkmk92urgpuam42mo74pmq7m8c17ud3.apps.googleusercontent.com&redirect_uri=http://localhost:3000/auth/google&response_type=code&scope=https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email openid">
-                <div className="googleBox">
-                  <p className="googleTitle">Google 로그인</p>
-                  <img className="googleImg" src={GoogleLogo} alt="googleLogo"/>
-                </div>
-              </a>
-          </Img>
-          <p>아직 회원이 아니신가요? <span onClick={modalSwitcher} style={{color: "blue", cursor: "pointer"}}>회원가입</span></p>
         </div>
       </ModalView>
     </ModalBackdrop>

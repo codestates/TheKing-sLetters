@@ -4,7 +4,6 @@ import axios from 'axios';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUserCog } from "@fortawesome/free-solid-svg-icons";
 import { faTrophy } from "@fortawesome/free-solid-svg-icons";
-import MyPageModal from '../../Modals/MyPageModal';
 import Modal6 from './RankModal'
 import DeleteApproveModal from './DeleteApproveModal';
 import { Link } from 'react-router-dom';
@@ -16,8 +15,19 @@ display: flex;
 justify-content: flex-start;
 align-items: center;
 width: 100%;
-background-color: white;
 
+#modal_mypage {
+    position: relative;
+    
+> button {
+      position: absolute;
+      left: 0;
+      opacity: 0;
+    }
+> button:hover {
+      cursor: pointer;
+    }
+  }
 
 > .title {
   font-family: 'EBSHMJESaeronRA';
@@ -59,6 +69,7 @@ const SecondBox =styled.div`
 width: 100%;
 display: flex;
 justify-content: flex-start;
+position: relative;
 
 > .profile {
     width: 7rem;
@@ -190,6 +201,9 @@ const Li = styled.li`
     overflow: auto;
     display: flex;
     padding: 1% 0 2% 0;
+
+   
+  //------------------------------상품 내역--------------------------
 >  .buyItemsBox {
   padding: .5rem 0;
   padding-left: 0.6rem;
@@ -299,7 +313,7 @@ const Li = styled.li`
   justify-content: space-between;
   margin-bottom: 1em;
   padding: 0;
-  max-height: 0;
+  /* max-height: 0; */
   background: rgba(209,213,218,0.5);
   overflow: hidden;
   transition: all .4s ease;
@@ -398,14 +412,8 @@ const MyPage = (props) => {
   const [buyItems, setBuyItems] = useState([]);
   const [usedItems, setUsedItem] = useState([]);
   const [quiz, setQuiz] = useState([]);
-  const [isMypageOpen, setIsMypageOpen] = useState(false); // 마이페이지 모달 on off 관련 상태
   const [modalOpen, setModalOpen] = useState(false);
-
-  const handleMypage = () => {
-    setIsMypageOpen(!isMypageOpen)
-  }
   
-
   const deleteMyQuiz = async () => {
     await axios.delete(`https://api.thekingsletters.ml/users/deletequiz?quizid=${selectedQuiz}`, {
       headers: {
@@ -478,15 +486,12 @@ const MyPage = (props) => {
       <FirstBox>
         <div className="title">내 정보</div>
         <div className="setting">
-            <li onClick={handleMypage}>
-              {isMypageOpen === false ? <FontAwesomeIcon icon={faUserCog} size="2x" className="setting" /> : <FontAwesomeIcon icon={faUserCog} size="2x" className="setting" />}
+            <li>
+              <div id="modal_mypage"><FontAwesomeIcon icon={faUserCog} size="2x" className="setting" /></div>
             </li>
         </div>
       </FirstBox>
 
-      {/* mypage 모달 컴포넌트 */}
-      <MyPageModal isOpen={isMypageOpen} openModalHandler={handleMypage}/>
-      
       <SecondBox>
         {/* <div className='data1'> */}
           <img 

@@ -1,8 +1,8 @@
-import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { useUserDispatch, useUserState } from "../context/UserContext";
+// 유저 컨텍스트
+import { useUserState } from '../context/UserContext';
 
 const NavBar = styled.div`
   background-color: #d7dbd1;
@@ -80,11 +80,16 @@ const NavBarUser = styled.div`
     border-radius: 5px;
     padding: 8px 18px;
     font-size: 1em;
+    > button, a {
+      font-family: 'EBSHunminjeongeumSBA';
+      font-size: 1em;
+      color: black;
+    }
     :hover {
       cursor: pointer;
       background-color: #303030;
       transition: all 0.4s;
-      > button {
+      > button, a {
         cursor: pointer;
         color: #fff;
       }
@@ -108,33 +113,8 @@ const NavBarToggle = styled.div`
 `;
 
 const Header = () => {
-  const dispatch = useUserDispatch();
-  useEffect(() => {
-    axios.get(`https://api.thekingsletters.ml/users/info`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('accessToken')}`
-      }
-    })
-    .then((res) => {
-      const userData = res.data.data.userData;
-      dispatch({type: "USER_LOGIN"});
-      dispatch({
-        type: "SET_USER_DATA",
-        userData: {
-          email: userData.email || "0",
-          gender: userData.gender || "0",
-          image: userData.image || "0",
-          mobile: userData.mobile || "0",
-          name: userData.name || "",
-          mileage: userData.mileage || "0",
-          rank: userData.rank || "0",
-          createdAt: userData.createdAt || "0",
-          updatedAt: userData.updatedAt || "0"
-        }
-      });
-    })
-  }, [])
-
+  /* 유저 컨텍스트 */
+  const userState = useUserState();
   const handleButtonClick = () => {
     let nav = document.querySelector('nav');
     let menuBtn = document.querySelector('.menu-btn');
@@ -171,8 +151,9 @@ const Header = () => {
         </NavBarMenu>
         <NavBarUser>
           <div className="modal_button" id="modal_signin"></div>
-          <div className="modal_button" id="modal_signup"></div>
-          <li className="link">
+          {/* 로그인 조건부 렌더링 로그인했으면 내정보, 안했으면 회원가입 표시 display 속성으로 컨트롤하지 않으면 에러 발생*/}
+          <div className="modal_button" id="modal_signup" style={{display: userState.isUserLoggedIn ? "none" : "block"}}></div>
+          <li className="modal_button" style={{display: userState.isUserLoggedIn ? "block" : "none"}}>
             <Link to="/mypage">내정보</Link>
           </li>
         </NavBarUser>
@@ -204,8 +185,9 @@ const Header = () => {
               <Link to="/mileageshop">저잣거리</Link>
             </li>
             <div className="modal_button" id="modal_signin_toggle"></div>
-            <div className="modal_button" id="modal_signup_toggle"></div>
-            <li className="modal_button">
+            {/* 로그인 조건부 렌더링 로그인했으면 내정보, 안했으면 회원가입 표시 display 속성으로 컨트롤하지 않으면 에러 발생*/}
+            <div className="modal_button" id="modal_signup_toggle" style={{display: userState.isUserLoggedIn ? "none" : "flex"}}></div>
+            <li className="modal_button" style={{display: userState.isUserLoggedIn ? "flex" : "none"}}>
               <Link to="/mypage">내정보</Link>
             </li>
           </NavLinks>
@@ -339,14 +321,14 @@ const NavLinks = styled.ul`
     align-items: center;
     width: 100%;
     height: var(--link-height);
-    > button {
+    > button, a {
       text-transform: uppercase;
       font-family: 'EBSHunminjeongeumSBA';
       font-size: 1.5rem;
       font-weight: 900;
       color: #fff;
     }
-    > button:hover {
+    > button:hover, a:hover {
       cursor: pointer;
     }
   }
@@ -354,7 +336,11 @@ const NavLinks = styled.ul`
     background-color: #222;
     transition: all 0.35s ease-in-out;
   }
-  
+  // 로그인 회원가입 버튼 위에 살짝 마진
+  > .modal_button:first-of-type {
+    margin: 2em 0 0 0;
+  }
+
   > .title {
     position: absolute;
     top: -30%;

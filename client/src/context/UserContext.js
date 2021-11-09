@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useReducer } from "react";
+import React, { createContext, useContext, useReducer, useEffect } from "react";
 
 const UserStateContext = createContext(null);
 const UserDispatchContext = createContext(null);
@@ -76,7 +76,15 @@ const reducer = (state, action) => {
 };
 
 export const UserProvider = ({ children }) => {
-  const [state, dispatch] = useReducer(reducer, initialState);
+  let storedState = JSON.parse(sessionStorage.getItem('storedState'));
+  if (!storedState) storedState = initialState;
+  const [state, dispatch] = useReducer(reducer, storedState);
+
+  // sessionStorage에 정보를 저장해서 새로고침해도 초기화되지 않게 수정
+  useEffect(() => {
+    // sessionStorage는 모든 값을 문자로 저장하므로 문자로 변환
+    sessionStorage.setItem('storedState', JSON.stringify(state));
+  }, [state]);
 
   return (
     <UserStateContext.Provider value={state}>

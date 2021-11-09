@@ -88,7 +88,7 @@ export const ModalView = styled.div`
     position: relative;
     width: 100%;
     height: auto;
-    margin: 1.8rem 0 0 0;
+    margin: 1.5rem 0 0 0;
   }
 
   > .modal_form .input_box input {

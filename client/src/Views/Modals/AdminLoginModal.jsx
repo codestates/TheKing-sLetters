@@ -124,7 +124,7 @@ const SigninTitle = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  background-color: #5bb85d;
+  background-color: #8a9f99;
   > h1 {
     font-family: 'EBSHMJESaeronRA';
     color: white;
@@ -192,7 +192,7 @@ const SignInModal = ({isOpen, setIsOpen}) => {
           }
         });
         modalOpenHandler();
-        window.location = "/"
+        window.location = "/";
       }
     } catch(error) {
       response = error.response;
@@ -214,6 +214,7 @@ const SignInModal = ({isOpen, setIsOpen}) => {
           localStorage.removeItem('adminToken');
           dispatch({type: "ADMIN_LOGOUT"});
           dispatch({type: "SET_ADMIN_DATA_NULL"});
+          window.location = "/";
         }
         console.log(response);
       })

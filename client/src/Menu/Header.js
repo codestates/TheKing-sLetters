@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 // 유저 컨텍스트
@@ -80,7 +80,8 @@ const NavBarUser = styled.div`
     border-radius: 5px;
     padding: 8px 18px;
     font-size: 1em;
-    > button, a {
+    > button,
+    a {
       font-family: 'EBSHunminjeongeumSBA';
       font-size: 1em;
       color: black;
@@ -89,7 +90,8 @@ const NavBarUser = styled.div`
       cursor: pointer;
       background-color: #303030;
       transition: all 0.4s;
-      > button, a {
+      > button,
+      a {
         cursor: pointer;
         color: #fff;
       }
@@ -152,8 +154,15 @@ const Header = () => {
         <NavBarUser>
           <div className="modal_button" id="modal_signin"></div>
           {/* 로그인 조건부 렌더링 로그인했으면 내정보, 안했으면 회원가입 표시 display 속성으로 컨트롤하지 않으면 에러 발생*/}
-          <div className="modal_button" id="modal_signup" style={{display: userState.isUserLoggedIn ? "none" : "block"}}></div>
-          <li className="modal_button" style={{display: userState.isUserLoggedIn ? "block" : "none"}}>
+          <div
+            className="modal_button"
+            id="modal_signup"
+            style={{ display: userState.isUserLoggedIn ? 'none' : 'block' }}
+          ></div>
+          <li
+            className="modal_button"
+            style={{ display: userState.isUserLoggedIn ? 'block' : 'none' }}
+          >
             <Link to="/mypage">내정보</Link>
           </li>
         </NavBarUser>
@@ -186,13 +195,19 @@ const Header = () => {
             </li>
             <div className="modal_button" id="modal_signin_toggle"></div>
             {/* 로그인 조건부 렌더링 로그인했으면 내정보, 안했으면 회원가입 표시 display 속성으로 컨트롤하지 않으면 에러 발생*/}
-            <div className="modal_button" id="modal_signup_toggle" style={{display: userState.isUserLoggedIn ? "none" : "flex"}}></div>
-            <li className="modal_button" style={{display: userState.isUserLoggedIn ? "flex" : "none"}}>
+            <div
+              className="modal_button"
+              id="modal_signup_toggle"
+              style={{ display: userState.isUserLoggedIn ? 'none' : 'flex' }}
+            ></div>
+            <li
+              className="modal_button"
+              style={{ display: userState.isUserLoggedIn ? 'flex' : 'none' }}
+            >
               <Link to="/mypage">내정보</Link>
             </li>
           </NavLinks>
         </Nav>
-
       </NavBarToggle>
     </div>
   );
@@ -321,14 +336,16 @@ const NavLinks = styled.ul`
     align-items: center;
     width: 100%;
     height: var(--link-height);
-    > button, a {
+    > button,
+    a {
       text-transform: uppercase;
       font-family: 'EBSHunminjeongeumSBA';
       font-size: 1.5rem;
       font-weight: 900;
       color: #fff;
     }
-    > button:hover, a:hover {
+    > button:hover,
+    a:hover {
       cursor: pointer;
     }
   }

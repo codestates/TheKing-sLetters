@@ -8,7 +8,15 @@ const AdminFooterContainer = styled.div`
   background-color: #4d3e3d;
   padding: 8px 20px;
   font-family: 'EBSHunminjeongeumSBA';
-
+  > .masterLogin .modal_button button {
+    font-family: 'EBSHunminjeongeumSBA';
+    padding: 8px 18px;
+    transition: all 0.4s ease;
+  }
+  > .masterLogin .modal_button button:hover {
+    cursor: pointer;
+    color: #fafafa;
+  }
   > .admin__footer__logo {
     font-size: 24px;
     > a {
@@ -35,6 +43,7 @@ const AdminFooterGithub = styled.ul`
     padding: 8px 10px;
     font-size: 15px;
     text-align: center;
+
     > a {
       color: #fafafa;
       transition: all 0.3s;
@@ -50,7 +59,9 @@ const AdminFooter = () => {
       <div className="admin__footer__logo">
         <a>나랏말싸미</a>
       </div>
-      <button>로그아웃</button>
+      <li className="masterLogin">
+        <div className="modal_button" id="modal_admin_signin_toggle"></div>
+      </li>
       <AdminFooterGithub>
         <li className="admin__footer__user">
           <a href="https://github.com/yonghk423">김용희</a>

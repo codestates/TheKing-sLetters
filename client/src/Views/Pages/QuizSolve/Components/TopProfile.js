@@ -1,7 +1,8 @@
 import styled from "styled-components";
 import profileIcon from "../Assets/profile-1.png";
-import heartFullIcon from "../Assets/heart-full-1.svg"
-import heartEmptyIcon from "../Assets/heart-empty-1.svg"
+// import heartFullIcon from "../Assets/heart-full-1.svg";
+import heartEmptyIcon from "../Assets/heart-empty-1.svg";
+import exclamationIcon from "../Assets/exclamation-1.svg";
 
 const TopProfileWrapper = styled.div`
 	width: auto;
@@ -64,11 +65,28 @@ const TopProfileWrapper = styled.div`
 			line-height: 18px;
 		}
 	}
+	> .profile_please_login {
+		outline: 1px solid rgba(0, 0, 0, 0.1);
+		border-radius: 1px;
+		padding: 5px 0px 5px 0px;
+		width: 100%;
+		display: flex;
+		flex-flow: row;
+		gap: 5px;
+		> img {
+			margin: 0 10px 0 10px;
+			width: 10%;
+			max-width: 2rem;
+		}
+	}
 `;
 
-const TopProfile = ({quizData, userData}) => {
+const TopProfile = ({quizData, userData, isGuest}) => {
 	return (
     <TopProfileWrapper>
+			{/* 로그인 했다면 아래의 화면을 표시 */}
+			{!isGuest ?
+			<>
 			<div className="user_profile_image_container">
 				<img className="user_profile_image" src={userData.image} alt={profileIcon}></img>
 			</div>
@@ -80,6 +98,19 @@ const TopProfile = ({quizData, userData}) => {
 				<img src={heartEmptyIcon} className="recommend_icon" alt="추천 아이콘"></img>
 				<p className="recommend_number">{quizData.howManyLikes}</p>
 			</div>
+			</>
+			: null}
+
+			{/* 로그인 하지 않았다면 아래의 화면을 표시 */}
+			{isGuest ?
+			<div className="profile_please_login">
+				<img src={exclamationIcon} alt="프로필 사진"></img>
+				<p>
+					현재 <span style={{color: "blue"}}>로그인</span>상태가 아닙니다<br />
+					문제의 <span style={{color: "blue"}}>정답</span>을 확인하려면 <span style={{color: "blue"}}>로그인</span> 해주세요
+				</p>
+			</div>
+			: null}
 		</TopProfileWrapper>
 	);
 };  

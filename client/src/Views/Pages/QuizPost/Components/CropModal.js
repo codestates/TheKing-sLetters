@@ -47,23 +47,21 @@ const ModalView = styled.div`
   position: relative;
   border-radius: 10px;
   margin: 0 1.5rem;
-  max-width: 50%;
-  min-width: 30%;
   padding: 5rem 0;
   background-color: #fafafa;
   display: flex;
   flex-direction: column;
   align-items: center;
 
-  > .image_cropper {
+  > .image_cropper .ReactCrop__crop-selection {
     max-width: 100%;
-    overflow: hidden;
-
-    > .ReactCrop__crop-selection {
-      max-width: 100%;
-      max-height: 100%;
-    }
+    max-height: 100%;
   }
+  > .image_cropper div .ReactCrop__image {
+    max-width: 80vw;
+    max-height: 80vh;
+  }
+
   > .image_cropper_buttons {
     position: absolute;
     bottom: 1.3em;

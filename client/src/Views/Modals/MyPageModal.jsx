@@ -2,9 +2,9 @@ import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 import { useUserState } from '../../context/UserContext';
-import PleaseLogin from './SubModals/PleaseLogin';
-import { MessageResign } from './SubModals/MessageResign';
-import ResignSuccess from './SubModals/ResignSuccess';
+import PleaseLogin from './Components/PleaseLogin';
+import MessageResign from './Components/MessageResign';
+import ResignSuccess from './Components/ResignSuccess';
 import Upload from '../../functions/upload';
 
 axios.defaults.baseURL = `https://api.thekingsletters.ml`;

@@ -70,7 +70,7 @@ const ModalBtn = styled.button`
   border: none;
 `;
 
-export const MessageResign = () => {
+const MessageResign = () => {
   const [isOpen, setIsOpen] = useState(false);
   // 유저 컨텍스트 불러오기
   const dispatch = useUserDispatch();
@@ -129,4 +129,6 @@ export const MessageResign = () => {
     : null}
     </>
   );
-}
+};
+
+export default MessageResign;

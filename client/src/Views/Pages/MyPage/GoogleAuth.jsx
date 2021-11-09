@@ -1,6 +1,8 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import axios from 'axios'
+import { useUserDispatch, useUserState } from "../../../context/UserContext";
+import EmailExistModal from './EmailExistModal'
 
 const Div = styled.div`
 position: fixed;
@@ -26,20 +28,43 @@ place-items: center;
 `;
 
 const GoogleAuth = (props) => {
+  const dispatch = useUserDispatch();
+  const [isExist, setIsExist] = useState(false);
+
   useEffect(() => {
     const url = new URL(window.location.href)
     console.log(url)
     if(url.searchParams.get('code')) {
       const authorizationCode = url.searchParams.get('code')
       axios.get(`https://api.thekingsletters.ml/auth/google?code=${authorizationCode}`)
-      .then((res) => localStorage.setItem('accessToken', res.data.data.accessToken))
-      .then(() => window.location='/')
-      .catch(() => {alert('해당 이메일로 가입된 계정이 존재합니다.'); window.location='/'})
+      .then((res) => {
+        const userData = res.data.data.userData;
+        const token = res.data.data.accessToken;
+        localStorage.setItem('accessToken', token);
+        dispatch({type: "USER_LOGIN"});
+        dispatch({
+          type: "SET_USER_DATA",
+          userData: {
+            email: userData.email || "0",
+            gender: userData.gender || "0",
+            image: userData.image || "0",
+            mobile: userData.mobile || "0",
+            name: userData.name || "",
+            mileage: userData.mileage || "0",
+            rank: userData.rank || "0",
+            createdAt: userData.createdAt || "0",
+            updatedAt: userData.updatedAt || "0"
+          }
+        });
+        window.location='/'
+      })
+      .catch(() => setIsExist(true))
     }
   }, [])
   
   return (
       <Div>
+        {isExist && <EmailExistModal setIsExist={setIsExist} />}
         <div className="moving"></div>
       </Div>
   )

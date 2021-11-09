@@ -27,8 +27,8 @@ const TopProfileWrapper = styled.div`
   > .user_profile_image_wrapper {
     width: 7rem;
     height: 7rem;
-    outline: 3px solid rgba(0, 0, 0, 0.1);
-    background-color: rgba(0, 0, 0, 0.1);
+    outline: 1px solid rgba(0, 0, 0, 0.1);
+    background-color: rgb(215 219 209);
     overflow: hidden;
     display: flex;
     align-items: center;

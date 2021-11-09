@@ -1,7 +1,8 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
-
 import MasterLoginModal from '../Views/Modals/MasterLoginModal';
+// 유저 컨텍스트
+import { useUserState } from '../context/UserContext';
 
 const FooterContainer = styled.div`
   display: flex;
@@ -11,11 +12,11 @@ const FooterContainer = styled.div`
   padding: 8px 20px;
   font-family: 'EBSHunminjeongeumSBA';
 
-  > .masterLogin{
+  > .masterLogin {
     padding: 8px 18px;
     cursor: pointer;
     transition: all 0.4s ease;
-    &:hover{
+    &:hover {
       color: #fafafa;
     }
   }
@@ -70,21 +71,22 @@ const FooterGithub = styled.ul`
 `;
 
 const Footer = () => {
-  const [loginOpen, setLoginOpen] = useState(false)
-  
+  /* 유저 컨텍스트 */
+  const userState = useUserState();
+  const [loginOpen, setLoginOpen] = useState(false);
+
   const openModalHandler = () => {
     setLoginOpen(!loginOpen);
   };
 
   return (
-    
     <FooterContainer>
       <div className="footer__logo">
         <a>나랏말싸미</a>
       </div>
-        <li className="masterLogin" onClick={openModalHandler}>
-          {loginOpen === false ? '관리자 로그인' : '관리자 로그인'}
-        </li> 
+      <li className="masterLogin" onClick={openModalHandler}>
+        {loginOpen === false ? '관리자 로그인' : '관리자 로그인'}
+      </li>
       <FooterGithub>
         <li className="footer__user">
           <a href="https://github.com/yonghk423">김용희</a>
@@ -99,10 +101,11 @@ const Footer = () => {
           <a href="https://github.com/otter9459">이정훈</a>
         </li>
       </FooterGithub>
-      <MasterLoginModal className="footer__admin" 
-      isOpen={loginOpen} 
-      openModalHandler={openModalHandler}
-      setLoginOpen={setLoginOpen} 
+      <MasterLoginModal
+        className="footer__admin"
+        isOpen={loginOpen}
+        openModalHandler={openModalHandler}
+        setLoginOpen={setLoginOpen}
       />
     </FooterContainer>
   );

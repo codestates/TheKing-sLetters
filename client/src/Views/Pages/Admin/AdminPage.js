@@ -2,52 +2,37 @@ import React, { useState, useEffect } from 'react';
 import QuizManagement from './Components/QuizManagement';
 import FindContents from './Components/FindContents';
 import axios from 'axios';
+import { useUserState } from '../../../context/UserContext';
 
 const AdminPage = () => {
-  const [isLogin, setIsLogin] = useState(false);
+  const userState = useUserState();
+  const isLogin = userState.isAdminLoggedIn;
   const [adminAccessToken, setAdminAccessToken] = useState('');
-  const [adminInfo, setAdminInfo] = useState([]);
   const [validQuiz, setValidQuiz] = useState([]);
   const [invalidQuiz, setInValidQuiz] = useState([]);
 
   useEffect(() => {
-    getAccessToken();
-  }, [isLogin]);
-
-  const getAccessToken = async () => {
-    await axios
-      .post(
-        'http://ec2-13-209-96-200.ap-northeast-2.compute.amazonaws.com/admin/login',
-        {
-          email: 'kingsletter1443@gmail.com',
-          password: 'fourmen',
-        },
-        { withCredentials: true }
-      )
-      .then((res) => {
-        setAdminAccessToken(res.data.data.accessToken);
-        setAdminInfo(res.data.data.adminData);
-        setIsLogin(true);
-        getApproveQuiz();
-      });
-  };
-
-  const getApproveQuiz = async () => {
     if (isLogin) {
-      await axios
-        .get(
-          'http://ec2-13-209-96-200.ap-northeast-2.compute.amazonaws.com/approvalpage',
-          {
+      setAdminAccessToken(localStorage.getItem('adminToken'));
+    }
+  }, []);
+
+  useEffect(() => {
+    if (adminAccessToken) {
+      const getApproveQuiz = async () => {
+        await axios
+          .get('https://api.thekingsletters.ml/approvalpage', {
             headers: { authorization: `Bearer ${adminAccessToken}` },
             withCredentials: true,
-          }
-        )
-        .then((res) => {
-          setInValidQuiz(res.data.data.invalidQuizList);
-          setValidQuiz(res.data.data.validQuizList);
-        });
+          })
+          .then((res) => {
+            setInValidQuiz(res.data.data.invalidQuizList);
+            setValidQuiz(res.data.data.validQuizList);
+          });
+      };
+      getApproveQuiz();
     }
-  };
+  }, [adminAccessToken]);
 
   return (
     <div>

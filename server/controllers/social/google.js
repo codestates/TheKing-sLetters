@@ -23,7 +23,8 @@ console.log(req.query)
 
   const { access_token } = googleToken.data;
   const googleUserData = await axios.get(`https://www.googleapis.com/oauth2/v2/userinfo?access_token=${access_token}`)
-  const { id, name, email, picture } = googleUserData.data
+  const { id, email, picture } = googleUserData.data
+  let { name } = gitUserData.data
 
   const userInfo = await user.findOne({
     include: [
@@ -41,6 +42,20 @@ console.log(req.query)
     if(emailExist) {
       res.status(409).json({message: "일반 계정이 존재합니다." })
       return
+    }
+
+    const nameExist = await user.findOne({
+      where: { name: name}
+    })
+
+    if(nameExist) {
+      const makeRandom = (min, max) => {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+      }
+  
+      const randomNum = makeRandom(1111, 9999)
+
+      name = `${name}-${randomNum}`
     }
 
     const newUser = await user.create({

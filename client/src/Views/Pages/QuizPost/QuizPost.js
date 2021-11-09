@@ -23,35 +23,51 @@ const QuizPostContainer = styled.div`
   display: flex;
   flex-flow: column;
   width: 100%;
+  min-height: 86.8vh;
 
   > .login_error_container {
     position: absolute;
-    top: 10%;
-    transform: translateX(50%);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     border: none;
     width: 50%;
-    height: 20%;
+    height: 50%;
     background-color: rgba(0, 0, 0, 0.1);
     ${BOX_SHADOW}
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
   }
   > .login_error_container .login_error_image {
-    width: 5em;
-    z-index: 2;
+    width: 4rem;
+    height: 4rem;
+    padding: 0 0 1rem 0;
+    z-index: 3;
   }
   > .login_error_container .login_error_msg {
-    margin: 3em 0em 3em 0em;
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: 500;
+    z-index: 3;
+  }
+  > .login_error_container .guest_mode_msg {
+    width: 10rem;
+    color: white;
+    font-weight: 600;
+    background-color: #151515;
+    text-align: center;
     font-size: 1.5em;
     font-weight: 500;
     z-index: 3;
+    cursor: pointer;
   }
 `;
 
 /* 더미데이터 */
 const initialUser = {
-  name: '테스트 유저',
+  name: '체험 사용자',
   image: defaultProfileIcon,
   rank: '1',
 };
@@ -95,12 +111,12 @@ const Post = () => {
   // 유저 정보 state를 context에서 불러옴, 로그인 정보와 유저 정보가 담겨있음
   const userState = useUserState();
   // 테스트 모드 온오프
-  const isTestModeOn = useRef(false);
+  const [isTestModeOn, setIsTestModeOn] = useState(false);
 
   /* 유저 데이터 불러오기 */
   useEffect(() => {
     // 더미데이터가 켜져있으면
-    if (isTestModeOn.current) {
+    if (isTestModeOn) {
       // 더미용 유저데이터를 불러오고
       setUserData(initialUser);
       // 화면을 표시
@@ -122,7 +138,7 @@ const Post = () => {
       // 유저가 로그인 했으니 화면을 표시
       setIsReadyToDisplay(true);
     }
-  }, [userState]);
+  }, [userState, isTestModeOn]);
 
   // 퀴즈 데이터가 입력될 때 마다 유효성 검사를 실시, 썸네일은 유효성 검사를 하지 않음
   useEffect(() => {
@@ -143,32 +159,35 @@ const Post = () => {
 
   // 사용자가 퀴즈 제출 버튼을 눌렀다면
   const submitHandler = async () => {
-    try {
-      // 로딩 시작
-      setUploadLoading(true);
-      // 유효성 검사가 통과되지 않았다면 바로 error 출력
-      if (!isReadyToSubmit)
-        throw new Error('퀴즈 데이터가 유효성 검사를 통과하지 못했습니다');
-      // 유효성 검사를 통과하면 퀴즈 데이터를 전송하기 쉽게 가공함
-      const refined = await refineData(
-        dataCategorySelect,
-        dataQuizSelect,
-        dataAnswerSelect,
-        dataCommentation,
-        dataThumbnail
-      );
-      // 데이터 업로드
-      const result = await uploadData(refined);
-      // alert창을 띄움
-      alert('퀴즈를 성공적으로 등록했습니다');
-      // 페이지 새로고침
-      // window.location.reload();
-      console.log(result);
-    } catch (err) {
-      console.log(err);
-    } finally {
-      // 로딩 종료
-      setUploadLoading(false);
+    // 업로드 로딩중이 아니고 테스트 모드가 꺼져있을 때
+    if (!uploadLoading && !isTestModeOn) {
+      try {
+        // 로딩 시작
+        setUploadLoading(true);
+        // 유효성 검사가 통과되지 않았다면 바로 error 출력
+        if (!isReadyToSubmit)
+          throw new Error('퀴즈 데이터가 유효성 검사를 통과하지 못했습니다');
+        // 유효성 검사를 통과하면 퀴즈 데이터를 전송하기 쉽게 가공함
+        const refined = await refineData(
+          dataCategorySelect,
+          dataQuizSelect,
+          dataAnswerSelect,
+          dataCommentation,
+          dataThumbnail
+        );
+        // 데이터 업로드
+        const result = await uploadData(refined);
+        // alert창을 띄움
+        alert('퀴즈를 성공적으로 등록했습니다');
+        // 페이지 새로고침
+        window.location.reload();
+        console.log(result);
+      } catch (err) {
+        console.log(err);
+      } finally {
+        // 로딩 종료
+        setUploadLoading(false);
+      }
     }
   };
 
@@ -184,8 +203,11 @@ const Post = () => {
           <p className="login_error_msg">
             문제를 출제하시려면
             <br />
-            먼저 로그인 해주세요
+            <span style={{color: "blue"}}>로그인</span>이 필요합니다
+            <br />
+            <br />
           </p>
+          <p className="guest_mode_msg" onClick={() => setIsTestModeOn(true)}>체험하기</p>
         </div>
       ) : (
         <>
@@ -214,6 +236,7 @@ const Post = () => {
             submitHandler={submitHandler}
             dataThumbnail={dataThumbnail}
             setDataThumbnail={setDataThumbnail}
+            isTestModeOn={isTestModeOn}
           ></SubmitModal>
         </>
       )}

@@ -88,7 +88,7 @@ export const ModalView = styled.div`
     position: relative;
     width: 100%;
     height: auto;
-    margin: 1.8rem 0 0 0;
+    margin: 1.5rem 0 0 0;
   }
 
   > .modal_form .input_box input {
@@ -542,7 +542,7 @@ const SignUpModal = ({ isOpen, setIsOpen }) => {
         </div>
 
         <div className="input_box">
-          <input type="tel" name="tel" required onChange={(e) => inputValueHandler(e, 'mobile')} required autocomplete="off" />
+          <input type="tel" name="tel" onChange={(e) => inputValueHandler(e, 'mobile')} required autocomplete="off" />
           <label
             className={inputUserInfo.mobile === '' ?
               '' : 'label_active'}>

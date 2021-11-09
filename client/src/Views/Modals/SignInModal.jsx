@@ -3,9 +3,8 @@ import styled from 'styled-components';
 import axios from 'axios';
 
 import { useUserState, useUserDispatch } from '../../context/UserContext';
-import bannerOne from './Assets/banner-1.png';
-import bannerTwo from './Assets/banner-2.png';
-import bannerThree from './Assets/banner-3.png';
+import GitHubLogo from './GitHubLogo.png';
+import GoogleLogo from './GoogleLogo.png';
 
 axios.defaults.baseURL = `https://api.thekingsletters.ml`;
 axios.defaults.withCredentials = true;
@@ -104,13 +103,15 @@ const Sign = styled.div`
     border: none;
     outline: none;
     color: #fff;
+    position: relative;
+    width: 400px;
+    height: 50px;
     background: green;
-    width: 420px;
     padding: 10px 20px;
     cursor: pointer;
     border-radius: 5px;
     font-size: 1.2em;
-    margin-top: 1em;
+    margin-top: 3em;
     margin-bottom: 1em;
   }
 `;
@@ -122,6 +123,7 @@ const SignupButton = styled.div`
   color: black !important;
 
   > .signup_modal_button {
+    cursor: pointer;
     font-size: 1em;
   }
 `;
@@ -140,9 +142,88 @@ const SigninTitle = styled.div`
 `;
 
 const Img = styled.div`
-  width: 420px;
-  margin: auto;
-  border-color: black;
+display: inline-block;
+margin-left: auto;
+//-----------git logo
+> a {
+  > .gitBox {
+    font-family: 'EBSHMJESaeronRA';
+    border-radius: 12px;
+    position: relative;
+    width: 400px;
+    height: 50px;
+    background-color: black;
+    color: white;
+    font-size: 20px;
+
+    @media (max-width: 768px) {
+     margin: auto;
+     position: relative;
+    }
+
+    :hover {
+      transition: all 0.4s;
+      background-color: #141414;
+    }
+  
+    > .gitlogoTitle {
+      position: absolute;
+      left: 50%;
+      top: auto;
+      transform: translate(-50%, 50%);
+    }
+    > .gitHubImg {
+      float: left;
+      margin-left: 1.3em;
+      align-content: center;
+      position: relative;
+      max-height: 85%;
+      width: auto;
+      top: 5px;
+    }
+  }
+}
+//-----------google logo
+> a {
+  > .googleBox {
+    font-family: 'EBSHMJESaeronRA';
+    border-radius: 12px;
+    position: relative;
+    top:10px;
+    width: 400px;
+    height: 50px;
+    background-color: #ffffff;
+    color: black;
+    font-size: 20px;
+    border: 1px solid #8a8a8a;
+    transition: all 0.4s;
+
+    @media (max-width: 768px) {
+     margin: auto;
+     position: relative;
+    }
+
+    :hover {
+      transition: all 0.4s;
+      background-color: #d4d4d4;
+    }
+    > .googleTitle {
+      position: absolute;
+      left: 50%;
+      top: auto;
+      transform: translate(-50%, 50%);
+    } 
+    > .googleImg {
+      float: left;
+      margin-left: 1em;
+      align-content: center;
+      position: relative;
+      max-height: 100%;
+      width: auto;
+      top: 0px;
+    }
+  }
+}
 `;
 
 const SignInModal = ({isOpen, setIsOpen, switcher}) => {
@@ -277,9 +358,18 @@ const SignInModal = ({isOpen, setIsOpen, switcher}) => {
             </div>
           </form>
           <Img>
-            <img src={bannerOne} />
-            <img src={bannerTwo} />
-            <img src={bannerThree} />
+            <a href="https://github.com/login/oauth/authorize?client_id=a27b9ace9f66b90ffe4d&scope=user">
+              <div className="gitBox">
+                <div className="gitlogoTitle">GitHub 로그인</div>  
+                <img className="gitHubImg" src={GitHubLogo} alt="gitHubLogo"/>
+              </div>
+            </a>
+            <a href="https://accounts.google.com/o/oauth2/v2/auth?client_id=992308342199-tdkmk92urgpuam42mo74pmq7m8c17ud3.apps.googleusercontent.com&redirect_uri=http://localhost:3000/auth/google&response_type=code&scope=https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email openid">
+              <div className="googleBox">
+                <div className="googleTitle">Google 로그인</div>
+                <img className="googleImg" src={GoogleLogo} alt="googleLogo"/>
+              </div>
+            </a>
           </Img>
           <Sign>
             <button onClick={loginHandler}>로그인하기</button>

@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { useUserDispatch, useUserState } from "../context/UserContext";
 
 const NavBar = styled.div`
   background-color: #d7dbd1;
@@ -106,6 +108,33 @@ const NavBarToggle = styled.div`
 `;
 
 const Header = () => {
+  const dispatch = useUserDispatch();
+  useEffect(() => {
+    axios.get(`https://api.thekingsletters.ml/users/info`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('accessToken')}`
+      }
+    })
+    .then((res) => {
+      const userData = res.data.data.userData;
+      dispatch({type: "USER_LOGIN"});
+      dispatch({
+        type: "SET_USER_DATA",
+        userData: {
+          email: userData.email || "0",
+          gender: userData.gender || "0",
+          image: userData.image || "0",
+          mobile: userData.mobile || "0",
+          name: userData.name || "",
+          mileage: userData.mileage || "0",
+          rank: userData.rank || "0",
+          createdAt: userData.createdAt || "0",
+          updatedAt: userData.updatedAt || "0"
+        }
+      });
+    })
+  }, [])
+
   const handleButtonClick = () => {
     let nav = document.querySelector('nav');
     let menuBtn = document.querySelector('.menu-btn');
@@ -144,8 +173,8 @@ const Header = () => {
           <div className="modal_button" id="modal_signin"></div>
           <div className="modal_button" id="modal_signup"></div>
           <li className="link">
-              <Link to="/mypage">내정보</Link>
-            </li>
+            <Link to="/mypage">내정보</Link>
+          </li>
         </NavBarUser>
       </NavBar>
 

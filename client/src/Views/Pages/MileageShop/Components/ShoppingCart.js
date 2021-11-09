@@ -295,7 +295,7 @@ const ShoppingCart = ({ items, setItems, totalPrice }) => {
         </div>
       ) : null}
       <div className="shopping_cart_total">
-        장바구니 合計 {numberWithCommas(totalPrice)} 냥
+        장바구니 합계 {numberWithCommas(totalPrice)} 냥
       </div>
     </ShoppingCartWrapper>
   );

@@ -12,9 +12,12 @@ const FooterContainer = styled.div`
   font-family: 'EBSHunminjeongeumSBA';
 
   > .masterLogin{
-    position: relative;
-    left: 15px;
+    padding: 8px 18px;
     cursor: pointer;
+    transition: all 0.4s ease;
+    &:hover{
+      color: #fafafa;
+    }
   }
 
   > .footer__logo {

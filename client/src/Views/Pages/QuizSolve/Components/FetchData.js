@@ -3,6 +3,9 @@ import axios from "axios";
 axios.defaults.baseURL = `http://ec2-13-209-96-200.ap-northeast-2.compute.amazonaws.com`;
 axios.defaults.withCredentials = true;
 
+// 콘솔로그 표시 온오프
+const DEBUG_MODE = true;
+
 export const fetchSubmitAnswer = async (id, answer) => {
   /* 파라메터 유효성 검사 */
   if (id === undefined || answer === undefined) {
@@ -13,27 +16,22 @@ export const fetchSubmitAnswer = async (id, answer) => {
     throw new Error(`파라메터가 형식에 맞지 않습니다`);
   }
 
-  const TOKEN = localStorage.getItem('accessToken');
   const END_PONT = `/quizzes/submit`;
   const METHOD = `POST`;
   const PAYLOAD = { quizId: id, answer: answer };
-  if (!TOKEN) new Error(`액세스 토큰을 찾을 수 없습니다`);
 
   let response = null;
   try {
     response = await axios(END_PONT, {
       method: METHOD,
       data: PAYLOAD,
-      headers: {
-        'Authorization': `Bearer ${TOKEN}`,
-      },
     });
     return { message: `${METHOD} ${END_PONT}요청에 성공했습니다`, data: response.data };
   } catch(error) {
     response = error.response;
     throw new Error(`${METHOD} ${END_PONT}요청에 실패했습니다`);
   } finally {
-    console.log(response);
+    DEBUG_MODE && console.log(response);
   }
 };
 

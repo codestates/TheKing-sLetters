@@ -1,6 +1,7 @@
 import axios from "axios";
 
-axios.defaults.baseURL = `http://ec2-13-209-96-200.ap-northeast-2.compute.amazonaws.com`;
+// axios 기본값
+axios.defaults.baseURL = `https://api.thekingsletters.ml`;
 axios.defaults.withCredentials = true;
 
 // 콘솔로그 표시 온오프
@@ -100,4 +101,52 @@ export const refineQuizData = async (raw) => {
     "howManyLikes": raw.data.user_recommend_quizzes.length,
   };
   return refined;
+};
+
+export const recommendQuiz = async (id) => {
+  if (id === undefined) throw new Error('파라메터가 존재하지 않습니다');
+  if (typeof id !== 'number') throw new Error('형식에 맞지 않는 파라메터가 있습니다');
+  const END_PONT = `/quizzes/recommend`;
+  const METHOD = `POST`;
+  const PAYLOAD = { quizId: id };
+  try {
+    const response = await axios(END_PONT, {
+      method: METHOD,
+      data: PAYLOAD,
+    });
+    const data = response.data;
+    if (response.status === 200 && data === "add recommend")
+      return "RECOMMENDED";
+    else if (response.status === 200 && data === "cancel recommend")
+      return "ALREADY RECOMMENDED";
+    else
+      return "UNHANDLED ERROR";
+  } catch(error) {
+    throw error;
+  }
+};
+
+export const addToMynote = async (id) => {
+  if (id === undefined) throw new Error('파라메터가 존재하지 않습니다');
+  if (typeof id !== 'number') throw new Error('형식에 맞지 않는 파라메터가 있습니다');
+  const END_PONT = `/mynote/add`;
+  const METHOD = `POST`;
+  const PAYLOAD = { quizId: id };
+  try {
+    const response = await axios(END_PONT, {
+      method: METHOD,
+      data: PAYLOAD,
+    });
+    const data = response.data;
+    if (response.status === 200 && data === "successfully added")
+      return "ADDED MYNOTE";
+    else
+      return "UNHANDLED ERROR";
+  } catch(error) {
+    const data = error.response.data;
+    if (error.response.status === 409 && data === "already in your my note")
+      return "ALREADY ADDED MYNOTE";
+    else
+      throw error;
+  }
 };

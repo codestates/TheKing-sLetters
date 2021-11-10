@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import CropModal from './CropModal';
 import loadingIcon from '../Assets/loading-1.svg';
 

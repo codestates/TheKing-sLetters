@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import RecommendMessage from "./RecommendMessage";
 import profileIcon from "../Assets/profile-1.png";
 // import heartFullIcon from "../Assets/heart-full-1.svg";
 import heartEmptyIcon from "../Assets/heart-empty-1.svg";
@@ -77,6 +78,8 @@ const TopProfileWrapper = styled.div`
 		}
 	}
 	> .recommend_container {
+		position: relative;
+		z-index: 5;
 		margin: 2em 0 2em auto;
 		/* flex 설정 */
 		display: flex;
@@ -84,15 +87,16 @@ const TopProfileWrapper = styled.div`
 		> .recommend_icon {
 			width: 1.5em;
 			height: 1.5em;
-			:hover {
-				cursor: pointer;
-			}
+		}
+		> .recommend_icon:hover {
+			cursor: pointer;
 		}
 		> .recommend_number {
 			margin: 0 5px 0 5px;
 			font-size: 18px;
 			line-height: 18px;
 		}
+
 	}
 	> .profile_please_login {
     font-family: 'EBSHunminjeongeumSBA';
@@ -110,7 +114,7 @@ const TopProfileWrapper = styled.div`
 	}
 `;
 
-const TopProfile = ({quizData, userData, isGuest}) => {
+const TopProfile = ({quizData, userData, recommendHandler, isGuest}) => {
 	return (
     <TopProfileWrapper>
 			{/* 로그인 했다면 아래의 화면을 표시 */}
@@ -123,9 +127,11 @@ const TopProfile = ({quizData, userData, isGuest}) => {
 				<div className="user_ranking">전체 순위: <span className="ranking_circle">{userData.ranking}</span>위</div>
 				<div className="user_name">이름: <span>{userData.name}</span></div>
 			</div>
+			
 			<div className="recommend_container">
-				<img src={heartEmptyIcon} className="recommend_icon" alt="추천 아이콘"></img>
+				<img src={heartEmptyIcon} className="recommend_icon" alt="추천 아이콘" onClick={() => recommendHandler()}></img>
 				<p className="recommend_number">{quizData.howManyLikes}</p>
+				<RecommendMessage />
 			</div>
 			</>
 			: null}
@@ -137,7 +143,7 @@ const TopProfile = ({quizData, userData, isGuest}) => {
 				<p>
 					현재 <span style={{color: "blue"}}>로그인</span>상태가 아닙니다<br />
 					문제의 <span style={{color: "blue"}}>정답</span>을 확인하려면 <span style={{color: "blue"}}>로그인</span> 해주세요
-				</p>
+				</p>``
 			</div>
 			: null}
 			

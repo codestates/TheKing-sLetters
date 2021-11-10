@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import MynoteMessage from "./MynoteMessage";
 import correctIcon from '../Assets/correct-1.png';
 import incorrectIcon from '../Assets/incorrect-1.png';
 
@@ -16,7 +17,8 @@ const CheckAnswerWrapper = styled.div`
 		margin: 0% 6% 0% 6%;
 		padding: 1% 1% 1% 1%;
 		color: rgba(255, 255, 255, 1);
-		font-size: 21px;
+		font-family: 'EBSHMJESaeronRA';
+		font-size: 24px;
 		font-weight: 600;
 	}
   > .check_answer_commentation_layout {
@@ -48,13 +50,18 @@ const CheckAnswerWrapper = styled.div`
 					width: 10em;
 					height: 10em;
 				}
+				> p {
+					font-family: 'EBSHMJESaeronRA';
+				}
 				> .result_msg_correct {
 					color: rgba(0, 150, 255, 1);
+					font-family: 'EBSHMJESaeronRA';
 					font-size: 36px;
 					font-weight: 800;
 				}
 				> .result_msg_wrong {
 					color: rgba(255, 99, 71, 1);
+					font-family: 'EBSHMJESaeronRA';
 					font-size: 36px;
 					font-weight: 800;
 				}
@@ -67,14 +74,19 @@ const CheckAnswerWrapper = styled.div`
 				resize: none;
 				overflow: hidden;
 				/* 폰트 설정 */
+				font-family: 'EBSHMJESaeronRA';
 				font-size: 16px;
 				/* 박스 크기 설정 */
 				width: auto;
-				height: 10em;
+				min-height: 10rem;
+    		height: auto;
 			}
 			> .add_wrong_sheet_button {
 				/* 박스 설정 */
+				position: relative;
 				padding: 10px 0px 10px 0px;
+				width: 100%;
+				height: 3rem;
 				/* 폰트 설정 */
 				font-size: 18px;
 				font-weight: 500;
@@ -90,7 +102,7 @@ const CheckAnswerWrapper = styled.div`
   }
 `;
 
-const CheckAnswer = ({quizData, isCorrectAnswer}) => {
+const CheckAnswer = ({quizData, isCorrectAnswer, mynoteHandler}) => {
 
   return (
     <CheckAnswerWrapper>
@@ -113,7 +125,12 @@ const CheckAnswer = ({quizData, isCorrectAnswer}) => {
 						<p>{isCorrectAnswer.message}</p>
 					</div>
 					<textarea className="commentation_container_bottom" defaultValue={quizData.answerComment} readOnly></textarea>
-					<button className="add_wrong_sheet_button">오답노트에 추가하기</button>
+					<button
+						className="add_wrong_sheet_button"
+						onClick={() => mynoteHandler()}>
+						오답노트에 추가하기
+						<MynoteMessage />
+						</button>
 					</>}
 				</div>
       </div>

@@ -1,8 +1,12 @@
+// library
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import axios from 'axios';
+
+// modules
 import MileageDisplay from './Components/MileageDisplay';
 import ShoppingCart from './Components/ShoppingCart';
 import ItemDisplay from './Components/ItemDisplay';
-import React, { useState, useEffect, useRef } from 'react';
 import { useUserState } from '../../../context/UserContext';
 import Loading from '../../../Loading/Loading';
 
@@ -221,7 +225,7 @@ const initialItems = [
   {
     uid: 'a1',
     name: '[스타벅스] 아이스 아메리카노',
-    image: 'https://i.ibb.co/xjs4zz8/18792f67a6.jpg',
+    image: '',
     qty: 5,
     price: 1000,
     selected: 0,
@@ -230,7 +234,7 @@ const initialItems = [
   {
     uid: 'b2',
     name: '[카페베네] 카라멜 마키야토',
-    image: 'https://i.ibb.co/xjs4zz8/18792f67a6.jpg',
+    image: '',
     qty: 5,
     price: 2000,
     selected: 0,
@@ -239,7 +243,7 @@ const initialItems = [
   {
     uid: 'c3',
     name: '[BHC] 뿌링클 치킨',
-    image: 'https://i.ibb.co/xjs4zz8/18792f67a6.jpg',
+    image: '',
     qty: 5,
     price: 3000,
     selected: 0,
@@ -248,7 +252,7 @@ const initialItems = [
   {
     uid: 'd4',
     name: '[파리바게트] 부드러운 생크림 케이크',
-    image: 'https://i.ibb.co/xjs4zz8/18792f67a6.jpg',
+    image: '',
     qty: 2,
     price: 4000,
     selected: 0,
@@ -257,7 +261,7 @@ const initialItems = [
   {
     uid: 'e5',
     name: '[파리바게트] 치즈 케이크',
-    image: 'https://i.ibb.co/xjs4zz8/18792f67a6.jpg',
+    image: '',
     qty: 4,
     price: 4000,
     selected: 0,
@@ -266,7 +270,7 @@ const initialItems = [
   {
     uid: 'f6',
     name: '[카페베네] 녹차 라떼',
-    image: 'https://i.ibb.co/xjs4zz8/18792f67a6.jpg',
+    image: '',
     qty: 4,
     price: 4000,
     selected: 0,
@@ -275,7 +279,7 @@ const initialItems = [
   {
     uid: 'g7',
     name: '[엔젤리너스] 스위트 아이스 아메리카노',
-    image: 'https://i.ibb.co/xjs4zz8/18792f67a6.jpg',
+    image: '',
     qty: 2,
     price: 4000,
     selected: 0,
@@ -284,7 +288,7 @@ const initialItems = [
   {
     uid: 'h8',
     name: '[엔젤리너스] 요거트 프라페',
-    image: 'https://i.ibb.co/xjs4zz8/18792f67a6.jpg',
+    image: '',
     qty: 1,
     price: 4000,
     selected: 0,
@@ -293,7 +297,7 @@ const initialItems = [
   {
     uid: 'i9',
     name: '[엔젤리너스] 초코 프라페',
-    image: 'https://i.ibb.co/xjs4zz8/18792f67a6.jpg',
+    image: '',
     qty: 2,
     price: 4000,
     selected: 0,
@@ -325,6 +329,7 @@ const MileageShop = () => {
   const [userLoginSuccess, setUserLoginSuccess] = useState(false);
   // 유저 정보 state를 context에서 불러옴, 로그인 정보와 유저 정보가 담겨있음
   const userState = useUserState();
+
   // 체험 모드 온오프
   const [isTestModeOn, setIsTestModeOn] = useState(false);
   // 구매 에러 여부 확인
@@ -350,19 +355,25 @@ const MileageShop = () => {
     }
     // 유저가 로그인 한 상태라면
     if (userState.isUserLoggedIn) {
-      // context에서 유저 정보를 가져와서
-      const rawData = userState.userData;
-      // 가져온 유저 정보를 가공하고
-      const refinedData = {
-        name: rawData.name,
-        image: rawData.image,
-        rank: rawData.rank.toString(),
-        mileage: rawData.mileage,
-      };
-      // state에 저장
-      setUserInfo(refinedData);
-      // 화면을 표시
-      setUserLoginSuccess(true);
+      // 유저 데이터를 fetch하고
+      axios.get("/users/info")
+      .then((response) => {
+        const data = response.data.data.userData;
+        // 가져온 유저 정보를 가공하고
+        const refinedData = {
+          name: data.name,
+          image: data.image,
+          rank: data.rank.toString(),
+          mileage: data.mileage,
+        };
+        // state에 저장
+        setUserInfo(refinedData);
+        // 화면을 표시
+        setUserLoginSuccess(true);
+      })
+      .catch((err) => {
+        DEBUG_MODE && console.log(err);
+      });
     }
   }, [userState, isTestModeOn]);
 
@@ -416,7 +427,7 @@ const MileageShop = () => {
             submitSuccess: true,
           }));
           setTimeout(() => {
-            window.location.reload();
+            // window.location.reload();
           }, 2000);
         } else if (result === 'not enough point') {
           setModalMsgList((state) => ({

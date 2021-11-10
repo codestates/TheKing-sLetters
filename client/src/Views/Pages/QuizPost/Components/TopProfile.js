@@ -26,8 +26,8 @@ const TopProfileWrapper = styled.div`
   background-color: #d7dbd1;
 
   > .user_profile_image_wrapper {
-    width: 7rem;
-    height: 7rem;
+    width: 8rem;
+    height: 8rem;
     outline: 1px solid rgba(0, 0, 0, 0.1);
     background-color: rgb(215 219 209);
     overflow: hidden;
@@ -39,31 +39,31 @@ const TopProfileWrapper = styled.div`
     max-height: 100%;
   }
   > .user_info_container {
-    margin-left: 1rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    font-size: 1.2rem;
-    letter-spacing: 2px;
+		margin: 0 0 0 1rem;
+		display: flex;
+		flex-direction: column;
   }
-
+  > .user_info_container .user_ranking {
+    font-family: 'EBSHunminjeongeumSBA';
+		font-size: 21px;
+  }
   > .user_info_container .user_ranking .ranking_circle {
     display: inline-block;
-    width: 23px;
-    height: 23px;
+    width: 24px;
+		height: 24px;
     background-color: rgba(0, 0, 0, 0.5);
     color: #fafafa;
     border-radius: 50%;
     text-align: center;
-    font-size: 1rem;
-    font-weight: 600;
-    line-height: 23px;
+    font-size: 18px;
+		line-height: 24px;
     margin-right: 5px;
   }
   > .user_info_container .user_name {
     border-bottom: 1px solid rgba(0, 0, 0, 0.5);
     padding: 5px 0px 5px 0px;
-    font-size: 1.5rem;
+    font-family: 'EBSHunminjeongeumSBA';
+    font-size: 21px;
   }
   @media (max-width: 960px) {
     > .user_profile_image_wrapper {
@@ -110,7 +110,8 @@ const TopProfileContainer = styled.div`
   }
   > .profile_please_login {
     font-family: 'EBSHunminjeongeumSBA';
-    padding: 0.8% 6% 0.8% 6%;
+    padding: 2rem 6% 3rem 6%;
+		font-size: 16px;
 		width: 100%;
     height: 6rem;
 		display: flex;
@@ -158,13 +159,18 @@ const TopProfile = ({ userData, isGuest }) => {
 
       {/* 로그인 하지 않았다면 아래의 화면을 표시 */}
 			{isGuest ?
+      <>
+      <TopProfileTitle>
+        <h2 className="top__profile__title">문제 등록</h2>
+      </TopProfileTitle>
 			<div className="profile_please_login">
-				<img src={exclamationIcon} alt="프로필 사진"></img>
+				<img src={exclamationIcon} alt="느낌표 아이콘"></img>
 				<p>
 					현재 <span style={{color: "blue"}}>로그인</span>상태가 아닙니다<br />
 					문제의 <span style={{color: "blue"}}>정답</span>을 확인하려면 <span style={{color: "blue"}}>로그인</span> 해주세요
 				</p>
 			</div>
+      </>
 			: null}
 
       {/* 프로필 삼각형 아이콘 */}

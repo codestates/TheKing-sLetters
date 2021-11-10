@@ -34,6 +34,7 @@ const AnswerDisplayTemplateImageWrapper = styled.div`
       left: 0;
       top: -22px;
       /* 폰트 설정 */
+      font-family: 'EBSHunminjeongeumSBA';
       font-size: 14px;
       font-weight: 700;
       color: #0054bb;

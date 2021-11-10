@@ -8,6 +8,7 @@ const AnswerDisplayTemplateOxWrapper = styled.div`
   display: flex;
   gap: 1em;
   flex-wrap: wrap;
+  justify-content: space-evenly;
   > .ox_container {
     position: relative;
     border: 1px dashed rgba(0, 0, 0, 0.5);
@@ -15,6 +16,7 @@ const AnswerDisplayTemplateOxWrapper = styled.div`
     width: 250px;
     height: 250px;
     padding: 1em 1em 1em 1em;
+    transition: all 0.4s ease;
     > .answer_icon {
       width: 100%;
       height: 100%;
@@ -32,6 +34,7 @@ const AnswerDisplayTemplateOxWrapper = styled.div`
   }
   > .ox_container:hover {
     cursor: pointer;
+    transform: scale(1.05);
   }
   > .answer_selected {
     border: 3px solid #0054bb;

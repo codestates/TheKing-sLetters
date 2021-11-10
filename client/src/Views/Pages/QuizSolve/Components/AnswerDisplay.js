@@ -14,11 +14,12 @@ const AnswerDisplayWrapper = styled.div`
 	display: flex;
 	flex-direction: column;
 	> .answer_select_title {
-		background-color: #04AA6D;
+		font-family: 'EBSHunminjeongeumSBA';
+		font-size: 24px;
+		background-color: #93aca0;
 		margin: 0% 6% 0% 6%;
 		padding: 1% 1% 1% 1%;
 		color: rgba(255, 255, 255, 1);
-		font-size: 21px;
 		font-weight: 600;
 	}
 `;

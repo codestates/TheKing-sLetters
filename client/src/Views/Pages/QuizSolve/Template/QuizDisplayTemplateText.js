@@ -18,7 +18,9 @@ const QuizDisplayTemplateTextWrapper = styled.div`
       outline: none;
       background-color: rgba(0, 0, 0, 0.1);
       /* 폰트 설정 */
+      font-family: 'EBSHunminjeongeumSBA';
       font-size: 16px;
+      font-weight: 500;
       /* 크기 설정 */
       flex: 2em 1 0;
     }
@@ -30,6 +32,7 @@ const QuizDisplayTemplateTextWrapper = styled.div`
       resize: none;
       overflow: hidden;
       /* 폰트 설정 */
+      font-family: 'EBSHunminjeongeumSBA';
       font-size: 16px;
       /* 박스 크기 설정 */
       width: auto;

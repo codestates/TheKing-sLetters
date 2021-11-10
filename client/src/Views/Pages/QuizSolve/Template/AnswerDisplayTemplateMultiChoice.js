@@ -25,6 +25,8 @@ const AnswerDisplayTemplateMultiChoiceWrapper = styled.div`
     flex-direction: row;
     gap: 0.5em;
     > .answer_container_input {
+      font-family: 'EBSHunminjeongeumSBA';
+      font-size: 16px;
       /* 박스 크기 설정 */
       border: 1px solid rgba(0, 0, 0, 0.3);
       border-radius: 5px;

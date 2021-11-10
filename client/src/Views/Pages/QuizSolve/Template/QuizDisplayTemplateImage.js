@@ -21,6 +21,7 @@ const QuizDisplayTemplateImageWrapper = styled.div`
       outline: none;
       background-color: rgba(0, 0, 0, 0.1);
       /* 폰트 설정 */
+      font-family: 'EBSHunminjeongeumSBA';
       font-size: 16px;
       font-weight: 500;
       /* 크기 설정 */

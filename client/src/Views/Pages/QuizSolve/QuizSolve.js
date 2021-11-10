@@ -23,7 +23,22 @@ const QuizSolveContainer = styled.div`
   display: flex;
 	flex-flow: column;
 	width: 100%;
-	height: 1280px;
+	min-height: 86.8vh;
+	> .quiz_solve_top_title {
+		width: 100%;
+    padding: 3% 6.2% 2% 6.2%;
+    box-sizing: border-box;
+    background-color: #d7dbd1;
+    position: relative;
+	}
+
+	> .quiz_solve_top_title h2 {
+		font-family: 'EBSHunminjeongeumSBA';
+    font-size: 2rem;
+    border-bottom: 2px solid #303030;
+    letter-spacing: 3px;
+	}
+
 	> .page_loading_icon {
 		position: absolute;
 		top: 10%;
@@ -256,6 +271,9 @@ const QuizSolve = ({match}) => {
 			{/* 퀴즈를 불러왔으면 아래의 본문을 표시 */}
 			{!pageIsLoading ?
 			<>
+			<div className="quiz_solve_top_title">
+				<h2>문제 풀이</h2>
+			</div>
 			<TopProfile quizData={quizData} userData={userData} isGuest={errorList.loginError}></TopProfile>
 			<QuizDisplay quizData={quizData}></QuizDisplay>
 			<AnswerDisplay quizData={quizData} selectedAnswer={selectedAnswer} setSelectedAnswer={setSelectedAnswer}></AnswerDisplay>

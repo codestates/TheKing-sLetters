@@ -17,10 +17,11 @@ const ProblemBox = () => {
     rewardPoints: '',
   });
   const userState = useUserState();
-  const isLogin = userState.isAdminLoggedIn;
+  const isLogin = userState.isUserLoggedIn;
   const [userAccessToken, setUserAccessToken] = useState('');
   const [myNote, setMyNote] = useState([]);
   const [UserName, setUserName] = useState([]);
+  const [myNoteQuizList, setMyNoteQuizList] = useState([]);
   useEffect(() => {
     if (isLogin) {
       setUserAccessToken(localStorage.getItem('accessToken'));
@@ -42,8 +43,24 @@ const ProblemBox = () => {
             });
         }
       };
+      getProblemBoxQuiz();
     }
   }, [userAccessToken]);
+
+  useEffect(() => {
+    if (!isLogin) {
+      const getAllQuizList = async () => {
+        await axios
+          .get('https://api.thekingsletters.ml/quizzes', {
+            withCredentials: true,
+          })
+          .then((res) => {
+            setMyNoteQuizList(res.data.data.quizList);
+          });
+      };
+      getAllQuizList();
+    }
+  }, []);
 
   return (
     <ProblemBoxContainer>
@@ -56,6 +73,7 @@ const ProblemBox = () => {
         dataCategorySelect={dataCategorySelect}
         UserName={UserName}
         myNote={myNote}
+        myNoteQuizList={myNoteQuizList}
       />
     </ProblemBoxContainer>
   );

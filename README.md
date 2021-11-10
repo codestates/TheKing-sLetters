@@ -137,12 +137,6 @@
 <br>
 <br>
 
-# Highlighted Features
-
-[기능 소개 Detail Link](https://github.com/codestates/TheKing-sLetters/wiki/Final-App-View)
-
-<br>
-
 ## **Sign In**
 
 <img src = "https://i.ibb.co/f1n8wbg/login-001-1-width-600px.gif" width="650px">

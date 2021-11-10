@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import ReactPaginate from 'react-paginate';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart } from '@fortawesome/free-regular-svg-icons';
+import axios from 'axios';
 
 const ProblemQuizBoxContainer = styled.div`
   font-family: 'EBSHMJESaeronRA';
@@ -136,7 +138,8 @@ const ProblemBoxQuizizz = styled.div`
   }
   .problem__box__quiz {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-evenly;
+    margin-top: 1em;
     align-items: center;
     box-sizing: border-box;
     > span {
@@ -235,7 +238,13 @@ const ProblemBoxQuizizz = styled.div`
   }
 `;
 
-const ProblemQuizBox = ({ dataCategorySelect, myNote, UserName }) => {
+const ProblemQuizBox = ({
+  dataCategorySelect,
+  myNote,
+  UserName,
+  isLogin,
+  myNoteQuizList,
+}) => {
   const filtered = myNote.map((el) => {
     return {
       id: el.id,
@@ -248,8 +257,20 @@ const ProblemQuizBox = ({ dataCategorySelect, myNote, UserName }) => {
       heart: el.heart,
     };
   });
-
+  const notLoginList = myNoteQuizList.map((el) => {
+    return {
+      id: el.id,
+      categories: el.categories[0].category,
+      quizTypes: el.quiz_types[0].quizContent.quizType,
+      answerTypes: el.answer_types[0].answerContent.answerType,
+      rewardPoints: el.rewardPoint,
+      thumbnail: el.thumbnail,
+      title: el.title,
+      heart: el.heart,
+    };
+  });
   const [MyNoteQuiz, setMyNoteQuiz] = useState([]);
+  const [NotLoginQuizList, setNotLoginQuizList] = useState([]);
   const [MyNoteAll, setMyNoteAll] = useState(0);
 
   useEffect(() => {
@@ -261,13 +282,41 @@ const ProblemQuizBox = ({ dataCategorySelect, myNote, UserName }) => {
       });
       setMyNoteQuiz(result);
     }
+    let noResult = [...notLoginList];
+    for (const [key, value] of Object.entries(dataCategorySelect)) {
+      if (value === '') continue;
+      noResult = noResult.filter((el) => {
+        if (el[key] === value) return el;
+      });
+      setNotLoginQuizList(noResult);
+    }
   }, [dataCategorySelect]);
+
+  // 문제풀이로 넘어갑니다.
+  const handleQuizClick = async (event) => {
+    await axios
+      .get(`https://api.thekingsletters.ml/quizzes`, {
+        withCredentials: true,
+      })
+      .then((res) => {
+        let allQuiz = res.data.data.quizList.filter((el) => el.id === event);
+        if (allQuiz[0].id === event) {
+          return axios.get(
+            `https://api.thekingsletters.ml/quizzes/selectquiz/?quizId=${event}`
+          );
+        }
+      });
+  };
 
   // 페이지네이션 구현
   const max_contents = 6;
   const pageVisited = MyNoteAll * max_contents;
   const pageCount = Math.ceil(myNote.length / max_contents);
   const FindPageCount = Math.ceil(MyNoteQuiz.length / max_contents);
+  const allNotLoginPageCount = Math.ceil(myNoteQuizList.length / max_contents);
+  const FindNotLoginPageCount = Math.ceil(
+    NotLoginQuizList.length / max_contents
+  );
   const changePage = ({ selected }) => {
     setMyNoteAll(selected);
   };
@@ -275,42 +324,18 @@ const ProblemQuizBox = ({ dataCategorySelect, myNote, UserName }) => {
   const displayContents = MyNoteQuiz.slice(
     pageVisited,
     pageVisited + max_contents
-  ).map((el) => {
+  ).map((el, i) => {
     return (
-      <ProblemBoxQuizizz key={el.id}>
-        <form>
-          <img src={el.thumbnail} alt="problem box Thumbnail" />
-        </form>
-        <div className="problem__box__quiz">
-          <span>{el.categories}</span>
-          <span>{el.quizTypes}</span>
-          <span>{el.answerTypes}</span>
-          <span>{el.rewardPoints}</span>
-        </div>
-        <div className="problem__box__title">
-          <h1>{el.title}</h1>
-          <span>
-            <FontAwesomeIcon className="heart" icon={faHeart} />
-            {el.heart}
-          </span>
-        </div>
-      </ProblemBoxQuizizz>
-    );
-  });
-
-  const allDisplay = myNote
-    .slice(pageVisited, pageVisited + max_contents)
-    .map((el) => {
-      return (
-        <ProblemBoxQuizizz key={el.id}>
+      <ProblemBoxQuizizz key={i} onClick={() => handleQuizClick(el.id)}>
+        <Link to={`/quizsolve/${el.id}`}>
           <form>
             <img src={el.thumbnail} alt="problem box Thumbnail" />
           </form>
           <div className="problem__box__quiz">
-            <span>{el.categories[0].category}</span>
-            <span>{el.quiz_types[0].quizContent.quizType}</span>
-            <span>{el.answer_types[0].answerContent.answerType}</span>
-            <span>{el.rewardPoint}냥</span>
+            <span>{el.categories}</span>
+            <span>{el.quizTypes}</span>
+            <span>{el.answerTypes}</span>
+            <span>{el.rewardPoints}</span>
           </div>
           <div className="problem__box__title">
             <h1>{el.title}</h1>
@@ -319,19 +344,125 @@ const ProblemQuizBox = ({ dataCategorySelect, myNote, UserName }) => {
               {el.heart}
             </span>
           </div>
+        </Link>
+      </ProblemBoxQuizizz>
+    );
+  });
+
+  const allDisplay = myNote
+    .slice(pageVisited, pageVisited + max_contents)
+    .map((el, i) => {
+      return (
+        <ProblemBoxQuizizz key={i}>
+          <Link
+            to={`/quizsolve/${el.id}`}
+            onClick={() => handleQuizClick(el.id)}
+          >
+            <form>
+              <img src={el.thumbnail} alt="problem box Thumbnail" />
+            </form>
+            <div className="problem__box__quiz">
+              <span>{el.categories[0].category}</span>
+              <span>{el.quiz_types[0].quizContent.quizType}</span>
+              <span>{el.answer_types[0].answerContent.answerType}</span>
+              <span>{el.rewardPoint}냥</span>
+            </div>
+            <div className="problem__box__title">
+              <h1>{el.title}</h1>
+              <span>
+                <FontAwesomeIcon className="heart" icon={faHeart} />
+                {el.heart}
+              </span>
+            </div>
+          </Link>
         </ProblemBoxQuizizz>
       );
     });
 
+  // 로그인 안되었을 때
+
+  const notLoginDisplayContents = NotLoginQuizList.slice(
+    pageVisited,
+    pageVisited + max_contents
+  ).map((el, i) => {
+    return (
+      <ProblemBoxQuizizz key={i}>
+        <Link to={`/quizsolve/${el.id}`} onClick={() => handleQuizClick(el.id)}>
+          <form>
+            <img src={el.thumbnail} alt="problem box Thumbnail" />
+          </form>
+          <div className="problem__box__quiz">
+            <span>{el.categories}</span>
+            <span>{el.quizTypes}</span>
+            <span>{el.answerTypes}</span>
+            <span>{el.rewardPoints}</span>
+          </div>
+          <div className="problem__box__title">
+            <h1>{el.title}</h1>
+            <span>
+              <FontAwesomeIcon className="heart" icon={faHeart} />
+              {el.heart}
+            </span>
+          </div>
+        </Link>
+      </ProblemBoxQuizizz>
+    );
+  });
+
+  const allNotLoginDisplay = myNoteQuizList
+    .slice(pageVisited, pageVisited + max_contents)
+    .map((el, i) => {
+      return (
+        <ProblemBoxQuizizz key={i}>
+          <Link
+            to={`/quizsolve/${el.id}`}
+            onClick={() => handleQuizClick(el.id)}
+          >
+            <form>
+              <img src={el.thumbnail} alt="problem box Thumbnail" />
+            </form>
+            <div className="problem__box__quiz">
+              <span>{el.categories[0].category}</span>
+              <span>{el.quiz_types[0].quizContent.quizType}</span>
+              <span>{el.answer_types[0].answerContent.answerType}</span>
+              <span>{el.rewardPoint}냥</span>
+            </div>
+            <div className="problem__box__title">
+              <h1>{el.title}</h1>
+              <span>
+                <FontAwesomeIcon className="heart" icon={faHeart} />
+                {el.heart}
+              </span>
+            </div>
+          </Link>
+        </ProblemBoxQuizizz>
+      );
+    });
   return (
     <ProblemQuizBoxContainer>
-      <h2 className="problem__box__quiz__title">{UserName.name}의 서재</h2>
+      <h2 className="problem__box__quiz__title">
+        {isLogin ? UserName.name : 'test'}의 서재
+      </h2>
       <ProblemBoxQuizizzContainer>
-        {MyNoteQuiz.length === 0 ? allDisplay : displayContents}
+        {isLogin
+          ? MyNoteQuiz.length === 0
+            ? allDisplay
+            : displayContents
+          : NotLoginQuizList.length === 0
+          ? allNotLoginDisplay
+          : notLoginDisplayContents}
         <ReactPaginate
           previousLabel={'이전'}
           nextLabel={'다음'}
-          pageCount={MyNoteQuiz.length === 0 ? pageCount : FindPageCount}
+          pageCount={
+            isLogin
+              ? MyNoteQuiz.length === 0
+                ? pageCount
+                : FindPageCount
+              : NotLoginQuizList.length === 0
+              ? allNotLoginPageCount
+              : FindNotLoginPageCount
+          }
           onPageChange={changePage}
           containerClassName={'paginationBtn'}
           previousLinkClassName={'previousBtn'}

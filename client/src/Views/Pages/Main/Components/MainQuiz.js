@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import ReactPaginate from 'react-paginate';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart } from '@fortawesome/free-regular-svg-icons';
+import axios from 'axios';
 
 const MainQuizContainer = styled.div`
   font-family: 'EBSHMJESaeronRA';
@@ -128,9 +130,10 @@ const MainQuizizz = styled.div`
   }
   .main__quiz {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-evenly;
     align-items: center;
     box-sizing: border-box;
+    margin-top: 1em;
     > span {
       box-sizing: border-box;
       background-color: #fafafa;
@@ -251,6 +254,21 @@ const MainQuiz = ({ dataCategorySelect, MainHotData }) => {
     }
   }, [dataCategorySelect]);
 
+  const handleQuizClick = async (event) => {
+    await axios
+      .get(`https://api.thekingsletters.ml/quizzes`, {
+        withCredentials: true,
+      })
+      .then((res) => {
+        let allQuiz = res.data.data.quizList.filter((el) => el.id === event);
+        if (allQuiz[0].id === event) {
+          return axios.get(
+            `https://api.thekingsletters.ml/quizzes/selectquiz/?quizId=${event}`
+          );
+        }
+      });
+  };
+
   // 페이지네이션 구현
   const max_contents = 6;
   const pageVisited = MainQuizAll * max_contents;
@@ -263,25 +281,27 @@ const MainQuiz = ({ dataCategorySelect, MainHotData }) => {
   const displayContents = SelectQuiz.slice(
     pageVisited,
     pageVisited + max_contents
-  ).map((el) => {
+  ).map((el, i) => {
     return (
-      <MainQuizizz key={el.id}>
-        <form>
-          <img src={el.thumbnail} alt="main Thumbnail" />
-        </form>
-        <div className="main__quiz">
-          <span>{el.categories}</span>
-          <span>{el.quizTypes}</span>
-          <span>{el.answerTypes}</span>
-          <span>{el.rewardPoints}냥</span>
-        </div>
-        <div className="main__title">
-          <h1>{el.title}</h1>
-          <span>
-            <FontAwesomeIcon className="heart" icon={faHeart} />
-            {el.heart}
-          </span>
-        </div>
+      <MainQuizizz key={el.id} onClick={() => handleQuizClick(el.id)}>
+        <Link to={`/quizsolve/${el.id}`} key={i}>
+          <form>
+            <img src={el.thumbnail} alt="main Thumbnail" />
+          </form>
+          <div className="main__quiz">
+            <span>{el.categories}</span>
+            <span>{el.quizTypes}</span>
+            <span>{el.answerTypes}</span>
+            <span>{el.rewardPoints}냥</span>
+          </div>
+          <div className="main__title">
+            <h1>{el.title}</h1>
+            <span>
+              <FontAwesomeIcon className="heart" icon={faHeart} />
+              {el.heart}
+            </span>
+          </div>
+        </Link>
       </MainQuizizz>
     );
   });
@@ -289,25 +309,27 @@ const MainQuiz = ({ dataCategorySelect, MainHotData }) => {
   const allDisplay = MainHotData.slice(
     pageVisited,
     pageVisited + max_contents
-  ).map((el) => {
+  ).map((el, i) => {
     return (
-      <MainQuizizz key={el.id}>
-        <form>
-          <img src={el.thumbnail} alt="main Thumbnail" />
-        </form>
-        <div className="main__quiz">
-          <span>{el.categories[0].category}</span>
-          <span>{el.quiz_types[0].quizContent.quizType}</span>
-          <span>{el.answer_types[0].answerContent.answerType}</span>
-          <span>{el.rewardPoint}냥</span>
-        </div>
-        <div className="main__title">
-          <h1>{el.title}</h1>
-          <span>
-            <FontAwesomeIcon className="heart" icon={faHeart} />
-            {el.heart}
-          </span>
-        </div>
+      <MainQuizizz key={el.id} onClick={() => handleQuizClick(el.id)}>
+        <Link to={`/quizsolve/${el.id}`} key={i}>
+          <form>
+            <img src={el.thumbnail} alt="main Thumbnail" />
+          </form>
+          <div className="main__quiz">
+            <span>{el.categories[0].category}</span>
+            <span>{el.quiz_types[0].quizContent.quizType}</span>
+            <span>{el.answer_types[0].answerContent.answerType}</span>
+            <span>{el.rewardPoint}냥</span>
+          </div>
+          <div className="main__title">
+            <h1>{el.title}</h1>
+            <span>
+              <FontAwesomeIcon className="heart" icon={faHeart} />
+              {el.heart}
+            </span>
+          </div>
+        </Link>
       </MainQuizizz>
     );
   });

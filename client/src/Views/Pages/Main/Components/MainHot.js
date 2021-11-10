@@ -328,7 +328,6 @@ const MainHot = ({ MainHotData }) => {
       })
       .then((res) => {
         let allQuiz = res.data.data.quizList.filter((el) => el.id === event);
-        console.log(allQuiz[0].id);
         if (allQuiz[0].id === event) {
           return axios.get(
             `https://api.thekingsletters.ml/quizzes/selectquiz/?quizId=${event}`
@@ -344,10 +343,9 @@ const MainHot = ({ MainHotData }) => {
         <Slider {...settings}>
           {RandomMainHot.map((el, i) => {
             return (
-              <Link to={`/selectquiz/?quizId=${el.id}`}>
+              <Link to={`/quizsolve/${el.id}`} key={i}>
                 <div
                   className="box hover"
-                  key={i}
                   onClick={() => handleQuizClick(el.id)}
                 >
                   <img src={el.thumbnail} alt="img" />

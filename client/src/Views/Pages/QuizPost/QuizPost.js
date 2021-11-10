@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import TopProfile from './Components/TopProfile';
 import CategorySelect from './Components/CategorySelect';
 import QuizSelect from './Components/QuizSelect';
@@ -9,15 +9,7 @@ import SubmitModal from './Components/SubmitModal';
 import { useUserState } from '../../../context/UserContext';
 import { vaildCheckAll } from './Components/VaildCheck';
 import { uploadData, refineData } from './Components/FetchData';
-import defaultProfileIcon from './Assets/profile-1.png';
-import lockIcon from './Assets/lock-1.svg';
 import Loading from '../../../Loading/Loading';
-
-const BOX_SHADOW = `
-	-moz-box-shadow: 0 1px 1px 0 #ccc;
-	-webkit-box-shadow: 0 1px 1px 0 #ccc;
-	box-shadow: 0 1px 1px 0 #ccc;
-`;
 
 const QuizPostContainer = styled.div`
   position: relative;
@@ -26,13 +18,6 @@ const QuizPostContainer = styled.div`
   width: 100%;
   min-height: 86.8vh;
 `;
-
-/* 더미데이터 */
-const initialUser = {
-  name: '체험 사용자',
-  image: defaultProfileIcon,
-  rank: '1',
-};
 
 const Post = () => {
   // 유저 데이터 저장

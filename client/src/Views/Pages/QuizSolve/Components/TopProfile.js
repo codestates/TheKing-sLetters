@@ -128,11 +128,7 @@ const TopProfileWrapper = styled.div`
 	}
 `;
 
-<<<<<<< HEAD
-const TopProfile = ({quizData, userData, isGuest}) => {
-=======
 const TopProfile = ({quizData, userData, recommendHandler, isGuest}) => {
->>>>>>> c1fd06aefb28da25c8003f66d224b8940e1e625b
 	return (
     <TopProfileWrapper>
 			{/* 로그인 했다면 아래의 화면을 표시 */}
@@ -163,23 +159,7 @@ const TopProfile = ({quizData, userData, recommendHandler, isGuest}) => {
 					문제의 <span style={{color: "blue"}}>정답</span>을 확인하려면 <span style={{color: "blue"}}>로그인</span> 해주세요
 				</p>``
 			</div>
-<<<<<<< HEAD
-			</>
-			: null}
-
-			{/* 로그인 하지 않았다면 아래의 화면을 표시 */}
-			{isGuest ?
-			<div className="profile_please_login">
-				<img src={exclamationIcon} alt="프로필 사진"></img>
-				<p>
-					현재 <span style={{color: "blue"}}>로그인</span>상태가 아닙니다<br />
-					문제의 <span style={{color: "blue"}}>정답</span>을 확인하려면 <span style={{color: "blue"}}>로그인</span> 해주세요
-				</p>
-			</div>
-			: null}
-=======
-			: null}
-			
+			: null}			
 			{/* 프로필 삼각형 아이콘 */}
 			<div className="custom-shape-divider-bottom-1636245050">
         <svg
@@ -194,7 +174,6 @@ const TopProfile = ({quizData, userData, recommendHandler, isGuest}) => {
           ></path>
         </svg>
       </div>
->>>>>>> c1fd06aefb28da25c8003f66d224b8940e1e625b
 		</TopProfileWrapper>
 	);
 };  

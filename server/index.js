@@ -4,7 +4,7 @@ const cookieParser = require("cookie-parser");
 const app = express();
 
 const controllers = require("./controllers")
-const port = 80;
+const port = 4000;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -30,7 +30,7 @@ app.get('/users/info', controllers.info)  // GET으로 변경
 app.get('/users/rank', controllers.rank)
 app.delete('/users/deletequiz', controllers.userDeleteQuiz)
 // email auth API
-app.get('/confirmEmail', controllers.emailAuth)
+app.get('/confirmemail', controllers.emailAuth)
 
 // oauth API
 app.get('/auth/google', controllers.google)
@@ -56,7 +56,7 @@ app.get('/myitems', controllers.myItem)  // GET으로 변경
 // admin API
 app.post('/admin/signup', controllers.adminSignup)
 app.post('/admin/login', controllers.adminLogin)
-app.post('/admin/signout', controllers.adminSignout)
+app.get('/admin/signout', controllers.adminSignout)
 app.get('/approvalpage', controllers.approvalPage)  // GET으로 변경
 app.post('/approve', controllers.approve)
 app.delete('/admin/deletequiz', controllers.deleteQuiz)

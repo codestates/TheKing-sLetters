@@ -46,8 +46,12 @@ module.exports = async (req, res) => {
       updatedAt: adminInfo.updatedAt
     }
 
-    res.status(200)
-    .json({ data: { adminData: adminData, adminToken: accessToken }});
+    res.status(200).cookie("adminToken", accessToken, {
+      expires: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),
+      sameSite: 'None',
+      httpOnly: true,
+      secure: true,
+    }).json({ data: { adminData: adminData, adminToken: accessToken }});
   } else {
     res.status(401).send('Invalid user or Wrong password')
   }

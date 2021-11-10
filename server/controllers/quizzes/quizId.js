@@ -3,15 +3,14 @@ const { verify } = require('jsonwebtoken')
 
 module.exports = async (req, res) => {
   const id = req.query.quizid;
-  
-  const header = req.headers.authorization;
-  
-  if(header) {
-    const accessToken = header.split(' ')[1];
+
+  const cookie = req.cookies.accessToken
+
+  if(cookie) {
     let adminVerified
 
     try {
-      adminVerified = verify(accessToken, process.env.ADMIN_SECRET);
+      adminVerified = verify(cookie, process.env.ADMIN_SECRET);
 
       if(adminVerified) {
         const selectedQuiz = await quiz.findAll({

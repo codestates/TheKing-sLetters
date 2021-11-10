@@ -17,11 +17,11 @@ module.exports = async (req, res) => {
       where: { id: quizAnswer.answerContentId }
     })
 
-    const header = req.headers.authorization;
+    const cookie = req.cookies.accessToken
 
-    if(!header && realAnswer.correctAnswer === answer) {
+    if(!cookie && realAnswer.correctAnswer === answer) {
       res.status(200).json({ message: "correct answer! wanna signup?", comment: realAnswer.answerComment })
-    } else if(!header && realAnswer.correctAnswer !== answer) {
+    } else if(!cookie && realAnswer.correctAnswer !== answer) {
       res.status(200).json({ message: "incorrect answer!", comment: realAnswer.answerComment })
     }
 
@@ -50,10 +50,10 @@ module.exports = async (req, res) => {
     })
 
     const isCleared = clearedList.includes(quizId)
-  
+
     if(realAnswer.correctAnswer === answer && outUserData && !isCleared && !isPublished) {
       const point = selectedQuiz.rewardPoint
-      
+
       if(!accessTokenData) {
         res.status(404).send("you have to login")
       } else {

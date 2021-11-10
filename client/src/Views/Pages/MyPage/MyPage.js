@@ -17,13 +17,6 @@ axios.defaults.withCredentials = true;
 // 콘솔로그 표시 온오프
 const DEBUG_MODE = true;
 
-// axios 기본값 설정
-axios.defaults.baseURL = `https://api.thekingsletters.ml`;
-axios.defaults.withCredentials = true;
-
-// 콘솔로그 표시 온오프
-const DEBUG_MODE = true;
-
 //----------------첫번째 박스-----------------------------------
 const FirstBox = styled.div`
 display: flex;

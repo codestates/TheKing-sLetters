@@ -325,7 +325,7 @@ const ProblemQuizBox = ({ dataCategorySelect, myNote, UserName }) => {
 
   return (
     <ProblemQuizBoxContainer>
-      <h2 className="problem__box__quiz__title">{UserName.name}의 西齋</h2>
+      <h2 className="problem__box__quiz__title">{UserName.name}의 서재</h2>
       <ProblemBoxQuizizzContainer>
         {MyNoteQuiz.length === 0 ? allDisplay : displayContents}
         <ReactPaginate

@@ -10,6 +10,7 @@ import { fetchQuizData, refineQuizData, fetchSubmitAnswer, refineSubmitAnswer } 
 import pageLoadingIcon from "./Assets/loading-1.svg";
 import commentLoadingIcon from "./Assets/loading-2.svg";
 import lockIcon from './Assets/lock-1.svg';
+import Loading from '../../../Loading/Loading';
 
 const BOX_SHADOW = `
 	-moz-box-shadow: 0 1px 1px 0 #ccc;
@@ -115,6 +116,12 @@ const QuizSolve = ({match}) => {
 	const isCorrectAnswer = useRef({result: null, message: ''});
 	// 테스트 모드 온오프
 	const isTestModeOn = useRef(false);
+  const [isLoading, setIsLoading] = useState(true);
+  useEffect(() => {
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 3200);
+  }, []);
 
 	/* 유저 데이터 불러오기 */
 	useEffect(() => {
@@ -135,7 +142,7 @@ const QuizSolve = ({match}) => {
 			const refinedData = {
 				"name": rawData.name,
 				"image": rawData.image,
-				"rank": rawData.rank.toString(),
+				"ranking": rawData.rank.toString(),
 			};
 			// state에 저장
 			setUserData(refinedData);
@@ -172,12 +179,11 @@ const QuizSolve = ({match}) => {
 		initialFetchQuizDate();
   }, [quizId]);
 	
-	/* 유저 데이터와 퀴즈 데이터를 성공적으로 불러왔다면 페이지를 로드 */
+	/* 퀴즈 데이터를 성공적으로 불러왔다면 페이지를 로드 */
 	useEffect(() => {
-		if (userData && quizData) {
+		if (quizData)
 			setPageIsLoading(false);
-		}
-	}, [userData, quizData]);
+	}, [quizData]);
 
 	/* 정답을 제출하고 서버에서 데이터를 불러옴 */
 	const submitHandler = async () => {
@@ -231,51 +237,36 @@ const QuizSolve = ({match}) => {
 		});
 	};
 
-	const PageErrorMsgDisplay = () => {
-		if (errorList.loginError) {
-			return (
-				<p className="login_error_msg">로그인 정보가 없습니다<br></br>다시 로그인 해주세요</p>
-			);
-		} else if (errorList.quizError) {
-			return (
-				<p className="quiz_error_msg">퀴즈 데이터를 받아올 수 없습니다<br></br>잠시후 다시 시도해주세요</p>
-			);
-		} else {
-			return null;
-		}
-	};
-
-	const CommentErrorMsgDisplay = () => {
-		if (errorList.submitError) {
-			return (
-				<p className="sumit_error_msg">정답 데이터를 받아올 수 없습니다<br></br>잠시후 다시 시도해주세요</p>
-			);
-		} else {
-			return null;
-		}
-	};
-
 	return (
 		<QuizSolveContainer>
-			{errorList.loginError || errorList.quizError ?
+			{isLoading && <Loading />}
+			{/* 퀴즈를 불러올 수 없으면 아래의 메시지를 표시 */}
+			{errorList.quizError ?
 			<div className="page_error_message_container">
 				<img className="page_error_image" src={lockIcon} alt="자물쇠 아이콘"></img>
-				<PageErrorMsgDisplay />
+				<p className="quiz_error_msg">퀴즈 데이터를 받아올 수 없습니다<br></br>잠시후 다시 시도해주세요</p>
 			</div>
 			: null}
-			{pageIsLoading && !errorList.loginError && !errorList.quizError ? 
+
+			{/* 퀴즈를 불러오는 도중에는 아래의 로딩 아이콘을 표시 */}
+			{pageIsLoading && !errorList.quizError ? 
 			<img src={pageLoadingIcon} alt="로딩 아이콘" className="page_loading_icon"></img>
 			: null}
+
+			{/* 퀴즈를 불러왔으면 아래의 본문을 표시 */}
 			{!pageIsLoading ?
 			<>
-			<TopProfile quizData={quizData} userData={userData}></TopProfile>
+			<TopProfile quizData={quizData} userData={userData} isGuest={errorList.loginError}></TopProfile>
 			<QuizDisplay quizData={quizData}></QuizDisplay>
 			<AnswerDisplay quizData={quizData} selectedAnswer={selectedAnswer} setSelectedAnswer={setSelectedAnswer}></AnswerDisplay>
 			{!doneSubmit ?
-			<SubmitModal 
-				submitHandler={submitHandler}/>
+			<SubmitModal
+				submitHandler={submitHandler}
+				isGuest={errorList.loginError} />
 			: null}
-			<CommentErrorMsgDisplay />
+			{/* 정답 제출에 실패하면 아래의 메시지를 표시 */}
+			{errorList.submitError ? <p className="sumit_error_msg">정답 데이터를 받아올 수 없습니다<br></br>잠시후 다시 시도해주세요</p> : null}
+			{/* 정답 제출에 성공하면 아래의 해설을 표시 */}
 			{doneSubmit ? <CheckAnswer quizData={quizData} isCorrectAnswer={isCorrectAnswer.current}></CheckAnswer> : null}
 			{commentIsLoading ? <img src={commentLoadingIcon} alt="해설 로딩 아이콘" className="comment_loading_icon"></img> : null}
 			</>

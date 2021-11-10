@@ -8,6 +8,14 @@ import Modal6 from './RankModal'
 import DeleteApproveModal from './DeleteApproveModal';
 import { Link } from 'react-router-dom';
 import { useUserState } from "../../../context/UserContext";
+import Loading from '../../../Loading/Loading';
+
+// axios 기본값 설정
+axios.defaults.baseURL = `https://api.thekingsletters.ml`;
+axios.defaults.withCredentials = true;
+
+// 콘솔로그 표시 온오프
+const DEBUG_MODE = true;
 
 //----------------첫번째 박스-----------------------------------
 const FirstBox = styled.div`
@@ -249,7 +257,6 @@ const Li = styled.li`
 }
 
 /* ----------------------구매 내역------------------------ */
-
 > .purchasedContainer {
   display: flex;
   justify-content: space-between;
@@ -300,10 +307,34 @@ const Li = styled.li`
     text-align: center;
     font-size: 1rem;
   }
+
  
   }
 
   }
+}
+
+> .emptyPurchasedContainer {
+  display: block;
+  justify-content: space-between;
+  margin-bottom: 1em;
+  padding: 0;
+  max-height: 0;
+  background: rgba(209,213,218,0.5);
+  overflow: hidden;
+  transition: all .4s ease;
+  > div { 
+    overflow: auto;
+    display: flex;
+    padding: 1% 0 2% 0;
+    > .emptyUsedItem {
+      display: block;
+      margin: 0 auto;
+      margin-top: 2em;
+      margin-bottom: 2em;
+      font-size: 2em;
+    }
+}
 }
 
 /* ----------------------내가 만든 퀴즈---------------------- */
@@ -376,6 +407,30 @@ const Li = styled.li`
 }
 }
 
+> .emptyMadeQuizContainer {
+  display: block;
+  justify-content: space-between;
+  margin-bottom: 1em;
+  padding: 0;
+  /* max-height: 0; */
+  background: rgba(209,213,218,0.5);
+  overflow: hidden;
+  transition: all .4s ease;
+  > div { 
+    overflow: auto;
+    display: flex;
+    height: 100px;
+    padding: 1% 0 2% 0;
+    > .emptyMadeQuiz {
+      display: block;
+      margin: 0 auto;
+      margin-top: 1.5em;
+      margin-bottom: 1.5em;
+      font-size: 2em;
+    }
+  }
+}
+
 > .checkbox:checked ~ .itemListContainer {  
   height: auto;
   max-height: 600px;
@@ -386,7 +441,17 @@ const Li = styled.li`
   max-height: 600px;
   transition: max-height 0.5s linear 0.25s;
 }
+> .checkbox:checked ~ .emptyPurchasedContainer {  
+  height: auto;
+  max-height: 600px;
+  transition: max-height 0.5s linear 0.25s;
+}
 > .checkbox:checked ~ .madeQuizContainer {  
+  height: auto;
+  max-height: 600px;
+  transition: max-height 0.5s linear 0.25s;
+}
+> .checkbox:checked ~ .emptyMadeQuizContainer {  
   height: auto;
   max-height: 600px;
   transition: max-height 0.5s linear 0.25s;
@@ -413,74 +478,59 @@ const MyPage = (props) => {
   const [usedItems, setUsedItem] = useState([]);
   const [quiz, setQuiz] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   
   const deleteMyQuiz = async () => {
-    await axios.delete(`https://api.thekingsletters.ml/users/deletequiz?quizid=${selectedQuiz}`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('accessToken')}`
-      }
-    }).then( async () => {
-      await axios.get("https://api.thekingsletters.ml/mypublish", {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('accessToken')}`
-        } 
-      }).then((response)=> {
+    await axios.delete(`/users/deletequiz?quizid=${selectedQuiz}`)
+    .then( async () => {
+      await axios.get("/mypublish")
+      .then((response)=> {
         setQuiz(response.data.data.madeQuiz)
       })
     })
-  }
+  };
 
 
   useEffect(() => {
     if(userState.isUserLoggedIn) {
+      axios.get("/users/info")
+      // 로그인시 받은 토큰을 헤더에 담아 로그인 된상태고 get요청을 한 이유는 mypage에서 사용하기 위해  요청한 것  
+      .then((response) => {
+        setUserData({
+          email : response.data.data.userData.email,
+          name : response.data.data.userData.name,
+          image : response.data.data.userData.image,
+          mileage : response.data.data.userData.mileage,
+        })    
+      });
 
-  axios.get("https://api.thekingsletters.ml/users/info", {
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem('accessToken')}` // 로컬 브라우저에서 받은 토큰이다 //localStorage.getItem : 로컬 스토리지에 갖고 있는 값을 가지고 온 것
-    }
-    // 로그인시 받은 토큰을 헤더에 담아 로그인 된상태고 get요청을 한 이유는 mypage에서 사용하기 위해  요청한 것  
-  }).then(function(response) {
-    setUserData({
-      email : response.data.data.userData.email,
-      name : response.data.data.userData.name,
-      image : response.data.data.userData.image,
-      mileage : response.data.data.userData.mileage,
-    })    
-  })    
-  axios.get("https://api.thekingsletters.ml/mypublish", {
-  headers: {
-    Authorization: `Bearer ${localStorage.getItem('accessToken')}` // 로컬 브라우저에서 받은 토큰이다 //localStorage.getItem : 로컬 스토리지에 갖고 있는 값을 가지고 온 것
-  }
-  // 로그인시 받은 토큰을 헤더에 담아 로그인 된상태고 get요청을 한 이유는 mypage에서 사용하기 위해  요청한 것  
-}).then((response)=> {
-  setQuiz(response.data.data.madeQuiz)
-  console.log(response.data.data.madeQuiz)
-})
+      axios.get("/mypublish")
+      // 로그인시 받은 토큰을 헤더에 담아 로그인 된상태고 get요청을 한 이유는 mypage에서 사용하기 위해  요청한 것  
+      .then((response)=> {
+        setQuiz(response.data.data.madeQuiz)
+        DEBUG_MODE && console.log(response.data.data.madeQuiz)
+      });
 
-  axios.get("https://api.thekingsletters.ml/myitems" , {
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem('accessToken')}`
+      axios.get("/myitems")
+      .then((response) => {
+        setUsedItem(response.data.data.userData.user_usedItems);
+      });
+      
+      axios.get("/items/all")
+      .then((response) => {
+        DEBUG_MODE && console.log(response);
+        DEBUG_MODE && console.log(response.data.data.itemList);
+        setBuyItems(response.data.data.itemList);
+      });
     }
-  }).then((response) => {
-    setUsedItem(response.data.data.userData.user_usedItems);
-  }) 
-  
-  axios.get("https://api.thekingsletters.ml/items/all" , {
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem('accessToken')}`
-    }
-  }).then((response) => {
-    console.log(response);
-    console.log(response.data.data.itemList);
-    setBuyItems(response.data.data.itemList);
-  }) 
-  
-    }
-   
-  }, []);   
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 3200);
+  }, []);
 
     return (
       <>
+      {isLoading && <Loading />}
       {deleteCheckOpen && <DeleteApproveModal setDeleteCheckOpen={setDeleteCheckOpen} deleteMyQuiz={deleteMyQuiz} />}
       {modalOpen && <Modal6 setOpenModal={setModalOpen} />}
       <FirstBox>
@@ -527,17 +577,27 @@ const MyPage = (props) => {
             </label>
             <div className="itemListContainer" >
               <div className="buyItems">
-              {buyItems.map((el)=>(
-                <div className="buyItemsBox">
-                  <div className="itemImage">
-                    <Link to="/mileageshop" ><img src={el.itemImage} alt="items"/></Link>
+                {buyItems.length !== 0 ? (
+                  <>
+                  {buyItems.map((el)=>(
+                    <div className="buyItemsBox">
+                      <div className="itemImage">
+                        <Link to="/mileageshop" ><img src={el.itemImage} alt="items"/></Link>
+                      </div>
+                      <div className="itemName">{el.itemName}</div>
+                      <div className="cost">가격: {el.cost} 냥</div>
+                      <div className="quantity">재고: {el.quantity} 개</div>
+                      <div className="company">(주) {el.company}</div>
+                    </div>
+                  ))}
+                  </>
+                ) : (
+                  <>
+                  <div>
+                    상품이 존재하지 않습니다.
                   </div>
-                  <div className="itemName">{el.itemName}</div>
-                  <div className="cost">가격: {el.cost} 냥</div>
-                  <div className="quantity">재고: {el.quantity} 개</div>
-                  <div className="company">(주) {el.company}</div>
-                </div>
-              ))}
+                  </>
+                )}
               </div>               
             </div>
         </Li>
@@ -546,18 +606,28 @@ const MyPage = (props) => {
             <label className="tab" for="section-2-radio" id="section-2-tab">
                 <div className="purchase-history">구매 내역</div>
             </label>
-            <div className="purchasedContainer" id="section-2-panel">
+            <div className={usedItems.length !== 0 ? "purchasedContainer" : "emptyPurchasedContainer"} id="section-2-panel">
               <div className="usedItems">
-                {usedItems.map((el) => (
-                  <div className="itemBox">
-                  <img className="itemImage" src={el.usedItem.itemImage} alt="itemImg"></img>
-                  <div className="itemName">{el.usedItem.itemName}</div>
-                  <div className="company">(주) {el.usedItem.company}</div>
-                  <div className="deadline">사용기간: {el.usedItem.deadline}</div>
-                  <div className="barcodeNum">인증번호: {el.usedItem.barcodeNum}</div>
-                  </div>
-                ))
-                }
+                {usedItems.length !== 0 ? (
+                  <>
+                  {usedItems.map((el) => (
+                    <div className="itemBox">
+                    <img className="itemImage" src={el.usedItem.itemImage} alt="itemImg"></img>
+                    <div className="itemName">{el.usedItem.itemName}</div>
+                    <div className="company">(주) {el.usedItem.company}</div>
+                    <div className="deadline">사용기간: {el.usedItem.deadline}</div>
+                    <div className="barcodeNum">인증번호: {el.usedItem.barcodeNum}</div>
+                    </div>
+                  ))
+                  }
+                  </>
+                ) : (
+                  <>
+                    <div className="emptyUsedItem">
+                      상품이 존재하지 않습니다.
+                    </div>
+                  </>
+                )}
               </div>             
             </div>
         </Li>
@@ -566,19 +636,27 @@ const MyPage = (props) => {
             <label className="tab" for="section-3-radio" id="section-3-tab">
                 <div className="created-problem">내가 만든 문제</div>
             </label>
-            <div className="madeQuizContainer" id="section-3-panel">
+            <div className={quiz.length !== 0 ? "madeQuizContainer" : "emptyMadeQuizContainer"} id="section-3-panel">
               <div>
-                {quiz.map((el)=>
-                <div className="quizBox">
-                <button onClick={() => { setSelectedQuiz(el.id); setDeleteCheckOpen(true) }}>&times;</button>
-                  <div className="thumbnail">
-                    <Link to={`/quizsolve/${el.id}`}>
-                      <img  className="thumbnail__img" src={el.thumbnail} alt="thumbnail"></img> 
-                    </Link>
+                {quiz.length !== 0 ?
+                <>
+                  {quiz.map((el)=>
+                  <div className="quizBox">
+                    <button onClick={() => { setSelectedQuiz(el.id); setDeleteCheckOpen(true) }}>&times;</button>
+                      <div className="thumbnail">
+                        <Link to={`/quizsolve/${el.id}`}>
+                          <img  className="thumbnail__img" src={el.thumbnail} alt="thumbnail"></img> 
+                        </Link>
+                      </div>
+                    <div className="title">{el.title}</div>   
                   </div>
-                <div className="title">{el.title}</div>   
-              </div>
-                )}
+                  )}
+                </>
+                :
+                <>
+                  <Link to='/quizpost' className="emptyMadeQuiz">문제 만들러 가기</Link>
+                </>
+                }
               </div>
             </div>
         </Li>

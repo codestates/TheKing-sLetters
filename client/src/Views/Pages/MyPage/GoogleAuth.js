@@ -27,19 +27,18 @@ place-items: center;
 }
 `;
 
-const GithubAuth = () => {
+const GoogleAuth = (props) => {
   const dispatch = useUserDispatch();
   const [isExist, setIsExist] = useState(false);
 
-  useEffect( async () => {
+  useEffect(() => {
     const url = new URL(window.location.href)
+    console.log(url)
     if(url.searchParams.get('code')) {
       const authorizationCode = url.searchParams.get('code')
-      await axios.get(`https://api.thekingsletters.ml/auth/git?code=${authorizationCode}`)
+      axios.get(`https://api.thekingsletters.ml/auth/google?code=${authorizationCode}`)
       .then((res) => {
         const userData = res.data.data.userData;
-        const token = res.data.data.accessToken;
-        localStorage.setItem('accessToken', token);
         dispatch({type: "USER_LOGIN"});
         dispatch({
           type: "SET_USER_DATA",
@@ -71,4 +70,4 @@ const GithubAuth = () => {
       
   
 
-export default GithubAuth;
+export default GoogleAuth;

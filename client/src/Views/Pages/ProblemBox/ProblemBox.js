@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import ProblemBoxCategorySelect from './Components/ProblemCategorySelect';
 import ProblemQuizBox from './Components/ProblemQuizBox';
 import axios from 'axios';
+import Loading from '../../../Loading/Loading';
 
 const ProblemBoxContainer = styled.div`
   width: 100%;
@@ -19,7 +20,14 @@ const ProblemBox = () => {
   const [isLogin, setIsLogin] = useState(false);
   const [myNote, setMyNote] = useState([]);
   const [UserName, setUserName] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
+  useEffect(() => {
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 3200);
+  }, []);
+  
   useEffect(() => {
     getUserInfo();
   }, [isLogin]);
@@ -61,6 +69,7 @@ const ProblemBox = () => {
 
   return (
     <ProblemBoxContainer>
+      {isLoading && <Loading />}
       <ProblemBoxCategorySelect
         dataCategorySelect={dataCategorySelect}
         setDataCategorySelect={setDataCategorySelect}

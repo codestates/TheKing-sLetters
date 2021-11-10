@@ -1,7 +1,11 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import ReactPaginate from 'react-paginate';
 import axios from 'axios';
+
+// axios 기본값
+axios.defaults.baseURL = `https://api.thekingsletters.ml`;
+axios.defaults.withCredentials = true;
 
 const FindContentsContainer = styled.div`
   font-family: 'EBSHMJESaeronRA';
@@ -274,7 +278,6 @@ const UserInfo = styled.div`
 const FindContents = ({
   validQuiz,
   isLogin,
-  adminAccessToken,
   setValidQuiz,
 }) => {
   const deselectedOptions = [];
@@ -358,14 +361,9 @@ const FindContents = ({
   const deleteQuiz = async (value, i) => {
     if (isLogin) {
       await axios
-        .delete(
-          'http://ec2-13-209-96-200.ap-northeast-2.compute.amazonaws.com/admin/deletequiz',
-          {
-            data: { quizId: value },
-            headers: { authorization: `Bearer ${adminAccessToken}` },
-            withCredentials: true,
-          }
-        )
+        .delete('/admin/deletequiz', {
+          data: { quizId: value },
+        })
         .then(() => {
           const del = validQuiz.filter((el) => el.id !== value);
           setValidQuiz(del);

@@ -7,6 +7,8 @@ import { useUserState, useUserDispatch } from '../../context/UserContext';
 axios.defaults.baseURL = `https://api.thekingsletters.ml`;
 axios.defaults.withCredentials = true;
 
+const DEBUG_MODE = true;
+
 const ModalBackdrop = styled.div`
   /* css 부모로부터 상속 방지 */
   all: initial;
@@ -124,7 +126,7 @@ const SigninTitle = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  background-color: #5bb85d;
+  background-color: #8a9f99;
   > h1 {
     font-family: 'EBSHMJESaeronRA';
     color: white;
@@ -175,9 +177,6 @@ const SignInModal = ({isOpen, setIsOpen}) => {
       response = await axios.post(URL, PAYLOAD, OPTION);
       if (response.status === 200) {
         const data = response.data.data.adminData;
-        const token = response.data.data.adminToken;
-        localStorage.setItem('accessToken', token);
-        console.log(response);
         dispatch({type: "ADMIN_LOGIN"});
         dispatch({
           type: "SET_ADMIN_DATA",
@@ -192,32 +191,30 @@ const SignInModal = ({isOpen, setIsOpen}) => {
           }
         });
         modalOpenHandler();
+        window.location = "/";
       }
     } catch(error) {
       response = error.response;
       alert("이메일과 비밀번호를 확인하세요.");
     } finally {
-      console.log(response);
+      DEBUG_MODE && console.log(response);
     }
   };
 
   const logoutHandler = async () => {
     await axios
-      .get('/admin/signout', {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-        },
-      })
+      .get(`/admin/signout`)
       .then((response) => {
         if (response.status === 200) {
-          localStorage.removeItem('accessToken');
+          localStorage.removeItem('adminToken');
           dispatch({type: "ADMIN_LOGOUT"});
           dispatch({type: "SET_ADMIN_DATA_NULL"});
+          window.location = "/";
         }
-        console.log(response);
+        DEBUG_MODE && console.log(response);
       })
       .catch((response) => {
-        console.log(response);
+        DEBUG_MODE && console.log(response);
       });
   };
 

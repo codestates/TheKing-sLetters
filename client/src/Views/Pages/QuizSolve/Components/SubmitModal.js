@@ -1,5 +1,8 @@
 import styled from 'styled-components';
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState } from "react";
+
+// 모달 컨텍스트
+import { useModalDispatch } from '../../../../context/ModalContext';
 
 const ModalSubmitBackground = styled.div`
   position: fixed;
@@ -83,10 +86,17 @@ const ModalSubmitView = styled.div`
   }
 `;
 
-const ModalSubmit = ({submitHandler}) => {
+const ModalSubmit = ({submitHandler, isGuest}) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const modalDispatch = useModalDispatch();
+
   const modalOpenHandler = () => {
-    setIsModalOpen(!isModalOpen);
+    if (isGuest) {
+      window.scrollTo(0, 0);
+      modalDispatch({type: "MODAL_USER_SIGN_IN", value: true});
+    } else {
+      setIsModalOpen(!isModalOpen);
+    }
   };
   return (
     <>

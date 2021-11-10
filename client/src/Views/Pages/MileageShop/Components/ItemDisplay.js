@@ -39,10 +39,15 @@ const ItemContainerWrapper = styled.div`
   height: auto;
   /* flex 설정 */
   display: flex;
-  flex-wrap: wrap;
+  flex-flow: row wrap;
   justify-content: space-between;
-  gap: 2em;
+  gap: 2rem;
 
+  // space-between 마지막 공간 채우기
+  &::after {
+    content: '';
+    flex: 20em 0 1;
+  }
   > .item_container {
     position: relative;
     border: 1px solid rgba(0, 0, 0, 0.3);

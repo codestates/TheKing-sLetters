@@ -2,11 +2,13 @@ import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 import { useUserState } from '../../context/UserContext';
-import PleaseLogin from './SubModals/PleaseLogin';
-import { MessageResign } from './SubModals/MessageResign';
-import ResignSuccess from './SubModals/ResignSuccess';
+import PleaseLogin from './Components/PleaseLogin';
+import MessageResign from './Components/MessageResign';
+import ResignSuccess from './Components/ResignSuccess';
 import Upload from '../../functions/upload';
 
+
+const DEBUG_MODE = false;
 axios.defaults.baseURL = `https://api.thekingsletters.ml`;
 axios.defaults.withCredentials = true;
 
@@ -68,7 +70,7 @@ export const ModalView = styled.div`
 
   > .modal_title {
     color: #0a0a0a;
-    background-color: #5bb85d;
+    background-color: #8a9f99;
     color: white;
     font-size: 1.5em;
     font-weight: 600;
@@ -168,12 +170,19 @@ export const ModalView = styled.div`
     color: blueviolet;
     font-weight: 600;
   }
-  > .modal_form .button_container {
-    margin: 2em 0 1em 0;
+  > .button_container {
+    position: absolute;
+    width: 100%;
+    /* 가로축 중앙으로 */
+    left: 50%;
+    transform: translate(-50%, 0%);
+    /* 세로축 밑에서 살짝 위로 */
+    bottom: 30px;
     display: flex;
     justify-content: center;
+    align-items: center;
   }
-  > .modal_form .button_container .button_yes {
+  > .button_container .button_yes {
     width: 5em;
     height: 2em;
     margin: 0 0.5em 0 0.5em;
@@ -187,7 +196,7 @@ export const ModalView = styled.div`
       cursor: pointer;
     }
   }
-  > .modal_form .button_container .button_no {
+  > .button_container .button_no {
     width: 5em;
     height: 2em;
     margin: 0 0.5em 0 0.5em;
@@ -198,8 +207,6 @@ export const ModalView = styled.div`
     :hover {
       cursor: pointer;
     }
-  }
-  > .modal_form .button_container .button_resign {
   }
 `;
 
@@ -227,33 +234,6 @@ export const ModalView = styled.div`
   useEffect(() => {
     setModifiedUserInfo(initialValue);
   }, [isOpen]);
-
-  const resignHandler = async () => {
-    const URL = `/resign`;
-    const TOKEN = localStorage.getItem('accessToken');
-  
-    let response = null;
-    try {
-      response = await axios(URL, {
-        method: 'DELETE',
-        headers: {
-          'Authorization': `Bearer ${TOKEN}`,
-        },
-      });
-      console.log('DELETE /user/resign 요청에 성공했습니다.');
-    } catch(error) {
-      response = error.response;
-      console.log('DELETE /user/resign 요청에 실패했습니다.');
-    } finally {
-      // console.log(response);
-      // console.log('accessToken before: ', localStorage.getItem('accessToken'));
-      if (response.status === 200) {
-        localStorage.setItem('accessToken', '');
-        window.location.replace("/");
-        // console.log('accessToken after: ', localStorage.getItem('accessToken'));
-      }
-    }
-  }
 
   const inputUserInfoHandler = (e, tag) => {
     const inputValue = e.target.value;
@@ -308,7 +288,6 @@ export const ModalView = styled.div`
 
   const fetchUserInfo = async () => {
     const URL = `/users/edit`;
-    const TOKEN = localStorage.getItem('accessToken');
     const PAYLOAD = {
       email: modifiedUserInfo.email,
       name: modifiedUserInfo.name,
@@ -322,20 +301,16 @@ export const ModalView = styled.div`
       response = await axios(URL, {
         method: 'PATCH',
         data: PAYLOAD,
-        headers: {
-          'Authorization': `Bearer ${TOKEN}`,
-        },
       });
-      // console.log('PATCH /user/edit 요청에 성공했습니다.');
+      DEBUG_MODE && console.log('PATCH /user/edit 요청에 성공했습니다.');
       if (response.status === 201) {
-        const token = response.data.data.accessToken;
-        localStorage.setItem("accessToken", token);
+        DEBUG_MODE && console.log('이부분 수정')
       }
     } catch(error) {
       response = error.response;
-      // console.log('PATCH /user/edit 요청에 실패했습니다.');
+      DEBUG_MODE && console.log('PATCH /user/edit 요청에 실패했습니다.');
     } finally {
-      // console.log(response);
+      DEBUG_MODE && console.log(response);
     }
   };
 
@@ -508,14 +483,12 @@ export const ModalView = styled.div`
                 휴대폰 번호가 형식에 맞지 않습니다
                 </p>
             </div>
-            <div className="button_container">
+          </div>
+          <div className="button_container">
               <button className="button_yes" onClick={submitButtonHandler}>수정 완료</button>
               <button className="button_no" onClick={modalOpenHandler}>취소</button>
-              <div className="button_resign">
-                <MessageResign />
-              </div>
+              <MessageResign />
             </div>
-          </div>
           </>
         : null}
         </ModalView>

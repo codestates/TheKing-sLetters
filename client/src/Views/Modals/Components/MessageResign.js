@@ -6,15 +6,17 @@ import { useUserDispatch } from '../../../context/UserContext';
 axios.defaults.baseURL = `https://api.thekingsletters.ml`;
 axios.defaults.withCredentials = true;
 
+const DEBUG_MODE = true;
+
 /* 확인창 메시지 */
 const MsgShowUp = styled.div`
   font-family: 'EBSHMJESaeronRA';
   border: none;
   border-radius: 3px;
   background-color: rgba(211, 211, 211, 1);
-  width: 100%;
-  height: 20%;
-  padding: 10% 0 0 0;
+  width: 30rem;
+  height: 10rem;
+  padding: 5rem 0 0 0;
   color: black;
   text-align: center;
   /* 기본값 숨김 */
@@ -22,9 +24,12 @@ const MsgShowUp = styled.div`
   /* 메시지 위치 설정 */
   position: absolute;
   z-index: 501;
-  /* 밑에서 살짝 위로 */
-  bottom: -30px;
-  left: 0;
+  /* 가로축 중앙으로 */
+  left: 50%;
+  transform: translate(-50%, 0%);
+  /* 세로축 밑에서 살짝 위로 */
+  bottom: -5px;
+
   > p {
     font-size: 1em;
   }
@@ -63,14 +68,15 @@ const MsgShowUp = styled.div`
 `;
 
 const ModalBtn = styled.button`
-  width: 100%;
-  height: 100%;
+  position: absolute;
+  right: 3rem;
   background-color: transparent;
   text-decoration: none;
   border: none;
+  cursor: pointer;
 `;
 
-export const MessageResign = () => {
+const MessageResign = () => {
   const [isOpen, setIsOpen] = useState(false);
   // 유저 컨텍스트 불러오기
   const dispatch = useUserDispatch();
@@ -81,21 +87,13 @@ export const MessageResign = () => {
 
   const resignHandler = async () => {
     const URL = `/resign`;
-    const TOKEN = localStorage.getItem('accessToken');
-  
     let response = null;
     try {
       response = await axios(URL, {
         method: 'DELETE',
-        headers: {
-          'Authorization': `Bearer ${TOKEN}`,
-        },
       });
-      console.log('DELETE /resign 요청에 성공했습니다.');
-
+      DEBUG_MODE && console.log('DELETE /resign 요청에 성공했습니다.');
       if (response.status === 200) {
-        // 엑세스 토큰 삭제
-        localStorage.setItem('accessToken', '');
         // 로그아웃으로 state 변경
         dispatch({type: "USER_LOGOUT"});
         // 유저 정보 초기화
@@ -103,9 +101,9 @@ export const MessageResign = () => {
       }
     } catch(error) {
       response = error.response;
-      console.log('DELETE /resign 요청에 실패했습니다.');
+      DEBUG_MODE && console.log('DELETE /resign 요청에 실패했습니다.');
     } finally {
-      console.log(response);
+      DEBUG_MODE && console.log(response);
     }
   }
 
@@ -129,4 +127,6 @@ export const MessageResign = () => {
     : null}
     </>
   );
-}
+};
+
+export default MessageResign;

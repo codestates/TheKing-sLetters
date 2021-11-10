@@ -167,7 +167,7 @@ const TopProfile = ({ userData, isGuest }) => {
 				<img src={exclamationIcon} alt="느낌표 아이콘"></img>
 				<p>
 					현재 <span style={{color: "blue"}}>로그인</span>상태가 아닙니다<br />
-					문제의 <span style={{color: "blue"}}>정답</span>을 확인하려면 <span style={{color: "blue"}}>로그인</span> 해주세요
+					퀴즈를 <span style={{color: "blue"}}>등록</span>하시려면 <span style={{color: "blue"}}>로그인</span> 해주세요
 				</p>
 			</div>
       </>

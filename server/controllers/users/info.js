@@ -91,14 +91,9 @@ module.exports = async (req, res) => {
         createdAt: originUserData.createdAt,
         updatedAt: originUserData.updatedAt
       }
-      
-      // const accessToken = req.headers.cookie.split('=')[1].split(';')[0];
-      const header = req.headers.authorization;
-      const accessToken = header.split(' ')[1];
-  
-      // res.cookie('accessToken', accessToken)
+
       res.status(200)
-      .json({ data: { userData: userData, accessToken: accessToken } })
+      .json({ data: { userData: userData } })
     } else {
       res.status(401).send('invalid user')
     }

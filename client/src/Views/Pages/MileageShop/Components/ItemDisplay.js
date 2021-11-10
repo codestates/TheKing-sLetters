@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import React, { useState, useEffect } from 'react';
-import defaultImage from '../Assets/default_1.png';
+import defaultImage from '../Assets/default-1.png';
 
 const ItemDisplayWrapper = styled.div`
   font-family: 'EBSHMJESaeronRA';
@@ -41,17 +41,18 @@ const ItemContainerWrapper = styled.div`
   display: flex;
   flex-flow: row wrap;
   justify-content: space-between;
-  gap: 2rem;
+
 
   // space-between 마지막 공간 채우기
   &::after {
     content: '';
-    flex: 20em 0 1;
+    flex: 20rem 1 1;
   }
   > .item_container {
     position: relative;
     border: 1px solid rgba(0, 0, 0, 0.3);
     border-radius: 5px;
+    margin: 1rem;
     padding: 0.5% 0.5% 0.5% 0.5%;
     width: 20em;
     height: 33em;

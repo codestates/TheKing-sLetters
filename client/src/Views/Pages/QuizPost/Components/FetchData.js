@@ -1,23 +1,19 @@
 import axios from "axios";
 import UploadImage from "../../../../functions/upload";
 
+// axios 기본값
 axios.defaults.baseURL = `https://api.thekingsletters.ml`;
 axios.defaults.withCredentials = true;
 
 export const uploadData = async (data) => {
   const URL = `/quizzes/newQuiz`;
-  const TOKEN = localStorage.getItem('accessToken');
   const PAYLOAD = data;
-  if (!TOKEN) throw new Error('액세스 토큰을 찾을 수 없습니다');
   if (data === undefined) throw new Error('파라미터가 입력되지 않았습니다');
   let response = null;
   try {
     response = await axios(URL, {
       method: 'POST',
       data: PAYLOAD,
-      headers: {
-        'Authorization': `Bearer ${TOKEN}`,
-      },
     });
     return {status: 'success', message: 'successfully uploaded', response: response};
   } catch(error) {

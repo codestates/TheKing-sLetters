@@ -3,6 +3,10 @@ import styled from 'styled-components';
 import ReactPaginate from 'react-paginate';
 import axios from 'axios';
 
+// axios 기본값
+axios.defaults.baseURL = `https://api.thekingsletters.ml`;
+axios.defaults.withCredentials = true;
+
 const FindContentsContainer = styled.div`
   font-family: 'EBSHMJESaeronRA';
   width: 100%;
@@ -274,7 +278,6 @@ const UserInfo = styled.div`
 const FindContents = ({
   validQuiz,
   isLogin,
-  adminAccessToken,
   setValidQuiz,
 }) => {
   const deselectedOptions = [];
@@ -358,10 +361,8 @@ const FindContents = ({
   const deleteQuiz = async (value, i) => {
     if (isLogin) {
       await axios
-        .delete('https://api.thekingsletters.ml/admin/deletequiz', {
+        .delete('/admin/deletequiz', {
           data: { quizId: value },
-          headers: { authorization: `Bearer ${adminAccessToken}` },
-          withCredentials: true,
         })
         .then(() => {
           const del = validQuiz.filter((el) => el.id !== value);

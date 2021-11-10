@@ -1,9 +1,7 @@
 require('dotenv').config();
 
 const axios = require('axios');
-const model = require('../../models');
-const user = model.user
-const mileage = model.mileage
+const { user, mileage } = require('../../models');
 const { sign } = require('jsonwebtoken');
 
 module.exports = async (req, res) => {
@@ -14,6 +12,10 @@ console.log(req.query)
   console.log(authorizationCode)
   console.log(new Date)
 
+  if(!authorizationCode) {
+    res.status(404).send("please send the authorizarion code")
+  }
+
   //google
   const googleToken = await axios.post(`https://oauth2.googleapis.com/token?code=${authorizationCode}&client_id=${client_id}&client_secret=${secret_id}&redirect_uri=http://localhost:3000/auth/google&grant_type=authorization_code`)
   .catch((e) => {
@@ -23,8 +25,13 @@ console.log(req.query)
 
   const { access_token } = googleToken.data;
   const googleUserData = await axios.get(`https://www.googleapis.com/oauth2/v2/userinfo?access_token=${access_token}`)
+
+  .catch((e) => {
+    console.log(e)
+    res.status(404).json(e)
+  })
   const { id, email, picture } = googleUserData.data
-  let { name } = gitUserData.data
+  let { name } = googleUserData.data
 
   const userInfo = await user.findOne({
     include: [
@@ -52,7 +59,6 @@ console.log(req.query)
       const makeRandom = (min, max) => {
         return Math.floor(Math.random() * (max - min + 1)) + min;
       }
-  
       const randomNum = makeRandom(1111, 9999)
 
       name = `${name}-${randomNum}`
@@ -102,31 +108,43 @@ console.log(req.query)
 
     res.status(200).json({ data: { userData: userData, accessToken: accessToken } });
   } else {
-
     const userList = await user.findAll({
       include: [
         { model: mileage, attributes: ["mileage"] }
       ]
     })
 
+    const unlineupRankList = []
+    userList.map((user) => {
+      if(user.name !== "unknown") {
+        unlineupRankList.push({
+          id: user.id,
+          name: user.name,
+          image: user.image,
+          mileage: user.mileages[0].mileage
+        })
+      }
+    })
     const lineupUser = (userList) => {
       for (let i=0; i<userList.length; i++) {
-          let minIdx = i;
-          for (let j=i+1; j<userList.length; j++) {
-              if (userList[minIdx].mileages[0].mileage < userList[j].mileages[0].mileage) {
-                  minIdx = j
-              }
+        let minIdx = i;
+        for (let j=i+1; j<userList.length; j++) {
+          if (userList[minIdx].mileage < userList[j].mileage) {
+            minIdx = j
+          } else if (userList[minIdx].id > userList[j].id && userList[minIdx].mileage === userList[j].mileage) {
+            minIdx = j
           }
-          if (minIdx !== i) {
-              let temp = userList[minIdx];
-              userList[minIdx] = userList[i]
-              userList[i] = temp
-          }
+        }
+        if (minIdx !== i) {
+          let temp = userList[minIdx];
+          userList[minIdx] = userList[i]
+          userList[i] = temp
+        }
       }
       return userList
     }
 
-    const lineupUserList = lineupUser(userList)
+    const lineupUserList = lineupUser(unlineupRankList)
 
     const searchUser = (userList, userData) => {
       let left = 0;
@@ -134,12 +152,20 @@ console.log(req.query)
 
       while(left <= right) {
         let mid = parseInt((left + right) / 2)
-console.log(userList[mid])
-console.log(userData)
-        if(userList[mid].mileages[0].mileage === userData.mileages[0].mileage) {
+
+        if(userList[mid].mileage === userData.mileages[0].mileage && userList[mid].id === userData.id) {
           return mid+1;
         }
-        else if(userList[mid].mileages[0].mileage > userData.mileages[0].mileage) {
+        else if(userList[mid].mileage === userData.mileages[0].mileage && userList[mid].id !== userData.id) {
+          if(userList[mid].id < userData.id) {
+            left = mid + 1
+          }
+          else if(userList[mid].id > userData.id) {
+            right = mid - 1
+          }
+        }
+        else if(userList[mid].mileage > userData.mileages[0].mileage) {
+
           left = mid + 1;
         }
         else {
@@ -165,7 +191,12 @@ console.log(userData)
 
     const accessToken = sign(userData, process.env.ACCESS_SECRET, {expiresIn: '3d'});
 
-    res.status(200).json({ data: { userData: userData, accessToken: accessToken } });
+    res.status(200).cookie("accessToken", accessToken, {
+      expires: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),
+      sameSite: 'None',
+      secure: true,
+      path: '/',
+    }).json({ data: { userData: userData } });
   }
 }
 

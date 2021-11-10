@@ -10,9 +10,9 @@ module.exports = async (req, res) => {
     where: { verifyKey: req.query.key }
   })
 
-  
+
   if(!userData) {
-    res.status(404).send("Not verified")
+    res.status(400).send("invalid verify code")
   } else {
     await user.findOne({
       where: { verifyKey: req.query.key }

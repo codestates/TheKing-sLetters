@@ -44,19 +44,19 @@ module.exports = async (req, res) => {
 
     const lineupUser = (userList) => {
       for (let i=0; i<userList.length; i++) {
-          let minIdx = i;
-          for (let j=i+1; j<userList.length; j++) {
-              if (userList[minIdx].mileage < userList[j].mileage) {
-                  minIdx = j
-              } else if (userList[minIdx].id > userList[j].id && userList[minIdx].mileage === userList[j].mileage) {
-                minIdx = j
-              }
+        let minIdx = i;
+        for (let j=i+1; j<userList.length; j++) {
+          if (userList[minIdx].mileage < userList[j].mileage) {
+              minIdx = j
+          } else if (userList[minIdx].id > userList[j].id && userList[minIdx].mileage === userList[j].mileage) {
+            minIdx = j
           }
-          if (minIdx !== i) {
-              let temp = userList[minIdx];
-              userList[minIdx] = userList[i]
-              userList[i] = temp
-          }
+        }
+        if (minIdx !== i) {
+          let temp = userList[minIdx];
+          userList[minIdx] = userList[i]
+          userList[i] = temp
+        }
       }
       return userList
     }
@@ -70,10 +70,19 @@ module.exports = async (req, res) => {
       while(left <= right) {
         let mid = parseInt((left + right) / 2)
 
-        if(userList[mid].mileage === userData.mileages[0].mileage) {
+        if(userList[mid].mileage === userData.mileages[0].mileage && userList[mid].id === userData.id) {
           return mid+1;
         }
+        else if(userList[mid].mileage === userData.mileages[0].mileage && userList[mid].id !== userData.id) {
+          if(userList[mid].id < userData.id) {
+            left = mid + 1
+          }
+          else if(userList[mid].id > userData.id) {
+            right = mid - 1
+          }
+        }
         else if(userList[mid].mileage > userData.mileages[0].mileage) {
+
           left = mid + 1;
         }
         else {

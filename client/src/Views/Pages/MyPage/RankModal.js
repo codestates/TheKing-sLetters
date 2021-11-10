@@ -6,6 +6,13 @@ import RankModalImg from './RankModalImg.png'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faWindowClose } from "@fortawesome/free-solid-svg-icons";
 
+// axios 기본값
+axios.defaults.baseURL = `https://api.thekingsletters.ml`;
+axios.defaults.withCredentials = true;
+
+// 콘솔로그 표시 온오프
+const DEBUG_MODE = true;
+
 const ModalBackground = styled.div`
   position: fixed;
   z-index: 999;
@@ -167,7 +174,7 @@ top: 25px;
   border: none;
   border: 1px solid rgba(77, 109, 254, 0.9);
   background-color: rgba(77, 109, 254, 0.9);
-   
+ 
   color: white; 
   /* color: #f1f8e9; */
   border-radius: 8px;
@@ -200,7 +207,8 @@ const AppBox = styled.div`
 const Modal6 = ({ setOpenModal }) => {
   const [rank, setRank] = useState([]);
   const [limit, setLimit] = useState(7);
-  const [button, setButton] = useState(true)
+  const [button, setButton] = useState(true);
+
   useEffect(() => {  
        axios.get(`http://ec2-13-209-96-200.ap-northeast-2.compute.amazonaws.com/users/rank/?offset=0&limit=${limit}`, {
          headers: {
@@ -221,12 +229,16 @@ const Modal6 = ({ setOpenModal }) => {
         Authorization: `Bearer ${localStorage.getItem('accessToken')}`
       }
     }).then(function(response) {
+
      setRank(response.data.data.rankList);
      if(response.data.data.message) {
        setButton(false);
      }
-    })    
-   }, [limit]) //useEffect 를 한번 더 사용한 이유 
+    }).catch((err) => {
+      DEBUG_MODE && console.log(err);
+    });
+  }, [limit]) //useEffect 를 한번 더 사용한 이유 
+
   return (
     <ModalBackground>
       <div className="modalContainer">

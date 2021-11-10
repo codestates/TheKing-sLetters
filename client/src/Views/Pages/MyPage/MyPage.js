@@ -8,6 +8,14 @@ import Modal6 from './RankModal'
 import DeleteApproveModal from './DeleteApproveModal';
 import { Link } from 'react-router-dom';
 import { useUserState } from "../../../context/UserContext";
+import Loading from '../../../Loading/Loading';
+
+// axios 기본값 설정
+axios.defaults.baseURL = `https://api.thekingsletters.ml`;
+axios.defaults.withCredentials = true;
+
+// 콘솔로그 표시 온오프
+const DEBUG_MODE = true;
 
 //----------------첫번째 박스-----------------------------------
 const FirstBox = styled.div`
@@ -319,6 +327,7 @@ const Li = styled.li`
     overflow: auto;
     display: flex;
     padding: 5.5% 0 5.5% 0;
+ 
     > .emptyUsedItem {
       display: block;
       margin: 0 auto;
@@ -328,7 +337,8 @@ const Li = styled.li`
       color: #808e95;
     }
   }
-}
+    }
+
 
 /* ----------------------내가 만든 퀴즈---------------------- */
 
@@ -426,8 +436,8 @@ const Li = styled.li`
       color: #303030;
     }
     
+    }
   }
-}
 
 > .checkbox:checked ~ .itemListContainer {  
   height: auto;
@@ -476,74 +486,59 @@ const MyPage = (props) => {
   const [usedItems, setUsedItem] = useState([]);
   const [quiz, setQuiz] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   
   const deleteMyQuiz = async () => {
-    await axios.delete(`https://api.thekingsletters.ml/users/deletequiz?quizid=${selectedQuiz}`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('accessToken')}`
-      }
-    }).then( async () => {
-      await axios.get("https://api.thekingsletters.ml/mypublish", {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('accessToken')}`
-        } 
-      }).then((response)=> {
+    await axios.delete(`/users/deletequiz?quizid=${selectedQuiz}`)
+    .then( async () => {
+      await axios.get("/mypublish")
+      .then((response)=> {
         setQuiz(response.data.data.madeQuiz)
       })
     })
-  }
+  };
 
 
   useEffect(() => {
     if(userState.isUserLoggedIn) {
+      axios.get("/users/info")
+      // 로그인시 받은 토큰을 헤더에 담아 로그인 된상태고 get요청을 한 이유는 mypage에서 사용하기 위해  요청한 것  
+      .then((response) => {
+        setUserData({
+          email : response.data.data.userData.email,
+          name : response.data.data.userData.name,
+          image : response.data.data.userData.image,
+          mileage : response.data.data.userData.mileage,
+        })    
+      });
 
-  axios.get("https://api.thekingsletters.ml/users/info", {
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem('accessToken')}` // 로컬 브라우저에서 받은 토큰이다 //localStorage.getItem : 로컬 스토리지에 갖고 있는 값을 가지고 온 것
-    }
-    // 로그인시 받은 토큰을 헤더에 담아 로그인 된상태고 get요청을 한 이유는 mypage에서 사용하기 위해  요청한 것  
-  }).then(function(response) {
-    setUserData({
-      email : response.data.data.userData.email,
-      name : response.data.data.userData.name,
-      image : response.data.data.userData.image,
-      mileage : response.data.data.userData.mileage,
-    })    
-  })    
-  axios.get("https://api.thekingsletters.ml/mypublish", {
-  headers: {
-    Authorization: `Bearer ${localStorage.getItem('accessToken')}` // 로컬 브라우저에서 받은 토큰이다 //localStorage.getItem : 로컬 스토리지에 갖고 있는 값을 가지고 온 것
-  }
-  // 로그인시 받은 토큰을 헤더에 담아 로그인 된상태고 get요청을 한 이유는 mypage에서 사용하기 위해  요청한 것  
-}).then((response)=> {
-  setQuiz(response.data.data.madeQuiz)
-  console.log(response.data.data.madeQuiz)
-})
+      axios.get("/mypublish")
+      // 로그인시 받은 토큰을 헤더에 담아 로그인 된상태고 get요청을 한 이유는 mypage에서 사용하기 위해  요청한 것  
+      .then((response)=> {
+        setQuiz(response.data.data.madeQuiz)
+        DEBUG_MODE && console.log(response.data.data.madeQuiz)
+      });
 
-  axios.get("https://api.thekingsletters.ml/myitems" , {
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem('accessToken')}`
+      axios.get("/myitems")
+      .then((response) => {
+        setUsedItem(response.data.data.userData.user_usedItems);
+      });
+      
+      axios.get("/items/all")
+      .then((response) => {
+        DEBUG_MODE && console.log(response);
+        DEBUG_MODE && console.log(response.data.data.itemList);
+        setBuyItems(response.data.data.itemList);
+      });
     }
-  }).then((response) => {
-    setUsedItem(response.data.data.userData.user_usedItems);
-  }) 
-  
-  axios.get("https://api.thekingsletters.ml/items/all" , {
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem('accessToken')}`
-    }
-  }).then((response) => {
-    console.log(response);
-    console.log(response.data.data.itemList);
-    setBuyItems(response.data.data.itemList);
-  }) 
-  
-    }
-   
-  }, []);   
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 3200);
+  }, []);
 
     return (
       <>
+      {isLoading && <Loading />}
       {deleteCheckOpen && <DeleteApproveModal setDeleteCheckOpen={setDeleteCheckOpen} deleteMyQuiz={deleteMyQuiz} />}
       {modalOpen && <Modal6 setOpenModal={setModalOpen} />}
       <FirstBox>

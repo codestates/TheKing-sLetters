@@ -1,8 +1,12 @@
+// library
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import axios from 'axios';
+
+// modules
 import MileageDisplay from './Components/MileageDisplay';
 import ShoppingCart from './Components/ShoppingCart';
 import ItemDisplay from './Components/ItemDisplay';
-import React, { useState, useEffect, useRef } from 'react';
 import { useUserState } from '../../../context/UserContext';
 import Loading from '../../../Loading/Loading';
 
@@ -10,11 +14,14 @@ import {
   fetchItemsData,
   refineItemsData,
   fetchItemsBuy,
-  fetchMyItems,
-  refineMyItems,
+  // 내가 구매한 쿠폰 확인 임시 주석 처리
+  // fetchMyItems,
+  // refineMyItems,
 } from './Components/FetchData';
 import loadingIcon from './Assets/loading-1.svg';
 import lockIcon from './Assets/lock-1.svg';
+
+const DEBUG_MODE = true;
 
 const BOX_SHADOW = `
 	-moz-box-shadow: 0 1px 1px 0 #ccc;
@@ -218,7 +225,7 @@ const initialItems = [
   {
     uid: 'a1',
     name: '[스타벅스] 아이스 아메리카노',
-    image: 'https://i.ibb.co/xjs4zz8/18792f67a6.jpg',
+    image: '',
     qty: 5,
     price: 1000,
     selected: 0,
@@ -227,7 +234,7 @@ const initialItems = [
   {
     uid: 'b2',
     name: '[카페베네] 카라멜 마키야토',
-    image: 'https://i.ibb.co/xjs4zz8/18792f67a6.jpg',
+    image: '',
     qty: 5,
     price: 2000,
     selected: 0,
@@ -236,7 +243,7 @@ const initialItems = [
   {
     uid: 'c3',
     name: '[BHC] 뿌링클 치킨',
-    image: 'https://i.ibb.co/xjs4zz8/18792f67a6.jpg',
+    image: '',
     qty: 5,
     price: 3000,
     selected: 0,
@@ -245,7 +252,7 @@ const initialItems = [
   {
     uid: 'd4',
     name: '[파리바게트] 부드러운 생크림 케이크',
-    image: 'https://i.ibb.co/xjs4zz8/18792f67a6.jpg',
+    image: '',
     qty: 2,
     price: 4000,
     selected: 0,
@@ -254,7 +261,7 @@ const initialItems = [
   {
     uid: 'e5',
     name: '[파리바게트] 치즈 케이크',
-    image: 'https://i.ibb.co/xjs4zz8/18792f67a6.jpg',
+    image: '',
     qty: 4,
     price: 4000,
     selected: 0,
@@ -263,7 +270,7 @@ const initialItems = [
   {
     uid: 'f6',
     name: '[카페베네] 녹차 라떼',
-    image: 'https://i.ibb.co/xjs4zz8/18792f67a6.jpg',
+    image: '',
     qty: 4,
     price: 4000,
     selected: 0,
@@ -272,7 +279,7 @@ const initialItems = [
   {
     uid: 'g7',
     name: '[엔젤리너스] 스위트 아이스 아메리카노',
-    image: 'https://i.ibb.co/xjs4zz8/18792f67a6.jpg',
+    image: '',
     qty: 2,
     price: 4000,
     selected: 0,
@@ -281,7 +288,7 @@ const initialItems = [
   {
     uid: 'h8',
     name: '[엔젤리너스] 요거트 프라페',
-    image: 'https://i.ibb.co/xjs4zz8/18792f67a6.jpg',
+    image: '',
     qty: 1,
     price: 4000,
     selected: 0,
@@ -290,7 +297,7 @@ const initialItems = [
   {
     uid: 'i9',
     name: '[엔젤리너스] 초코 프라페',
-    image: 'https://i.ibb.co/xjs4zz8/18792f67a6.jpg',
+    image: '',
     qty: 2,
     price: 4000,
     selected: 0,
@@ -315,15 +322,25 @@ const MileageShop = () => {
   // 구매 확인창 modal
   const [confrimIsOpen, setConfirmIsOpen] = useState(false);
   // 구매 확인창 loading
-  const [isSubmitDone, setIsSubmitDone] = useState(true);
+  const [isSubmitLoading, setIsSubmitLoading] = useState(false);
   // 모달창 메시지 저장
-  const [modalMsgList, setModalMsgList] = useState({});
+  const [modalMsgList, setModalMsgList] = useState({submitError: false, submitSuccess: false, notEnoughPoint: false, cartIsEmpty: true, unhandledError: false});
   // 로그인 여부 저장
   const [userLoginSuccess, setUserLoginSuccess] = useState(false);
   // 유저 정보 state를 context에서 불러옴, 로그인 정보와 유저 정보가 담겨있음
   const userState = useUserState();
-  // 테스트 모드 온오프
+
+  // 체험 모드 온오프
   const [isTestModeOn, setIsTestModeOn] = useState(false);
+  // 구매 에러 여부 확인
+  const [isAnyError, setIsAnyError] = useState(false);
+
+  // 만약 구매하는데 에러가 발생하면 isAnyError를 true로 변경
+  useEffect(() => {
+    const result = Object.values(modalMsgList).filter((el) => el);
+    if (result.length === 0) setIsAnyError(false);
+    else setIsAnyError(true);
+  }, [modalMsgList]);
 
   /* 유저 데이터 불러오기 */
   useEffect(() => {
@@ -338,29 +355,42 @@ const MileageShop = () => {
     }
     // 유저가 로그인 한 상태라면
     if (userState.isUserLoggedIn) {
-      // context에서 유저 정보를 가져와서
-      const rawData = userState.userData;
-      // 가져온 유저 정보를 가공하고
-      const refinedData = {
-        name: rawData.name,
-        image: rawData.image,
-        rank: rawData.rank.toString(),
-        mileage: rawData.mileage,
-      };
-      // state에 저장
-      setUserInfo(refinedData);
-      // 화면을 표시
-      setUserLoginSuccess(true);
+      // 유저 데이터를 fetch하고
+      axios.get("/users/info")
+      .then((response) => {
+        const data = response.data.data.userData;
+        // 가져온 유저 정보를 가공하고
+        const refinedData = {
+          name: data.name,
+          image: data.image,
+          rank: data.rank.toString(),
+          mileage: data.mileage,
+        };
+        // state에 저장
+        setUserInfo(refinedData);
+        // 화면을 표시
+        setUserLoginSuccess(true);
+      })
+      .catch((err) => {
+        DEBUG_MODE && console.log(err);
+      });
     }
   }, [userState, isTestModeOn]);
 
   // 장바구니가 업데이트될 때 마다 합계 계산
   useEffect(() => {
+    // 메뉴에 표시될 합계를 저장
     const total = items.reduce((acc, cur) => {
       const cal = cur.price * cur.selected;
       return acc + cal;
     }, 0);
     setTotalPrice(total);
+
+    // 만약 카트가 비어있으면 카트가 비어있다고 저장
+    if (total === 0)
+      setModalMsgList((state) => ({...state, cartIsEmpty: true}));
+    else
+      setModalMsgList((state) => ({...state, cartIsEmpty: false}));
   }, [items]);
 
   // 쿠폰 정보 fetch
@@ -376,13 +406,13 @@ const MileageShop = () => {
       };
       getItemsFromServer();
     } catch (err) {
-      console.log(err);
+      DEBUG_MODE && console.log(err);
     }
   }, []);
 
   // 아이템 구매 요청 fetch
   const itemsBuyHandler = async () => {
-    setIsSubmitDone(false);
+    setIsSubmitLoading(true);
     let itemsToBuy = items.reduce((acc, cur) => {
       if (cur.selected !== 0)
         return [...acc, ...cur.items.slice(0, cur.selected)];
@@ -391,24 +421,36 @@ const MileageShop = () => {
     try {
       const sequence = async () => {
         const result = await fetchItemsBuy(itemsToBuy);
-        setModalMsgList((state) => ({
-          ...state,
-          submitSuccess: `성공적으로 쿠폰을 구매했습니다`,
-        }));
-        setTimeout(() => {
-          window.location.reload();
-        }, 2000);
-        console.log(result);
+        if (result === 'success') {
+          setModalMsgList((state) => ({
+            ...state,
+            submitSuccess: true,
+          }));
+          setTimeout(() => {
+            // window.location.reload();
+          }, 2000);
+        } else if (result === 'not enough point') {
+          setModalMsgList((state) => ({
+            ...state,
+            notEnoughPoint: true,
+          }));
+        } else {
+          setModalMsgList((state) => ({
+            ...state,
+            unhandledError: true,
+          }));
+        }
+        DEBUG_MODE && console.log(result);
       };
       await fetchManyTimes(2, 1000, sequence);
     } catch (err) {
       setModalMsgList((state) => ({
         ...state,
-        submitError: `서버와 연결할 수 없습니다`,
+        submitError: true,
       }));
-      console.log(err);
+      DEBUG_MODE && console.log(err);
     } finally {
-      setIsSubmitDone(true);
+      setIsSubmitLoading(false);
     }
   };
 
@@ -430,22 +472,22 @@ const MileageShop = () => {
     });
   };
 
-  // 내가 구매한 쿠폰 확인
-  const letsCheck = async () => {
-    try {
-      let raw = await fetchMyItems();
-      let refined = await refineMyItems(raw);
-      console.log(refined);
-    } catch (err) {
-      console.log(err);
-    }
-  };
+  // // 내가 구매한 쿠폰 확인 임시 주석 처리
+  // const letsCheck = async () => {
+  //   try {
+  //     let raw = await fetchMyItems();
+  //     let refined = await refineMyItems(raw);
+  //     DEBUG_MODE && console.log(refined);
+  //   } catch (err) {
+  //     DEBUG_MODE && console.log(err);
+  //   }
+  // };
 
-  // 모달창에 메시지가 있으면 출력
+  // 에러 메시지가 있으면 모달창에 출력
   const ModalMsgDisplay = () => {
-    let message = [];
+    let message = null;
     if (modalMsgList.submitError) {
-      message.push(
+      message = (
         <p
           key="submit_error_msg"
           className="submit_error_msg"
@@ -461,9 +503,8 @@ const MileageShop = () => {
           잠시 후 다시 시도해주세요
         </p>
       );
-    }
-    if (modalMsgList.submitSuccess) {
-      message.push(
+    } else if (modalMsgList.submitSuccess) {
+      message = (
         <p
           key="submit_success_msg"
           className="submit_success_msg"
@@ -479,12 +520,66 @@ const MileageShop = () => {
           마이페이지에서 확인하세요
         </p>
       );
-    }
+    } else if (modalMsgList.notEnoughPoint) {
+      message = (
+        <p
+          key="submit_success_msg"
+          className="submit_success_msg"
+          style={{
+            textAlign: 'center',
+            fontSize: '1.3rem',
+            fontFamily: 'EBSHMJESaeronRA',
+            letterSpacing: '3px',
+          }}
+        >
+          포인트가 부족합니다
+          <br />
+          문제를 풀고 포인트를 획득하세요
+        </p>
+      );
+    } else if (modalMsgList.cartIsEmpty) {
+      message = (
+        <p
+          key="submit_success_msg"
+          className="submit_success_msg"
+          style={{
+            textAlign: 'center',
+            fontSize: '1.3rem',
+            fontFamily: 'EBSHMJESaeronRA',
+            letterSpacing: '3px',
+          }}
+        >
+          장바구니가 비어있습니다
+        </p>
+      );
+    } else if (modalMsgList.unhandledError) {
+      message = (
+        <p
+          key="submit_success_msg"
+          className="submit_success_msg"
+          style={{
+            textAlign: 'center',
+            fontSize: '1.3rem',
+            fontFamily: 'EBSHMJESaeronRA',
+            letterSpacing: '3px',
+          }}
+        >
+          알 수 없는 에러입니다
+          <br />
+          관리자에게 문의하세요
+        </p>
+      );
+    };
     return message;
   };
 
   const ModalOpenHandler = () => {
-    setModalMsgList({});
+    setModalMsgList((state) => {
+      return {...state,
+              submitError: false,
+              submitSuccess: false,
+              notEnoughPoint: false,
+              unhandledError: false}});
     setConfirmIsOpen(!confrimIsOpen);
   };
 
@@ -498,9 +593,10 @@ const MileageShop = () => {
   return (
     <>
       {isLoading && <Loading />}
+
+      {/* 로그인이 안되어 있다면 표시 체험하기 모드 버튼 표시*/}
+      {!userLoginSuccess ?
       <MileageShopWrapper>
-        {/* 로그인이 안되어 있다면 표시 */}
-        {!userLoginSuccess ? (
         <div className="page_error_message_container">
           <img
             className="page_error_image"
@@ -516,66 +612,75 @@ const MileageShop = () => {
           </p>
           <p className="guest_mode_msg" onClick={() => setIsTestModeOn(true)}>체험하기</p>
         </div>
-        ) : null}
-
-        {/* 로그인이 되어있다면 마일리지샵 표시 */}
-        {userLoginSuccess ? (
-          <>
-            <MileageShopTitle>저잣거리</MileageShopTitle>
-            <MileageDisplay userInfo={userInfo} totalPrice={totalPrice} />
-            <ShoppingCart
-              items={items}
-              setItems={setItems}
-              totalPrice={totalPrice}
-            />
-            <ItemDisplay items={items} setItems={setItems} />
-            <MileageShopSubmit>
-              <button onClick={() => setConfirmIsOpen(!confrimIsOpen)}>
-                구매하기
-              </button>
-            </MileageShopSubmit>
-          </>
-        ) : null}
-        {/* 로그인이 되어있고 모달창 버튼을 클릭했을 경우 표시 */}
-        {userLoginSuccess && confrimIsOpen ? (
-          <ConfirmModalOverlay>
-            <ConfirmModalView>
-              <button className="modal_close_icon" onClick={ModalOpenHandler}>
-                &times;
-              </button>
-              {isSubmitDone && Object.keys(modalMsgList).length === 0 ? (
-                <>
-                  <p className="modal_confirm_msg">
-                    확인 버튼을 누르시면 구매가 완료됩니다
-                  </p>
-                  <div className="modal_button_container">
-                    <button
-                      className="modal_confirm_yes"
-                      onClick={itemsBuyHandler}
-                    >
-                      확인
-                    </button>
-                    <button
-                      className="modal_confirm_no"
-                      onClick={ModalOpenHandler}
-                    >
-                      취소
-                    </button>
-                  </div>
-                </>
-              ) : null}
-              {!isSubmitDone && Object.keys(modalMsgList).length === 0 ? (
-                <img
-                  className="modal_loading_icon"
-                  src={loadingIcon}
-                  alt="구매 로딩 이미지"
-                ></img>
-              ) : null}
-              {ModalMsgDisplay()}
-            </ConfirmModalView>
-          </ConfirmModalOverlay>
-        ) : null}
       </MileageShopWrapper>
+      : null}
+      
+      {/* 로그인이 되어있다면 마일리지샵 표시 */}
+      {userLoginSuccess ?
+      <MileageShopWrapper>
+          <MileageShopTitle>저잣거리</MileageShopTitle>
+          <MileageDisplay userInfo={userInfo} totalPrice={totalPrice} />
+          <ShoppingCart
+            items={items}
+            setItems={setItems}
+            totalPrice={totalPrice}
+          />
+          <ItemDisplay items={items} setItems={setItems} />
+          <MileageShopSubmit>
+            <button onClick={() => setConfirmIsOpen(!confrimIsOpen)}>
+              구매하기
+            </button>
+          </MileageShopSubmit>
+      </MileageShopWrapper>
+      : null}
+
+      {/* 구매하기 버튼을 클릭했을 경우 모달창 표시 */}
+      {confrimIsOpen ?
+      <ConfirmModalOverlay>
+        <ConfirmModalView>
+          <button className="modal_close_icon" onClick={ModalOpenHandler}>
+            &times;
+          </button>
+
+          {/* 구매 로딩중이 아니고 에러가 없을 경우 */}
+          {!isSubmitLoading && !isAnyError ?
+          <>
+          <p className="modal_confirm_msg">
+            확인 버튼을 누르시면 구매가 완료됩니다
+          </p>
+          <div className="modal_button_container">
+            <button
+              className="modal_confirm_yes"
+              onClick={itemsBuyHandler}
+            >
+              확인
+            </button>
+            <button
+              className="modal_confirm_no"
+              onClick={ModalOpenHandler}
+            >
+              취소
+            </button>
+          </div>
+          </>
+          : null}
+
+          {/* 구매 로딩중이고 에러가 없을 경우 */}
+          {isSubmitLoading && !isAnyError ?
+          <img
+            className="modal_loading_icon"
+            src={loadingIcon}
+            alt="구매 로딩 이미지">
+          </img>
+          : null}
+          
+          {/* 에러가 있을 경우 에러를 표시 */}
+          {isAnyError ?
+          <ModalMsgDisplay />
+          : null}
+        </ConfirmModalView>
+      </ConfirmModalOverlay>
+      : null}
     </>
   );
 };

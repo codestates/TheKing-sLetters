@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import deleteIcon from '../Assets/delete_1.png';
+import deleteIcon from '../Assets/delete-1.png';
 import shoppingCartIcon from '../Assets/shopping-cart-1.png';
 
 const ShoppingCartWrapper = styled.div`

@@ -25,6 +25,7 @@ console.log(req.query)
 
   const { access_token } = googleToken.data;
   const googleUserData = await axios.get(`https://www.googleapis.com/oauth2/v2/userinfo?access_token=${access_token}`)
+
   .catch((e) => {
     console.log(e)
     res.status(404).json(e)
@@ -58,7 +59,6 @@ console.log(req.query)
       const makeRandom = (min, max) => {
         return Math.floor(Math.random() * (max - min + 1)) + min;
       }
-
       const randomNum = makeRandom(1111, 9999)
 
       name = `${name}-${randomNum}`

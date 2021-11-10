@@ -54,7 +54,6 @@ const Post = () => {
   const [isReadyToSubmit, setIsReadyToSubmit] = useState(false);
   // 유저 정보 state를 context에서 불러옴, 로그인 정보와 유저 정보가 담겨있음
   const userState = useUserState();
-
   /* 유저 데이터 불러오기 */
   useEffect(() => {
     // 유저가 로그인 한 상태라면

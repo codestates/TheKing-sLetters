@@ -1,6 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
 import './ServiceIntro.scss';
+import QuizTest from './QuizTest.gif'
+import QuizMake from './QuizMake.gif'
+import QuizSave from './QuizSave.gif'
+import Mileage from './Mileage.gif'
 
 const ServiceIntroContainer = styled.div`
   display: flex;
@@ -245,7 +249,7 @@ const ServiceIntro = () => {
             onMouseOut={handleMouseOut1}
             src="https://cdn.discordapp.com/attachments/830706676852064307/901416133486333992/003.png"
             alt=""
-            data-animated="https://user-images.githubusercontent.com/85022657/137096188-09bfc7e8-a886-4ae1-9bd5-fe7c6f022b98.gif"
+            data-animated={QuizTest}
             data-static="https://cdn.discordapp.com/attachments/830706676852064307/901416133486333992/003.png"
             className="hov-ani1"
           />
@@ -257,7 +261,7 @@ const ServiceIntro = () => {
             onMouseOut={handleMouseOut2}
             src="https://cdn.discordapp.com/attachments/830706676852064307/901416130562887690/001.png"
             alt=""
-            data-animated="https://user-images.githubusercontent.com/85022657/137097843-48949e66-dcb5-491c-ae68-ae6894ea1e0f.gif"
+            data-animated={QuizMake}
             data-static="https://cdn.discordapp.com/attachments/830706676852064307/901416130562887690/001.png"
             className="hov-ani2"
           />
@@ -269,7 +273,7 @@ const ServiceIntro = () => {
             onMouseOut={handleMouseOut3}
             src="https://cdn.discordapp.com/attachments/830706676852064307/901416134874628136/002.png"
             alt=""
-            data-animated="https://i.ibb.co/2gm95K1/post-main-001-1-width-600px.gif"
+            data-animated={QuizSave}
             data-static="https://cdn.discordapp.com/attachments/830706676852064307/901416134874628136/002.png"
             className="hov-ani3"
           />
@@ -281,7 +285,7 @@ const ServiceIntro = () => {
             onMouseOut={handleMouseOut4}
             src="https://cdn.discordapp.com/attachments/830706676852064307/901776863947526144/004.png"
             alt=""
-            data-animated="https://user-images.githubusercontent.com/85022657/137097165-bad32b7c-05c8-479c-a082-346ec31a321d.gif"
+            data-animated={Mileage}
             data-static="https://cdn.discordapp.com/attachments/830706676852064307/901776863947526144/004.png"
             className="hov-ani4"
           />

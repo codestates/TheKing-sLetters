@@ -83,7 +83,6 @@ module.exports = async (req, res) => {
       const makeRandom = (min, max) => {
         return Math.floor(Math.random() * (max - min + 1)) + min;
       }
-
       const randomNum = makeRandom(1111, 9999)
 
       login = `${login}-${randomNum}`

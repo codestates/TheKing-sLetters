@@ -17,7 +17,7 @@ module.exports = async (req, res) => {
     })
 
     if(itemData.length <= 0) {
-      res.status(404).send("please select some items")
+      res.status(202).send("please select some items")
     }
     const itemIdList = [];
     await item.findAll({
@@ -31,7 +31,7 @@ module.exports = async (req, res) => {
     
     itemData.map((itemId) => {
       if(!itemIdList.includes(itemId)){
-        res.status(404).send("item dosen't exist")
+        res.status(202).send("item dosen't exist")
       }
     })
 
@@ -47,7 +47,7 @@ module.exports = async (req, res) => {
 
 
     if(!purchasedItems) {
-      res.status(404).send("item dosen't exist")
+      res.status(202).send("item dosen't exist")
     }else if (userData.mileages[0].mileage >= overallPrice) {
       itemData.map( async (itemId) => {
 
@@ -86,7 +86,7 @@ module.exports = async (req, res) => {
 
       res.status(200).send("successfully purchased")
     } else {
-      res.status(404).send("not enough point")
+      res.status(202).send("not enough point")
     }
 
 

@@ -45,7 +45,7 @@ console.log(req.body)
 
     let emailTemplete;
     //url
-    const url = 'http://' + req.get('host')+'/confirmEmail'+'?key='+verifyKey;
+    const url = 'http://' + req.get('host')+'/confirmemail'+'?key='+verifyKey;
     ejs.renderFile(appDir+'/controllers/users/template/mail.ejs', {url : url, name: name}, function (err, data) {
       if(err){console.log(err)}
       emailTemplete = data;

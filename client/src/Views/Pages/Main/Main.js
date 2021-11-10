@@ -4,7 +4,7 @@ import MainHot from './Components/MainHot';
 import MainCategorySelect from './Components/MainCategorySelect';
 import MainQuiz from './Components/MainQuiz';
 import axios from 'axios';
-import Loading from '../../../Loading/Loading'
+import Loading from '../../../Loading/Loading';
 
 const MainContainer = styled.div`
   width: 100%;
@@ -21,20 +21,17 @@ const Main = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    setTimeout(()=> {
+    setTimeout(() => {
       setIsLoading(false);
-    }, 1500)
+    }, 3200)
     getMainHotQuiz();
   }, []);
 
   const getMainHotQuiz = async () => {
     await axios
-      .get(
-        'http://ec2-13-209-96-200.ap-northeast-2.compute.amazonaws.com/quizzes',
-        {
-          withCredentials: true,
-        }
-      )
+      .get('https://api.thekingsletters.ml/quizzes', {
+        withCredentials: true,
+      })
       .then((res) => {
         setMainHotData(res.data.data.quizList);
       });
@@ -42,7 +39,7 @@ const Main = () => {
 
   return (
     <MainContainer>
-      {isLoading && <Loading/>}
+      {isLoading && <Loading />}
       <MainHot MainHotData={MainHotData} />
       <MainCategorySelect
         dataCategorySelect={dataCategorySelect}

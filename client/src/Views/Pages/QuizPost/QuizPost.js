@@ -11,6 +11,7 @@ import { vaildCheckAll } from './Components/VaildCheck';
 import { uploadData, refineData } from './Components/FetchData';
 import defaultProfileIcon from './Assets/profile-1.png';
 import lockIcon from './Assets/lock-1.svg';
+import Loading from '../../../Loading/Loading';
 
 const BOX_SHADOW = `
 	-moz-box-shadow: 0 1px 1px 0 #ccc;
@@ -69,6 +70,12 @@ const Post = () => {
   const [isReadyToSubmit, setIsReadyToSubmit] = useState(false);
   // 유저 정보 state를 context에서 불러옴, 로그인 정보와 유저 정보가 담겨있음
   const userState = useUserState();
+  const [isLoading, setIsLoading] = useState(true);
+  useEffect(() => {
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 3200);
+  }, []);
 
   /* 유저 데이터 불러오기 */
   useEffect(() => {
@@ -140,6 +147,7 @@ const Post = () => {
 
   return (
     <QuizPostContainer>
+      {isLoading && <Loading />}
       <TopProfile
         userData={userData}
         isGuest={!userState.isUserLoggedIn}

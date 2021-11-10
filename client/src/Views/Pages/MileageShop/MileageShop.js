@@ -587,8 +587,8 @@ const MileageShop = () => {
   useEffect(() => {
     setTimeout(() => {
       setIsLoading(false);
-    }, 1000);
-  });
+    }, 3200);
+  }, []);
 
   return (
     <>

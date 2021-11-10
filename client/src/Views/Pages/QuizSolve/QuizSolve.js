@@ -10,6 +10,7 @@ import { fetchQuizData, refineQuizData, fetchSubmitAnswer, refineSubmitAnswer } 
 import pageLoadingIcon from "./Assets/loading-1.svg";
 import commentLoadingIcon from "./Assets/loading-2.svg";
 import lockIcon from './Assets/lock-1.svg';
+import Loading from '../../../Loading/Loading';
 
 const BOX_SHADOW = `
 	-moz-box-shadow: 0 1px 1px 0 #ccc;
@@ -115,6 +116,12 @@ const QuizSolve = ({match}) => {
 	const isCorrectAnswer = useRef({result: null, message: ''});
 	// 테스트 모드 온오프
 	const isTestModeOn = useRef(false);
+  const [isLoading, setIsLoading] = useState(true);
+  useEffect(() => {
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 3200);
+  }, []);
 
 	/* 유저 데이터 불러오기 */
 	useEffect(() => {
@@ -232,6 +239,7 @@ const QuizSolve = ({match}) => {
 
 	return (
 		<QuizSolveContainer>
+			{isLoading && <Loading />}
 			{/* 퀴즈를 불러올 수 없으면 아래의 메시지를 표시 */}
 			{errorList.quizError ?
 			<div className="page_error_message_container">

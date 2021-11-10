@@ -210,26 +210,20 @@ const Modal6 = ({ setOpenModal }) => {
   const [button, setButton] = useState(true);
 
   useEffect(() => {  
-       axios.get(`http://ec2-13-209-96-200.ap-northeast-2.compute.amazonaws.com/users/rank/?offset=0&limit=${limit}`, {
-         headers: {
-           Authorization: `Bearer ${localStorage.getItem('accessToken')}` // 로컬 브라우저에서 받은 토큰이다 //localStorage.getItem : 로컬 스토리지에 갖고 있는 값을 가지고 온 것
-         }
-       }).then(function(response) {
-        setRank(response.data.data.rankList);
-       })    
-    
-   }, []); 
+    axios.get(`/users/rank/?offset=0&limit=${limit}`
+    ).then((response)  => {
+      setRank(response.data.data.rankList);
+    }).catch((err) => {
+      DEBUG_MODE && console.log(err);
+    });
+   }, []);
 
    const moreData = () => {    
     setLimit(limit + 3)    
    }
    useEffect(() => {
-    axios.get(`http://ec2-13-209-96-200.ap-northeast-2.compute.amazonaws.com/users/rank/?offset=0&limit=${limit}`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('accessToken')}`
-      }
-    }).then(function(response) {
-
+    axios.get(`/users/rank/?offset=0&limit=${limit}`
+    ).then((response) => {
      setRank(response.data.data.rankList);
      if(response.data.data.message) {
        setButton(false);

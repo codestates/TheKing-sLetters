@@ -5,6 +5,13 @@ import axios from 'axios';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faWindowClose } from "@fortawesome/free-solid-svg-icons";
 
+// axios 기본값
+axios.defaults.baseURL = `https://api.thekingsletters.ml`;
+axios.defaults.withCredentials = true;
+
+// 콘솔로그 표시 온오프
+const DEBUG_MODE = true;
+
 const ModalBackground = styled.div`
   position: fixed;
   z-index: 999;
@@ -147,33 +154,33 @@ const AppBox = styled.div`
 const Modal6 = ({ setOpenModal }) => {
   const [rank, setRank] = useState([]);
   const [limit, setLimit] = useState(7);
-  const [button, setButton] = useState(true)
-  useEffect(() => {  
-       axios.get(`http://ec2-13-209-96-200.ap-northeast-2.compute.amazonaws.com/users/rank/?offset=0&limit=${limit}`, {
-         headers: {
-           Authorization: `Bearer ${localStorage.getItem('accessToken')}` // 로컬 브라우저에서 받은 토큰이다 //localStorage.getItem : 로컬 스토리지에 갖고 있는 값을 가지고 온 것
-         }
-       }).then(function(response) {
-        setRank(response.data.data.rankList);
-       })    
-    
-   }, []); 
+  const [button, setButton] = useState(true);
 
-   const moreData = () => {    
+  useEffect(() => {  
+    axios.get(`/users/rank/?offset=0&limit=${limit}`
+    ).then((response)  => {
+      setRank(response.data.data.rankList);
+    }).catch((err) => {
+      DEBUG_MODE && console.log(err);
+    });
+   }, []);
+
+  const moreData = () => {    
     setLimit(limit + 3)    
-   }
-   useEffect(() => {
-    axios.get(`http://ec2-13-209-96-200.ap-northeast-2.compute.amazonaws.com/users/rank/?offset=0&limit=${limit}`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('accessToken')}`
-      }
-    }).then(function(response) {
+  }
+
+  useEffect(() => {
+    axios.get(`/users/rank/?offset=0&limit=${limit}`
+    ).then((response) => {
      setRank(response.data.data.rankList);
      if(response.data.data.message) {
        setButton(false);
      }
-    })    
-   }, [limit]) //useEffect 를 한번 더 사용한 이유 
+    }).catch((err) => {
+      DEBUG_MODE && console.log(err);
+    });
+  }, [limit]) //useEffect 를 한번 더 사용한 이유 
+
   return (
     <ModalBackground>
       <div className="modalContainer">

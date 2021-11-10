@@ -4,48 +4,38 @@ import FindContents from './Components/FindContents';
 import axios from 'axios';
 import { useUserState } from '../../../context/UserContext';
 
+// axios 기본값
+axios.defaults.baseURL = `https://api.thekingsletters.ml`;
+axios.defaults.withCredentials = true;
+
 const AdminPage = () => {
   const userState = useUserState();
   const isLogin = userState.isAdminLoggedIn;
-  const [adminAccessToken, setAdminAccessToken] = useState('');
   const [validQuiz, setValidQuiz] = useState([]);
   const [invalidQuiz, setInValidQuiz] = useState([]);
 
   useEffect(() => {
-    if (isLogin) {
-      setAdminAccessToken(localStorage.getItem('adminToken'));
-    }
-  }, []);
-
-  useEffect(() => {
-    if (adminAccessToken) {
-      const getApproveQuiz = async () => {
-        await axios
-          .get('https://api.thekingsletters.ml/approvalpage', {
-            headers: { authorization: `Bearer ${adminAccessToken}` },
-            withCredentials: true,
-          })
-          .then((res) => {
-            setInValidQuiz(res.data.data.invalidQuizList);
-            setValidQuiz(res.data.data.validQuizList);
-          });
-      };
-      getApproveQuiz();
-    }
-  }, [adminAccessToken]);
+    const getApproveQuiz = async () => {
+      await axios
+        .get('/approvalpage')
+        .then((res) => {
+          setInValidQuiz(res.data.data.invalidQuizList);
+          setValidQuiz(res.data.data.validQuizList);
+        });
+    };
+    getApproveQuiz();
+  }, [isLogin]);
 
   return (
     <div>
       <QuizManagement
         isLogin={isLogin}
-        adminAccessToken={adminAccessToken}
         invalidQuiz={invalidQuiz}
         setInValidQuiz={setInValidQuiz}
       />
       <FindContents
         validQuiz={validQuiz}
         isLogin={isLogin}
-        adminAccessToken={adminAccessToken}
         setValidQuiz={setValidQuiz}
       />
     </div>

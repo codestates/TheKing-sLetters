@@ -38,8 +38,6 @@ const GithubAuth = () => {
       await axios.get(`https://api.thekingsletters.ml/auth/git?code=${authorizationCode}`)
       .then((res) => {
         const userData = res.data.data.userData;
-        const token = res.data.data.accessToken;
-        localStorage.setItem('accessToken', token);
         dispatch({type: "USER_LOGIN"});
         dispatch({
           type: "SET_USER_DATA",

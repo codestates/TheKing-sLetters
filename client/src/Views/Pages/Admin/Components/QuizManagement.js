@@ -5,6 +5,10 @@ import { faHeart } from '@fortawesome/free-regular-svg-icons';
 import ReactPaginate from 'react-paginate';
 import axios from 'axios';
 
+// axios 기본값
+axios.defaults.baseURL = `https://api.thekingsletters.ml`;
+axios.defaults.withCredentials = true;
+
 const QuizManagementContainer = styled.div`
   font-family: 'EBSHMJESaeronRA';
   width: 100%;
@@ -293,7 +297,6 @@ const Quizizz = styled.div`
 
 const QuizManagement = ({
   isLogin,
-  adminAccessToken,
   invalidQuiz,
   setInValidQuiz,
 }) => {
@@ -333,10 +336,8 @@ const QuizManagement = ({
   const deleteQuiz = async (value) => {
     if (isLogin) {
       await axios
-        .delete('https://api.thekingsletters.ml/admin/deletequiz', {
+        .delete('/admin/deletequiz', {
           data: { quizId: value },
-          headers: { authorization: `Bearer ${adminAccessToken}` },
-          withCredentials: true,
         })
         .then(() => {
           const del = invalidQuiz.filter((el) => el.id !== value);
@@ -430,10 +431,8 @@ const QuizManagement = ({
     if (isLogin) {
       axios({
         method: 'post',
-        url: 'https://api.thekingsletters.ml/approve',
+        url: '/approve',
         data: { quizzes: filtered },
-        headers: { authorization: `Bearer ${adminAccessToken}` },
-        withCredentials: true,
       });
 
       if (filtered.length === 1) {

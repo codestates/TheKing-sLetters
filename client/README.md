@@ -110,9 +110,9 @@
 
 <br>
 
-# UI Design
+# Final App View
 
-[Full UI Design Link](https://github.com/codestates/TheKing-sLetters/wiki/Final-App-View)
+[Full Final App View Link](https://github.com/codestates/TheKing-sLetters/wiki/Final-App-View)
 
 <br>
 
@@ -178,6 +178,14 @@
 <br>
 <br>
 
+# Flow Chart
+
+- Frontend
+- Backend
+
+<br>
+<br>
+
 # System Architecture
 
 [System Architecture](https://github.com/codestates/TheKing-sLetters/wiki/System-Architecture)
@@ -189,4 +197,4 @@
 
 # Need More Information?
 
-[Check out FourmenAir wiki page!](https://github.com/codestates/FourmenAir/wiki)
+[Check out TheKing-sLetters wiki page!](https://github.com/codestates/TheKing-sLetters/wiki)

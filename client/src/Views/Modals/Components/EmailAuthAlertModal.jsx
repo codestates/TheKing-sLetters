@@ -10,15 +10,15 @@ const EmailAuthAlertModalWrapper = styled.div`
   flex-direction: column;
   align-items: center;
   > .mail_icon {
-    width: 8em;
-    height: 8em;
-    margin: 2em 0 2em 0;
+    width: 8rem;
+    height: 8rem;
+    margin: 4rem 0 2rem 0;
   }
   > .close_button_top {
     position: absolute;
     right: 0.3em;
     top: 0.3em;
-    font-size: 1.3em;
+    font-size: 1.3rem;
     font-weight: 800;
     color: black;
     :hover {
@@ -27,12 +27,12 @@ const EmailAuthAlertModalWrapper = styled.div`
   }
   > .close_button_bottom {
     position: absolute;
-    bottom: 2em;
-    width: 10em;
-    height: 3em;
+    bottom: 2rem;
+    width: 10rem;
+    height: 3rem;
     border-radius: 5px;
     box-shadow: 0 1px 6px 0 rgba(32, 33, 36, .28);
-    font-size: 1em;
+    font-size: 1rem;
     font-weight: 600;
     :hover {
       cursor: pointer;

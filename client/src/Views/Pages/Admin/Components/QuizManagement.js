@@ -333,14 +333,11 @@ const QuizManagement = ({
   const deleteQuiz = async (value) => {
     if (isLogin) {
       await axios
-        .delete(
-          'http://ec2-13-209-96-200.ap-northeast-2.compute.amazonaws.com/admin/deletequiz',
-          {
-            data: { quizId: value },
-            headers: { authorization: `Bearer ${adminAccessToken}` },
-            withCredentials: true,
-          }
-        )
+        .delete('https://api.thekingsletters.ml/admin/deletequiz', {
+          data: { quizId: value },
+          headers: { authorization: `Bearer ${adminAccessToken}` },
+          withCredentials: true,
+        })
         .then(() => {
           const del = invalidQuiz.filter((el) => el.id !== value);
           setInValidQuiz(del);
@@ -433,7 +430,7 @@ const QuizManagement = ({
     if (isLogin) {
       axios({
         method: 'post',
-        url: 'http://ec2-13-209-96-200.ap-northeast-2.compute.amazonaws.com/approve',
+        url: 'https://api.thekingsletters.ml/approve',
         data: { quizzes: filtered },
         headers: { authorization: `Bearer ${adminAccessToken}` },
         withCredentials: true,

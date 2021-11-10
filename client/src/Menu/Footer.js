@@ -1,7 +1,6 @@
-import React, {useState} from 'react';
+import React from 'react';
 import styled from 'styled-components';
-
-import MasterLoginModal from '../Views/Modals/MasterLoginModal';
+// 유저 컨텍스트
 
 const FooterContainer = styled.div`
   display: flex;
@@ -11,10 +10,14 @@ const FooterContainer = styled.div`
   padding: 8px 20px;
   font-family: 'EBSHunminjeongeumSBA';
 
-  > .masterLogin{
-    position: relative;
-    left: 15px;
+  > .masterLogin .modal_button button {
+    font-family: 'EBSHunminjeongeumSBA';
+    padding: 8px 18px;
+    transition: all 0.4s ease;
+  }
+  > .masterLogin .modal_button button:hover {
     cursor: pointer;
+    color: #fafafa;
   }
 
   > .footer__logo {
@@ -24,19 +27,6 @@ const FooterContainer = styled.div`
     }
   }
 
-  > .footer__admin {
-    font-family: 'EBSHMJESaeronRA';
-    letter-spacing: -1px;
-    font-size: 1.1em;
-    color: #fafafa;
-    padding: 8px 12px;
-    background-color: transparent;
-    cursor: pointer;
-    transition: all 0.3s;
-  }
-  > .footer__admin:hover {
-    color: #303030;
-  }
   @media (max-width: 768px) {
     > .footer__logo {
       font-size: 1.5em;
@@ -67,21 +57,14 @@ const FooterGithub = styled.ul`
 `;
 
 const Footer = () => {
-  const [loginOpen, setLoginOpen] = useState(false)
-  
-  const openModalHandler = () => {
-    setLoginOpen(!loginOpen);
-  };
-
   return (
-    
     <FooterContainer>
       <div className="footer__logo">
         <a>나랏말싸미</a>
       </div>
-        <li className="masterLogin" onClick={openModalHandler}>
-          {loginOpen === false ? '관리자 로그인' : '관리자 로그인'}
-        </li> 
+      <li className="masterLogin">
+        <div className="modal_button" id="modal_admin_signin"></div>
+      </li>
       <FooterGithub>
         <li className="footer__user">
           <a href="https://github.com/yonghk423">김용희</a>
@@ -96,11 +79,6 @@ const Footer = () => {
           <a href="https://github.com/otter9459">이정훈</a>
         </li>
       </FooterGithub>
-      <MasterLoginModal className="footer__admin" 
-      isOpen={loginOpen} 
-      openModalHandler={openModalHandler}
-      setLoginOpen={setLoginOpen} 
-      />
     </FooterContainer>
   );
 };

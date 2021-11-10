@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { useUserState } from '../context/UserContext';
 
 const AdminBar = styled.div`
   font-family: 'EBSHunminjeongeumSBA';
@@ -33,7 +34,9 @@ const AdminBarUser = styled.div`
   }
 `;
 
-const AdminHeader = ({ adminInfo }) => {
+const AdminHeader = () => {
+  const userState = useUserState();
+
   return (
     <>
       <AdminBar>
@@ -41,7 +44,7 @@ const AdminHeader = ({ adminInfo }) => {
           <span>나랏말싸미</span>
         </div>
         <AdminBarUser className="admin">
-          관리자: <span>{adminInfo.name}</span>
+          관리자: <span>{userState.adminData.name}</span>
         </AdminBarUser>
       </AdminBar>
     </>

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
-import EmailAuthAlertModal from './SubModals/EmailAuthAlertModal'
+import EmailAuthAlertModal from './Components/EmailAuthAlertModal'
 import loadingIcon from './Assets/loading-1.svg';
 
 axios.defaults.baseURL = `https://api.thekingsletters.ml`;
@@ -67,7 +67,7 @@ export const ModalView = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: center;
-    background-color: #5bb85d;
+    background-color: #8a9f99;
     > h1 {
       font-family: 'EBSHMJESaeronRA';
       color: white;
@@ -78,6 +78,7 @@ export const ModalView = styled.div`
 
   > .modal_form {
     width: 86%;
+    margin: 1rem 0 0 0;
     flex: 70% 1 0;
     display: flex;
     flex-direction: column;
@@ -88,7 +89,7 @@ export const ModalView = styled.div`
     position: relative;
     width: 100%;
     height: auto;
-    margin: 1.8rem 0 0 0;
+    margin: 1.5rem 0 0 0;
   }
 
   > .modal_form .input_box input {
@@ -158,7 +159,7 @@ export const ModalView = styled.div`
     line-height: 1.5rem;
     width: 100%;
     height: auto;
-    margin: 1.8rem 0 0 0;
+    margin: 1rem 0 0 0;
   }
   > .modal_form .radio_box input {
     position: relative;
@@ -215,9 +216,6 @@ export const ModalView = styled.div`
     flex-direction: row;
     justify-content: center;
     gap: 1rem;
-    > :hover {
-      cursor: pointer;
-    }
     > .submit_button_yes {
       font-family: 'EBSHMJESaeronRA';
       width: 10rem;
@@ -225,8 +223,13 @@ export const ModalView = styled.div`
       border: none;
       outline: none;
       border-radius: 5px;
-      background-color: #2196F3;
+      background-color: #2149f3a1;
       color: white;
+      font-size: 1rem;
+    }
+    > .submit_button_yes:hover {
+      cursor: pointer;
+      background-color: #2149f3c4;
     }
     > .submit_button_no {
       font-family: 'EBSHMJESaeronRA';
@@ -235,6 +238,12 @@ export const ModalView = styled.div`
       border: none;
       outline: none;
       border-radius: 5px;
+      font-size: 1rem;
+      background-color: #efefef;
+    }
+    > .submit_button_no:hover {
+      cursor: pointer;
+      background-color: #d8d8d8;
     }
   }
 `;
@@ -372,8 +381,10 @@ const SignUpModal = ({ isOpen, setIsOpen }) => {
     } else {
       // 만약 유효성 검사를 통과하지 못한다면
       // 최상단 유효성 검사 메시지를 선택
-      const target = document.querySelector('.vaild-check-msg');
-      if (target) {
+      const node = document.querySelectorAll(`.vaild-check-box .vaild-check-msg`);
+      const list = Array.from(node);
+      const target = list.filter((el) => el.style.visibility === 'visible')[0];
+      if (target) { 
         // 유효성 검사 메시지를 1초간 깜빡이게
         target.style.animationName = 'blink';
         setTimeout(() => {

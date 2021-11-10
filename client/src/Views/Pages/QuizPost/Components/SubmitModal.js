@@ -1,7 +1,10 @@
 import styled from 'styled-components';
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import CropModal from './CropModal';
 import loadingIcon from '../Assets/loading-1.svg';
+
+// 모달 컨텍스트
+import { useModalDispatch } from '../../../../context/ModalContext';
 
 const ModalSubmitBackground = styled.div`
   position: fixed;
@@ -18,7 +21,6 @@ const ModalSubmitBackground = styled.div`
 
 const ModalSubmitButtonContainer = styled.div`
   padding: 2% 6% 10% 6%;
-
   > .modal_submit_button {
     font-family: 'EBSHMJESaeronRA';
     width: 100%;
@@ -84,6 +86,7 @@ const ModalSubmitView = styled.div`
     font-family: 'EBSHMJESaeronRA';
   }
   > .modal_button_container {
+    position: relative;
     width: 100%;
     display: flex;
     flex-direction: row;
@@ -100,21 +103,19 @@ const ModalSubmitView = styled.div`
     padding: 8px 18px;
     font-size: 1rem;
     letter-spacing: 1px;
-    border: 1px solid #0066ff;
-    background-color: #0066ff;
+    background-color: rgba(77, 109, 254, 0.9);
   }
   > .modal_button_container .modal_confirm_yes:hover {
     cursor: pointer;
-    border: 1px solid #303030;
-    background-color: transparent;
-    color: #303030;
+    background-color: #0066ff;
     transition: all 0.4s ease;
+    
   }
   > .modal_button_container .modal_confirm_no {
     font-family: 'EBSHMJESaeronRA';
     width: 30%;
     padding: 8px 18px;
-    border: 1px solid #303030;
+    outline: 1px solid #303030;
     background-color: transparent;
     font-weight: 500;
     border-radius: 6px;
@@ -123,8 +124,9 @@ const ModalSubmitView = styled.div`
   }
   > .modal_button_container .modal_confirm_no:hover {
     cursor: pointer;
-    background-color: #303030;
+    background-color: #222222b0;
     color: #fafafa;
+    outline: none;
     transition: all 0.4s ease;
   }
   > .modal_button_container .modal_confirm_loading {
@@ -152,9 +154,11 @@ const ModalSubmit = ({
   submitHandler,
   dataThumbnail,
   setDataThumbnail,
+  isGuest,
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isUploaded, setIsUploaded] = useState(false);
+  const modalDispatch = useModalDispatch();
 
   const imageCropperHandler = (file, url) => {
     setDataThumbnail({ ...dataThumbnail, image_url: url, image_object: file });
@@ -184,27 +188,44 @@ const ModalSubmit = ({
     }
   };
 
+  // 사용자가 썸네일 모달창에서 확인 버튼을 눌렀을 때
+  const modalClickHandler = () => {
+    // 만약 로그인하지 않았다면
+    if (isGuest) {
+      // 썸네일 업로드 모달창을 닫고
+      setIsModalOpen(!isModalOpen);
+      // 썸네일 이미지를 삭제
+      setIsUploaded(false);
+      setDataThumbnail({ ...dataThumbnail, image_url: '', image_object: '' });
+      // 로그인 모달창을 오픈
+      modalDispatch({type: "MODAL_USER_SIGN_IN", value: true});
+    } else {
+      // 로그인했다면 정상적으로 진행
+      submitHandler();
+    }
+  }
+
   return (
     <>
       <ModalSubmitButtonContainer>
         <button
           className="modal_submit_button"
-          onClick={() => modalOpenHandler()}
-        >
+          onClick={() => modalOpenHandler()}>
           제출하기
-        </button>
+          </button>
       </ModalSubmitButtonContainer>
+
       {isModalOpen && isReadyToSubmit ? (
         <ModalSubmitBackground>
           <ModalSubmitView>
             <p className="modal_image_preview_title">
-              문제의 썸네일 사진을 업로드 해주세요
+              문제의 <span style={{color: "blue"}}>썸네일 사진</span>을 업로드 해주세요
               <br />
-              업로드하지 않으면 기본 이미지가 들어갑니다
+              업로드하지 않으면 <span style={{color: "blue"}}>기본 이미지</span>가 들어갑니다
             </p>
             <div className="modal_image_preview_wrapper">
               {isUploaded ? (
-                <img src={dataThumbnail.image_url} alt="썸네일 이미지"></img>
+                <img style={{maxWidth: "80vw", maxHeight: "50vh"}} src={dataThumbnail.image_url} alt="썸네일 이미지"></img>
               ) : (
                 <CropModal
                   handler={imageCropperHandler}
@@ -213,32 +234,31 @@ const ModalSubmit = ({
               )}
             </div>
             <p className="modal_confirm_msg">
-              제출하시려면 "확인" 버튼을 눌러주세요
+              제출하시려면 <span style={{color: "blue"}}>확인</span>버튼을 눌러주세요
             </p>
             <div className="modal_button_container">
-              {!uploadLoading ? (
-                <button
-                  className="modal_confirm_yes"
-                  onClick={() => submitHandler()}
-                >
-                  확인
+              {!uploadLoading ?
+              <button
+                className="modal_confirm_yes"
+                onClick={modalClickHandler}>
+                확인
                 </button>
-              ) : (
-                <button className="modal_confirm_loading">
-                  <img
-                    className="loading_image"
-                    src={loadingIcon}
-                    alt="업로드 로딩"
-                  ></img>
-                  업로드 중
-                </button>
-              )}
+              : null}
+
+              {uploadLoading ?
+              <button className="modal_confirm_loading">
+                <img
+                  className="loading_image"
+                  src={loadingIcon}
+                  alt="업로드 로딩"></img>
+                업로드 중
+              </button>
+              : null}
+
               <button
                 className="modal_confirm_no"
-                onClick={() => modalOpenHandler()}
-              >
-                취소
-              </button>
+                onClick={() => modalOpenHandler()}>
+                취소</button>
             </div>
           </ModalSubmitView>
         </ModalSubmitBackground>

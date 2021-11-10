@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import profileIcon from '../Assets/profile-1.png';
+import exclamationIcon from "../Assets/exclamation-1.svg";
 
 const TopProfileTitle = styled.div`
   width: 100%;
@@ -27,8 +28,8 @@ const TopProfileWrapper = styled.div`
   > .user_profile_image_wrapper {
     width: 7rem;
     height: 7rem;
-    outline: 3px solid rgba(0, 0, 0, 0.1);
-    background-color: rgba(0, 0, 0, 0.1);
+    outline: 1px solid rgba(0, 0, 0, 0.1);
+    background-color: rgb(215 219 209);
     overflow: hidden;
     display: flex;
     align-items: center;
@@ -107,11 +108,31 @@ const TopProfileContainer = styled.div`
       height: 150px;
     }
   }
+  > .profile_please_login {
+    font-family: 'EBSHunminjeongeumSBA';
+    padding: 0.8% 6% 0.8% 6%;
+		width: 100%;
+    height: 6rem;
+		display: flex;
+		flex-flow: row;
+    align-items: center;
+		gap: 5px;
+    background-color: #d7dbd1;
+    
+		> img {
+			margin: 0 10px 0 10px;
+			width: 10%;
+			max-width: 2rem;
+		}
+	}
 `;
 
-const TopProfile = ({ userData }) => {
+const TopProfile = ({ userData, isGuest }) => {
   return (
     <TopProfileContainer>
+      {/* 로그인 했다면 아래의 화면을 표시 */}
+			{!isGuest ?
+      <>
       <TopProfileTitle>
         <h2 className="top__profile__title">문제 등록</h2>
       </TopProfileTitle>
@@ -132,6 +153,21 @@ const TopProfile = ({ userData }) => {
           </div>
         </div>
       </TopProfileWrapper>
+      </>
+      : null}
+
+      {/* 로그인 하지 않았다면 아래의 화면을 표시 */}
+			{isGuest ?
+			<div className="profile_please_login">
+				<img src={exclamationIcon} alt="프로필 사진"></img>
+				<p>
+					현재 <span style={{color: "blue"}}>로그인</span>상태가 아닙니다<br />
+					문제의 <span style={{color: "blue"}}>정답</span>을 확인하려면 <span style={{color: "blue"}}>로그인</span> 해주세요
+				</p>
+			</div>
+			: null}
+
+      {/* 프로필 삼각형 아이콘 */}
       <div className="custom-shape-divider-bottom-1636245050">
         <svg
           data-name="Layer 1"

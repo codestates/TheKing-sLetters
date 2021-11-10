@@ -47,22 +47,21 @@ const ModalView = styled.div`
   position: relative;
   border-radius: 10px;
   margin: 0 1.5rem;
-  max-width: 50%;
   padding: 5rem 0;
   background-color: #fafafa;
   display: flex;
   flex-direction: column;
   align-items: center;
 
-  > .image_cropper {
+  > .image_cropper .ReactCrop__crop-selection {
     max-width: 100%;
-    overflow: hidden;
-
-    > .ReactCrop__crop-selection {
-      max-width: 100%;
-      max-height: 100%;
-    }
+    max-height: 100%;
   }
+  > .image_cropper div .ReactCrop__image {
+    max-width: 80vw;
+    max-height: 80vh;
+  }
+
   > .image_cropper_buttons {
     position: absolute;
     bottom: 1.3em;
@@ -118,7 +117,7 @@ const ImageUpload = styled.div`
   align-items: center;
 
   > .upload_label_icon {
-    max-width: 80%;
+    max-width: 60%;
     > .upload_icon {
       border-radius: 10px;
       border: 1px dashed rgba(0, 0, 0, 0.5);
@@ -137,13 +136,14 @@ const ImageUpload = styled.div`
     > .upload_button_label {
       font-family: 'EBSHMJESaeronRA';
       position: relative;
-      border-radius: 10px;
+      border-radius: 5px;
       margin-right: 2rem;
       padding: 8px 18px;
       color: #fafafa;
-      letter-spacing: 3px;
-      font-size: 1.2em;
-      line-height: 1.2em;
+      letter-spacing: 1px;
+      font-size: 1rem;
+      height: 1.5rem;
+      line-height: 1.5rem;
       background-color: rgba(77, 109, 254, 0.9);
       border: 1px solid rgba(77, 109, 254, 0.9);
       transition: all 0.4s ease;
@@ -157,20 +157,20 @@ const ImageUpload = styled.div`
     > .upload_button_cancel {
       font-family: 'EBSHMJESaeronRA';
       position: relative;
-      border-radius: 10px;
+      border-radius: 5px;
       padding: 8px 18px;
       color: #303030;
-      letter-spacing: 3px;
-      font-size: 1.2em;
-      line-height: 1.2em;
+      letter-spacing: 1px;
+      font-size: 1rem;
+      height: 1.5rem;
+      line-height: 1.5rem;
       background-color: transparent;
-      border: 1px solid #303030;
+      outline: 1px solid #222222b0;
       transition: all 0.4s ease;
     }
     > .upload_button_cancel:hover {
       cursor: pointer;
-      background-color: #303030;
-      border: 1px solid #303030;
+      background-color: #222222b0;
       color: #fafafa;
     }
   }
@@ -395,12 +395,12 @@ const CropModal = ({ handler, config }) => {
                       onChange={imageInputHandler}
                     ></input>
                   </label>
-                  <button
+                  <p
                     className="upload_button_cancel"
                     onClick={modalOpenHandler}
                   >
                     닫기
-                  </button>
+                  </p>
                 </div>
               </ImageUpload>
             )}

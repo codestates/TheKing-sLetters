@@ -4,7 +4,6 @@ import axios from 'axios';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUserCog } from "@fortawesome/free-solid-svg-icons";
 import { faTrophy } from "@fortawesome/free-solid-svg-icons";
-import MyPageModal from '../../Modals/MyPageModal';
 import Modal6 from './RankModal'
 import DeleteApproveModal from './DeleteApproveModal';
 import { Link } from 'react-router-dom';
@@ -16,8 +15,19 @@ display: flex;
 justify-content: flex-start;
 align-items: center;
 width: 100%;
-background-color: white;
 
+#modal_mypage {
+    position: relative;
+    
+> button {
+      position: absolute;
+      left: 0;
+      opacity: 0;
+    }
+> button:hover {
+      cursor: pointer;
+    }
+  }
 
 > .title {
   font-family: 'EBSHMJESaeronRA';
@@ -59,6 +69,7 @@ const SecondBox =styled.div`
 width: 100%;
 display: flex;
 justify-content: flex-start;
+position: relative;
 
 > .profile {
     width: 7rem;
@@ -238,13 +249,12 @@ const Li = styled.li`
 }
 
 /* ----------------------구매 내역------------------------ */
-
 > .purchasedContainer {
   display: flex;
   justify-content: space-between;
   margin-bottom: 1em;
   padding: 0;
-  max-height: 0;
+  /* max-height: 0; */
   background: rgba(209,213,218,0.5);
   overflow: hidden;
   transition: all .4s ease;
@@ -289,9 +299,34 @@ const Li = styled.li`
     text-align: center;
     font-size: 1rem;
   }
+
  
   }
 
+  }
+}
+
+> .emptyPurchasedContainer {
+  display: block;
+  justify-content: space-between;
+  margin-bottom: 1em;
+  padding: 0;
+  /* max-height: 0; */
+  background: rgba(209,213,218,0.5);
+  overflow: hidden;
+  transition: all .4s ease;
+  > div { 
+    overflow: auto;
+    display: flex;
+    padding: 5.5% 0 5.5% 0;
+    > .emptyUsedItem {
+      display: block;
+      margin: 0 auto;
+      margin-top: 2em;
+      margin-bottom: 2em;
+      font-size: 2em;
+      color: #808e95;
+    }
   }
 }
 
@@ -365,6 +400,35 @@ const Li = styled.li`
 }
 }
 
+> .emptyMadeQuizContainer {
+  display: block;
+  justify-content: space-between;
+  margin-bottom: 1em;
+  padding: 0;
+  /* max-height: 0; */
+  background: rgba(209,213,218,0.5);
+  overflow: hidden;
+  transition: all .4s ease;
+  > div { 
+    overflow: auto;
+    display: flex;
+    height: 100px;
+    padding: 5.5% 0 5.5% 0;
+    > .emptyMadeQuiz {
+      display: block;
+      margin: 0 auto;
+      margin-top: 1.5em;
+      margin-bottom: 1.5em;
+      font-size: 2em;
+      color: #808e95;
+    }
+    > .emptyMadeQuiz:hover {
+      color: #303030;
+    }
+    
+  }
+}
+
 > .checkbox:checked ~ .itemListContainer {  
   height: auto;
   max-height: 600px;
@@ -375,7 +439,17 @@ const Li = styled.li`
   max-height: 600px;
   transition: max-height 0.5s linear 0.25s;
 }
+> .checkbox:checked ~ .emptyPurchasedContainer {  
+  height: auto;
+  max-height: 600px;
+  transition: max-height 0.5s linear 0.25s;
+}
 > .checkbox:checked ~ .madeQuizContainer {  
+  height: auto;
+  max-height: 600px;
+  transition: max-height 0.5s linear 0.25s;
+}
+> .checkbox:checked ~ .emptyMadeQuizContainer {  
   height: auto;
   max-height: 600px;
   transition: max-height 0.5s linear 0.25s;
@@ -401,14 +475,8 @@ const MyPage = (props) => {
   const [buyItems, setBuyItems] = useState([]);
   const [usedItems, setUsedItem] = useState([]);
   const [quiz, setQuiz] = useState([]);
-  const [isMypageOpen, setIsMypageOpen] = useState(false); // 마이페이지 모달 on off 관련 상태
   const [modalOpen, setModalOpen] = useState(false);
-
-  const handleMypage = () => {
-    setIsMypageOpen(!isMypageOpen)
-  }
   
-
   const deleteMyQuiz = async () => {
     await axios.delete(`https://api.thekingsletters.ml/users/deletequiz?quizid=${selectedQuiz}`, {
       headers: {
@@ -481,15 +549,12 @@ const MyPage = (props) => {
       <FirstBox>
         <div className="title">내 정보</div>
         <div className="setting">
-            <li onClick={handleMypage}>
-              {isMypageOpen === false ? <FontAwesomeIcon icon={faUserCog} size="2x" className="setting" /> : <FontAwesomeIcon icon={faUserCog} size="2x" className="setting" />}
+            <li>
+              <div id="modal_mypage"><FontAwesomeIcon icon={faUserCog} size="2x" className="setting" /></div>
             </li>
         </div>
       </FirstBox>
 
-      {/* mypage 모달 컴포넌트 */}
-      <MyPageModal isOpen={isMypageOpen} openModalHandler={handleMypage}/>
-      
       <SecondBox>
         {/* <div className='data1'> */}
           <img 
@@ -525,17 +590,27 @@ const MyPage = (props) => {
             </label>
             <div className="itemListContainer" >
               <div className="buyItems">
-              {buyItems.map((el)=>(
-                <div className="buyItemsBox">
-                  <div className="itemImage">
-                    <Link to="/mileageshop" ><img src={el.itemImage} alt="items"/></Link>
+                {buyItems.length !== 0 ? (
+                  <>
+                  {buyItems.map((el)=>(
+                    <div className="buyItemsBox">
+                      <div className="itemImage">
+                        <Link to="/mileageshop" ><img src={el.itemImage} alt="items"/></Link>
+                      </div>
+                      <div className="itemName">{el.itemName}</div>
+                      <div className="cost">가격: {el.cost} 냥</div>
+                      <div className="quantity">재고: {el.quantity} 개</div>
+                      <div className="company">(주) {el.company}</div>
+                    </div>
+                  ))}
+                  </>
+                ) : (
+                  <>
+                  <div>
+                    상품이 존재하지 않습니다.
                   </div>
-                  <div className="itemName">{el.itemName}</div>
-                  <div className="cost">가격: {el.cost} 냥</div>
-                  <div className="quantity">재고: {el.quantity} 개</div>
-                  <div className="company">(주) {el.company}</div>
-                </div>
-              ))}
+                  </>
+                )}
               </div>               
             </div>
         </Li>
@@ -544,18 +619,28 @@ const MyPage = (props) => {
             <label className="tab" for="section-2-radio" id="section-2-tab">
                 <div className="purchase-history">구매 내역</div>
             </label>
-            <div className="purchasedContainer" id="section-2-panel">
+            <div className={usedItems.length !== 0 ? "purchasedContainer" : "emptyPurchasedContainer"} id="section-2-panel">
               <div className="usedItems">
-                {usedItems.map((el) => (
-                  <div className="itemBox">
-                  <img className="itemImage" src={el.usedItem.itemImage} alt="itemImg"></img>
-                  <div className="itemName">{el.usedItem.itemName}</div>
-                  <div className="company">(주) {el.usedItem.company}</div>
-                  <div className="deadline">사용기간: {el.usedItem.deadline}</div>
-                  <div className="barcodeNum">인증번호: {el.usedItem.barcodeNum}</div>
-                  </div>
-                ))
-                }
+                {usedItems.length !== 0 ? (
+                  <>
+                  {usedItems.map((el) => (
+                    <div className="itemBox">
+                    <img className="itemImage" src={el.usedItem.itemImage} alt="itemImg"></img>
+                    <div className="itemName">{el.usedItem.itemName}</div>
+                    <div className="company">(주) {el.usedItem.company}</div>
+                    <div className="deadline">사용기간: {el.usedItem.deadline}</div>
+                    <div className="barcodeNum">인증번호: {el.usedItem.barcodeNum}</div>
+                    </div>
+                  ))
+                  }
+                  </>
+                ) : (
+                  <>
+                    <div className="emptyUsedItem">
+                      상품이 존재하지 않습니다.
+                    </div>
+                  </>
+                )}
               </div>             
             </div>
         </Li>
@@ -564,19 +649,27 @@ const MyPage = (props) => {
             <label className="tab" for="section-3-radio" id="section-3-tab">
                 <div className="created-problem">내가 만든 문제</div>
             </label>
-            <div className="madeQuizContainer" id="section-3-panel">
+            <div className={quiz.length !== 0 ? "madeQuizContainer" : "emptyMadeQuizContainer"} id="section-3-panel">
               <div>
-                {quiz.map((el)=>
-                <div className="quizBox">
-                <button onClick={() => { setSelectedQuiz(el.id); setDeleteCheckOpen(true) }}>&times;</button>
-                  <div className="thumbnail">
-                    <Link to={`/quizsolve/${el.id}`}>
-                      <img  className="thumbnail__img" src={el.thumbnail} alt="thumbnail"></img> 
-                    </Link>
+                {quiz.length !== 0 ?
+                <>
+                  {quiz.map((el)=>
+                  <div className="quizBox">
+                    <button onClick={() => { setSelectedQuiz(el.id); setDeleteCheckOpen(true) }}>&times;</button>
+                      <div className="thumbnail">
+                        <Link to={`/quizsolve/${el.id}`}>
+                          <img  className="thumbnail__img" src={el.thumbnail} alt="thumbnail"></img> 
+                        </Link>
+                      </div>
+                    <div className="title">{el.title}</div>   
                   </div>
-                <div className="title">{el.title}</div>   
-              </div>
-                )}
+                  )}
+                </>
+                :
+                <>
+                  <Link to='/quizpost' className="emptyMadeQuiz">문제 만들러 가기</Link>
+                </>
+                }
               </div>
             </div>
         </Li>

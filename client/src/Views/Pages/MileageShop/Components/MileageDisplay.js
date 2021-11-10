@@ -31,7 +31,7 @@ const MileageCategoryWrapper = styled.div`
   margin-left: 1.5%;
   > .mileage_cat_name_1 {
     border-bottom: 1px solid rgba(0, 0, 0, 0.3);
-    padding: 3% 0% 0% 0%;
+    padding: 1% 0% 0% 0%;
     font-size: 1.8em;
     font-weight: 500;
     text-align: right;
@@ -94,7 +94,7 @@ const MileageDisplay = ({ userInfo, totalPrice }) => {
       <div className="mileage_contents">
         <MileageCategoryWrapper>
           <div className="mileage_cat_name_1">사용가능한 상평통보</div>
-          <div className="mileage_cat_name_2">장바구니 合計</div>
+          <div className="mileage_cat_name_2">장바구니 합계</div>
           <div className="mileage_cat_name_3">사용 후 상평통보</div>
         </MileageCategoryWrapper>
         <MileageValueWrapper>

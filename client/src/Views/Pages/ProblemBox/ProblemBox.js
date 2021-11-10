@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import ProblemBoxCategorySelect from './Components/ProblemCategorySelect';
 import ProblemQuizBox from './Components/ProblemQuizBox';
 import axios from 'axios';
+import Loading from '../../../Loading/Loading';
 import { useUserState } from '../../../context/UserContext';
 
 const ProblemBoxContainer = styled.div`
@@ -22,10 +23,14 @@ const ProblemBox = () => {
   const [myNote, setMyNote] = useState([]);
   const [UserName, setUserName] = useState([]);
   const [myNoteQuizList, setMyNoteQuizList] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
     if (isLogin) {
       setUserAccessToken(localStorage.getItem('accessToken'));
     }
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 3200);
   }, []);
 
   useEffect(() => {
@@ -64,6 +69,7 @@ const ProblemBox = () => {
 
   return (
     <ProblemBoxContainer>
+      {isLoading && <Loading />}
       <ProblemBoxCategorySelect
         dataCategorySelect={dataCategorySelect}
         setDataCategorySelect={setDataCategorySelect}

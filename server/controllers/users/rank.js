@@ -9,6 +9,7 @@ module.exports = async (req, res) => {
       { model: mileage, attributes: ["mileage"] }
     ]
   })
+
   const unlineupRankList = []
   userList.map((user) => {
     if(user.name !== "unknown") {
@@ -25,11 +26,8 @@ module.exports = async (req, res) => {
     for (let i=0; i<userList.length; i++) {
         let minIdx = i;
         for (let j=i+1; j<userList.length; j++) {
-          console.log(userList[minIdx])
             if (userList[minIdx].mileage < userList[j].mileage) {
                 minIdx = j
-            } else if (userList[minIdx].id > userList[j].id && userList[minIdx].mileage === userList[j].mileage) {
-              minIdx = j
             }
         }
         if (minIdx !== i) {
@@ -40,6 +38,7 @@ module.exports = async (req, res) => {
     }
     return userList
   }
+
 
   let rankList = lineupUser(unlineupRankList)
 

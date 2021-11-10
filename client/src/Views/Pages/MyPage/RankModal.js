@@ -17,6 +17,9 @@ const ModalBackground = styled.div`
   place-items: center;
 
 > div {
+  @media (max-width: 783px) {
+      width: 30em;
+    }
   width: 40em;
   height: 600px;
   border-radius: 12px;
@@ -42,26 +45,36 @@ const TitleCloseBtn = styled.div`
   `;
 
 const Title = styled.div`
-
+box-shadow: 15px 15px 5px grey;
 display: inline-block;
   text-align: center;
   margin-top: 10px;  
-  > h1 { 
+  > h1 {
     font-family: 'EBSHMJESaeronRA';   
     font-size: 40px;
     margin: -5%;
+    color: #263238;
   }
   > div {
+    @media (max-width: 783px) {
+      width: 29.5em;
+    } 
     //scroll
+    background-color: #a5d6a7;
     overflow: auto;
     height: 440px;
-    width: 40em;
+    width: 39em;
     border: 1px solid black;
     margin-top: 35px;
-    border-radius: 12px;
+    /* border-radius: 12px; */
     margin-bottom: 10px;
+    color: #263238;
+
    
     > div {
+      @media (max-width: 783px) {
+        font-size: 19px;
+    } 
       font-family: 'EBSHMJESaeronRA';
       font-size: 25px;
       display: flex;
@@ -100,30 +113,22 @@ display: inline-block;
   height: 45px;
   margin-bottom: 30px;
   border: none;
-  background-color: #7fa57f;
-  color: white;
+  background-color: #2bbd7e;
+   
+  color: white; 
+  /* color: #f1f8e9; */
   border-radius: 8px;
   font-size: 20px;
   cursor: pointer;
-  font-size: 1em;
-  /* margin: 20px; */
-  /* > .falseBtn {
-
-  width: 150px;
-  height: 45px;
-  margin-bottom: 30px;
-  border: none;
-  background-color: #7fa57f;
-  color: white;
-  border-radius: 8px;
-  font-size: 20px;
-  cursor: pointer;
-  font-size: 1em;
-  display: none;
-
-  } */
-  
+  font-size: 1.5em;
+  position: relative;
+  bottom: -10px;  
 }
+> .trueBtn:hover {
+    /* border: 1px solid green; */
+    background-color:#00c853;
+  }
+
   `;
 
 const AppBox = styled.div`
@@ -149,25 +154,20 @@ const Modal6 = ({ setOpenModal }) => {
            Authorization: `Bearer ${localStorage.getItem('accessToken')}` // 로컬 브라우저에서 받은 토큰이다 //localStorage.getItem : 로컬 스토리지에 갖고 있는 값을 가지고 온 것
          }
        }).then(function(response) {
-         console.log(response)     
         setRank(response.data.data.rankList);
        })    
     
    }, []); 
 
-   const moreData = () => {
-    
-    setLimit(limit + 3)
-    console.log(limit);
-    
+   const moreData = () => {    
+    setLimit(limit + 3)    
    }
    useEffect(() => {
     axios.get(`http://ec2-13-209-96-200.ap-northeast-2.compute.amazonaws.com/users/rank/?offset=0&limit=${limit}`, {
       headers: {
-        Authorization: `Bearer ${localStorage.getItem('accessToken')}` // 로컬 브라우저에서 받은 토큰이다 //localStorage.getItem : 로컬 스토리지에 갖고 있는 값을 가지고 온 것
+        Authorization: `Bearer ${localStorage.getItem('accessToken')}`
       }
     }).then(function(response) {
-      console.log(response)     
      setRank(response.data.data.rankList);
      if(response.data.data.message) {
        setButton(false);
@@ -225,7 +225,6 @@ const Modal6 = ({ setOpenModal }) => {
 
 const RankModal = () => {
   const [modalOpen, setModalOpen] = useState(false);
-
   return (
     <AppBox>
       <button
@@ -236,9 +235,8 @@ const RankModal = () => {
       >
         Open
       </button>
-
       {modalOpen && <Modal6 setOpenModal={setModalOpen} />}
-      </AppBox>
+    </AppBox>
   );
 }
 

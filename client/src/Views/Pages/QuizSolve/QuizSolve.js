@@ -135,7 +135,7 @@ const QuizSolve = ({match}) => {
 			const refinedData = {
 				"name": rawData.name,
 				"image": rawData.image,
-				"rank": rawData.rank.toString(),
+				"ranking": rawData.rank.toString(),
 			};
 			// state에 저장
 			setUserData(refinedData);

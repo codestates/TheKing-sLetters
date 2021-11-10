@@ -4,6 +4,8 @@ import shoppingBagIcon from '../Assets/shopping-bag-1.svg';
 axios.defaults.baseURL = `https://api.thekingsletters.ml`;
 axios.defaults.withCredentials = true;
 
+const DEBUG_MODE = true;
+
 const generateId = (len) => {
   var arr = new Uint8Array((len || 40) / 2);
   window.crypto.getRandomValues(arr);
@@ -48,8 +50,6 @@ export const refineItemsData = async (data) => {
 export const fetchItemsBuy = async (data) => {
   if (data === undefined || !Array.isArray(data))
     throw new Error(`잘못된 파라메터가 입력되었습니다`);
-  const TOKEN = localStorage.getItem('accessToken');
-  if (!TOKEN) new Error(`액세스 토큰을 찾을 수 없습니다`);
   const END_PONT = `/buy`;
   const METHOD = `POST`;
   const PAYLOAD = { itemData: data };
@@ -59,9 +59,6 @@ export const fetchItemsBuy = async (data) => {
     response = await axios(END_PONT, {
       method: METHOD,
       data: PAYLOAD,
-      headers: {
-        Authorization: `Bearer ${TOKEN}`,
-      },
     });
     return {
       message: `${METHOD} ${END_PONT} 요청에 성공했습니다.`,
@@ -71,22 +68,17 @@ export const fetchItemsBuy = async (data) => {
     response = error.response;
     throw new Error(`${METHOD} ${END_PONT} 요청에 실패했습니다.`);
   } finally {
-    console.log(response);
+    DEBUG_MODE && console.log(response);
   }
 };
 
 export const fetchMyItems = async () => {
-  const TOKEN = localStorage.getItem('accessToken');
-  if (!TOKEN) throw new Error(`액세스 토큰을 찾을 수 없습니다`);
   const END_PONT = `/myitems`;
   const METHOD = `GET`;
   let response = null;
   try {
     response = await axios(END_PONT, {
       method: METHOD,
-      headers: {
-        Authorization: `Bearer ${TOKEN}`,
-      },
     });
     return {
       message: `${METHOD} ${END_PONT} 요청에 성공했습니다.`,
@@ -96,7 +88,7 @@ export const fetchMyItems = async () => {
     response = error.response;
     throw new Error(`${METHOD} ${END_PONT} 요청에 실패했습니다.`);
   } finally {
-    console.log(response);
+    DEBUG_MODE && console.log(response);
   }
 };
 

@@ -9,6 +9,8 @@ import GoogleLogo from './Assets/google-1.png';
 axios.defaults.baseURL = `https://api.thekingsletters.ml`;
 axios.defaults.withCredentials = true;
 
+const DEBUG_MODE = true;
+
 const ModalBackdrop = styled.div`
   /* css 부모로부터 상속 방지 */
   all: initial;
@@ -258,8 +260,6 @@ const SignInModal = ({isOpen, setIsOpen, switcher}) => {
       response = await axios.post(URL, PAYLOAD, OPTION);
       if (response.status === 200) {
         const data = response.data.data.userData;
-        const token = response.data.data.accessToken;
-        localStorage.setItem('accessToken', token);
         dispatch({type: "USER_LOGIN"});
         dispatch({
           type: "SET_USER_DATA",
@@ -281,27 +281,22 @@ const SignInModal = ({isOpen, setIsOpen, switcher}) => {
       response = error.response;
       alert("이메일과 비밀번호를 확인하세요.");
     } finally {
-      console.log(response);
+      DEBUG_MODE && console.log(response);
     }
   };
 
   const logoutHandler = async () => {
     await axios
-      .get('/signout', {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-        },
-      })
+      .get('/signout')
       .then((response) => {
         if (response.status === 200) {
-          localStorage.removeItem('accessToken');
           dispatch({type: "USER_LOGOUT"});
           dispatch({type: "SET_USER_DATA_NULL"});
         }
-        console.log(response);
+        DEBUG_MODE && console.log(response);
       })
       .catch((response) => {
-        console.log(response);
+        DEBUG_MODE && console.log(response);
       });
   };
 

@@ -109,7 +109,7 @@ const Sign = styled.div`
     border: none;
     outline: none;
     color: #fff;
-    background: green;
+    background: #00800099;
     width: 400px;
     padding: 10px 20px;
     cursor: pointer;
@@ -117,6 +117,9 @@ const Sign = styled.div`
     font-size: 1.3rem;
     margin-top: 1rem;
     margin-bottom: 1rem;
+  }
+  > button:hover {
+    background: #008000c9;
   }
 `;
 
@@ -126,7 +129,7 @@ const SigninTitle = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  background-color: #5bb85d;
+  background-color: #8a9f99;
   > h1 {
     font-family: 'EBSHMJESaeronRA';
     color: white;

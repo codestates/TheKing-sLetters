@@ -124,7 +124,7 @@ const SigninTitle = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  background-color: #5bb85d;
+  background-color: #8a9f99;
   > h1 {
     font-family: 'EBSHMJESaeronRA';
     color: white;
@@ -176,7 +176,7 @@ const SignInModal = ({isOpen, setIsOpen}) => {
       if (response.status === 200) {
         const data = response.data.data.adminData;
         const token = response.data.data.adminToken;
-        localStorage.setItem('accessToken', token);
+        localStorage.setItem('adminToken', token);
         console.log(response);
         dispatch({type: "ADMIN_LOGIN"});
         dispatch({
@@ -192,6 +192,7 @@ const SignInModal = ({isOpen, setIsOpen}) => {
           }
         });
         modalOpenHandler();
+        window.location = "/";
       }
     } catch(error) {
       response = error.response;
@@ -205,14 +206,15 @@ const SignInModal = ({isOpen, setIsOpen}) => {
     await axios
       .get('/admin/signout', {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+          Authorization: `Bearer ${localStorage.getItem('adminToken')}`,
         },
       })
       .then((response) => {
         if (response.status === 200) {
-          localStorage.removeItem('accessToken');
+          localStorage.removeItem('adminToken');
           dispatch({type: "ADMIN_LOGOUT"});
           dispatch({type: "SET_ADMIN_DATA_NULL"});
+          window.location = "/";
         }
         console.log(response);
       })

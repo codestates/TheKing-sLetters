@@ -67,14 +67,14 @@ const ShoppingCartItemWrapper = styled.div`
   }
   > .cart_item_price {
     border-right: 1px solid rgba(0, 0, 0, 0.3);
-    width: 20%;
+    min-width: 20%;
     text-align: center;
     letter-spacing: 2px;
     font-size: 1rem;
   }
   > .cart_item_subtotal {
     text-align: center;
-    width: 17%;
+    min-width: 17%;
     font-size: 1rem;
     letter-spacing: 2px;
   }
@@ -267,7 +267,7 @@ const ShoppingCart = ({ items, setItems, totalPrice }) => {
                 가격 {numberWithCommas(el.price)} 냥
               </p>
               <p className="cart_item_subtotal">
-                {numberWithCommas(el.price * el.selected)} 냥
+                합계 {numberWithCommas(el.price * el.selected)} 냥
               </p>
               <img
                 className="cart_item_delete"

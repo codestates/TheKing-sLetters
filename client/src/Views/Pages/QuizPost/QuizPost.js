@@ -24,45 +24,6 @@ const QuizPostContainer = styled.div`
   flex-flow: column;
   width: 100%;
   min-height: 86.8vh;
-
-  > .login_error_container {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    border: none;
-    width: 50%;
-    height: 50%;
-    background-color: rgba(0, 0, 0, 0.1);
-    ${BOX_SHADOW}
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
-  > .login_error_container .login_error_image {
-    width: 4rem;
-    height: 4rem;
-    padding: 0 0 1rem 0;
-    z-index: 3;
-  }
-  > .login_error_container .login_error_msg {
-    text-align: center;
-    font-size: 1.5rem;
-    font-weight: 500;
-    z-index: 3;
-  }
-  > .login_error_container .guest_mode_msg {
-    width: 10rem;
-    color: white;
-    font-weight: 600;
-    background-color: #151515;
-    text-align: center;
-    font-size: 1.5em;
-    font-weight: 500;
-    z-index: 3;
-    cursor: pointer;
-  }
 `;
 
 /* 더미데이터 */
@@ -102,27 +63,15 @@ const Post = () => {
     image_url: '',
     image_object: '',
   });
-  // 로그인 상태에 따라 온오프
-  const [isReadyToDisplay, setIsReadyToDisplay] = useState(false);
   // 유저가 제출 버튼을 눌렀을 때 로딩창을 띄움
   const [uploadLoading, setUploadLoading] = useState(false);
   // 퀴즈 데이터가 입력될 때 마다 유효성 검사, 모두 유효한 데이터면 true 아니면 false
   const [isReadyToSubmit, setIsReadyToSubmit] = useState(false);
   // 유저 정보 state를 context에서 불러옴, 로그인 정보와 유저 정보가 담겨있음
   const userState = useUserState();
-  // 테스트 모드 온오프
-  const [isTestModeOn, setIsTestModeOn] = useState(false);
 
   /* 유저 데이터 불러오기 */
   useEffect(() => {
-    // 더미데이터가 켜져있으면
-    if (isTestModeOn) {
-      // 더미용 유저데이터를 불러오고
-      setUserData(initialUser);
-      // 화면을 표시
-      setIsReadyToDisplay(true);
-      return;
-    }
     // 유저가 로그인 한 상태라면
     if (userState.isUserLoggedIn) {
       // context에서 유저 정보를 가져와서
@@ -135,10 +84,8 @@ const Post = () => {
       };
       // state에 저장
       setUserData(refinedData);
-      // 유저가 로그인 했으니 화면을 표시
-      setIsReadyToDisplay(true);
     }
-  }, [userState, isTestModeOn]);
+  }, [userState]);
 
   // 퀴즈 데이터가 입력될 때 마다 유효성 검사를 실시, 썸네일은 유효성 검사를 하지 않음
   useEffect(() => {
@@ -159,8 +106,8 @@ const Post = () => {
 
   // 사용자가 퀴즈 제출 버튼을 눌렀다면
   const submitHandler = async () => {
-    // 업로드 로딩중이 아니고 테스트 모드가 꺼져있을 때
-    if (!uploadLoading && !isTestModeOn) {
+    // 업로드 로딩중이 아닐 때
+    if (!uploadLoading) {
       try {
         // 로딩 시작
         setUploadLoading(true);
@@ -193,53 +140,36 @@ const Post = () => {
 
   return (
     <QuizPostContainer>
-      {!isReadyToDisplay ? (
-        <div className="login_error_container">
-          <img
-            className="login_error_image"
-            src={lockIcon}
-            alt="배경 이미지"
-          ></img>
-          <p className="login_error_msg">
-            문제를 출제하시려면
-            <br />
-            <span style={{color: "blue"}}>로그인</span>이 필요합니다
-            <br />
-            <br />
-          </p>
-          <p className="guest_mode_msg" onClick={() => setIsTestModeOn(true)}>체험하기</p>
-        </div>
-      ) : (
-        <>
-          <TopProfile userData={userData}></TopProfile>
-          <CategorySelect
-            dataCategorySelect={dataCategorySelect}
-            setDataCategorySelect={setDataCategorySelect}
-          ></CategorySelect>
-          <QuizSelect
-            dataCategorySelect={dataCategorySelect}
-            dataQuizSelect={dataQuizSelect}
-            setDataQuizSelect={setDataQuizSelect}
-          ></QuizSelect>
-          <AnswerSelect
-            dataCategorySelect={dataCategorySelect}
-            dataAnswerSelect={dataAnswerSelect}
-            setDataAnswerSelect={setDataAnswerSelect}
-          ></AnswerSelect>
-          <Commentation
-            dataCommentation={dataCommentation}
-            setDataCommentation={setDataCommentation}
-          ></Commentation>
-          <SubmitModal
-            isReadyToSubmit={isReadyToSubmit}
-            uploadLoading={uploadLoading}
-            submitHandler={submitHandler}
-            dataThumbnail={dataThumbnail}
-            setDataThumbnail={setDataThumbnail}
-            isTestModeOn={isTestModeOn}
-          ></SubmitModal>
-        </>
-      )}
+      <TopProfile
+        userData={userData}
+        isGuest={!userState.isUserLoggedIn}
+      ></TopProfile>
+      <CategorySelect
+        dataCategorySelect={dataCategorySelect}
+        setDataCategorySelect={setDataCategorySelect}
+      ></CategorySelect>
+      <QuizSelect
+        dataCategorySelect={dataCategorySelect}
+        dataQuizSelect={dataQuizSelect}
+        setDataQuizSelect={setDataQuizSelect}
+      ></QuizSelect>
+      <AnswerSelect
+        dataCategorySelect={dataCategorySelect}
+        dataAnswerSelect={dataAnswerSelect}
+        setDataAnswerSelect={setDataAnswerSelect}
+      ></AnswerSelect>
+      <Commentation
+        dataCommentation={dataCommentation}
+        setDataCommentation={setDataCommentation}
+      ></Commentation>
+      <SubmitModal
+        isReadyToSubmit={isReadyToSubmit}
+        uploadLoading={uploadLoading}
+        submitHandler={submitHandler}
+        dataThumbnail={dataThumbnail}
+        setDataThumbnail={setDataThumbnail}
+        isGuest={!userState.isUserLoggedIn}
+      ></SubmitModal>
     </QuizPostContainer>
   );
 };

@@ -3,6 +3,9 @@ import React, { useState, useRef } from 'react';
 import CropModal from './CropModal';
 import loadingIcon from '../Assets/loading-1.svg';
 
+// 모달 컨텍스트
+import { useModalDispatch } from '../../../../context/ModalContext';
+
 const ModalSubmitBackground = styled.div`
   position: fixed;
   top: 0;
@@ -18,7 +21,6 @@ const ModalSubmitBackground = styled.div`
 
 const ModalSubmitButtonContainer = styled.div`
   padding: 2% 6% 10% 6%;
-
   > .modal_submit_button {
     font-family: 'EBSHMJESaeronRA';
     width: 100%;
@@ -109,9 +111,6 @@ const ModalSubmitView = styled.div`
     transition: all 0.4s ease;
     
   }
-  > .modal_button_container .modal_confirm_yes:hover p {
-    display: block;
-  }
   > .modal_button_container .modal_confirm_no {
     font-family: 'EBSHMJESaeronRA';
     width: 30%;
@@ -149,48 +148,17 @@ const ModalSubmitView = styled.div`
   }
 `;
 
-const TestModeMsg = styled.p`
-  font-family: 'EBSHMJESaeronRA';
-  border: none;
-  border-radius: 6px;
-  padding: 5px 5px 5px 5px;
-  background-color: #555;
-  color: #fafafa;
-  letter-spacing: 2px;
-  text-align: center;
-  /* 기본값 보임 */
-  display: none;
-  /* 메시지 위치 설정 */
-  position: absolute;
-  z-index: 499;
-  /* padding을 고려해서 오른쪽으로 이동 */
-  left: 18%;
-  /* 살짝 위로 */
-  top: -2.5rem;
-  /* 크기는 고정 */
-  width: 17rem;
-  /* 화살표 css */
-  ::after {
-    content: '';
-    position: absolute;
-    top: 100%;
-    left: 5%;
-    border-width: 8px 6px 8px 6px;
-    border-style: solid;
-    border-color: #555 transparent transparent transparent;
-  }
-`;
-
 const ModalSubmit = ({
   isReadyToSubmit,
   uploadLoading,
   submitHandler,
   dataThumbnail,
   setDataThumbnail,
-  isTestModeOn,
+  isGuest,
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isUploaded, setIsUploaded] = useState(false);
+  const modalDispatch = useModalDispatch();
 
   const imageCropperHandler = (file, url) => {
     setDataThumbnail({ ...dataThumbnail, image_url: url, image_object: file });
@@ -220,16 +188,33 @@ const ModalSubmit = ({
     }
   };
 
+  // 사용자가 썸네일 모달창에서 확인 버튼을 눌렀을 때
+  const modalClickHandler = () => {
+    // 만약 로그인하지 않았다면
+    if (isGuest) {
+      // 썸네일 업로드 모달창을 닫고
+      setIsModalOpen(!isModalOpen);
+      // 썸네일 이미지를 삭제
+      setIsUploaded(false);
+      setDataThumbnail({ ...dataThumbnail, image_url: '', image_object: '' });
+      // 로그인 모달창을 오픈
+      modalDispatch({type: "MODAL_USER_SIGN_IN", value: true});
+    } else {
+      // 로그인했다면 정상적으로 진행
+      submitHandler();
+    }
+  }
+
   return (
     <>
       <ModalSubmitButtonContainer>
         <button
           className="modal_submit_button"
-          onClick={() => modalOpenHandler()}
-        >
+          onClick={() => modalOpenHandler()}>
           제출하기
-        </button>
+          </button>
       </ModalSubmitButtonContainer>
+
       {isModalOpen && isReadyToSubmit ? (
         <ModalSubmitBackground>
           <ModalSubmitView>
@@ -255,13 +240,8 @@ const ModalSubmit = ({
               {!uploadLoading ?
               <button
                 className="modal_confirm_yes"
-                onClick={() => submitHandler()}>
+                onClick={modalClickHandler}>
                 확인
-                {/* 테스트 모드가 켜져있으면 메시지 */}
-                {isTestModeOn ?
-                <TestModeMsg>
-                  로그인이 필요합니다</TestModeMsg>
-                : null }
                 </button>
               : null}
 

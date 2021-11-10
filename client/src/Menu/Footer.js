@@ -1,5 +1,6 @@
-import React, {useState} from 'react';
+import React from 'react';
 import styled from 'styled-components';
+// 유저 컨텍스트
 
 const FooterContainer = styled.div`
   display: flex;
@@ -11,13 +12,14 @@ const FooterContainer = styled.div`
 
   > .masterLogin .modal_button button {
     font-family: 'EBSHunminjeongeumSBA';
-    margin: 0 0 0 10px;
+    padding: 8px 18px;
+    transition: all 0.4s ease;
   }
   > .masterLogin .modal_button button:hover {
     cursor: pointer;
-    color: white;
+    color: #fafafa;
   }
-  
+
   > .footer__logo {
     font-size: 24px;
     > a {
@@ -60,9 +62,9 @@ const Footer = () => {
       <div className="footer__logo">
         <a>나랏말싸미</a>
       </div>
-        <li className="masterLogin">
-          <div className="modal_button" id="modal_admin_signin"></div>
-        </li>
+      <li className="masterLogin">
+        <div className="modal_button" id="modal_admin_signin"></div>
+      </li>
       <FooterGithub>
         <li className="footer__user">
           <a href="https://github.com/yonghk423">김용희</a>

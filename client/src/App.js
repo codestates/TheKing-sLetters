@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Suspense, lazy } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import { useUserState } from './context/UserContext';
 
@@ -7,23 +7,33 @@ import Header from './Menu/Header';
 import Footer from './Menu/Footer';
 import AdminHeader from './Menu/AdminHeader';
 import AdminFooter from './Menu/AdminFooter';
-import LandingPage from './Views/Pages/Landing/LandingPage';
 import Mypage from './Views/Pages/MyPage/MyPage';
 import Main from './Views/Pages/Main/Main';
-import QuizPost from './Views/Pages/QuizPost/QuizPost';
-import QuizSolve from './Views/Pages/QuizSolve/QuizSolve';
-import MileageShop from './Views/Pages/MileageShop/MileageShop';
 import Admin from './Views/Pages/Admin/AdminPage';
 import ProblemBox from './Views/Pages/ProblemBox/ProblemBox';
 import GoogleAuth from './Views/Pages/MyPage/GoogleAuth';
 import GithubAuth from './Views/Pages/MyPage/GithubAuth';
+import Loading from './Loading/Loading';
 
 /* Modal */
 import ModalController from './Views/Modals/ModalController';
 
+/* 페이지 로딩 테스트를 위한 임시 주석 처리 */
+// import LandingPage from './Views/Pages/Landing/LandingPage';
+// import QuizPost from './Views/Pages/QuizPost/QuizPost';
+// import QuizSolve from './Views/Pages/QuizSolve/QuizSolve';
+// import MileageShop from './Views/Pages/MileageShop/MileageShop';
+
 function App() {
   /* 관리자 로그인 정보 확인 */
   const userState = useUserState();
+
+  /* lazy loading 컴포넌트 */
+  const LandingPage = lazy(() => import('./Views/Pages/Landing/LandingPage'));
+  const MileageShop = lazy(() => import('./Views/Pages/MileageShop/MileageShop'));
+  const QuizPost = lazy(() => import('./Views/Pages/QuizPost/QuizPost'));
+  const QuizSolve = lazy(() => import('./Views/Pages/QuizSolve/QuizSolve'));
+
   return (
     <>
       {userState.isAdminLoggedIn ? (
@@ -37,20 +47,22 @@ function App() {
       ) : (
         <>
           <Header />
-          <Switch>
-            <ModalController>
-              <Route exact path="/" component={LandingPage}></Route>
-              <Route exact path="/main" component={Main}></Route>
-              <Route exact path="/mypage" component={Mypage}></Route>
-              <Route exact path="/quizpost" component={QuizPost}></Route>
-              <Route exact path="/mileageshop" component={MileageShop}></Route>
-              <Route exact path="/mynote" component={ProblemBox}></Route>
-              <Route exact path="/shop" component={MileageShop}></Route>
-              <Route path="/quizsolve/:id" component={QuizSolve}></Route>
-              <Route exact path="/auth/google" component={GoogleAuth}></Route>
-              <Route exact path="/auth/git" component={GithubAuth}></Route>
-            </ModalController>
-          </Switch>
+          <Suspense fallback={<Loading />}>
+            <Switch>
+              <ModalController>
+                <Route exact path="/" component={LandingPage}></Route>
+                <Route exact path="/main" component={Main}></Route>
+                <Route exact path="/mypage" component={Mypage}></Route>
+                <Route exact path="/quizpost" component={QuizPost}></Route>
+                <Route exact path="/mileageshop" component={MileageShop}></Route>
+                <Route exact path="/mynote" component={ProblemBox}></Route>
+                <Route exact path="/shop" component={MileageShop}></Route>
+                <Route path="/quizsolve/:id" component={QuizSolve}></Route>
+                <Route exact path="/auth/google" component={GoogleAuth}></Route>
+                <Route exact path="/auth/git" component={GithubAuth}></Route>
+              </ModalController>
+            </Switch>
+          </Suspense>
           <Footer />
         </>
       )}

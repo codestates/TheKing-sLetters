@@ -18,7 +18,11 @@ const ModalSubmitBackground = styled.div`
 `;
 
 const ModalSubmitButtonContainer = styled.div`
-	padding: 2% 6% 2% 6%;
+  /* 박스 설정 */
+  padding: 2% 15% 10% 15%;
+  @media (max-width: 960px) {
+    padding: 2% 10% 10% 10%;
+  }
 	> .modal_submit_button {
 		width: 100%;
 		padding: 1% 1% 1% 1%;
@@ -30,7 +34,8 @@ const ModalSubmitButtonContainer = styled.div`
 	}
   > .modal_submit_button:hover {
     cursor: pointer;
-    background-color: rgba(0, 0, 0, 0.3);
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
   }
 `;
 

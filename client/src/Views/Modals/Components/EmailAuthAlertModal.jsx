@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import styled from 'styled-components';
 import mailIcon from '../Assets/mail-1.svg';
 

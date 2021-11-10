@@ -19,7 +19,10 @@ const TopProfileTitle = styled.div`
 const TopProfileWrapper = styled.div`
   font-family: 'EBSHMJESaeronRA';
   width: auto;
-  padding: 2% 6% 4% 6.5%;
+  padding: 2% 15% 4% 15%;
+  @media (max-width: 960px) {
+    padding: 2% 7% 4% 7%;
+  }
   font-size: 16px;
   display: flex;
   flex-direction: row;
@@ -110,9 +113,7 @@ const TopProfileContainer = styled.div`
   }
   > .profile_please_login {
     font-family: 'EBSHunminjeongeumSBA';
-    padding: 2rem 6% 3rem 6%;
 		font-size: 16px;
-		width: 100%;
     height: 6rem;
 		display: flex;
 		flex-flow: row;
@@ -121,9 +122,12 @@ const TopProfileContainer = styled.div`
     background-color: #d7dbd1;
     
 		> img {
-			margin: 0 10px 0 10px;
+			margin: 0 10px 0 15%;
 			width: 10%;
 			max-width: 2rem;
+      @media (max-width: 960px) {
+        margin: 0 10px 0 10%;
+      }
 		}
 	}
 `;

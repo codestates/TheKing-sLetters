@@ -5,9 +5,13 @@ import AnswerDisplayTemplateMultiChoice from "../Template/AnswerDisplayTemplateM
 import AnswerDisplayTemplateImage from "../Template/AnswerDisplayTemplateImage";
 
 const AnswerDisplayWrapper = styled.div`
-	/* 박스 설정 */
-	width: 100%;
-	margin: 0.1% 0% 0.1% 0%;
+  /* 박스 설정 */
+  margin: 0 10% 0 10%;
+  width: 80%;
+  @media (max-width: 960px) {
+    margin: 0 1% 0 1%;
+    width: 98%;
+  }
 	/* 폰트 설정 */
 	font-size: 16px;
 	/* flex 설정 */

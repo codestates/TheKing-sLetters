@@ -1,6 +1,6 @@
 // library
 import styled from "styled-components";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 
 // modules
 import TopProfile from "./Components/TopProfile";
@@ -17,7 +17,6 @@ import { fetchQuizData, refineQuizData, fetchSubmitAnswer, refineSubmitAnswer, r
 import pageLoadingIcon from "./Assets/loading-1.svg";
 import commentLoadingIcon from "./Assets/loading-2.svg";
 import lockIcon from './Assets/lock-1.svg';
-import Loading from '../../../Loading/Loading';
 
 const DEBUG_MODE = true;
 
@@ -140,12 +139,6 @@ const QuizSolve = ({match}) => {
 	const isCorrectAnswer = useRef({result: null, message: ''});
 	// 테스트 모드 온오프
 	const isTestModeOn = useRef(false);
-  const [isLoading, setIsLoading] = useState(true);
-  useEffect(() => {
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 3200);
-  }, []);
 
 	/* 유저 데이터 불러오기 */
 	useEffect(() => {
@@ -179,7 +172,7 @@ const QuizSolve = ({match}) => {
 	}, [userState]);
 
 	/* 퀴즈 데이터 불러오기 */
-	const initialFetchQuizDate = async () => {
+	const initialFetchQuizDate = useCallback (async () => {
 		try {
 			const rawQuizData = await fetchQuizData(quizId);
 			const refinedQuizData = await refineQuizData(rawQuizData);
@@ -189,7 +182,7 @@ const QuizSolve = ({match}) => {
 			DEBUG_MODE && console.log(err);
 			setErrorList((state) => ({...state, quizError: true}));
 		};
-	}
+	}, [quizId]);
 
 	/* 퀴즈 데이터 불러오기 */
   useEffect(() => {
@@ -204,7 +197,7 @@ const QuizSolve = ({match}) => {
 		}
 		// 퀴즈 데이터 불러오기
 		initialFetchQuizDate();
-  }, [quizId]);
+  }, [quizId, initialFetchQuizDate]);
 	
 	/* 퀴즈 데이터를 성공적으로 불러왔다면 페이지를 로드 */
 	useEffect(() => {
@@ -320,7 +313,6 @@ const QuizSolve = ({match}) => {
 
 	return (
 		<QuizSolveContainer>
-			{isLoading && <Loading />}
 			{/* 퀴즈를 불러올 수 없으면 아래의 메시지를 표시 */}
 			{errorList.quizError ?
 			<div className="page_error_message_container">

@@ -59,6 +59,14 @@ const ProblemBoxCategoryContainer = styled.div`
       }
     }
   }
+
+  > .problem__box__login {
+    margin-top: -2rem;
+    padding-bottom: 2rem;
+    > p {
+      font-size: 1rem;
+    }
+  }
   .custom-shape-divider-bottom-1636081866 {
     position: absolute;
     bottom: 0;
@@ -99,6 +107,7 @@ const scoreDropDownListData = ['1냥', '2냥', '3냥', '4냥', '5냥'];
 const ProblemBoxCategorySelect = ({
   dataCategorySelect,
   setDataCategorySelect,
+  isGuest,
 }) => {
   const [selectedDropDown, setSelectedDropDown] = useState(0);
   const [dropDownWidth, setDropDownWidth] = useState(0);
@@ -146,6 +155,17 @@ const ProblemBoxCategorySelect = ({
 
   return (
     <ProblemBoxCategoryContainer>
+      {/* 로그인 하지 않았다면 아래의 화면을 표시 */}
+      {isGuest ? (
+        <div className="problem__box__login">
+          <p>
+            현재 <span style={{ color: 'blue' }}>로그인 </span>상태가 아닙니다
+            <br />
+            본인의 <span style={{ color: 'blue' }}>서재</span>를 확인하려면{' '}
+            <span style={{ color: 'blue' }}>로그인</span> 해주세요
+          </p>
+        </div>
+      ) : null}
       <h2 className="problem_box_categoty_title">보관자료검색</h2>
       <div className="problem_box_select_container">
         <div

@@ -257,7 +257,7 @@ const ServiceIntro = () => {
             onMouseOut={handleMouseOut2}
             src="https://cdn.discordapp.com/attachments/830706676852064307/901416130562887690/001.png"
             alt=""
-            data-animated="https://user-images.githubusercontent.com/85022657/137097843-48949e66-dcb5-491c-ae68-ae6894ea1e0f.gif"
+            data-animated="https://media.vlpt.us/images/yonghk423/post/86d1dfdd-820f-471b-b473-282b39791f63/%E1%84%86%E1%85%AE%E1%86%AB%E1%84%8C%E1%85%A6%E1%84%83%E1%85%B3%E1%86%BC%E1%84%85%E1%85%A9%E1%86%A8-2.gif"
             data-static="https://cdn.discordapp.com/attachments/830706676852064307/901416130562887690/001.png"
             className="hov-ani2"
           />
@@ -269,7 +269,7 @@ const ServiceIntro = () => {
             onMouseOut={handleMouseOut3}
             src="https://cdn.discordapp.com/attachments/830706676852064307/901416134874628136/002.png"
             alt=""
-            data-animated="https://i.ibb.co/2gm95K1/post-main-001-1-width-600px.gif"
+            data-animated="https://media.vlpt.us/images/yonghk423/post/82fa5283-d945-4bb0-8057-0038f340d219/%E1%84%86%E1%85%AE%E1%86%AB%E1%84%8C%E1%85%A6%20%E1%84%87%E1%85%A9%E1%84%80%E1%85%AA%E1%86%AB.gif"
             data-static="https://cdn.discordapp.com/attachments/830706676852064307/901416134874628136/002.png"
             className="hov-ani3"
           />
@@ -281,7 +281,7 @@ const ServiceIntro = () => {
             onMouseOut={handleMouseOut4}
             src="https://cdn.discordapp.com/attachments/830706676852064307/901776863947526144/004.png"
             alt=""
-            data-animated="https://user-images.githubusercontent.com/85022657/137097165-bad32b7c-05c8-479c-a082-346ec31a321d.gif"
+            data-animated="https://media.vlpt.us/images/yonghk423/post/9a30f76a-d238-4b69-a218-fd4dd8f0b4d4/%E1%84%86%E1%85%A1%E1%84%8B%E1%85%B5%E1%86%AF%E1%84%85%E1%85%B5%E1%84%8C%E1%85%B5.gif"
             data-static="https://cdn.discordapp.com/attachments/830706676852064307/901776863947526144/004.png"
             className="hov-ani4"
           />

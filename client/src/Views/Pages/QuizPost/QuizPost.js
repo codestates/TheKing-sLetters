@@ -19,6 +19,7 @@ const QuizPostContainer = styled.div`
   min-height: 86.8vh;
 `;
 
+
 const Post = () => {
   // 유저 데이터 저장
   const [userData, setUserData] = useState({ name: '', image: '', rank: '' });
@@ -61,7 +62,6 @@ const Post = () => {
       setIsLoading(false);
     }, 3200);
   }, []);
-
   /* 유저 데이터 불러오기 */
   useEffect(() => {
     // 유저가 로그인 한 상태라면

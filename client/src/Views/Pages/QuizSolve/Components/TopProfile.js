@@ -112,6 +112,20 @@ const TopProfileWrapper = styled.div`
 			max-width: 2rem;
 		}
 	}
+	> .profile_please_login {
+		outline: 1px solid rgba(0, 0, 0, 0.1);
+		border-radius: 1px;
+		padding: 5px 0px 5px 0px;
+		width: 100%;
+		display: flex;
+		flex-flow: row;
+		gap: 5px;
+		> img {
+			margin: 0 10px 0 10px;
+			width: 10%;
+			max-width: 2rem;
+		}
+	}
 `;
 
 const TopProfile = ({quizData, userData, recommendHandler, isGuest}) => {
@@ -145,8 +159,7 @@ const TopProfile = ({quizData, userData, recommendHandler, isGuest}) => {
 					문제의 <span style={{color: "blue"}}>정답</span>을 확인하려면 <span style={{color: "blue"}}>로그인</span> 해주세요
 				</p>``
 			</div>
-			: null}
-			
+			: null}			
 			{/* 프로필 삼각형 아이콘 */}
 			<div className="custom-shape-divider-bottom-1636245050">
         <svg

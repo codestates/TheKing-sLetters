@@ -329,7 +329,6 @@ const MileageShop = () => {
   const [userLoginSuccess, setUserLoginSuccess] = useState(false);
   // 유저 정보 state를 context에서 불러옴, 로그인 정보와 유저 정보가 담겨있음
   const userState = useUserState();
-
   // 체험 모드 온오프
   const [isTestModeOn, setIsTestModeOn] = useState(false);
   // 구매 에러 여부 확인
@@ -341,7 +340,6 @@ const MileageShop = () => {
     if (result.length === 0) setIsAnyError(false);
     else setIsAnyError(true);
   }, [modalMsgList]);
-
   /* 유저 데이터 불러오기 */
   useEffect(() => {
     setUserLoginSuccess(false);
@@ -587,12 +585,14 @@ const MileageShop = () => {
   useEffect(() => {
     setTimeout(() => {
       setIsLoading(false);
+
     }, 3200);
   }, []);
 
   return (
     <>
       {isLoading && <Loading />}
+
 
       {/* 로그인이 안되어 있다면 표시 체험하기 모드 버튼 표시*/}
       {!userLoginSuccess ?
@@ -612,6 +612,7 @@ const MileageShop = () => {
           </p>
           <p className="guest_mode_msg" onClick={() => setIsTestModeOn(true)}>체험하기</p>
         </div>
+
       </MileageShopWrapper>
       : null}
       

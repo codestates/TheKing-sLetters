@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import './MainPhoto.scss';
 import { Link } from 'react-scroll';
+import MainPicture from './MainPicture.png';
 
 const MainContainer = styled.div`
   position: relative;
@@ -188,7 +189,7 @@ const MainPhoto = () => {
         </Link>
       </MainTitle>
       <MainImg className="image">
-        <img src="https://user-images.githubusercontent.com/85022657/137096188-09bfc7e8-a886-4ae1-9bd5-fe7c6f022b98.gif" />
+        <img src={MainPicture} alt="MainImg" />
       </MainImg>
     </MainContainer>
   );

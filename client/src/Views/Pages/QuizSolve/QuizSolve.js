@@ -264,6 +264,7 @@ const QuizSolve = ({match}) => {
 		});
 	};
 
+
 	const recommendHandler = async () => {
 		try {
 			const result = await recommendQuiz(quizId);
@@ -337,6 +338,7 @@ const QuizSolve = ({match}) => {
 			{/* 퀴즈를 불러왔으면 아래의 본문을 표시 */}
 			{!pageIsLoading ?
 			<>
+
 			<div className="quiz_solve_top_title">
 				<h2>문제 풀이</h2>
 			</div>

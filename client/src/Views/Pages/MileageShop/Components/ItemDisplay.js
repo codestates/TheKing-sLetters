@@ -46,7 +46,7 @@ const ItemContainerWrapper = styled.div`
   // space-between 마지막 공간 채우기
   &::after {
     content: '';
-    flex: 20em 0 1;
+    flex: 20em 1 1;
   }
   > .item_container {
     position: relative;

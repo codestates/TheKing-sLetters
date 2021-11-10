@@ -102,7 +102,7 @@ const MileageDisplay = ({ userInfo, totalPrice }) => {
             {numberWithCommas(userInfo.mileage)} 냥
           </p>
           <p className="mileage_val_name_2">
-            − {numberWithCommas(totalPrice)} 냥
+            {totalPrice === 0 ? "" : "−"} {numberWithCommas(totalPrice)} 냥
           </p>
           <p className="mileage_val_name_3">
             {numberWithCommas(userInfo.mileage - totalPrice)} 냥

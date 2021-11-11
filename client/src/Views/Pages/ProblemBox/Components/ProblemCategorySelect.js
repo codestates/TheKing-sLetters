@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import ProblemDropDownList from './ProblemBoxTemplate/ProblemDropDownList';
 import dropDownIcon from '../Assets/dropdown-1.svg';
+import exclamationIcon from '../../QuizPost/Assets/exclamation-1.svg';
 
 const ProblemBoxCategoryContainer = styled.div`
   font-family: 'EBSHunminjeongeumSBA';
@@ -61,8 +62,16 @@ const ProblemBoxCategoryContainer = styled.div`
   }
 
   > .problem__box__login {
-    margin-top: -2rem;
+    margin-top: -3rem;
     padding-bottom: 2rem;
+    display: flex;
+    align-items: center;
+    > img {
+      display: flex;
+      width: 30px;
+      height: 30px;
+      margin-right: 10px;
+    }
     > p {
       font-size: 1rem;
     }
@@ -158,6 +167,7 @@ const ProblemBoxCategorySelect = ({
       {/* 로그인 하지 않았다면 아래의 화면을 표시 */}
       {isGuest ? (
         <div className="problem__box__login">
+          <img src={exclamationIcon} alt="프로필 사진"></img>
           <p>
             현재 <span style={{ color: 'blue' }}>로그인 </span>상태가 아닙니다
             <br />

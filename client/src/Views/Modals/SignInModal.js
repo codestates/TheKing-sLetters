@@ -144,7 +144,7 @@ const Img = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.5rem;
+  gap: 10px;
   margin: 3rem 0 2rem 0;
   //-----------git logo
   > .github_link {
@@ -181,9 +181,10 @@ const Img = styled.div`
     display: block;
     width: 350px;
     height: 50px;
-    outline: 1px solid black;
+    border: 1px solid black;
     border-radius: 12px;
     overflow: hidden;
+    margin-top: 10px;
     > .googleBox {
       position: relative;
       width: 100%;

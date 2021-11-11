@@ -29,6 +29,7 @@ font-family: 'EBSHunminjeongeumSBA';
     left: 0;
     bottom: 0;
     right: 0;
+    width: 35em;
   }
 }
 `;
@@ -62,7 +63,11 @@ const Title = styled.div`
       }
     }
   }
-  > button {
+
+  > .yesBtn {
+    @media (max-width: 768px) {
+      padding: 0 4em 0 4em;
+    }
     font-size: 1em;
     border-radius: 2em;
     background-color: #d7dbd1;
@@ -71,19 +76,30 @@ const Title = styled.div`
     margin: 4em 3em 0 3em;
     cursor: pointer;
     transition: all 0.3s;
+    border: 1px solid rgba(77, 109, 254, 0.9);
+    background-color: rgba(77, 109, 254, 0.9);
+  }
+
+  > .noBtn {
     @media (max-width: 768px) {
-      top: 0;
-      left: 0;
-      bottom: 0;
-      right: 0;
-      padding: 0 2em 0 2em;
-      margin: 4em 1em 0 1em;
+      padding: 0 4em 0 4em;
     }
-  }
-  > button:hover {
-    background-color: #303030;
+    font-size: 1em;
+    border-radius: 2em;
+    background-color: #d7dbd1;
+    height: 3em;
+    padding: 0 5em 0 5em;
+    margin: 4em 3em 0 3em;
+    cursor: pointer;
     transition: all 0.3s;
+    border: 1px solid rgba(77, 109, 254, 0.9);
+    background-color: rgba(77, 109, 254, 0.9);
   }
+
+  > button:hover {
+    border: 1px solid #0066ff;
+    background-color: #0066ff;
+  }  
   `;
 
 const DeleteApproveModal = ({ setDeleteCheckOpen, deleteMyQuiz }) => {
@@ -95,10 +111,10 @@ const DeleteApproveModal = ({ setDeleteCheckOpen, deleteMyQuiz }) => {
           <div>
             정말 삭제하시겠습니까?
           </div>
-          <button onClick={() => { deleteMyQuiz(); setDeleteCheckOpen(false) }}>
+          <button className="yesBtn" onClick={() => { deleteMyQuiz(); setDeleteCheckOpen(false) }}>
             예
           </button>
-          <button onClick={() => setDeleteCheckOpen(false)}>
+          <button className="noBtn" onClick={() => setDeleteCheckOpen(false)}>
             아니요
           </button>
         </Title>

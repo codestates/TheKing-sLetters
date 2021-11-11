@@ -8,6 +8,7 @@ import Modal6 from './RankModal'
 import DeleteApproveModal from './DeleteApproveModal';
 import { Link } from 'react-router-dom';
 import { useUserState } from "../../../context/UserContext";
+import Loading from '../../../Loading/Loading';
 
 // axios 기본값 설정
 axios.defaults.baseURL = `https://api.thekingsletters.ml`;
@@ -261,7 +262,7 @@ const Li = styled.li`
   justify-content: space-between;
   margin-bottom: 1em;
   padding: 0;
-  max-height: 0;
+  /* max-height: 0; */
   background: rgba(209,213,218,0.5);
   overflow: hidden;
   transition: all .4s ease;
@@ -318,23 +319,26 @@ const Li = styled.li`
   justify-content: space-between;
   margin-bottom: 1em;
   padding: 0;
-  max-height: 0;
+  /* max-height: 0; */
   background: rgba(209,213,218,0.5);
   overflow: hidden;
   transition: all .4s ease;
   > div { 
     overflow: auto;
     display: flex;
-    padding: 1% 0 2% 0;
+    padding: 5.5% 0 5.5% 0;
+ 
     > .emptyUsedItem {
       display: block;
       margin: 0 auto;
       margin-top: 2em;
       margin-bottom: 2em;
       font-size: 2em;
+      color: #808e95;
     }
-}
-}
+  }
+    }
+
 
 /* ----------------------내가 만든 퀴즈---------------------- */
 
@@ -419,16 +423,21 @@ const Li = styled.li`
     overflow: auto;
     display: flex;
     height: 100px;
-    padding: 1% 0 2% 0;
+    padding: 5.5% 0 5.5% 0;
     > .emptyMadeQuiz {
       display: block;
       margin: 0 auto;
       margin-top: 1.5em;
       margin-bottom: 1.5em;
       font-size: 2em;
+      color: #808e95;
+    }
+    > .emptyMadeQuiz:hover {
+      color: #303030;
+    }
+    
     }
   }
-}
 
 > .checkbox:checked ~ .itemListContainer {  
   height: auto;
@@ -477,6 +486,7 @@ const MyPage = (props) => {
   const [usedItems, setUsedItem] = useState([]);
   const [quiz, setQuiz] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   
   const deleteMyQuiz = async () => {
     await axios.delete(`/users/deletequiz?quizid=${selectedQuiz}`)
@@ -521,10 +531,14 @@ const MyPage = (props) => {
         setBuyItems(response.data.data.itemList);
       });
     }
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 3200);
   }, []);
 
     return (
       <>
+      {isLoading && <Loading />}
       {deleteCheckOpen && <DeleteApproveModal setDeleteCheckOpen={setDeleteCheckOpen} deleteMyQuiz={deleteMyQuiz} />}
       {modalOpen && <Modal6 setOpenModal={setModalOpen} />}
       <FirstBox>

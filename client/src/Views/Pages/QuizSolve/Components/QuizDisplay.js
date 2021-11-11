@@ -12,11 +12,12 @@ const QuizDisplayWrapper = styled.div`
 	display: flex;
 	flex-direction: column;
 	> .quiz_solve_title {
-		background-color: #04AA6D;
+		font-family: 'EBSHunminjeongeumSBA';
+		font-size: 24px;
+		background-color: #93aca0;
 		margin: 0% 6% 0% 6%;
 		padding: 1% 1% 1% 1%;
 		color: rgba(255, 255, 255, 1);
-		font-size: 21px;
 		font-weight: 600;
 	}
 	> .quiz_solve_tags_container {
@@ -32,6 +33,9 @@ const QuizDisplayWrapper = styled.div`
     gap: 1%;
     flex: 2em 1 0;
   }
+	> .quiz_solve_tags_container .quiz_solve_tags {
+		font-family: 'EBSHunminjeongeumSBA';
+	}
 `;
 
 const QuizDisplay = ({quizData}) => {

@@ -28,11 +28,14 @@ function App() {
     <>
       {userState.isAdminLoggedIn ? (
         <>
-          <ModalController>
-            <AdminHeader />
-            <Route exact path="/" component={Admin}></Route>
-            <AdminFooter />
-          </ModalController>
+          <Switch>
+            <ModalController>
+              <AdminHeader />
+              <Route exact path="/" component={Admin}></Route>
+              <Route path="/quizsolve/:id" component={QuizSolve}></Route>
+              <AdminFooter />
+            </ModalController>
+          </Switch>
         </>
       ) : (
         <>

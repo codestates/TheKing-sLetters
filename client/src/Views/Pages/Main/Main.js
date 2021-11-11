@@ -23,7 +23,7 @@ const Main = () => {
   useEffect(() => {
     setTimeout(() => {
       setIsLoading(false);
-    }, 1500);
+    }, 3200)
     getMainHotQuiz();
   }, []);
 

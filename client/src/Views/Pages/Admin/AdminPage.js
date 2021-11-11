@@ -11,17 +11,16 @@ axios.defaults.withCredentials = true;
 const AdminPage = () => {
   const userState = useUserState();
   const isLogin = userState.isAdminLoggedIn;
+
   const [validQuiz, setValidQuiz] = useState([]);
   const [invalidQuiz, setInValidQuiz] = useState([]);
 
   useEffect(() => {
     const getApproveQuiz = async () => {
-      await axios
-        .get('/approvalpage')
-        .then((res) => {
-          setInValidQuiz(res.data.data.invalidQuizList);
-          setValidQuiz(res.data.data.validQuizList);
-        });
+      await axios.get('/approvalpage').then((res) => {
+        setInValidQuiz(res.data.data.invalidQuizList);
+        setValidQuiz(res.data.data.validQuizList);
+      });
     };
     getApproveQuiz();
   }, [isLogin]);

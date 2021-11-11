@@ -62,7 +62,6 @@ width: 100%;
   font-size: 0.8rem;
   cursor: pointer;
   transition: all .2s ease;
-  z-index: 1;
     &:hover{
     color: #5E5E5E;
   }

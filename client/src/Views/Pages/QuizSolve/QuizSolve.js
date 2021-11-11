@@ -274,6 +274,7 @@ const QuizSolve = ({match}) => {
 			if (result === 'ALREADY RECOMMENDED') {
 				const target = document.querySelector('#msg_already_recommended');
 				if (target) {
+					setQuizData((state) => ({...state, howManyLikes: state.howManyLikes - 1}));
 					target.style.display = "block";
 					setTimeout(() => {
 						target.style.display = "none";

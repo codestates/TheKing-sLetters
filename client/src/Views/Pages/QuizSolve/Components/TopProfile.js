@@ -9,7 +9,10 @@ const TopProfileWrapper = styled.div`
 	position: relative;
 	width: auto;
 	margin: 0 0 2rem 0;
-	padding: 2% 6% 2% 6%;
+  padding: 2% 15% 4% 15%;
+  @media (max-width: 960px) {
+    padding: 2% 7% 4% 7%;
+  }
 	font-size: 16px;
 	display: flex;
 	flex-direction: row;

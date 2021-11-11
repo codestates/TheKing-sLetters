@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useReducer, useEffect } from "react";
+import React, { createContext, useContext, useReducer } from "react";
 
 const ModalStateContext = createContext(null);
 const ModalDispatchContext = createContext(null);

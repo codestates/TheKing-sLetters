@@ -9,6 +9,7 @@ const AnswerDisplayTemplateOxWrapper = styled.div`
   gap: 1em;
   flex-wrap: wrap;
   justify-content: space-evenly;
+  
   > .ox_container {
     position: relative;
     border: 1px dashed rgba(0, 0, 0, 0.5);
@@ -34,10 +35,23 @@ const AnswerDisplayTemplateOxWrapper = styled.div`
   }
   > .ox_container:hover {
     cursor: pointer;
-    transform: scale(1.05);
+    transform: scale(1.01);
   }
   > .answer_selected {
     border: 3px solid #0054bb;
+  }
+
+  @media (max-width: 960px) {
+    > .ox_container {
+      width: 325px;
+      height: auto;
+    }
+  }
+  @media (max-width: 768px) {
+    > .ox_container {
+      width: 425px;
+      height: auto;
+    }
   }
 `;
 

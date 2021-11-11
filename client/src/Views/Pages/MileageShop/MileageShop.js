@@ -8,7 +8,6 @@ import MileageDisplay from './Components/MileageDisplay';
 import ShoppingCart from './Components/ShoppingCart';
 import ItemDisplay from './Components/ItemDisplay';
 import { useUserState } from '../../../context/UserContext';
-import Loading from '../../../Loading/Loading';
 
 import {
   fetchItemsData,
@@ -581,19 +580,8 @@ const MileageShop = () => {
     setConfirmIsOpen(!confrimIsOpen);
   };
 
-  const [isLoading, setIsLoading] = useState(true);
-  useEffect(() => {
-    setTimeout(() => {
-      setIsLoading(false);
-
-    }, 3200);
-  }, []);
-
   return (
     <>
-      {isLoading && <Loading />}
-
-
       {/* 로그인이 안되어 있다면 표시 체험하기 모드 버튼 표시*/}
       {!userLoginSuccess ?
       <MileageShopWrapper>

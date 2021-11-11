@@ -20,7 +20,12 @@ const ModalSubmitBackground = styled.div`
 `;
 
 const ModalSubmitButtonContainer = styled.div`
-  padding: 2% 6% 10% 6%;
+  /* 박스 설정 */
+  padding: 2% 15% 10% 15%;
+  @media (max-width: 960px) {
+    padding: 2% 8% 10% 8%;
+  }
+  
   > .modal_submit_button {
     font-family: 'EBSHMJESaeronRA';
     width: 100%;

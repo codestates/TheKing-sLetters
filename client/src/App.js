@@ -7,10 +7,6 @@ import Header from './Menu/Header';
 import Footer from './Menu/Footer';
 import AdminHeader from './Menu/AdminHeader';
 import AdminFooter from './Menu/AdminFooter';
-import Mypage from './Views/Pages/MyPage/MyPage';
-import Main from './Views/Pages/Main/Main';
-import Admin from './Views/Pages/Admin/AdminPage';
-import ProblemBox from './Views/Pages/ProblemBox/ProblemBox';
 import GoogleAuth from './Views/Pages/MyPage/GoogleAuth';
 import GithubAuth from './Views/Pages/MyPage/GithubAuth';
 import Loading from './Loading/Loading';
@@ -23,16 +19,31 @@ import ModalController from './Views/Modals/ModalController';
 // import QuizPost from './Views/Pages/QuizPost/QuizPost';
 // import QuizSolve from './Views/Pages/QuizSolve/QuizSolve';
 // import MileageShop from './Views/Pages/MileageShop/MileageShop';
+// import Mypage from './Views/Pages/MyPage/MyPage';
+// import Main from './Views/Pages/Main/Main';
+// import Admin from './Views/Pages/Admin/AdminPage';
+// import ProblemBox from './Views/Pages/ProblemBox/ProblemBox';
+
 
 function App() {
   /* 관리자 로그인 정보 확인 */
   const userState = useUserState();
 
   /* lazy loading 컴포넌트 */
-  const LandingPage = lazy(() => import('./Views/Pages/Landing/LandingPage'));
+  // 최소 로딩 시간 2초
+  const LandingPage = lazy(() => {
+    return new Promise((resolve) => {
+      setTimeout(() => resolve(import('./Views/Pages/Landing/LandingPage')), 2000);
+    });
+  });
+  // 나머지는 최소 로딩 시간 없음
   const MileageShop = lazy(() => import('./Views/Pages/MileageShop/MileageShop'));
   const QuizPost = lazy(() => import('./Views/Pages/QuizPost/QuizPost'));
   const QuizSolve = lazy(() => import('./Views/Pages/QuizSolve/QuizSolve'));
+  const Mypage = lazy(() => import('./Views/Pages/MyPage/MyPage'));
+  const Main = lazy(() => import('./Views/Pages/Main/Main'));
+  const Admin = lazy(() => import('./Views/Pages/Admin/AdminPage'));
+  const ProblemBox = lazy(() => import('./Views/Pages/ProblemBox/ProblemBox'));
 
   return (
     <>

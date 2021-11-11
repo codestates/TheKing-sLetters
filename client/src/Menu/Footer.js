@@ -28,6 +28,7 @@ const FooterContainer = styled.div`
   }
 
   @media (max-width: 768px) {
+    padding: 8px 14px;
     > .footer__logo {
       font-size: 1.5em;
     }

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { useUserState } from '../context/UserContext';
 
@@ -41,7 +42,11 @@ const AdminHeader = () => {
     <>
       <AdminBar>
         <div className="admin__logo">
-          <span>나랏말싸미</span>
+          <span>
+            <Link to="/" style={{ color: '#303030' }}>
+              나랏말싸미
+            </Link>
+          </span>
         </div>
         <AdminBarUser className="admin">
           관리자: <span>{userState.adminData.name}</span>

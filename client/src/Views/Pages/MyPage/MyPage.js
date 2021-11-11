@@ -8,7 +8,6 @@ import Modal6 from './RankModal'
 import DeleteApproveModal from './DeleteApproveModal';
 import { Link } from 'react-router-dom';
 import { useUserState } from "../../../context/UserContext";
-import Loading from '../../../Loading/Loading';
 
 // axios 기본값 설정
 axios.defaults.baseURL = `https://api.thekingsletters.ml`;
@@ -486,7 +485,6 @@ const MyPage = (props) => {
   const [usedItems, setUsedItem] = useState([]);
   const [quiz, setQuiz] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
   
   const deleteMyQuiz = async () => {
     await axios.delete(`/users/deletequiz?quizid=${selectedQuiz}`)
@@ -531,14 +529,10 @@ const MyPage = (props) => {
         setBuyItems(response.data.data.itemList);
       });
     }
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 3200);
   }, []);
 
     return (
       <>
-      {isLoading && <Loading />}
       {deleteCheckOpen && <DeleteApproveModal setDeleteCheckOpen={setDeleteCheckOpen} deleteMyQuiz={deleteMyQuiz} />}
       {modalOpen && <Modal6 setOpenModal={setModalOpen} />}
       <FirstBox>

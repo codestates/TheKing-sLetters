@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 import { useUserState } from '../../context/UserContext';
@@ -210,16 +210,17 @@ export const ModalView = styled.div`
   }
 `;
 
- const MyPageModal = ({ isOpen, setIsOpen }) => {
-  const initialValue = {
-    email: "",
-    name: "",
-    mobile: "",
-    image: "",
-    gender: "",
-    password: "",
-    passwordCheck: "",
-  };
+const initialValue = {
+  email: "",
+  name: "",
+  mobile: "",
+  image: "",
+  gender: "",
+  password: "",
+  passwordCheck: "",
+};
+
+const MyPageModal = ({ isOpen, setIsOpen }) => {
   const [modifiedUserInfo, setModifiedUserInfo] = useState(initialValue);
   const [isPasswordMatched, setIsPasswordMatched] = useState(true);
   const [isPasswordEmpty, setIsPasswordEmpty] = useState(true);
@@ -227,7 +228,6 @@ export const ModalView = styled.div`
   const [isVaildMobile, setIsVaildMobile] = useState(true);
   const [isVaildName, setIsVaildName] = useState(true);
   const [submitEnabled, setSubmitEnabled] = useState(true);
-  const [isLoading, setIsLoading] = useState(true);
   /* context에서 유저 정보 state를 불러옴 */
   const userState = useUserState();
 
@@ -278,12 +278,12 @@ export const ModalView = styled.div`
 
   const submitButtonHandler = async (e) => {
     e.preventDefault();
-    console.log(isPasswordMatched, isVaildPassword, isVaildName, isVaildMobile)
-    setSubmitEnabled(false);
+    if (!submitEnabled) return;
     if (isPasswordMatched && isVaildPassword && isVaildName && isVaildMobile) {
-      fetchUserInfo();
+      setSubmitEnabled(false);
+      await fetchUserInfo();
+      setSubmitEnabled(true);
     }
-    setSubmitEnabled(true);
   }
 
   const fetchUserInfo = async () => {
@@ -315,9 +315,7 @@ export const ModalView = styled.div`
   };
 
   useEffect(() => {
-    let delay;
-    if (delay) clearTimeout(delay);
-    delay = setTimeout(() => {
+    setTimeout(() => {
       if (modifiedUserInfo.password === '' && modifiedUserInfo.passwordCheck === '') {
         // console.log('비밀번호 칸이 비어있습니다.');
         setIsPasswordEmpty(true);
@@ -357,21 +355,24 @@ export const ModalView = styled.div`
     }, 1000);
   }, [modifiedUserInfo]);
 
-  useEffect( async () => {
-    if(isOpen) {
-      const data = userState.userData;
-      const newValue = {
-        email: data.email,
-        name: data.name,
-        mobile: data.mobile,
-        image: data.image,
-        gender: data.gender,
-        password: "",
-        passwordCheck: "",
-      };
-      setModifiedUserInfo(newValue);
+  useEffect(() => {
+    const initiate = async () => {
+      if(isOpen) {
+        const data = userState.userData;
+        const newValue = {
+          email: data.email,
+          name: data.name,
+          mobile: data.mobile,
+          image: data.image,
+          gender: data.gender,
+          password: "",
+          passwordCheck: "",
+        };
+        setModifiedUserInfo(newValue);
+      }
     }
-  }, [isOpen]);
+    initiate();
+  }, [isOpen, userState]);
 
   // 모달창 온오프 핸들러
   const modalOpenHandler = () => {

@@ -68,7 +68,7 @@ const HelpMessage = ({ data, vaildator, message }) => {
       helpMessage.current.style.visibility = 'visible';
       helpMessage.current.style.opacity = '0.8';
     }
-  }, [data]);
+  }, [data, vaildator]);
 
   return (
     <MsgShowUp

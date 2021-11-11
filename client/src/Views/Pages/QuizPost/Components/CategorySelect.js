@@ -7,7 +7,12 @@ import dropDownIcon from '../Assets/dropdown-1.svg';
 
 const CategorySelectWrapper = styled.div`
   /* 박스 설정 */
-  width: 100%;
+  margin: 0 10% 0 10%;
+  width: 80%;
+  @media (max-width: 960px) {
+    margin: 0 1% 0 1%;
+    width: 98%;
+  }
 
   /* flex 설정 */
   display: flex;

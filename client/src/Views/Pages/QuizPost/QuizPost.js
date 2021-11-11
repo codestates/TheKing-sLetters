@@ -9,7 +9,6 @@ import SubmitModal from './Components/SubmitModal';
 import { useUserState } from '../../../context/UserContext';
 import { vaildCheckAll } from './Components/VaildCheck';
 import { uploadData, refineData } from './Components/FetchData';
-import Loading from '../../../Loading/Loading';
 
 const QuizPostContainer = styled.div`
   position: relative;
@@ -18,7 +17,6 @@ const QuizPostContainer = styled.div`
   width: 100%;
   min-height: 86.8vh;
 `;
-
 
 const Post = () => {
   // 유저 데이터 저장
@@ -56,12 +54,6 @@ const Post = () => {
   const [isReadyToSubmit, setIsReadyToSubmit] = useState(false);
   // 유저 정보 state를 context에서 불러옴, 로그인 정보와 유저 정보가 담겨있음
   const userState = useUserState();
-  const [isLoading, setIsLoading] = useState(true);
-  useEffect(() => {
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 3200);
-  }, []);
   /* 유저 데이터 불러오기 */
   useEffect(() => {
     // 유저가 로그인 한 상태라면
@@ -132,7 +124,6 @@ const Post = () => {
 
   return (
     <QuizPostContainer>
-      {isLoading && <Loading />}
       <TopProfile
         userData={userData}
         isGuest={!userState.isUserLoggedIn}

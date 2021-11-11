@@ -20,7 +20,12 @@ const ModalSubmitBackground = styled.div`
 `;
 
 const ModalSubmitButtonContainer = styled.div`
-  padding: 2% 6% 10% 6%;
+  /* 박스 설정 */
+  padding: 2% 15% 10% 15%;
+  @media (max-width: 960px) {
+    padding: 2% 8% 10% 8%;
+  }
+
   > .modal_submit_button {
     font-family: 'EBSHMJESaeronRA';
     width: 100%;
@@ -109,7 +114,6 @@ const ModalSubmitView = styled.div`
     cursor: pointer;
     background-color: #0066ff;
     transition: all 0.4s ease;
-    
   }
   > .modal_button_container .modal_confirm_no {
     font-family: 'EBSHMJESaeronRA';
@@ -198,34 +202,41 @@ const ModalSubmit = ({
       setIsUploaded(false);
       setDataThumbnail({ ...dataThumbnail, image_url: '', image_object: '' });
       // 로그인 모달창을 오픈
-      modalDispatch({type: "MODAL_USER_SIGN_IN", value: true});
+      modalDispatch({ type: 'MODAL_USER_SIGN_IN', value: true });
     } else {
       // 로그인했다면 정상적으로 진행
       submitHandler();
     }
-  }
+  };
 
   return (
     <>
       <ModalSubmitButtonContainer>
         <button
           className="modal_submit_button"
-          onClick={() => modalOpenHandler()}>
+          onClick={() => modalOpenHandler()}
+        >
           제출하기
-          </button>
+        </button>
       </ModalSubmitButtonContainer>
 
       {isModalOpen && isReadyToSubmit ? (
         <ModalSubmitBackground>
           <ModalSubmitView>
             <p className="modal_image_preview_title">
-              문제의 <span style={{color: "blue"}}>썸네일 사진</span>을 업로드 해주세요
+              문제의 <span style={{ color: 'blue' }}>썸네일 사진</span>을 업로드
+              해주세요
               <br />
-              업로드하지 않으면 <span style={{color: "blue"}}>기본 이미지</span>가 들어갑니다
+              업로드하지 않으면{' '}
+              <span style={{ color: 'blue' }}>기본 이미지</span>가 들어갑니다
             </p>
             <div className="modal_image_preview_wrapper">
               {isUploaded ? (
-                <img style={{maxWidth: "80vw", maxHeight: "50vh"}} src={dataThumbnail.image_url} alt="썸네일 이미지"></img>
+                <img
+                  style={{ maxWidth: '80vw', maxHeight: '50vh' }}
+                  src={dataThumbnail.image_url}
+                  alt="썸네일 이미지"
+                ></img>
               ) : (
                 <CropModal
                   handler={imageCropperHandler}
@@ -234,31 +245,36 @@ const ModalSubmit = ({
               )}
             </div>
             <p className="modal_confirm_msg">
-              제출하시려면 <span style={{color: "blue"}}>확인</span>버튼을 눌러주세요
+              제출하시려면 <span style={{ color: 'blue' }}>확인</span>버튼을
+              눌러주세요
             </p>
             <div className="modal_button_container">
-              {!uploadLoading ?
-              <button
-                className="modal_confirm_yes"
-                onClick={modalClickHandler}>
-                확인
+              {!uploadLoading ? (
+                <button
+                  className="modal_confirm_yes"
+                  onClick={modalClickHandler}
+                >
+                  확인
                 </button>
-              : null}
+              ) : null}
 
-              {uploadLoading ?
-              <button className="modal_confirm_loading">
-                <img
-                  className="loading_image"
-                  src={loadingIcon}
-                  alt="업로드 로딩"></img>
-                업로드 중
-              </button>
-              : null}
+              {uploadLoading ? (
+                <button className="modal_confirm_loading">
+                  <img
+                    className="loading_image"
+                    src={loadingIcon}
+                    alt="업로드 로딩"
+                  ></img>
+                  업로드 중
+                </button>
+              ) : null}
 
               <button
                 className="modal_confirm_no"
-                onClick={() => modalOpenHandler()}>
-                취소</button>
+                onClick={() => modalOpenHandler()}
+              >
+                취소
+              </button>
             </div>
           </ModalSubmitView>
         </ModalSubmitBackground>

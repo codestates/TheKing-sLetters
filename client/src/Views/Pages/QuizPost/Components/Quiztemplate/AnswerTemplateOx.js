@@ -49,7 +49,7 @@ const AnswerTemplateOxWrapper = styled.div`
   }
   > .ox__wrap > .ox_container:hover {
     cursor: pointer;
-    transform: scale(1.05);
+    transform: scale(1.01);
   }
   > .ox__wrap > .answer_selected {
     border: 3px solid #0054bb;

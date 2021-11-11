@@ -600,7 +600,6 @@ const MileageShop = () => {
           </p>
           <p className="guest_mode_msg" onClick={() => setIsTestModeOn(true)}>체험하기</p>
         </div>
-
       </MileageShopWrapper>
       : null}
       

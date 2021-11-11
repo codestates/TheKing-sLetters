@@ -143,7 +143,7 @@ const Quizizz = styled.div`
   &:nth-child(4n) {
     margin-left: 0;
   }
-  a > form {
+  > form {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -372,35 +372,35 @@ const QuizManagement = ({ isLogin, invalidQuiz, setInValidQuiz }) => {
     .map((el, i) => {
       return (
         <Quizizz key={i} onClick={() => handleQuizClick(el.id)}>
-          <Link to={`/quizsolve/${el.id}`}>
-            <form>
+          <form>
+            <Link to={`/quizsolve/${el.id}`}>
               <img src={el.thumbnail} alt="main Thumbnail" />
-              <input
-                type="checkbox"
-                name="choice_quiz"
-                value="choiceQuiz"
-                onChange={(e) => handleSingleCheck(e.target.checked, el)}
-                checked={checkedList.includes(el) ? true : false}
-              />
-              <span onClick={() => deleteQuiz(el.id)}>&times;</span>
-            </form>
-            <div className="category__quiz">
-              <span>{el.categories[0].category}</span>
-              <span>{el.quiz_types[0].quizContent.quizType}</span>
-              <span>{el.answer_types[0].answerContent.answerType}</span>
-              <span>{el.rewardPoint}냥</span>
-            </div>
-            <div className="category__title">
-              <h1>{el.title}</h1>
-              <span>
-                <FontAwesomeIcon
-                  className="heart"
-                  icon={faHeart}
-                ></FontAwesomeIcon>
-                {el.heart}
-              </span>
-            </div>
-          </Link>
+            </Link>
+            <input
+              type="checkbox"
+              name="choice_quiz"
+              value="choiceQuiz"
+              onChange={(e) => handleSingleCheck(e.target.checked, el)}
+              checked={checkedList.includes(el) ? true : false}
+            />
+            <span onClick={() => deleteQuiz(el.id)}>&times;</span>
+          </form>
+          <div className="category__quiz">
+            <span>{el.categories[0].category}</span>
+            <span>{el.quiz_types[0].quizContent.quizType}</span>
+            <span>{el.answer_types[0].answerContent.answerType}</span>
+            <span>{el.rewardPoint}냥</span>
+          </div>
+          <div className="category__title">
+            <h1>{el.title}</h1>
+            <span>
+              <FontAwesomeIcon
+                className="heart"
+                icon={faHeart}
+              ></FontAwesomeIcon>
+              {el.heart}
+            </span>
+          </div>
         </Quizizz>
       );
     });

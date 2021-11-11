@@ -7,7 +7,6 @@ import MessageResign from './Components/MessageResign';
 import ResignSuccess from './Components/ResignSuccess';
 import Upload from '../../functions/upload';
 
-
 const DEBUG_MODE = false;
 axios.defaults.baseURL = `https://api.thekingsletters.ml`;
 axios.defaults.withCredentials = true;

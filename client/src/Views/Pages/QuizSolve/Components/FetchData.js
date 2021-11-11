@@ -116,9 +116,9 @@ export const recommendQuiz = async (id) => {
     });
     const data = response.data;
     if (response.status === 200 && data === "add recommend")
-      return "RECOMMENDED";
+      return "ADD RECOMMEND";
     else if (response.status === 200 && data === "cancel recommend")
-      return "ALREADY RECOMMENDED";
+      return "CANCEL RECOMMEND";
     else
       return "UNHANDLED ERROR";
   } catch(error) {

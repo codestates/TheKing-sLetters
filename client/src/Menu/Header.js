@@ -1,8 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+
 // 유저 컨텍스트
 import { useUserState } from '../context/UserContext';
+
+// modal
+// import ModalController from '../Views/Modals/ModalController';
 
 const NavBar = styled.div`
   background-color: #d7dbd1;
@@ -152,8 +156,10 @@ const Header = () => {
           </li>
         </NavBarMenu>
         <NavBarUser>
-          <div className="modal_button" id="modal_signin"></div>
           {/* 로그인 조건부 렌더링 로그인했으면 내정보, 안했으면 회원가입 표시 display 속성으로 컨트롤하지 않으면 에러 발생*/}
+          {!userState.isUserLoggedIn ?
+          <>
+          <div className="modal_button" id="modal_signin"></div>
           <div
             className="modal_button"
             id="modal_signup"
@@ -165,6 +171,27 @@ const Header = () => {
           >
             <Link to="/mypage">내정보</Link>
           </li>
+          </>
+          : null}
+
+          {/* 로그인 조건부 렌더링 로그인했으면 내정보, 안했으면 회원가입 표시 display 속성으로 컨트롤하지 않으면 에러 발생*/}
+          {userState.isUserLoggedIn ?
+          <>
+          <li
+            className="modal_button"
+            style={{ display: userState.isUserLoggedIn ? 'block' : 'none' }}
+          >
+            <Link to="/mypage">내정보</Link>
+          </li>
+          <div
+            className="modal_button"
+            id="modal_signup"
+            style={{ display: userState.isUserLoggedIn ? 'none' : 'block' }}
+          ></div>
+          <div className="modal_button" id="modal_signin"></div>
+          </>
+          
+          : null}
         </NavBarUser>
       </NavBar>
 
@@ -193,8 +220,11 @@ const Header = () => {
             <li className="link">
               <Link to="/mileageshop">저잣거리</Link>
             </li>
-            <div className="modal_button" id="modal_signin_toggle"></div>
+
             {/* 로그인 조건부 렌더링 로그인했으면 내정보, 안했으면 회원가입 표시 display 속성으로 컨트롤하지 않으면 에러 발생*/}
+            {!userState.isUserLoggedIn ?
+            <>
+            <div className="modal_button" id="modal_signin_toggle"></div>
             <div
               className="modal_button"
               id="modal_signup_toggle"
@@ -206,9 +236,30 @@ const Header = () => {
             >
               <Link to="/mypage">내정보</Link>
             </li>
+            </>
+            : null}
+
+            {/* 로그인 조건부 렌더링 로그인했으면 내정보, 안했으면 회원가입 표시 display 속성으로 컨트롤하지 않으면 에러 발생*/}
+            {userState.isUserLoggedIn ?
+            <>
+            <li
+              className="modal_button"
+              style={{ display: userState.isUserLoggedIn ? 'flex' : 'none' }}
+            >
+              <Link to="/mypage">내정보</Link>
+            </li>
+            <div
+              className="modal_button"
+              id="modal_signup_toggle"
+              style={{ display: userState.isUserLoggedIn ? 'none' : 'flex' }}
+            ></div>
+            <div className="modal_button" id="modal_signin_toggle"></div>
+            </>
+            : null}
           </NavLinks>
         </Nav>
       </NavBarToggle>
+      {/* <ModalController /> */}
     </div>
   );
 };

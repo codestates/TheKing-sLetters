@@ -35,7 +35,7 @@ const RecommendMessage = () => {
   return (
     <>
       <Message id="msg_recommend_success">추천했습니다</Message>
-      <Message id="msg_already_recommended">이미 추천했습니다</Message>
+      <Message id="msg_recommend_cancel">추천을 취소했습니다</Message>
     </>
   )
 };

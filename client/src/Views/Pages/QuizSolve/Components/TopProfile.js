@@ -116,7 +116,6 @@ const TopProfileWrapper = styled.div`
 		}
 	}
 	> .profile_please_login {
-		outline: 1px solid rgba(0, 0, 0, 0.1);
 		border-radius: 1px;
 		padding: 5px 0px 5px 0px;
 		width: 100%;
@@ -160,7 +159,7 @@ const TopProfile = ({quizData, userData, recommendHandler, isGuest}) => {
 				<p>
 					현재 <span style={{color: "blue"}}>로그인</span>상태가 아닙니다<br />
 					문제의 <span style={{color: "blue"}}>정답</span>을 확인하려면 <span style={{color: "blue"}}>로그인</span> 해주세요
-				</p>``
+				</p>
 			</div>
 			: null}			
 			{/* 프로필 삼각형 아이콘 */}

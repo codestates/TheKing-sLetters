@@ -22,7 +22,7 @@ import Loading from './Loading/Loading';
 // import ProblemBox from './Views/Pages/ProblemBox/ProblemBox';
 
 // modal
-import ModalController from './Views/Modals/ModalController';
+import HeaderFooterModalController from './Views/Modals/Controllers/HeaderFooterModalController';
 
 function App() {
   /* 관리자 로그인 정보 확인 */
@@ -52,7 +52,7 @@ function App() {
           <AdminHeader />
           <Route exact path="/" component={Admin}></Route>
           <AdminFooter />
-          <ModalController />
+          <HeaderFooterModalController />
         </Suspense>
         </>
       ) : (
@@ -72,7 +72,7 @@ function App() {
             <Route exact path="/auth/git" component={GithubAuth}></Route>
           </Switch>
           <Footer />
-          <ModalController />
+          <HeaderFooterModalController />
         </Suspense>
         </>
       )}

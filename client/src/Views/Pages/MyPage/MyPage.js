@@ -8,7 +8,7 @@ import Modal6 from './RankModal'
 import DeleteApproveModal from './DeleteApproveModal';
 import { Link } from 'react-router-dom';
 import { useUserState } from "../../../context/UserContext";
-// import ModalController from "../../Modals/ModalController";
+import MypageModalController from "../../Modals/Controllers/MypageModalController";
 
 // axios 기본값 설정
 axios.defaults.baseURL = `https://api.thekingsletters.ml`;
@@ -531,8 +531,9 @@ const MyPage = (props) => {
     }
   }, []);
 
-    return (
-      <>
+  return (
+    <>
+      <MypageModalController />
       {deleteCheckOpen && <DeleteApproveModal setDeleteCheckOpen={setDeleteCheckOpen} deleteMyQuiz={deleteMyQuiz} />}
       {modalOpen && <Modal6 setOpenModal={setModalOpen} />}
       <FirstBox>
@@ -568,7 +569,6 @@ const MyPage = (props) => {
         </div>  
       </SecondBox>
 
-      
       <Ul>
         <Li>
             <input className="checkbox" type="checkbox"  id="section-1-radio"/>
@@ -663,9 +663,8 @@ const MyPage = (props) => {
             </div>
         </Li>
       </Ul>
-      {/* <ModalController /> */}
-      </>
-    )
+    </>
+  )
 }
 
 export default MyPage;

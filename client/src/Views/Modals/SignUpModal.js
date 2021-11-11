@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 import EmailAuthAlertModal from './Components/EmailAuthAlertModal'
@@ -6,6 +6,8 @@ import loadingIcon from './Assets/loading-1.svg';
 
 axios.defaults.baseURL = `https://api.thekingsletters.ml`;
 axios.defaults.withCredentials = true;
+
+const DEBUG_MODE = false;
 
 export const ModalBackdrop = styled.div`
   /* css 부모로부터 상속 방지 */
@@ -248,6 +250,16 @@ export const ModalView = styled.div`
   }
 `;
 
+const initialValue = {
+  email: "",
+  name: "",
+  mobile: "",
+  image: "",
+  gender: "",
+  password: "",
+  passwordCheck: "",
+};
+
 const SignUpModal = ({ isOpen, setIsOpen }) => {
   const [isVaildEmail, setIsVaildEmail] = useState(false);
   const [isVaildName, setIsVaildName] = useState(false);
@@ -266,15 +278,7 @@ const SignUpModal = ({ isOpen, setIsOpen }) => {
   // 에러 저장용 state
   const [errorList, setErrorList] = useState({emailAlreadyExist: false});
 
-  const initialValue = {
-    email: "",
-    name: "",
-    mobile: "",
-    image: "",
-    gender: "",
-    password: "",
-    passwordCheck: "",
-  };
+  // 입력 정보 저장용 state
   const [inputUserInfo, SetInputUserInfo] = useState(initialValue);
 
   /* 모달창이 열리고 닫힐 때 마다 모든 state를 초기화 */
@@ -315,47 +319,47 @@ const SignUpModal = ({ isOpen, setIsOpen }) => {
     if (inputUserInfo.password === '') {
       setIsPasswordEmpty(true);
     } else {
-      console.log('비밀번호 칸이 비어있지 않습니다.');
+      DEBUG_MODE && console.log('비밀번호 칸이 비어있지 않습니다.');
       setIsPasswordEmpty(false);
     }
 
     if (vaildPasswordCheck(inputUserInfo.password)) {
-      console.log('형식에 맞는 비밀번호입니다.')
+      DEBUG_MODE && console.log('형식에 맞는 비밀번호입니다.')
       setIsVaildPassword(true);
     } else {
       setIsVaildPassword(false);
     }
 
     if (inputUserInfo.password === inputUserInfo.passwordCheck) {
-      console.log('비밀번호가 일치합니다.')
+      DEBUG_MODE && console.log('비밀번호가 일치합니다.')
       setIsVaildPasswordCheck(true);
     } else {
       setIsVaildPasswordCheck(false);
     }
 
     if (vaildNameCheck(inputUserInfo.name)) {
-      console.log('형식에 맞는 이름입니다.')
+      DEBUG_MODE && console.log('형식에 맞는 이름입니다.')
       setIsVaildName(true);
     } else {
       setIsVaildName(false);
     }
 
     if (vaildMobileCheck(inputUserInfo.mobile)) {
-      console.log('형식에 맞는 전화번호입니다.')
+      DEBUG_MODE && console.log('형식에 맞는 전화번호입니다.')
       setIsVaildMobile(true);
     } else {
       setIsVaildMobile(false);
     }
 
     if (vaildEmailCheck(inputUserInfo.email)) {
-      console.log('형식에 맞는 이메일입니다.')
+      DEBUG_MODE && console.log('형식에 맞는 이메일입니다.')
       setIsVaildEmail(true);
     } else {
       setIsVaildEmail(false);
     }
 
     if (vaildGenderCheck(inputUserInfo.gender)) {
-      console.log('형식에 맞는 성별입니다.')
+      DEBUG_MODE && console.log('형식에 맞는 성별입니다.')
       setIsVaildGender(true);
     } else {
       setIsVaildGender(false);
@@ -367,12 +371,12 @@ const SignUpModal = ({ isOpen, setIsOpen }) => {
     // 확인 버튼 로딩 아이콘 활성화
     setIsLoading(true);
     if (!isPasswordEmpty && isVaildPassword && isVaildPasswordCheck && isVaildEmail && isVaildName && isVaildMobile && isVaildGender) {
-      console.log('모두 양식에 맞습니다.');
+      DEBUG_MODE && console.log('모두 양식에 맞습니다.');
       fetchSubmittedInfo((result) => {
         if (result === '이메일을 확인하세요.') {
           // 인증메일 확인하라는 모달창으로 넘김
           setIsDoneSubmit(true);
-        } else if (result = '이미 존재하는 이메일입니다.') {
+        } else if (result === '이미 존재하는 이메일입니다.') {
           setErrorList((state) => ({...state, emailAlreadyExist: true}));
         }
       });
@@ -393,8 +397,8 @@ const SignUpModal = ({ isOpen, setIsOpen }) => {
       }
       // 확인버튼 로딩 아이콘 비활성화
       setIsLoading(false);
-      console.log('양식에 맞지 않습니다.');
-      console.log(isPasswordEmpty, isVaildPassword, isVaildPasswordCheck, isVaildEmail, isVaildName, isVaildMobile, isVaildGender);
+      DEBUG_MODE && console.log('양식에 맞지 않습니다.');
+      DEBUG_MODE && console.log(isPasswordEmpty, isVaildPassword, isVaildPasswordCheck, isVaildEmail, isVaildName, isVaildMobile, isVaildGender);
     }
   };
   
@@ -420,14 +424,14 @@ const SignUpModal = ({ isOpen, setIsOpen }) => {
     let response = null;
     try {
       response = await axios.post(URL, PAYLOAD, OPTION);
-      console.log('POST /user/signup 요청에 성공했습니다.');
+      DEBUG_MODE && console.log('POST /user/signup 요청에 성공했습니다.');
       callback(response.data);
     } catch(error) {
       response = error.response;
-      console.log('POST /user/signup 요청에 실패했습니다.');
+      DEBUG_MODE && console.log('POST /user/signup 요청에 실패했습니다.');
       callback(response.data);
     } finally {
-      console.log(response);
+      DEBUG_MODE && console.log(response);
     }
   };
 
@@ -456,7 +460,7 @@ const SignUpModal = ({ isOpen, setIsOpen }) => {
 
   /* 입력 테스트용 */
   useEffect(() => {
-    // console.log(inputUserInfo);
+    DEBUG_MODE && console.log(inputUserInfo);
   }, [inputUserInfo]);
 
   const modalOpenHandler = () => {
@@ -553,7 +557,7 @@ const SignUpModal = ({ isOpen, setIsOpen }) => {
         </div>
 
         <div className="input_box">
-          <input type="tel" name="tel" required onChange={(e) => inputValueHandler(e, 'mobile')} required autocomplete="off" />
+          <input type="tel" name="input_mobile" onChange={(e) => inputValueHandler(e, 'mobile')} required autocomplete="off" />
           <label
             className={inputUserInfo.mobile === '' ?
               '' : 'label_active'}>

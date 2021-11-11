@@ -6,9 +6,10 @@ const AnswerDisplayTemplateImageWrapper = styled.div`
   padding: 3% 6% 3% 6%;
   /* flex 박스 설정 */
   display: flex;
-  justify-content: left;
+  justify-content: space-between;
   gap: 16px;
   flex-wrap: wrap;
+
   > .image_container {
     /* 박스 설정 */
     position: relative;
@@ -18,7 +19,7 @@ const AnswerDisplayTemplateImageWrapper = styled.div`
     border: 1px dashed rgba(0, 0, 0, 0.5);
     border-radius: 10px;
     padding: 8px;
-    
+
     > .answer_img {
       /* 박스 크기 설정 */
       width: 100%;
@@ -34,6 +35,7 @@ const AnswerDisplayTemplateImageWrapper = styled.div`
       left: 0;
       top: -22px;
       /* 폰트 설정 */
+      font-family: 'EBSHunminjeongeumSBA';
       font-size: 14px;
       font-weight: 700;
       color: #0054bb;
@@ -47,6 +49,22 @@ const AnswerDisplayTemplateImageWrapper = styled.div`
   > .answer_selected {
     border: none;
     outline: 3px solid #0054bb;
+  }
+
+  @media (max-width: 960px) {
+    justify-content: center;
+    > .image_container {
+      width: 450px;
+      height: auto;
+    }
+  }
+
+  @media (max-width: 768px) {
+    justify-content: center;
+    > .image_container {
+      width: 550px;
+      height: auto;
+    }
   }
 `;
 

@@ -18,34 +18,43 @@ const ModalSubmitBackground = styled.div`
 `;
 
 const ModalSubmitButtonContainer = styled.div`
-	padding: 2% 6% 2% 6%;
+  /* 박스 설정 */
+  padding: 2% 15% 10% 15%;
+  @media (max-width: 960px) {
+    padding: 2% 10% 10% 10%;
+  }
 	> .modal_submit_button {
 		width: 100%;
 		padding: 1% 1% 1% 1%;
 		border-radius: 5px;
 		background-color: rgba(0, 0, 0, 0.2);
-		font-size: 18px;
+    font-family: 'EBSHunminjeongeumSBA';
+    font-size: 24px;
+    transition: all 0.4s ease;
 	}
   > .modal_submit_button:hover {
     cursor: pointer;
-    background-color: rgba(0, 0, 0, 0.3);
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
   }
 `;
 
 const ModalSubmitView = styled.div`
   position: relative;
   border-radius: 10px;
-  padding: 1em 0em 1em 0em;
-  min-width: 50%;
-  max-height: 100%;
-  max-height: 100vh;
+  width: 30rem;
+  height: 20rem;
   background-color: white;
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
   align-items: center;
   gap: 1em;
   > .modal_contents {
+    padding: 5rem 0 5rem 0;
+  }
+  > .modal_contents p {
+    font-family: 'EBSHunminjeongeumSBA';
+    font-size: 16px;
     text-align: center;
   }
   > .modal_button_container{
@@ -56,8 +65,10 @@ const ModalSubmitView = styled.div`
     gap: 1em;
   }
   > .modal_button_container .modal_confirm_yes {
-    width: 30%;
-    height: 5%;
+    width: 6rem;
+    height: 3rem;
+    font-family: 'EBSHunminjeongeumSBA';
+    font-size: 16px;
     border: 1px solid #2266ee;
     background-color: #2266ee;
     color: white;
@@ -71,8 +82,10 @@ const ModalSubmitView = styled.div`
     color: white;
   }
   > .modal_button_container .modal_confirm_no {
-    width: 30%;
-    height: 5%;
+    width: 6rem;
+    height: 3rem;
+    font-family: 'EBSHunminjeongeumSBA';
+    font-size: 16px;
     border: 1px solid rgba(0, 0, 0, 0.3);
     background-color: transparent;
     color: rgba(0, 0, 0, 0.3);
@@ -110,11 +123,12 @@ const ModalSubmit = ({submitHandler, isGuest}) => {
     {isModalOpen ?
     <ModalSubmitBackground>
       <ModalSubmitView>
-        <p className="modal_contents">
-          <h1 style={{fontWeight: "bold"}}>정답을 제출하시겠습니까?</h1><br />
-          문제는 다시 풀 수 있지만<br />
-          포인트를 얻을 수 있는 기회는 한번입니다
-        </p>
+        <div className="modal_contents">
+          <p style={{fontWeight: "bold"}}>정답을 제출하시겠습니까?</p>
+          <br />
+          <p>문제는 다시 풀 수 있지만</p>
+          <p>포인트를 얻을 수 있는 기회는 한번입니다</p>
+        </div>
         <div className="modal_button_container">
           <button
               className="modal_button modal_confirm_yes"

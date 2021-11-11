@@ -3,20 +3,25 @@ import QuizDisplayTemplateText from "../Template/QuizDisplayTemplateText";
 import QuizDisplayTemplateImage from "../Template/QuizDisplayTemplateImage";
 
 const QuizDisplayWrapper = styled.div`
-	/* 박스 설정 */
-	width: 100%;
-	margin: 0.1% 0% 0.1% 0%;
+  /* 박스 설정 */
+  margin: 0 10% 0 10%;
+  width: 80%;
+  @media (max-width: 960px) {
+    margin: 0 1% 0 1%;
+    width: 98%;
+  }
 	/* 폰트 설정 */
 	font-size: 16px;
 	/* flex 설정 */
 	display: flex;
 	flex-direction: column;
 	> .quiz_solve_title {
-		background-color: #04AA6D;
+		font-family: 'EBSHunminjeongeumSBA';
+		font-size: 24px;
+		background-color: #93aca0;
 		margin: 0% 6% 0% 6%;
 		padding: 1% 1% 1% 1%;
 		color: rgba(255, 255, 255, 1);
-		font-size: 21px;
 		font-weight: 600;
 	}
 	> .quiz_solve_tags_container {
@@ -32,6 +37,9 @@ const QuizDisplayWrapper = styled.div`
     gap: 1%;
     flex: 2em 1 0;
   }
+	> .quiz_solve_tags_container .quiz_solve_tags {
+		font-family: 'EBSHunminjeongeumSBA';
+	}
 `;
 
 const QuizDisplay = ({quizData}) => {

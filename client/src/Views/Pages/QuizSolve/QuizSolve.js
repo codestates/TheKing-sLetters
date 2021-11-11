@@ -1,16 +1,24 @@
+// library
 import styled from "styled-components";
-import { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
+
+// modules
 import TopProfile from "./Components/TopProfile";
 import QuizDisplay from "./Components/QuizDisplay";
 import AnswerDisplay from "./Components/AnswerDisplay";
 import CheckAnswer from "./Components/CheckAnswer";
 import SubmitModal from "./Components/SubmitModal";
+
+// functions
 import { useUserState } from '../../../context/UserContext';
-import { fetchQuizData, refineQuizData, fetchSubmitAnswer, refineSubmitAnswer } from "./Components/FetchData";
+import { fetchQuizData, refineQuizData, fetchSubmitAnswer, refineSubmitAnswer, recommendQuiz, addToMynote } from "./Components/FetchData";
+
+// icons
 import pageLoadingIcon from "./Assets/loading-1.svg";
 import commentLoadingIcon from "./Assets/loading-2.svg";
 import lockIcon from './Assets/lock-1.svg';
-import Loading from '../../../Loading/Loading';
+
+const DEBUG_MODE = true;
 
 const BOX_SHADOW = `
 	-moz-box-shadow: 0 1px 1px 0 #ccc;
@@ -23,7 +31,22 @@ const QuizSolveContainer = styled.div`
   display: flex;
 	flex-flow: column;
 	width: 100%;
-	height: 1280px;
+	min-height: 86.8vh;
+	> .quiz_solve_top_title {
+		width: 100%;
+    padding: 3% 6.2% 2% 6.2%;
+    box-sizing: border-box;
+    background-color: #d7dbd1;
+    position: relative;
+	}
+
+	> .quiz_solve_top_title h2 {
+		font-family: 'EBSHunminjeongeumSBA';
+    font-size: 2rem;
+    border-bottom: 2px solid #303030;
+    letter-spacing: 3px;
+	}
+
 	> .page_loading_icon {
 		position: absolute;
 		top: 10%;
@@ -116,12 +139,6 @@ const QuizSolve = ({match}) => {
 	const isCorrectAnswer = useRef({result: null, message: ''});
 	// 테스트 모드 온오프
 	const isTestModeOn = useRef(false);
-  const [isLoading, setIsLoading] = useState(true);
-  useEffect(() => {
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 3200);
-  }, []);
 
 	/* 유저 데이터 불러오기 */
 	useEffect(() => {
@@ -155,6 +172,19 @@ const QuizSolve = ({match}) => {
 	}, [userState]);
 
 	/* 퀴즈 데이터 불러오기 */
+	const initialFetchQuizDate = useCallback (async () => {
+		try {
+			const rawQuizData = await fetchQuizData(quizId);
+			const refinedQuizData = await refineQuizData(rawQuizData);
+			setQuizData(refinedQuizData);
+			setErrorList((state) => ({...state, quizError: false}));
+		} catch (err) {
+			DEBUG_MODE && console.log(err);
+			setErrorList((state) => ({...state, quizError: true}));
+		};
+	}, [quizId]);
+
+	/* 퀴즈 데이터 불러오기 */
   useEffect(() => {
 		setErrorList((state) => ({...state, quizError: true}));
 		// 더미데이터가 켜져있으면
@@ -165,19 +195,9 @@ const QuizSolve = ({match}) => {
 			setErrorList((state) => ({...state, quizError: false}));
 			return;
 		}
-		const initialFetchQuizDate = async () => {
-			try {
-				const rawQuizData = await fetchQuizData(quizId);
-				const refinedQuizData = await refineQuizData(rawQuizData);
-				setQuizData(refinedQuizData);
-				setErrorList((state) => ({...state, quizError: false}));
-			} catch (err) {
-				console.log(err);
-				setErrorList((state) => ({...state, quizError: true}));
-			};
-		}
+		// 퀴즈 데이터 불러오기
 		initialFetchQuizDate();
-  }, [quizId]);
+  }, [quizId, initialFetchQuizDate]);
 	
 	/* 퀴즈 데이터를 성공적으로 불러왔다면 페이지를 로드 */
 	useEffect(() => {
@@ -212,7 +232,7 @@ const QuizSolve = ({match}) => {
 			await fetchManyTimes(2, 1000, sequence);
 			setDoneSubmit(true);
 		} catch(err) {
-			console.log(err);
+			DEBUG_MODE && console.log(err);
 			setErrorList({...errorList, submitError: true});
 		} finally {
 			setCommentIsLoading(false);
@@ -237,9 +257,63 @@ const QuizSolve = ({match}) => {
 		});
 	};
 
+
+	const recommendHandler = async () => {
+		try {
+			const result = await recommendQuiz(quizId);
+			if (result === 'RECOMMENDED') {
+				const target = document.querySelector('#msg_recommend_success');
+				if (target) {
+					setQuizData((state) => ({...state, howManyLikes: state.howManyLikes + 1}));
+					target.style.display = "block";
+					setTimeout(() => {
+						target.style.display = "none";
+					}, 2000);
+				} else return;
+			}
+			if (result === 'ALREADY RECOMMENDED') {
+				const target = document.querySelector('#msg_already_recommended');
+				if (target) {
+					target.style.display = "block";
+					setTimeout(() => {
+						target.style.display = "none";
+					}, 2000);
+				} else return;
+			}
+		} catch (err) {
+			DEBUG_MODE && console.log(err);
+		}
+	}
+
+	const mynoteHandler = async () => {
+		try {
+			const result = await addToMynote(quizId);
+			console.log(result);
+			if (result === 'ADDED MYNOTE') {
+				const target = document.querySelector('#msg_mynote_added');
+				if (target) {
+					target.style.display = "block";
+					setTimeout(() => {
+						target.style.display = "none";
+					}, 2000);
+				} else return;
+			}
+			if (result === 'ALREADY ADDED MYNOTE') {
+				const target = document.querySelector('#msg_mynote_already_added');
+				if (target) {
+					target.style.display = "block";
+					setTimeout(() => {
+						target.style.display = "none";
+					}, 2000);
+				} else return;
+			}
+		} catch (err) {
+			DEBUG_MODE && console.log(err);
+		}
+	}
+
 	return (
 		<QuizSolveContainer>
-			{isLoading && <Loading />}
 			{/* 퀴즈를 불러올 수 없으면 아래의 메시지를 표시 */}
 			{errorList.quizError ?
 			<div className="page_error_message_container">
@@ -256,7 +330,11 @@ const QuizSolve = ({match}) => {
 			{/* 퀴즈를 불러왔으면 아래의 본문을 표시 */}
 			{!pageIsLoading ?
 			<>
-			<TopProfile quizData={quizData} userData={userData} isGuest={errorList.loginError}></TopProfile>
+
+			<div className="quiz_solve_top_title">
+				<h2>문제 풀이</h2>
+			</div>
+			<TopProfile quizData={quizData} userData={userData} recommendHandler={recommendHandler} isGuest={errorList.loginError}></TopProfile>
 			<QuizDisplay quizData={quizData}></QuizDisplay>
 			<AnswerDisplay quizData={quizData} selectedAnswer={selectedAnswer} setSelectedAnswer={setSelectedAnswer}></AnswerDisplay>
 			{!doneSubmit ?
@@ -267,7 +345,7 @@ const QuizSolve = ({match}) => {
 			{/* 정답 제출에 실패하면 아래의 메시지를 표시 */}
 			{errorList.submitError ? <p className="sumit_error_msg">정답 데이터를 받아올 수 없습니다<br></br>잠시후 다시 시도해주세요</p> : null}
 			{/* 정답 제출에 성공하면 아래의 해설을 표시 */}
-			{doneSubmit ? <CheckAnswer quizData={quizData} isCorrectAnswer={isCorrectAnswer.current}></CheckAnswer> : null}
+			{doneSubmit ? <CheckAnswer quizData={quizData} isCorrectAnswer={isCorrectAnswer.current} mynoteHandler={mynoteHandler}></CheckAnswer> : null}
 			{commentIsLoading ? <img src={commentLoadingIcon} alt="해설 로딩 아이콘" className="comment_loading_icon"></img> : null}
 			</>
 			: null}

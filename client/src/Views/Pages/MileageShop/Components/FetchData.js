@@ -54,50 +54,53 @@ export const fetchItemsBuy = async (data) => {
   const METHOD = `POST`;
   const PAYLOAD = { itemData: data };
 
-  let response = null;
   try {
-    response = await axios(END_PONT, {
+    const response = await axios(END_PONT, {
       method: METHOD,
       data: PAYLOAD,
     });
-    return {
-      message: `${METHOD} ${END_PONT} 요청에 성공했습니다.`,
-      data: response.data,
-    };
+    const data = response.data;
+    DEBUG_MODE && console.log(`${METHOD} ${END_PONT} 요청에 성공했습니다.`);
+    if (response.status === 200 && data === 'successfully purchased')
+      return "success";
+    else if (response.status === 202 && data === 'not enough point')
+      return "not enough point";
+    else
+      return "unhandled error";
   } catch (error) {
-    response = error.response;
-    throw new Error(`${METHOD} ${END_PONT} 요청에 실패했습니다.`);
-  } finally {
-    DEBUG_MODE && console.log(response);
+    DEBUG_MODE && console.log(`${METHOD} ${END_PONT} 요청에 실패했습니다.`);
+    throw error;
   }
 };
 
-export const fetchMyItems = async () => {
-  const END_PONT = `/myitems`;
-  const METHOD = `GET`;
-  let response = null;
-  try {
-    response = await axios(END_PONT, {
-      method: METHOD,
-    });
-    return {
-      message: `${METHOD} ${END_PONT} 요청에 성공했습니다.`,
-      data: response.data.data,
-    };
-  } catch (error) {
-    response = error.response;
-    throw new Error(`${METHOD} ${END_PONT} 요청에 실패했습니다.`);
-  } finally {
-    DEBUG_MODE && console.log(response);
-  }
-};
+// // 내가 구매한 쿠폰 확인 임시 주석 처리
+// export const fetchMyItems = async () => {
+//   const END_PONT = `/myitems`;
+//   const METHOD = `GET`;
+//   let response = null;
+//   try {
+//     response = await axios(END_PONT, {
+//       method: METHOD,
+//     });
+//     return {
+//       message: `${METHOD} ${END_PONT} 요청에 성공했습니다.`,
+//       data: response.data.data,
+//     };
+//   } catch (error) {
+//     response = error.response;
+//     throw new Error(`${METHOD} ${END_PONT} 요청에 실패했습니다.`);
+//   } finally {
+//     DEBUG_MODE && console.log(response);
+//   }
+// };
 
-export const refineMyItems = async (data) => {
-  const items = data.data.userData.user_usedItems;
+// // 내가 구매한 쿠폰 확인 임시 주석 처리
+// export const refineMyItems = async (data) => {
+//   const items = data.data.userData.user_usedItems;
 
-  const result = items.reduce((acc, cur) => {
-    return [...acc, cur.usedItem];
-  }, []);
+//   const result = items.reduce((acc, cur) => {
+//     return [...acc, cur.usedItem];
+//   }, []);
 
-  return result;
-};
+//   return result;
+// };

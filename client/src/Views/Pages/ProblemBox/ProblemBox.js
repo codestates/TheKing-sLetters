@@ -34,12 +34,11 @@ const ProblemBox = () => {
   }, []);
 
   useEffect(() => {
-    if (userAccessToken) {
+    if (isLogin) {
       const getProblemBoxQuiz = async () => {
         if (isLogin) {
           await axios
             .get('https://api.thekingsletters.ml/mynote', {
-              headers: { authorization: `Bearer ${userAccessToken}` },
               withCredentials: true,
             })
             .then((res) => {
@@ -50,7 +49,7 @@ const ProblemBox = () => {
       };
       getProblemBoxQuiz();
     }
-  }, [userAccessToken]);
+  }, []);
 
   useEffect(() => {
     if (!isLogin) {

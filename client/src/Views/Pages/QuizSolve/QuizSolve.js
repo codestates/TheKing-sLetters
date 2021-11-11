@@ -261,7 +261,7 @@ const QuizSolve = ({match}) => {
 	const recommendHandler = async () => {
 		try {
 			const result = await recommendQuiz(quizId);
-			if (result === 'RECOMMENDED') {
+			if (result === 'ADD RECOMMEND') {
 				const target = document.querySelector('#msg_recommend_success');
 				if (target) {
 					setQuizData((state) => ({...state, howManyLikes: state.howManyLikes + 1}));
@@ -271,9 +271,10 @@ const QuizSolve = ({match}) => {
 					}, 2000);
 				} else return;
 			}
-			if (result === 'ALREADY RECOMMENDED') {
-				const target = document.querySelector('#msg_already_recommended');
+			if (result === 'CANCEL RECOMMEND') {
+				const target = document.querySelector('#msg_recommend_cancel');
 				if (target) {
+					setQuizData((state) => ({...state, howManyLikes: state.howManyLikes - 1}));
 					target.style.display = "block";
 					setTimeout(() => {
 						target.style.display = "none";

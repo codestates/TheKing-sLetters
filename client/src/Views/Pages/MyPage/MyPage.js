@@ -8,6 +8,7 @@ import Modal6 from './RankModal'
 import DeleteApproveModal from './DeleteApproveModal';
 import { Link } from 'react-router-dom';
 import { useUserState } from "../../../context/UserContext";
+// import ModalController from "../../Modals/ModalController";
 
 // axios 기본값 설정
 axios.defaults.baseURL = `https://api.thekingsletters.ml`;
@@ -113,7 +114,6 @@ position: relative;
   padding-left: 0.7%;
   padding-right: 0.5%;
   margin-bottom: 2%;
-  z-index: 1;
     > .openModalBtn {
     cursor: pointer;
     transition: all .2s ease; 
@@ -662,7 +662,8 @@ const MyPage = (props) => {
               </div>
             </div>
         </Li>
-      </Ul>      
+      </Ul>
+      {/* <ModalController /> */}
       </>
     )
 }

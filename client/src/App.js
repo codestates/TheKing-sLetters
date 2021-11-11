@@ -11,9 +11,6 @@ import GoogleAuth from './Views/Pages/MyPage/GoogleAuth';
 import GithubAuth from './Views/Pages/MyPage/GithubAuth';
 import Loading from './Loading/Loading';
 
-/* Modal */
-import ModalController from './Views/Modals/ModalController';
-
 /* 페이지 로딩 테스트를 위한 임시 주석 처리 */
 // import LandingPage from './Views/Pages/Landing/LandingPage';
 // import QuizPost from './Views/Pages/QuizPost/QuizPost';
@@ -24,6 +21,8 @@ import ModalController from './Views/Modals/ModalController';
 // import Admin from './Views/Pages/Admin/AdminPage';
 // import ProblemBox from './Views/Pages/ProblemBox/ProblemBox';
 
+// modal
+import ModalController from './Views/Modals/ModalController';
 
 function App() {
   /* 관리자 로그인 정보 확인 */
@@ -49,32 +48,32 @@ function App() {
     <>
       {userState.isAdminLoggedIn ? (
         <>
-          <ModalController>
-            <AdminHeader />
-            <Route exact path="/" component={Admin}></Route>
-            <AdminFooter />
-          </ModalController>
+        <Suspense fallback={<Loading />}>
+          <AdminHeader />
+          <Route exact path="/" component={Admin}></Route>
+          <AdminFooter />
+          <ModalController />
+        </Suspense>
         </>
       ) : (
         <>
+        <Suspense fallback={<Loading />}>
           <Header />
-          <Suspense fallback={<Loading />}>
-            <Switch>
-              <ModalController>
-                <Route exact path="/" component={LandingPage}></Route>
-                <Route exact path="/main" component={Main}></Route>
-                <Route exact path="/mypage" component={Mypage}></Route>
-                <Route exact path="/quizpost" component={QuizPost}></Route>
-                <Route exact path="/mileageshop" component={MileageShop}></Route>
-                <Route exact path="/mynote" component={ProblemBox}></Route>
-                <Route exact path="/shop" component={MileageShop}></Route>
-                <Route path="/quizsolve/:id" component={QuizSolve}></Route>
-                <Route exact path="/auth/google" component={GoogleAuth}></Route>
-                <Route exact path="/auth/git" component={GithubAuth}></Route>
-              </ModalController>
-            </Switch>
-          </Suspense>
+          <Switch>
+            <Route exact path="/" component={LandingPage}></Route>
+            <Route exact path="/main" component={Main}></Route>
+            <Route exact path="/mypage" component={Mypage}></Route>
+            <Route exact path="/quizpost" component={QuizPost}></Route>
+            <Route exact path="/mileageshop" component={MileageShop}></Route>
+            <Route exact path="/mynote" component={ProblemBox}></Route>
+            <Route exact path="/shop" component={MileageShop}></Route>
+            <Route path="/quizsolve/:id" component={QuizSolve}></Route>
+            <Route exact path="/auth/google" component={GoogleAuth}></Route>
+            <Route exact path="/auth/git" component={GithubAuth}></Route>
+          </Switch>
           <Footer />
+          <ModalController />
+        </Suspense>
         </>
       )}
     </>

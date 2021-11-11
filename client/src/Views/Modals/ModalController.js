@@ -12,7 +12,7 @@ import SignUpModal from './SignUpModal';
 import MyPageModal from './MyPageModal';
 import AdminLoginModal from './AdminLoginModal';
 
-const ModalController = ({children}) => {
+const ModalController = ({ children }) => {
   /* 모달창 온오프 컨트롤용 state */
   const modalState = useModalState();
   const modalDispatch = useModalDispatch();
@@ -31,6 +31,7 @@ const ModalController = ({children}) => {
   
   return (
     <>
+    {children}
     {/* id로 렌더링할 위치를 지정 */}
     {/* 아래는 데스크탑용 모달 */}
     <Portal elementId="modal_signin">
@@ -58,7 +59,6 @@ const ModalController = ({children}) => {
     <Portal elementId="modal_admin_signin_toggle">
       <AdminLoginModal isOpen={adminSignInOpen} setIsOpen={setAdminSignInOpen}></AdminLoginModal>
     </Portal>
-    {children}
     </>
   )
 };

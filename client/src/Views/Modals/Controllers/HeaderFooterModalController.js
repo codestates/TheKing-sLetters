@@ -1,18 +1,18 @@
 import React from 'react';
 
 // 포탈 (선택한 컴포넌트를를 종속관계에 상관없이 원하는 위치에 렌더링)
-import Portal from './Portal/Portal';
+import Portal from '../Portal/Portal';
 
 // 모달 컨텍스트
-import { useModalState, useModalDispatch } from '../../context/ModalContext';
+import { useModalState, useModalDispatch } from '../../../context/ModalContext';
 
 /* 렌더링할 모달창 */
-import SignInModal from './SignInModal';
-import SignUpModal from './SignUpModal';
-import MyPageModal from './MyPageModal';
-import AdminLoginModal from './AdminLoginModal';
+import SignInModal from '../SignInModal';
+import SignUpModal from '../SignUpModal';
+import MyPageModal from '../MyPageModal';
+import AdminLoginModal from '../AdminLoginModal';
 
-const ModalController = ({ children }) => {
+const ModalController = () => {
   /* 모달창 온오프 컨트롤용 state */
   const modalState = useModalState();
   const modalDispatch = useModalDispatch();
@@ -31,7 +31,6 @@ const ModalController = ({ children }) => {
   
   return (
     <>
-    {children}
     {/* id로 렌더링할 위치를 지정 */}
     {/* 아래는 데스크탑용 모달 */}
     <Portal elementId="modal_signin">

@@ -335,7 +335,7 @@ const ProblemQuizBox = ({
             <span>{el.categories}</span>
             <span>{el.quizTypes}</span>
             <span>{el.answerTypes}</span>
-            <span>{el.rewardPoints}</span>
+            <span>{el.rewardPoints}냥</span>
           </div>
           <div className="problem__box__title">
             <h1>{el.title}</h1>
@@ -395,7 +395,7 @@ const ProblemQuizBox = ({
             <span>{el.categories}</span>
             <span>{el.quizTypes}</span>
             <span>{el.answerTypes}</span>
-            <span>{el.rewardPoints}</span>
+            <span>{el.rewardPoints}냥</span>
           </div>
           <div className="problem__box__title">
             <h1>{el.title}</h1>

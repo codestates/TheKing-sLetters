@@ -18,15 +18,9 @@ const ProblemBox = () => {
   });
   const userState = useUserState();
   const isLogin = userState.isUserLoggedIn;
-  const [userAccessToken, setUserAccessToken] = useState('');
   const [myNote, setMyNote] = useState([]);
   const [UserName, setUserName] = useState([]);
   const [myNoteQuizList, setMyNoteQuizList] = useState([]);
-  useEffect(() => {
-    if (isLogin) {
-      setUserAccessToken(localStorage.getItem('accessToken'));
-    }
-  }, []);
 
   useEffect(() => {
     if (isLogin) {
@@ -64,6 +58,7 @@ const ProblemBox = () => {
   return (
     <ProblemBoxContainer>
       <ProblemBoxCategorySelect
+        isGuest={!userState.isUserLoggedIn}
         dataCategorySelect={dataCategorySelect}
         setDataCategorySelect={setDataCategorySelect}
       />

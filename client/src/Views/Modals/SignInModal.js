@@ -345,7 +345,7 @@ const SignInModal = ({isOpen, setIsOpen, switcher}) => {
                 <img className="gitHubImg" src={GitHubLogo} alt="gitHubLogo"/>
               </div>
               </a>
-              <a className="google_link" href="https://accounts.google.com/o/oauth2/v2/auth?client_id=992308342199-tdkmk92urgpuam42mo74pmq7m8c17ud3.apps.googleusercontent.com&redirect_uri=http://localhost:3000/auth/google&response_type=code&scope=https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email openid">
+              <a className="google_link" href="https://accounts.google.com/o/oauth2/v2/auth?client_id=992308342199-tdkmk92urgpuam42mo74pmq7m8c17ud3.apps.googleusercontent.com&redirect_uri=https://thekingsletters.ml/auth/google&response_type=code&scope=https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email openid">
                 <div className="googleBox">
                   <p className="googleTitle">Google 로그인</p>
                   <img className="googleImg" src={GoogleLogo} alt="googleLogo"/>

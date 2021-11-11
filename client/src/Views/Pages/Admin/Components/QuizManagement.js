@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart } from '@fortawesome/free-regular-svg-icons';
@@ -223,15 +224,13 @@ const Quizizz = styled.div`
     }
   }
   @media (max-width: 768px) {
+    width: 100%;
     > form {
       input[type='checkbox'] {
         -ms-transform: scale(1.2);
         -moz-transform: scale(1.2);
         -webkit-transform: scale(1.2);
         -o-transform: scale(1.2);
-      }
-      > span {
-        font-size: 0.8em;
       }
     }
 
@@ -295,11 +294,7 @@ const Quizizz = styled.div`
   }
 `;
 
-const QuizManagement = ({
-  isLogin,
-  invalidQuiz,
-  setInValidQuiz,
-}) => {
+const QuizManagement = ({ isLogin, invalidQuiz, setInValidQuiz }) => {
   const [pageNumber, setPageNumber] = useState(0);
   const [checkedList, setCheckedLists] = useState([]);
 
@@ -345,6 +340,25 @@ const QuizManagement = ({
         });
     }
   };
+
+  // 문제풀이로 넘어갑니다.
+  const handleQuizClick = async (event) => {
+    await axios
+      .get(`https://api.thekingsletters.ml/approvalpage`, {
+        withCredentials: true,
+      })
+      .then((res) => {
+        let allQuiz = res.data.data.invalidQuizList.filter(
+          (el) => el.id === event
+        );
+        if (allQuiz[0].id === event) {
+          return axios.get(
+            `https://api.thekingsletters.ml/quizzes/selectquiz/?quizid=${event}`
+          );
+        }
+      });
+  };
+
   // 페이지네이션 구현
   const max_contents = 6;
   const pageVisited = pageNumber * max_contents;
@@ -357,9 +371,11 @@ const QuizManagement = ({
     .slice(pageVisited, pageVisited + max_contents)
     .map((el, i) => {
       return (
-        <Quizizz key={i}>
+        <Quizizz key={i} onClick={() => handleQuizClick(el.id)}>
           <form>
-            <img src={el.thumbnail} alt="main Thumbnail" />
+            <Link to={`/quizsolve/${el.id}`}>
+              <img src={el.thumbnail} alt="main Thumbnail" />
+            </Link>
             <input
               type="checkbox"
               name="choice_quiz"
@@ -373,7 +389,7 @@ const QuizManagement = ({
             <span>{el.categories[0].category}</span>
             <span>{el.quiz_types[0].quizContent.quizType}</span>
             <span>{el.answer_types[0].answerContent.answerType}</span>
-            <span>{el.rewardPoint}문</span>
+            <span>{el.rewardPoint}냥</span>
           </div>
           <div className="category__title">
             <h1>{el.title}</h1>
@@ -393,34 +409,36 @@ const QuizManagement = ({
     .slice(pageVisited - max_contents, pageVisited)
     .map((el, i) => {
       return (
-        <Quizizz key={i}>
-          <form>
-            <img src={el.thumbnail} alt="main Thumbnail" />
-            <input
-              type="checkbox"
-              name="choice_quiz"
-              value="choiceQuiz"
-              onChange={(e) => handleSingleCheck(e.target.checked, el)}
-              checked={checkedList.includes(el) ? true : false}
-            />
-            <span onClick={() => deleteQuiz(el.id)}>&times;</span>
-          </form>
-          <div className="category__quiz">
-            <span>{el.categories[0].category}</span>
-            <span>{el.quiz_types[0].quizContent.quizType}</span>
-            <span>{el.answer_types[0].answerContent.answerType}</span>
-            <span>{el.rewardPoint}문</span>
-          </div>
-          <div className="category__title">
-            <h1>{el.title}</h1>
-            <span>
-              <FontAwesomeIcon
-                className="heart"
-                icon={faHeart}
-              ></FontAwesomeIcon>
-              {el.heart}
-            </span>
-          </div>
+        <Quizizz key={i} onClick={() => handleQuizClick(el.id)}>
+          <Link to={`/quizsolve/${el.id}`}>
+            <form>
+              <img src={el.thumbnail} alt="main Thumbnail" />
+              <input
+                type="checkbox"
+                name="choice_quiz"
+                value="choiceQuiz"
+                onChange={(e) => handleSingleCheck(e.target.checked, el)}
+                checked={checkedList.includes(el) ? true : false}
+              />
+              <span onClick={() => deleteQuiz(el.id)}>&times;</span>
+            </form>
+            <div className="category__quiz">
+              <span>{el.categories[0].category}</span>
+              <span>{el.quiz_types[0].quizContent.quizType}</span>
+              <span>{el.answer_types[0].answerContent.answerType}</span>
+              <span>{el.rewardPoint}냥</span>
+            </div>
+            <div className="category__title">
+              <h1>{el.title}</h1>
+              <span>
+                <FontAwesomeIcon
+                  className="heart"
+                  icon={faHeart}
+                ></FontAwesomeIcon>
+                {el.heart}
+              </span>
+            </div>
+          </Link>
         </Quizizz>
       );
     });

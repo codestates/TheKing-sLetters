@@ -25,6 +25,13 @@ const AdminFooterContainer = styled.div`
   }
 
   @media (max-width: 768px) {
+    padding: 8px 14px;
+    > .admin__footer__logo {
+      font-size: 20px;
+    }
+    > .masterLogin .modal_button button {
+      padding: 8px 14px;
+    }
     > .footer__logo {
       font-size: 1.5em;
     }
@@ -50,6 +57,12 @@ const AdminFooterGithub = styled.ul`
     }
     > a:hover {
       color: #303030;
+    }
+  }
+  @media (max-width: 768px) {
+    > .admin__footer__user {
+      font-size: 13px;
+      text-align: left;
     }
   }
 `;

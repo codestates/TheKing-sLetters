@@ -11,9 +11,6 @@ import GoogleAuth from './Views/Pages/MyPage/GoogleAuth';
 import GithubAuth from './Views/Pages/MyPage/GithubAuth';
 import Loading from './Loading/Loading';
 
-/* Modal */
-import ModalController from './Views/Modals/ModalController';
-
 /* 페이지 로딩 테스트를 위한 임시 주석 처리 */
 // import LandingPage from './Views/Pages/Landing/LandingPage';
 // import QuizPost from './Views/Pages/QuizPost/QuizPost';
@@ -24,6 +21,8 @@ import ModalController from './Views/Modals/ModalController';
 // import Admin from './Views/Pages/Admin/AdminPage';
 // import ProblemBox from './Views/Pages/ProblemBox/ProblemBox';
 
+// modal
+import HeaderFooterModalController from './Views/Modals/Controllers/HeaderFooterModalController';
 
 function App() {
   /* 관리자 로그인 정보 확인 */
@@ -33,11 +32,16 @@ function App() {
   // 최소 로딩 시간 2초
   const LandingPage = lazy(() => {
     return new Promise((resolve) => {
-      setTimeout(() => resolve(import('./Views/Pages/Landing/LandingPage')), 2000);
+      setTimeout(
+        () => resolve(import('./Views/Pages/Landing/LandingPage')),
+        3200
+      );
     });
   });
   // 나머지는 최소 로딩 시간 없음
-  const MileageShop = lazy(() => import('./Views/Pages/MileageShop/MileageShop'));
+  const MileageShop = lazy(() =>
+    import('./Views/Pages/MileageShop/MileageShop')
+  );
   const QuizPost = lazy(() => import('./Views/Pages/QuizPost/QuizPost'));
   const QuizSolve = lazy(() => import('./Views/Pages/QuizSolve/QuizSolve'));
   const Mypage = lazy(() => import('./Views/Pages/MyPage/MyPage'));
@@ -49,32 +53,33 @@ function App() {
     <>
       {userState.isAdminLoggedIn ? (
         <>
-          <ModalController>
+          <Suspense fallback={<Loading />}>
             <AdminHeader />
             <Route exact path="/" component={Admin}></Route>
+            <Route path="/quizsolve/:id" component={QuizSolve}></Route>
             <AdminFooter />
-          </ModalController>
+            <HeaderFooterModalController />
+          </Suspense>
         </>
       ) : (
         <>
-          <Header />
           <Suspense fallback={<Loading />}>
+            <Header />
             <Switch>
-              <ModalController>
-                <Route exact path="/" component={LandingPage}></Route>
-                <Route exact path="/main" component={Main}></Route>
-                <Route exact path="/mypage" component={Mypage}></Route>
-                <Route exact path="/quizpost" component={QuizPost}></Route>
-                <Route exact path="/mileageshop" component={MileageShop}></Route>
-                <Route exact path="/mynote" component={ProblemBox}></Route>
-                <Route exact path="/shop" component={MileageShop}></Route>
-                <Route path="/quizsolve/:id" component={QuizSolve}></Route>
-                <Route exact path="/auth/google" component={GoogleAuth}></Route>
-                <Route exact path="/auth/git" component={GithubAuth}></Route>
-              </ModalController>
+              <Route exact path="/" component={LandingPage}></Route>
+              <Route exact path="/main" component={Main}></Route>
+              <Route exact path="/mypage" component={Mypage}></Route>
+              <Route exact path="/quizpost" component={QuizPost}></Route>
+              <Route exact path="/mileageshop" component={MileageShop}></Route>
+              <Route exact path="/mynote" component={ProblemBox}></Route>
+              <Route exact path="/shop" component={MileageShop}></Route>
+              <Route path="/quizsolve/:id" component={QuizSolve}></Route>
+              <Route exact path="/auth/google" component={GoogleAuth}></Route>
+              <Route exact path="/auth/git" component={GithubAuth}></Route>
             </Switch>
+            <Footer />
+            <HeaderFooterModalController />
           </Suspense>
-          <Footer />
         </>
       )}
     </>

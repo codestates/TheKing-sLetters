@@ -1,10 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
 import './ServiceIntro.scss';
-import QuizTest from './QuizTest.gif'
-import QuizMake from './QuizMake.gif'
-import QuizSave from './QuizSave.gif'
-import Mileage from './Mileage.gif'
+import QuizTest from './QuizTest.gif';
+import QuizMake from './QuizMake.gif';
+import QuizSave from './QuizSave.gif';
+import Mileage from './Mileage.gif';
 
 const ServiceIntroContainer = styled.div`
   display: flex;
@@ -86,7 +86,7 @@ const BoxContainer = styled.div`
     border-radius: 5px;
     background-color: #303030;
     &:hover {
-      flex: 1 1 30%;
+      flex: 1 1 10%;
       > img {
         width: 100%;
         height: 100%;
@@ -299,7 +299,7 @@ const ServiceIntro = () => {
             한글문제 풀이활동에 대한 재미 기능 제공
           </span>
           <span className="contents">
-            한글문제 풀이활동에 대한 리워드 마일리지 제공
+            한글문제 풀이활동에 대한 마일리지 제공
           </span>
           <span className="contents">
             한글문제 풀이활동에 대한 마일리지 별 랭킹 제공
@@ -315,17 +315,23 @@ const ServiceIntro = () => {
           <span className="contents">
             한글문제 생성활동에 대한 다양한 문제 출제 유형 제공
           </span>
-          <span className="contents">한글 문제 출제에 다른 리워드 제공</span>
+          <span className="contents">
+            한글 문제를 다양한 카테고리별로 출제하는 기능 제공
+          </span>
         </div>
       </TextContainer>
       <TextContainer className="problem3">
         <div className="container">
           <h3 className="service__title">문제를 보관해 보아요!</h3>
           <span className="contents">
-            한글문제 풀이활동에 대한 나만의 노트 기능 제공
+            한글문제 풀이활동에 대한 나만의 서재 기능 제공
           </span>
-          <span className="contents">뭐라도</span>
-          <span className="contents">넣어야한다</span>
+          <span className="contents">
+            카테고리 별로 쉽게 분류할 수 있는 기능 제공
+          </span>
+          <span className="contents">
+            문제를 풀면서 성취감을 자극시키는 효과 제공
+          </span>
         </div>
       </TextContainer>
       <TextContainer className="problem4">
@@ -336,7 +342,7 @@ const ServiceIntro = () => {
           </span>
           <span className="contents">쿠폰 교환기능 제공</span>
           <span className="contents">
-            마일리지 보유를 기준으로 랭킹 제도 제공
+            마일리지 보유 기준으로 랭킹 제도 제공
           </span>
         </div>
       </TextContainer>

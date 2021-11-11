@@ -86,7 +86,7 @@ const BoxContainer = styled.div`
     border-radius: 5px;
     background-color: #303030;
     &:hover {
-      flex: 1 1 30%;
+      flex: 1 1 10%;
       > img {
         width: 100%;
         height: 100%;

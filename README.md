@@ -367,7 +367,7 @@
 
 [System Architecture](https://github.com/codestates/TheKing-sLetters/wiki/System-Architecture)
 
-<img src="https://cdn.discordapp.com/attachments/894796696494682135/895179317607301130/2021-10-06_14-22-53.png" width="650px" >
+<img src="https://cdn.discordapp.com/attachments/859214492265480213/907970714596962314/2.png?width=786&height=466" width="650px" >
 
 <br>
 <br>

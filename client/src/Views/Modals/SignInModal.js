@@ -35,7 +35,7 @@ const ModalView = styled.div`
   left: 50%;
   transform: translate(-50%, -50%);
   width: 500px;
-  height: 680px;
+  height: min(100vh, 680px);
   z-index: 301;
   @media (max-width: 768px) {
     transition: all 0.4s;
@@ -112,7 +112,7 @@ const Sign = styled.div`
     outline: none;
     color: #fff;
     background: #00800099;
-    width: 400px;
+    width: min(80vw, 400px);
     padding: 10px 20px;
     cursor: pointer;
     border-radius: 5px;
@@ -149,7 +149,7 @@ const Img = styled.div`
   //-----------git logo
   > .github_link {
     display: block;
-    width: 350px;
+    width: min(80vw, 350px);
     height: 50px;
     border-radius: 12px;
     overflow: hidden;
@@ -165,6 +165,9 @@ const Img = styled.div`
         left: 50%;
         top: 50%;
         transform: translate(-50%, -50%);
+        @media (max-width: 460px) {
+          font-size: 14px;
+        }
       }
       > .gitHubImg {
         position: absolute;
@@ -179,7 +182,7 @@ const Img = styled.div`
   //-----------google logo
   > .google_link {
     display: block;
-    width: 350px;
+    width: min(80vw, 350px);
     height: 50px;
     border: 1px solid black;
     border-radius: 12px;
@@ -197,6 +200,9 @@ const Img = styled.div`
         left: 50%;
         top: 50%;
         transform: translate(-50%, -50%);
+        @media (max-width: 460px) {
+          font-size: 14px;
+        }
       }
       > .googleImg {
         position: absolute;

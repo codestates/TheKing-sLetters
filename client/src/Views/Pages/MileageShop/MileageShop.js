@@ -42,14 +42,20 @@ const MileageShopWrapper = styled.div`
     left: 50%;
     transform: translate(-50%, -50%);
     border: none;
-    width: 50%;
-    height: 50%;
+
     background-color: rgba(0, 0, 0, 0.1);
     ${BOX_SHADOW}
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+
+    width: 50%;
+    height: 50%;
+    @media (max-width: 480px) {
+      width: 100vw;
+      height: 150vw;
+    }
   }
   > .page_error_message_container .page_error_image {
     width: 4rem;

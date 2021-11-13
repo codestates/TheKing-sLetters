@@ -50,7 +50,29 @@ const MileageCategoryWrapper = styled.div`
   }
   @media (max-width: 768px) {
     > .mileage_cat_name_1 {
-      font-size: 1.7em;
+      font-size: 18px;
+      letter-spacing: 0;
+    }
+    > .mileage_cat_name_2 {
+      font-size: 12px;
+      letter-spacing: 0;
+    }
+    > .mileage_cat_name_3 {
+      font-size: 12px;
+      letter-spacing: 0;
+    }
+  }
+  @media (max-width: 480px) {
+    > .mileage_cat_name_1 {
+      font-size: 14px;
+      letter-spacing: 0;
+    }
+    > .mileage_cat_name_2 {
+      font-size: 12px;
+      letter-spacing: 0;
+    }
+    > .mileage_cat_name_3 {
+      font-size: 12px;
       letter-spacing: 0;
     }
   }
@@ -80,6 +102,34 @@ const MileageValueWrapper = styled.div`
     padding: 3% 0% 0% 0%;
     font-size: 1.4em;
     text-align: right;
+  }
+  @media (max-width: 768px) {
+    > .mileage_val_name_1 {
+      font-size: 18px;
+      letter-spacing: 0;
+    }
+    > .mileage_val_name_2 {
+      font-size: 12px;
+      letter-spacing: 0;
+    }
+    > .mileage_val_name_3 {
+      font-size: 12px;
+      letter-spacing: 0;
+    }
+  }
+  @media (max-width: 480px) {
+    > .mileage_val_name_1 {
+      font-size: 14px;
+      letter-spacing: 0;
+    }
+    > .mileage_val_name_2 {
+      font-size: 12px;
+      letter-spacing: 0;
+    }
+    > .mileage_val_name_3 {
+      font-size: 12px;
+      letter-spacing: 0;
+    }
   }
 `;
 

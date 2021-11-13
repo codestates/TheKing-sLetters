@@ -33,6 +33,12 @@ const FooterContainer = styled.div`
       font-size: 1.5em;
     }
   }
+  @media (max-width: 480px) {
+    padding: 2px 6px;
+    > .footer__logo {
+      font-size: 1em;
+    }
+  }
 `;
 
 const FooterGithub = styled.ul`
@@ -53,6 +59,11 @@ const FooterGithub = styled.ul`
     }
     > a:hover {
       color: #303030;
+    }
+  }
+  @media (max-width: 480px) {
+    .footer__user {
+      font-size: 12px;
     }
   }
 `;

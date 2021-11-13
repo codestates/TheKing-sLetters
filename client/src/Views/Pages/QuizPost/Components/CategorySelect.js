@@ -49,7 +49,7 @@ const CategorySelectWrapper = styled.div`
     border-radius: 5px;
     background-color: rgba(209, 213, 218, 0.5);
     /* flex 설정 */
-    flex: 20em 1 0;
+    flex: min(20rem, 80vw) 1 0;
     /* 폰트 설정 */
     font-size: 18px;
     font-family: 'EBSHunminjeongeumSBA';

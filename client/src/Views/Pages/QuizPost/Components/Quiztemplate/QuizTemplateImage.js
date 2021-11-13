@@ -43,7 +43,7 @@ const QuizTemplateImageWrapper = styled.div`
       position: relative;
       border: 1px dashed rgba(0, 0, 0, 0.5);
       border-radius: 10px;
-      height: 250px;
+      min-height: 250px;
       margin: 3px;
       padding: 1em 0.5em 1em 0.5em;
       > .upload_button_container {
@@ -69,8 +69,8 @@ const QuizTemplateImageWrapper = styled.div`
         box-sizing: border-box;
 
         /* 이미지 업로드 크기 제한 */
-        width: 35%;
-        height: 100%;
+        max-width: 95%;
+        max-height: 100rem;
       }
       > .delete_icon {
         /* 박스 설정 */

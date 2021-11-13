@@ -43,14 +43,18 @@ const ResignSuccessWrapper = styled.div`
   }
 `;
 
-const ResignSuccess = ({ openHandler }) => {
+const ResignSuccess = ({ setIsLogin }) => {
+  const reRoute = () => {
+    window.location = "/";
+    setIsLogin(false);
+  };
   return (
     <ResignSuccessWrapper>
-      <div className="close_button_top" onClick={() => openHandler()}>&times;</div>
+      <div className="close_button_top" onClick={reRoute}>&times;</div>
       <img className="check_icon" src={checkIcon} alt="체크 아이콘"></img>
       <p style={{fontSize: "1.5em", textAlign: "center"}}>회원 탈퇴가 <span style={{color: "green"}}>완료</span>되었습니다</p>
       <p style={{fontSize: "1.5em", textAlign: "center"}}>이용해 주셔서 <span style={{color: "green"}}>감사합니다</span></p>
-      <button className="close_button_bottom" onClick={() => openHandler()}>닫기</button>
+      <button className="close_button_bottom" onClick={reRoute}>닫기</button>
     </ResignSuccessWrapper>
   );
 }

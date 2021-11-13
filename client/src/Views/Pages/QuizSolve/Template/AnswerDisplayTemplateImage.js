@@ -6,7 +6,7 @@ const AnswerDisplayTemplateImageWrapper = styled.div`
   padding: 3% 6% 3% 6%;
   /* flex 박스 설정 */
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   gap: 16px;
   flex-wrap: wrap;
 
@@ -22,8 +22,8 @@ const AnswerDisplayTemplateImageWrapper = styled.div`
 
     > .answer_img {
       /* 박스 크기 설정 */
-      width: 100%;
-      max-height: 100%;
+      max-width: 100%;
+      max-height: 345px;
       /* 박스 디자인 설정 */
       border: 1px solid rgba(0, 0, 0, 0.5);
       border-radius: 10px;

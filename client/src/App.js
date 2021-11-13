@@ -54,16 +54,17 @@ function App() {
       {userState.isAdminLoggedIn ? (
         <>
           <Suspense fallback={<Loading />}>
+            <HeaderFooterModalController />
             <AdminHeader />
             <Route exact path="/" component={Admin}></Route>
             <Route path="/quizsolve/:id" component={QuizSolve}></Route>
             <AdminFooter />
-            <HeaderFooterModalController />
           </Suspense>
         </>
       ) : (
         <>
           <Suspense fallback={<Loading />}>
+            <HeaderFooterModalController />
             <Header />
             <Switch>
               <Route exact path="/" component={LandingPage}></Route>
@@ -78,7 +79,6 @@ function App() {
               <Route exact path="/auth/git" component={GithubAuth}></Route>
             </Switch>
             <Footer />
-            <HeaderFooterModalController />
           </Suspense>
         </>
       )}

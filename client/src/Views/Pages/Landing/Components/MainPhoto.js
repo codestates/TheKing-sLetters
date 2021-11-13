@@ -131,6 +131,21 @@ const MainTitle = styled.div`
       margin-left: 10px;
     }
   }
+  @media (max-width: 480px) {
+    justify-content: center;
+    h1 {
+      font-size: 80px;
+      margin-left: 10px;
+    }
+    h2 {
+      font-size: 18px;
+      margin-left: 10px;
+    }
+    p {
+      font-size: 15px;
+      margin-left: 10px;
+    }
+  }
 `;
 const MainImg = styled.div`
   display: flex;

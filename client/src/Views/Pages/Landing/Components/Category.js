@@ -38,11 +38,29 @@ const CategoryContainer = styled.div`
 
   @media (max-width: 768px) {
     > h1 {
+      font-size: 2em;
       margin-top: 2em;
       letter-spacing: -1px;
     }
+    > h1 span {
+      font-size: 2em;
+    }
     > h2 {
       font-size: 2.2em;
+      letter-spacing: -1px;
+    }
+  }
+    @media (max-width: 480px) {
+    > h1 {
+      font-size: 16px;
+      margin-top: 2em;
+      letter-spacing: -1px;
+    }
+    > h1 span {
+      font-size: 18px;
+    }
+    > h2 {
+      font-size: 1.2em;
       letter-spacing: -1px;
     }
   }

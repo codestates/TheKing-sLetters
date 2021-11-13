@@ -8,7 +8,7 @@ import Modal6 from './RankModal'
 import DeleteApproveModal from './DeleteApproveModal';
 import { Link } from 'react-router-dom';
 import { useUserState } from "../../../context/UserContext";
-import MypageModalController from "../../Modals/Controllers/MypageModalController";
+import MyPageModal from "../../Modals/MyPageModal";
 
 // axios 기본값 설정
 axios.defaults.baseURL = `https://api.thekingsletters.ml`;
@@ -63,12 +63,9 @@ width: 100%;
   font-size: 0.8rem;
   cursor: pointer;
   transition: all .2s ease;
-  z-index: 1;
     &:hover{
     color: #5E5E5E;
   }
-
-
 }
 `;
 
@@ -78,6 +75,12 @@ width: 100%;
 display: flex;
 justify-content: flex-start;
 position: relative;
+
+> img {
+  max-width: 20rem;
+  max-height: 20rem;
+  object-fit: contain;
+}
 
 > .profile {
     width: 7rem;
@@ -162,11 +165,14 @@ const Li = styled.li`
  
   @media (max-width: 768px){
     padding: 0.5rem 0;
-    }
+  }
 
   > div {
-    font-size: 1.5em;
-    display: flex; 
+    font-size: 1rem;
+    display: flex;
+    @media (max-width: 460px) {
+      font-size: 0.6rem;
+    }
   }
   > .mileage-title {
     margin-left: 1em;
@@ -341,72 +347,70 @@ const Li = styled.li`
 
 /* ----------------------내가 만든 퀴즈---------------------- */
 
-> .madeQuizContainer {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 1em;
-  padding: 0;
-  /* max-height: 0; */
-  background: rgba(209,213,218,0.5);
-  overflow: hidden;
-  transition: all .4s ease;
-  > div { 
-    overflow: auto;
+  > .madeQuizContainer {
     display: flex;
-    padding: 1% 0 2% 0;
-  > .quizBox {
-    padding: 1rem 0;
-    padding-left: 0.6rem;
-    position: relative;
-  
-    > button {
-    position: absolute;
-    top: 35px;
-    right: 20px;
-    font-size: 1rem;
-    width: 20px;
-    height: 20px;
-    line-height: 18px;
-    border: 1px solid #303030;
-    border-radius: 5px;
-    background-color: transparent;
-    cursor: pointer;
-    transition: all .4s ease;
-    z-index: 1;
-    &:hover{
-      color: #fafafa;
-      background-color: #303030;
-    }
-    @media (max-width: 768px){
-      width: 15px;
-      height: 15px;
-      top: 36px;
-      font-size: .8rem;
-      line-height: 0px;
-    }
-    }
-    > .thumbnail {
-    position: relative;
-    width: 250px;
-    height: 250px;
-    margin: 1rem;
-    background-color: transparent;
-      > a > img{
-        border-radius: 5px;
-        box-shadow: 2px 2px 10px rgba(0,0,0,0.2);
-      }
-    }
-    > .title {
-    padding-left: 1.5rem;
-    font-size: 1.4rem;
-    text-shadow: 2px 2px 1px rgba(0,0,0,0.2);
+    justify-content: space-between;
+    margin-bottom: 1em;
+    padding: 0;
+    /* max-height: 0; */
+    background: rgba(209,213,218,0.5);
     overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    letter-spacing: 3px;
+    transition: all .4s ease;
+    > .quiz_box_container { 
+      overflow: auto;
+      display: flex;
+      padding: 1% 0 2% 0;
+      > .quizBox {
+        padding: 1% 0;
+        padding-left: 0.6rem;
+        position: relative;
+        width: 276px;
+        > button {
+        position: absolute;
+        top: 35px;
+        right: 20px;
+        font-size: 1rem;
+        width: 20px;
+        height: 20px;
+        line-height: 18px;
+        border: 1px solid #303030;
+        border-radius: 5px;
+        background-color: transparent;
+        cursor: pointer;
+        transition: all .4s ease;
+        &:hover {
+          color: #fafafa;
+          background-color: #303030;
+        }
+        @media (max-width: 768px){
+          width: 15px;
+          height: 15px;
+          top: 36px;
+          font-size: .8rem;
+          line-height: 0px;
+        }
+      }
+      > .thumbnail {
+      position: relative;
+      width: 250px;
+      height: 250px;
+      margin: 1rem;
+      background-color: transparent;
+        > a > img{
+          border-radius: 5px;
+          box-shadow: 2px 2px 10px rgba(0,0,0,0.2);
+        }
+      }
+      > .title {
+        padding-left: 1.5rem;
+        font-size: 1.4rem;
+        text-shadow: 2px 2px 1px rgba(0,0,0,0.2);
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
       }
     }
-}
+  }
 }
 
 > .emptyMadeQuizContainer {
@@ -533,14 +537,14 @@ const MyPage = (props) => {
 
   return (
     <>
-      <MypageModalController />
       {deleteCheckOpen && <DeleteApproveModal setDeleteCheckOpen={setDeleteCheckOpen} deleteMyQuiz={deleteMyQuiz} />}
       {modalOpen && <Modal6 setOpenModal={setModalOpen} />}
       <FirstBox>
         <div className="title">내 정보</div>
         <div className="setting">
             <li>
-              <div id="modal_mypage"><FontAwesomeIcon icon={faUserCog} size="2x" className="setting" /></div>
+              <div id="modal_mypage"><FontAwesomeIcon icon={faUserCog} size="2x" className="setting" />
+              <MyPageModal /></div>
             </li>
         </div>
       </FirstBox>
@@ -639,7 +643,7 @@ const MyPage = (props) => {
                 <div className="created-problem">내가 만든 문제</div>
             </label>
             <div className={quiz.length !== 0 ? "madeQuizContainer" : "emptyMadeQuizContainer"} id="section-3-panel">
-              <div>
+              <div className="quiz_box_container">
                 {quiz.length !== 0 ?
                 <>
                   {quiz.map((el)=>

@@ -13,20 +13,30 @@ const QuizDisplayTemplateTextWrapper = styled.div`
     flex-direction: column;
     > .quiz_display_text_title {
       /* 박스 설정 */
-      padding: 1px 5px 1px 5px;
+      padding: 5% 0 5% 0;
       border: none;
       outline: none;
       background-color: rgba(0, 0, 0, 0.1);
       /* 폰트 설정 */
       font-family: 'EBSHunminjeongeumSBA';
-      font-size: 16px;
       font-weight: 500;
       /* 크기 설정 */
-      flex: 2em 1 0;
+      flex: 10% 1 0;
+
+      font-size: 18px;
+      @media (max-width: 1024px) {
+        font-size: 16px;
+      }
+      @media (max-width: 768px) {
+        font-size: 14px;
+      }
+      @media (max-width: 480px) {
+        font-size: 12px;
+      }
     }
     > .quiz_display_text_contents {
       /* 박스 설정 */
-      padding: 8px 5px 8px 5px;
+      padding: 0.8% 0.5% 0.8% 0.5%;
       border: none;
       outline: none;
       resize: none;
@@ -36,7 +46,7 @@ const QuizDisplayTemplateTextWrapper = styled.div`
       font-size: 16px;
       /* 박스 크기 설정 */
       width: auto;
-      height: 10em;
+      height: max(50vw, 50vh);
     }
   }
 `;

@@ -9,7 +9,6 @@ import { useModalState, useModalDispatch } from '../../../context/ModalContext';
 /* 렌더링할 모달창 */
 import SignInModal from '../SignInModal';
 import SignUpModal from '../SignUpModal';
-import MyPageModal from '../MyPageModal';
 import AdminLoginModal from '../AdminLoginModal';
 
 const ModalController = () => {
@@ -22,9 +21,6 @@ const ModalController = () => {
 
   const signUpOpen = modalState.modalUserSignUp;
   const setSignUpOpen = (bool) => modalDispatch({type: "MODAL_USER_SIGN_UP", value: bool});
-  
-  const myPageOpen = modalState.modalUserMypage;
-  const setMyPageOpen = (bool) => modalDispatch({type: "MODAL_USER_MYPAGE", value: bool});
 
   const adminSignInOpen = modalState.modalAdminSignIn;
   const setAdminSignInOpen = (bool) => modalDispatch({type: "MODAL_ADMIN_SIGN_IN", value: bool});
@@ -39,9 +35,6 @@ const ModalController = () => {
     <Portal elementId="modal_signup">
       <SignUpModal isOpen={signUpOpen} setIsOpen={setSignUpOpen}></SignUpModal>
     </Portal>
-    <Portal elementId="modal_mypage">
-      <MyPageModal isOpen={myPageOpen} setIsOpen={setMyPageOpen}></MyPageModal>
-    </Portal>
     <Portal elementId="modal_admin_signin">
       <AdminLoginModal isOpen={adminSignInOpen} setIsOpen={setAdminSignInOpen}></AdminLoginModal>
     </Portal>
@@ -51,9 +44,6 @@ const ModalController = () => {
     </Portal>
     <Portal elementId="modal_signup_toggle">
       <SignUpModal isOpen={signUpOpen} setIsOpen={setSignUpOpen}></SignUpModal>
-    </Portal>
-    <Portal elementId="modal_mypage_toggle">
-      <MyPageModal isOpen={myPageOpen} setIsOpen={setMyPageOpen}></MyPageModal>
     </Portal>
     <Portal elementId="modal_admin_signin_toggle">
       <AdminLoginModal isOpen={adminSignInOpen} setIsOpen={setAdminSignInOpen}></AdminLoginModal>

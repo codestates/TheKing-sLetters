@@ -9,7 +9,7 @@ import axios from 'axios';
 const ProblemQuizBoxContainer = styled.div`
   font-family: 'EBSHMJESaeronRA';
   width: 100%;
-  padding: 6%;
+  padding: 3%;
   box-sizing: border-box;
   background-color: #b6c3b6;
   position: relative;
@@ -29,24 +29,34 @@ const ProblemQuizBoxContainer = styled.div`
 `;
 
 const ProblemBoxQuizizzContainer = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  width: 100%;
-  padding: 2.5rem 2rem 2rem 2rem;
-  box-sizing: border-box;
-  margin-top: 3rem;
+  margin-top: 5%;
+  padding-top: 5%;
   border: 1px solid rgba(0, 0, 0, 0.5);
   border-radius: 7px;
   box-shadow: 7px 7px 10px rgba(0, 0, 0, 0.5);
   background-color: #fafafa;
   z-index: 5;
-  @media (max-width: 786px) {
-    flex-direction: column;
-    padding-top: 0;
+
+  display: flex;
+  flex-flow: column nowrap;
+  width: 100%;
+  box-sizing: border-box;
+
+  .grid__quiz__box {
+    display: grid;
+    grid-gap: 3vh 3vw;
+    justify-items: center;
+    grid-template-columns: repeat(auto-fit, minmax(25vw, auto));
+
+    @media (max-width: 1280px) {
+      grid-template-columns: repeat(auto-fit, minmax(40vw, auto));
+    }
+    @media (max-width: 480px) {
+      grid-template-columns: repeat(auto-fit, minmax(90vw, auto));
+    }
   }
   .paginationBtn {
-    width: 80%;
+    width: 100%;
     list-style: none;
     display: flex;
     justify-content: center;
@@ -101,140 +111,145 @@ const ProblemBoxQuizizz = styled.div`
   font-family: 'EBSHMJESaeronRA';
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-  width: 32%;
+  /* size */
+  width: 25vw;
+  height: 32vw;
+  padding: 5px;
+  @media (max-width: 1280px) {
+    width: 40vw;
+    height: 50vw;
+    padding: 5px;
+  }
+  @media (max-width: 480px) {
+    width: 90vw;
+    height: 120vw;
+    padding: 5px;
+  }
+  /* --- */
   box-sizing: border-box;
-  background-color: #7a9892;
-  padding: 1.5em;
+  background-color: #6f958f;
   border-radius: 5px;
   box-shadow: 5px 5px 1px rgba(0, 0, 0, 0.3);
-  margin-left: 2%;
-  margin-bottom: 2%;
   cursor: pointer;
   &:hover {
     transform: scale(1.03); /* 이미지 확대 */
     transition: transform 0.5s; /*  시간 설정  */
   }
-  &:first-child {
-    margin-left: 0;
+  // 최상단에서 아래 1단계 박스
+  > a {
+    position: relative;
+    width: 100%;
+    height: 100%;
   }
-  &:nth-child(3n + 1) {
-    margin-left: 0;
-  }
-  > form {
+  // 1단계 박스 안의 이미지 컨테이너 2단계
+  > a .image_container {
+    max-width: 100%;
+    max-height: 70%;
+    overflow: hidden;
     display: flex;
     justify-content: center;
     align-items: center;
     position: relative;
-    > img {
-      flex: auto;
-      object-fit: cover;
-      background-size: cover;
-      box-sizing: border-box;
-      border-radius: 5px;
-      margin-bottom: 1em;
-    }
   }
-  .problem__box__quiz {
-    display: flex;
-    justify-content: space-evenly;
-    margin-top: 1em;
-    align-items: center;
+  // 박스 안의 이미지 3단계
+  > a .image_container img {
+    object-fit: contain;
     box-sizing: border-box;
-    > span {
-      box-sizing: border-box;
-      background-color: #fafafa;
-      border: 1px solid #303030;
-      text-align: center;
-      color: #303030;
-      border-radius: 5px;
-      padding: 0.5em;
-      margin-left: 1em;
-      font-size: 1.4em;
-      margin-bottom: 1em;
-      box-shadow: 2px 2px 1px rgba(0, 0, 0, 0.3);
-      letter-spacing: 1px;
-    }
-    > span:first-child {
-      margin-left: 0;
-    }
+    border-radius: 5px;
+    margin-bottom: 1%;
   }
 
-  @media (max-width: 960px) {
-    margin-top: 2em;
-    .problem__box__quiz {
-      > span {
-        font-size: 1.3em;
-        height: 140px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-      }
-    }
+  // 박스 안의 카테고리 컨테이너 2단계
+  > a .problem__box__quiz {
+    margin: 5px 0 5px 0;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    box-sizing: border-box;
   }
-
-  @media (max-width: 768px) {
-    width: 100%;
-    margin-left: 0;
-    margin-top: 2em;
-    &:last-child {
-      margin-bottom: 3rem;
-    }
-    .problem__box__quiz {
-      > span {
-        font-size: 1.1em;
-        letter-spacing: 0;
-        height: inherit;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-      }
-    }
-  }
-
-  .problem__box__title {
+  // 카테고리 컨테이너 안의 태그 3단계
+  > a .problem__box__quiz span {
+    padding: 5px 10px 5px 10px;
+    box-sizing: border-box;
+    background-color: #fafafa;
+    border: 1px solid #303030;
+    text-align: center;
+    color: #303030;
+    border-radius: 5px;
+    box-shadow: 2px 2px 1px rgba(0, 0, 0, 0.3);
+    flex: auto;
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 100%;
-    > h1 {
-      width: 80%;
-      box-sizing: border-box;
-      background-color: transparent;
-      overflow: hidden;
-      white-space: nowrap;
-      text-overflow: ellipsis;
-      font-weight: bold;
-      font-size: 2em;
-      letter-spacing: 1.5px;
-      color: #fafafa;
+
+    font-size: 18px;
+    @media (max-width: 1024px) {
+      font-size: 16px;
     }
-    > span {
-      width: 20%;
-      box-sizing: border-box;
-      font-size: 1.2em;
-      display: flex;
-      justify-content: right;
-      align-items: center;
-      flex-direction: column;
-      font-weight: bold;
-      color: #fafafa;
-      > .heart {
-        font-size: 1.5em;
-        color: #fafafa;
-      }
+    @media (max-width: 768px) {
+      font-size: 14px;
+    }
+    @media (max-width: 480px) {
+      font-size: 12px;
     }
   }
-  @media (max-width: 960px) {
-    .problem__box__title {
-      > h1 {
-        font-size: 1.7em;
-      }
-      > span {
-        font-size: 1.2em;
-      }
+  // 카테고리 컨테이너 안의 하트 아이콘 컨테이너 3단계
+  > a .problem__box__quiz .main__heart {
+    flex: 10vw 1 0;
+  }
+
+  // 박스 안의 문제 제목 컨테이너 2단계
+  > a .problem__box__title {
+    width: 100%;
+    // 제일 바닥으로
+    position: absolute;
+    bottom: 3%;
+    left: 50%;
+    transform: translate(-50%, 0%);
+    transition: all 0.4s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  // 박스 안의 문제 제목 3단계
+  > a .problem__box__title h1 {
+    background-color: transparent;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    font-weight: bold;
+    font-size: 20px;
+    color: #fafafa;
+    text-align: center;
+    @media (max-width: 1024px) {
+      font-size: 18px;
     }
+    @media (max-width: 786px) {
+      font-size: 16px;
+    }
+    @media (max-width: 480px) {
+      font-size: 14px;
+    }
+  }
+  > a:hover .problem__box__title {
+    bottom: -1%;
+    padding: 5px 10px 5px 10px;
+    z-index: 500;
+    background-color: #344b48;
+    border-radius: 5px;
+    min-height: 10vw;
+    @media (max-width: 1280px) {
+      min-height: 20vw;
+    }
+    @media (max-width: 480px) {
+      min-height: 30vw;
+    }
+  }
+  > a:hover .problem__box__title h1 {
+    white-space: normal;
+    font-size: 18px;
   }
 `;
 
@@ -328,21 +343,21 @@ const ProblemQuizBox = ({
     return (
       <ProblemBoxQuizizz key={i} onClick={() => handleQuizClick(el.id)}>
         <Link to={`/quizsolve/${el.id}`}>
-          <form>
+          <div className="image_container">
             <img src={el.thumbnail} alt="problem box Thumbnail" />
-          </form>
+          </div>
           <div className="problem__box__quiz">
             <span>{el.categories}</span>
             <span>{el.quizTypes}</span>
             <span>{el.answerTypes}</span>
             <span>{el.rewardPoints}냥</span>
+            <span className="problem__box__heart">
+                <FontAwesomeIcon icon={faHeart} />
+                {el.heart}
+            </span>
           </div>
           <div className="problem__box__title">
             <h1>{el.title}</h1>
-            <span>
-              <FontAwesomeIcon className="heart" icon={faHeart} />
-              {el.heart}
-            </span>
           </div>
         </Link>
       </ProblemBoxQuizizz>
@@ -358,21 +373,21 @@ const ProblemQuizBox = ({
             to={`/quizsolve/${el.id}`}
             onClick={() => handleQuizClick(el.id)}
           >
-            <form>
+            <div className="image_container">
               <img src={el.thumbnail} alt="problem box Thumbnail" />
-            </form>
+            </div>
             <div className="problem__box__quiz">
               <span>{el.categories[0].category}</span>
               <span>{el.quiz_types[0].quizContent.quizType}</span>
               <span>{el.answer_types[0].answerContent.answerType}</span>
               <span>{el.rewardPoint}냥</span>
+              <span className="problem__box__heart">
+                <FontAwesomeIcon icon={faHeart} />
+                {el.heart}
+              </span>
             </div>
             <div className="problem__box__title">
               <h1>{el.title}</h1>
-              <span>
-                <FontAwesomeIcon className="heart" icon={faHeart} />
-                {el.heart}
-              </span>
             </div>
           </Link>
         </ProblemBoxQuizizz>
@@ -388,21 +403,21 @@ const ProblemQuizBox = ({
     return (
       <ProblemBoxQuizizz key={i}>
         <Link to={`/quizsolve/${el.id}`} onClick={() => handleQuizClick(el.id)}>
-          <form>
+          <div className="image_container">
             <img src={el.thumbnail} alt="problem box Thumbnail" />
-          </form>
+          </div>
           <div className="problem__box__quiz">
             <span>{el.categories}</span>
             <span>{el.quizTypes}</span>
             <span>{el.answerTypes}</span>
             <span>{el.rewardPoints}냥</span>
+            <span className="problem__box__heart">
+                <FontAwesomeIcon icon={faHeart} />
+                {el.heart}
+            </span>
           </div>
           <div className="problem__box__title">
             <h1>{el.title}</h1>
-            <span>
-              <FontAwesomeIcon className="heart" icon={faHeart} />
-              {el.heart}
-            </span>
           </div>
         </Link>
       </ProblemBoxQuizizz>
@@ -418,21 +433,21 @@ const ProblemQuizBox = ({
             to={`/quizsolve/${el.id}`}
             onClick={() => handleQuizClick(el.id)}
           >
-            <form>
+            <div className="image_container">
               <img src={el.thumbnail} alt="problem box Thumbnail" />
-            </form>
+            </div>
             <div className="problem__box__quiz">
               <span>{el.categories[0].category}</span>
               <span>{el.quiz_types[0].quizContent.quizType}</span>
               <span>{el.answer_types[0].answerContent.answerType}</span>
               <span>{el.rewardPoint}냥</span>
+              <span className="problem__box__heart">
+                <FontAwesomeIcon icon={faHeart} />
+                {el.heart}
+              </span>
             </div>
             <div className="problem__box__title">
               <h1>{el.title}</h1>
-              <span>
-                <FontAwesomeIcon className="heart" icon={faHeart} />
-                {el.heart}
-              </span>
             </div>
           </Link>
         </ProblemBoxQuizizz>
@@ -441,9 +456,10 @@ const ProblemQuizBox = ({
   return (
     <ProblemQuizBoxContainer>
       <h2 className="problem__box__quiz__title">
-        {isLogin ? UserName.name : 'test'}의 서재
+        {isLogin ? UserName.name : '나'}의 서재
       </h2>
       <ProblemBoxQuizizzContainer>
+        <div className="grid__quiz__box">
         {isLogin
           ? MyNoteQuiz.length === 0
             ? allDisplay
@@ -451,6 +467,7 @@ const ProblemQuizBox = ({
           : NotLoginQuizList.length === 0
           ? allNotLoginDisplay
           : notLoginDisplayContents}
+        </div>
         <ReactPaginate
           previousLabel={'이전'}
           nextLabel={'다음'}

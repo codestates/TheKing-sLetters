@@ -43,6 +43,9 @@ const ServiceIntroContainer = styled.div`
     > h1 {
       margin-top: 3em;
     }
+    > h1 span {
+      font-size: 46px;
+    }
     > h2 {
       font-size: 2.8em;
     }
@@ -50,6 +53,9 @@ const ServiceIntroContainer = styled.div`
   @media (max-width: 960px) {
     > h1 {
       margin-top: 2.5em;
+    }
+    > h1 span {
+      font-size: 40px;
     }
     > h2 {
       font-size: 2.5em;
@@ -60,8 +66,23 @@ const ServiceIntroContainer = styled.div`
       margin-top: 2em;
       letter-spacing: -3px;
     }
+    > h1 span {
+      font-size: 32px;
+    }
     > h2 {
       font-size: 2.2em;
+    }
+  }
+  @media (max-width: 480px) {
+    > h1 {
+      margin-top: 1em;
+      letter-spacing: -3px;
+    }
+    > h1 span {
+      font-size: 24px;
+    }
+    > h2 {
+      font-size: 1.2em;
     }
   }
 `;
@@ -141,6 +162,20 @@ const TextContainer = styled.div`
     }
     .contents {
       font-size: 1.5em;
+      letter-spacing: -1px;
+    }
+  }
+  @media (max-width: 480px) {
+    .container {
+      padding: 0;
+    }
+    .service__title {
+      font-size: 1.8em;
+      font-weight: 600;
+      letter-spacing: -1px;
+    }
+    .contents {
+      font-size: 1.2em;
       letter-spacing: -1px;
     }
   }
@@ -239,7 +274,7 @@ const ServiceIntro = () => {
         </svg>
       </div>
       <h1 id="1" className="h1 service__title">
-        <span>나랏말싸미 유생</span>이 되면,
+        <span>나랏말싸미 유생이 되면,</span>
       </h1>
       <h2 className="h2 contents">아래과 같은 활동을 할 수 있어요!</h2>
       <BoxContainer>

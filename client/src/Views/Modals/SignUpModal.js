@@ -36,7 +36,7 @@ export const ModalView = styled.div`
   left: 50%;
   transform: translate(-50%, -50%);
   width: 500px;
-  height: 680px;
+  height: min(100vh, 680px);
   background:  white;
   box-sizing: border-box;
   box-shadow: 0 15px 25px rgba(0, 0, 0, 0.5);
@@ -80,8 +80,8 @@ export const ModalView = styled.div`
 
   > .modal_form {
     width: 86%;
-    margin: 1rem 0 0 0;
-    flex: 70% 1 0;
+    margin: 1% 0 0 0;
+    flex: min(60%, 70vh) 1 0;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -228,6 +228,10 @@ export const ModalView = styled.div`
       background-color: #2149f3a1;
       color: white;
       font-size: 1rem;
+      @media (max-width: 480px) {
+        width: 6rem;
+        height: 2.5rem;
+      }
     }
     > .submit_button_yes:hover {
       cursor: pointer;
@@ -242,6 +246,10 @@ export const ModalView = styled.div`
       border-radius: 5px;
       font-size: 1rem;
       background-color: #efefef;
+      @media (max-width: 480px) {
+        width: 6rem;
+        height: 2.5rem;
+      }
     }
     > .submit_button_no:hover {
       cursor: pointer;

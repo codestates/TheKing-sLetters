@@ -43,13 +43,14 @@ const PleaseLoginWrapper = styled.div`
   }
 `;
 
-const PleaseLogin = ({ openHandler }) => {
+const PleaseLogin = ({ modalOpenHandler }) => {
+  // 모달창 온오프 핸들러
   return (
     <PleaseLoginWrapper>
-      <div className="close_button_top" onClick={() => openHandler()}>&times;</div>
+      <div className="close_button_top" onClick={modalOpenHandler}>&times;</div>
       <img className="lock_icon" src={lockIcon} alt="자물쇠 아이콘"></img>
       <p style={{fontSize: "1.5em", textAlign: "center"}}>계속하시려면 <br /><span style={{color: "green"}}>로그인</span>이 필요합니다</p>
-      <button className="close_button_bottom" onClick={() => openHandler()}>닫기</button>
+      <button className="close_button_bottom" onClick={modalOpenHandler}>닫기</button>
     </PleaseLoginWrapper>
   );
 }

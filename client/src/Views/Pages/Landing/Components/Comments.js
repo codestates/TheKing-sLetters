@@ -37,12 +37,23 @@ const CommentsContainer = styled.div`
   }
 
   @media (max-width: 768px) {
-    h1 {
+    h1 span {
       letter-spacing: 0;
     }
     h2 {
       letter-spacing: -3px;
       font-size: 2.3em;
+    }
+  }
+
+  @media (max-width: 480px) {
+    h1 span {
+      font-size: 24px;
+      letter-spacing: 0;
+    }
+    h2 {
+      font-size: 18px;
+      letter-spacing: -3px;
     }
   }
 

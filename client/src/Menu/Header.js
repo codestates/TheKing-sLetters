@@ -5,14 +5,11 @@ import styled from 'styled-components';
 // 유저 컨텍스트
 import { useUserState } from '../context/UserContext';
 
-// modal
-// import ModalController from '../Views/Modals/ModalController';
-
 const NavBar = styled.div`
   background-color: #d7dbd1;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  display: grid;
+  grid-template-columns: max(10vw, 150px) 1fr max(10vw, 200px);
+  justify-items: center;
   width: 100%;
   box-sizing: border-box;
   padding: 8px 20px;
@@ -25,7 +22,8 @@ const NavBar = styled.div`
     }
   }
   @media (max-width: 768px) {
-    justify-content: right;
+    grid-template-columns: 1fr;
+    justify-items: end;
     > .navbar__logo {
       z-index: 1;
     }
@@ -291,7 +289,8 @@ const Nav = styled.nav`
   &.nav-open {
     transform: translateX(0%);
     > .menu-btn {
-      right: 5%;
+      top: 5px;
+      right: 5px;
     }
     > .nav-links li {
       transform: translateX(0);
@@ -299,8 +298,8 @@ const Nav = styled.nav`
     }
   }
 
-  @media (max-width: 680px) {
-    width: 97vw;
+  @media (max-width: 768px) {
+    width: 100vw;
   }
 `;
 
@@ -310,8 +309,8 @@ const MenuBtn = styled.div`
   align-items: center;
   --icon-width: 25px;
   position: absolute;
-  top: 0;
-  right: -9%;
+  top: 10px;
+  right: -35px;
   width: calc(var(--icon-width) + 25px);
   height: calc(var(--icon-width) + 25px);
   flex-direction: column;
@@ -319,7 +318,8 @@ const MenuBtn = styled.div`
     cubic-bezier(0.8, 0, 0.33, 1.25);
   cursor: pointer;
   z-index: 10;
-
+  width: 25px;
+  height: 25px;
   &.close .line__1 {
     transform: rotate(45deg) translate(2px, -3px);
   }

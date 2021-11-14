@@ -4,8 +4,10 @@
 
 ### **올바른 맞춤법을 쓰는 그날까지.**
 
-헷갈렸던 맞춤법을 퀴즈를 통해 알아갈 수 있어요.
+헷갈렸던 맞춤법을 퀴즈를 통해 알아갈 수 있어요.<br>
 
+체험ID: geonyeong@gmail.com / PW: 1234<br>
+관리자ID: thekingsletter1443@gmail.com / PW: fourmen
 <br>
 
 ## 🔖About

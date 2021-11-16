@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
+import dotenv from 'dotenv';
+dotenv.config();
 
 import { useUserState, useUserDispatch } from '../../context/UserContext';
 import GitHubLogo from './Assets/github-1.png';
@@ -225,6 +227,8 @@ const SignInModal = ({isOpen, setIsOpen, switcher}) => {
   const userState = useUserState();
   /* 유저 로그인 정보 수정 */
   const dispatch = useUserDispatch();
+  const gitOAuthUrl = process.env.GIT_OAUTH_URL;
+  const googleOAuthUrl = process.env.GOOGLE_OAUTH_URL;
 
   /* 모달창 온오프 핸들러 */
   const modalOpenHandler = () => {
@@ -345,13 +349,13 @@ const SignInModal = ({isOpen, setIsOpen, switcher}) => {
           </Sign>
 
           <Img>
-            <a className="github_link" href="https://github.com/login/oauth/authorize?client_id=a27b9ace9f66b90ffe4d&scope=user">
+            <a className="github_link" href={gitOAuthUrl}>
               <div className="gitBox">
                 <p className="gitlogoTitle">GitHub 로그인</p>  
                 <img className="gitHubImg" src={GitHubLogo} alt="gitHubLogo"/>
               </div>
               </a>
-              <a className="google_link" href="https://accounts.google.com/o/oauth2/v2/auth?client_id=992308342199-tdkmk92urgpuam42mo74pmq7m8c17ud3.apps.googleusercontent.com&redirect_uri=http://localhost:3000/auth/google&response_type=code&scope=https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email openid">
+              <a className="google_link" href={googleOAuthUrl}>
                 <div className="googleBox">
                   <p className="googleTitle">Google 로그인</p>
                   <img className="googleImg" src={GoogleLogo} alt="googleLogo"/>

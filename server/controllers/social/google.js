@@ -188,7 +188,6 @@ console.log(req.query)
       updatedAt: userInfo.updatedAt
     }
 
-
     const accessToken = sign(userData, process.env.ACCESS_SECRET, {expiresIn: '3d'});
 
     res.status(200).cookie("accessToken", accessToken, {

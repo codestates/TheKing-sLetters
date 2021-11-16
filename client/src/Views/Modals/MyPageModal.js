@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
-import { useUserState } from '../../context/UserContext';
+import { useUserState, useUserDispatch } from '../../context/UserContext';
 import PleaseLogin from './Components/PleaseLogin';
 import MessageResign from './Components/MessageResign';
 import ResignSuccess from './Components/ResignSuccess';
@@ -229,6 +229,7 @@ const MyPageModal = ({ isOpen, setIsOpen }) => {
   const [submitEnabled, setSubmitEnabled] = useState(true);
   /* context에서 유저 정보 state를 불러옴 */
   const userState = useUserState();
+  const dispatch = useUserDispatch();
 
   useEffect(() => {
     setModifiedUserInfo(initialValue);
@@ -270,7 +271,7 @@ const MyPageModal = ({ isOpen, setIsOpen }) => {
   };
 
   const vaildPasswordCheck = (input) => {
-    const pattern = /^(?=.*[a-zA-Z])((?=.*\d)|(?=.*\W)).{6,20}$/;
+    const pattern = /^((?=.*\d)).{4,20}$/;
     return pattern.test(input);
     ///^(?=.*[a-zA-Z])((?=.*\d)|(?=.*\W)).{6,20}$/;
   };
@@ -302,8 +303,22 @@ const MyPageModal = ({ isOpen, setIsOpen }) => {
         data: PAYLOAD,
       });
       DEBUG_MODE && console.log('PATCH /user/edit 요청에 성공했습니다.');
+      console.log(response)
       if (response.status === 201) {
         DEBUG_MODE && console.log('이부분 수정')
+        const data = response.data.data.userData;
+        dispatch({
+          type: "SET_USER_DATA",
+          userData: {
+            email: data.email || "0",
+            gender: data.gender || "0",
+            image: data.image || "0",
+            mobile: data.mobile || "0",
+            name: data.name || "",
+            createdAt: data.createdAt || "0",
+            updatedAt: data.updatedAt || "0"
+          }
+        });
       }
     } catch(error) {
       response = error.response;

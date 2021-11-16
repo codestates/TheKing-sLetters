@@ -46,7 +46,7 @@ module.exports = async (req, res) => {
     // const expiredToken = sign({}, process.env.ACCESS_SECRET, {expiresIn: 0});
 
     // res.status(200).cookie('accessToken', expiredToken)
-    res.status(200).json({ data: { message: 'successfully resigned!' } })
+    res.status(200).clearCookie('accessToken').json({ data: { message: 'successfully resigned!' } })
   } else {
     res.status(400).send(`you're currently not logined`)
   }

@@ -4,9 +4,9 @@ const { isAuthorized } = require('../tokenFunction')
 module.exports = async (req, res) => {
   const offset = req.query.offset;
   const limit = req.query.limit;
-  const header = req.headers.authorization;
+  const cookie = req.cookies.accessToken
 
-  if (!header) {
+  if (!cookie) {
     const quizzes = await quiz.findAll({
       include: [
         { model: category, attributes: ["id", "category"] },

@@ -41,6 +41,7 @@ app.get('/mynote', controllers.mynote)
 app.get('/mypublish', controllers.myPublish)  // GET으로 변경
 app.post('/mynote/add', controllers.addMyNote)
 app.post('/mynote/delete', controllers.deleteMyNote)
+
 app.get('/quizzes', controllers.quizzesAll)  // GET으로 변경
 app.get('/quizzes/selectquiz/', controllers.quizId)
 app.post('/quizzes/newquiz', controllers.newQuiz)

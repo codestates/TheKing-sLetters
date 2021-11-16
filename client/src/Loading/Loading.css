@@ -18,7 +18,7 @@ body {
   position: absolute;
   width: 20px;
   height: 36px;
-  font-size: 50px;
+  font-size: 26px;
   opacity: 0;
   font-family: "EBSHunminjeongeumSBA";
   animation: move 3s linear infinite;
@@ -30,6 +30,12 @@ body {
   -moz-transform: rotate(180deg);
   -webkit-transform: rotate(180deg);
   color: white;
+}
+
+@media (max-width: 480px) {
+  #load div {
+    font-size: 16px;
+  }
 }
 
 #load div:nth-child(2) {

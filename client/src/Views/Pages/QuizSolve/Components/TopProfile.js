@@ -82,7 +82,6 @@ const TopProfileWrapper = styled.div`
 	}
 	> .recommend_container {
 		position: relative;
-		z-index: 5;
 		margin: 2em 0 2em auto;
 		/* flex 설정 */
 		display: flex;
@@ -117,15 +116,27 @@ const TopProfileWrapper = styled.div`
 	}
 	> .profile_please_login {
 		border-radius: 1px;
-		padding: 5px 0px 5px 0px;
+		padding: 5% 0 5% 0;
 		width: 100%;
 		display: flex;
 		flex-flow: row;
-		gap: 5px;
+		gap: 1%;
 		> img {
-			margin: 0 10px 0 10px;
+			margin: 0 1% 0 1%;
 			width: 10%;
 			max-width: 2rem;
+		}
+		> p {
+			font-size: 18px;
+      @media (max-width: 1024px) {
+        font-size: 16px;
+      }
+      @media (max-width: 768px) {
+        font-size: 14px;
+      }
+      @media (max-width: 480px) {
+        font-size: 12px;
+      }
 		}
 	}
 `;

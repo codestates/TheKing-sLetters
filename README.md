@@ -4,8 +4,10 @@
 
 ### **올바른 맞춤법을 쓰는 그날까지.**
 
-헷갈렸던 맞춤법을 퀴즈를 통해 알아갈 수 있어요.
+헷갈렸던 맞춤법을 퀴즈를 통해 알아갈 수 있어요.<br>
 
+체험ID: geonyeong@gmail.com / PW: 1234<br>
+관리자ID: thekingsletter1443@gmail.com / PW: fourmen
 <br>
 
 ## 🔖About
@@ -116,66 +118,249 @@
 
 <br>
 
-## **Landing**
+## **나랏말싸미**
 
-<img src="https://user-images.githubusercontent.com/85022657/137096188-09bfc7e8-a886-4ae1-9bd5-fe7c6f022b98.gif" alt="landing-003-01-width-600px" border="0" />
-
-<br>
-<br>
-
-## **Local**
-
-<img src="https://user-images.githubusercontent.com/85022657/137097843-48949e66-dcb5-491c-ae68-ae6894ea1e0f.gif" alt="local-001-1-width-600px" border="0" />
+<img src="https://media.vlpt.us/images/yonghk423/post/590c8996-fac0-4740-b28b-2ecf80a5b939/LandingPage.gif" alt="landing-003-01-width-600px" border="0" />
 
 <br>
 <br>
 
-## **Post**
+## **소예담 학당**
 
-<img width="650px" alt="landingweb" src="https://i.ibb.co/2gm95K1/post-main-001-1-width-600px.gif" />
-
-<br>
-<br>
-
-## **Sign In**
-
-<img src = "https://i.ibb.co/f1n8wbg/login-001-1-width-600px.gif" width="650px">
+<img src="https://media.vlpt.us/images/yonghk423/post/f6240692-0bdf-4cea-a39a-99497dc889d2/GoTestPage1.gif" alt="local-001-1-width-600px" border="0">
+<img src="https://media.vlpt.us/images/yonghk423/post/46a7d569-d0b0-4102-a2f7-c37c3a47915a/GoTestPage2.gif" alt="local-001-1-width-600px" border="0">
 
 <br>
 <br>
 
-## **Sign Up**
+## **소예담 문제 등록**
 
-<img src = "https://i.ibb.co/7QLG5Qd/signup-001-1-600px.gif" width="650px">
-
-<br>
-<br>
-
-## **My Page**
-
-<img src="https://user-images.githubusercontent.com/85022657/137096900-2c85ff8d-ff59-4d6f-b79d-7b2484f818fc.gif" alt="modal-mypage-001-1-width-600px" border="0" />
+<img alt="landingweb" src="https://media.vlpt.us/images/yonghk423/post/cf4e5ef6-ca41-4d95-871d-96d90aa3fac2/QuizMake1.gif">
+<img alt="landingweb" src="https://media.vlpt.us/images/yonghk423/post/b00a77b2-a88a-4103-8f3a-470046006de2/QuizMake2.gif">
+<img alt="landingweb" src="https://media.vlpt.us/images/yonghk423/post/48782613-ee62-4184-aebf-718efeae81e9/QuizMake3.gif">
 
 <br>
 <br>
 
-## **Add Comment**
+## **소예담 문제 풀이**
 
-<img src = "https://user-images.githubusercontent.com/85022657/137097165-bad32b7c-05c8-479c-a082-346ec31a321d.gif" width="650px">
+<img src="https://media.vlpt.us/images/yonghk423/post/46a7d569-d0b0-4102-a2f7-c37c3a47915a/GoTestPage2.gif">
 
 <br>
 <br>
 
-## **Pagination**
+## **소예담 서재**
 
-<img src = "https://user-images.githubusercontent.com/85022657/137097244-054c8d88-a6c5-4a0a-96b6-1fff3301194a.gif">
+<img src="https://media.vlpt.us/images/yonghk423/post/2745a15b-ff6f-49f8-86f8-cccaf064a4f5/QuizSave.gif">
+
+<br>
+<br>
+
+## **저잣거리**
+
+<img src="https://media.vlpt.us/images/yonghk423/post/1d27dc4c-29bb-46c7-88f4-0da3458ee3c7/Mileage.gif">
+
+<br>
+<br>
+
+## **내정보 페이지**
+
+<img src="https://media.vlpt.us/images/yonghk423/post/f538653f-f898-4e26-8b72-f0e4d0ff4ebe/MyPage1-min.gif">
+<img src="https://media.vlpt.us/images/yonghk423/post/ccd5f24c-4d80-4884-9d49-0019009ddc0e/MyPage2-min.gif">
+<img src="https://media.vlpt.us/images/yonghk423/post/622f2f3b-e1ca-4f3c-8c6f-3565f7c2086d/MyPage-RankModal.gif">
+
+<br>
+<br>
+
+## **관리자 페이지**
+
+<img src="https://media.vlpt.us/images/yonghk423/post/5c5a6a8a-95b0-4904-9729-bacf570073b4/AdminPage.gif">
+
+<br>
+<br>
+
+## **유저 회원가입**
+
+<img src="https://media.vlpt.us/images/yonghk423/post/525a7bc0-f56f-4740-a026-412046315040/SignUp.gif">
+<img width="535" src="https://media.vlpt.us/images/yonghk423/post/34f57428-3f35-410f-8bb2-f9698cc74a38/Login-Email.gif">
+
+<br>
+<br>
+
+## **유저 로그인**
+
+<img src="https://media.vlpt.us/images/yonghk423/post/6a90c5e4-e2d9-4241-9ca7-4e43d99d520e/Login.gif">
+
+<br>
+<br>
+
+## **유저 로그아웃**
+
+<img width="535" src="https://media.vlpt.us/images/yonghk423/post/e31b0a1a-60b5-429f-be4a-a02b83100d06/SocialLogin.gif">
+
+<br>
+<br>
+
+## **유저 회원 정보 수정**
+
+<img src="https://media.vlpt.us/images/yonghk423/post/5c5a6a8a-95b0-4904-9729-bacf570073b4/AdminPage.gif" alt="회원 정보 수정">
+
+<br>
+<br>
+
+## **유저 회원 탈퇴**
+
+<img src="https://media.vlpt.us/images/yonghk423/post/221b62b6-84b1-4373-9251-b1d344452a42/ReSign.gif">
+
+<br>
+<br>
+
+## **관리자 로그인**
+
+<img src="https://media.vlpt.us/images/yonghk423/post/ce2198ae-4dad-4344-a1e2-2a4a4f9fe234/AdminLogin.gif">
+
+<br>
+<br>
+
+## **관리자 로그아웃**
+
+<img src="https://media.vlpt.us/images/yonghk423/post/e2492e3a-a9d0-4f01-918c-e69987fb159f/AdminLogout.gif">
 
 <br>
 <br>
 
 # Flow Chart
 
-- Frontend
-- Backend
+- ### Client Side flow chart
+<img src="https://cdn.discordapp.com/attachments/830706578578997268/908255986970665000/Untitled_Diagram.drawio.png" alt="client flowchart" width="650px" />
+
+<br>
+<br>
+
+- ### Server Side Flow Chart
+<img src="https://cdn.discordapp.com/attachments/894796696494682135/908256326180819004/Untitled_Diagram.drawio_3.png" alt="server flowchart" width="650px" />
+
+<br>
+<br>
+
+# API Documents
+
+[API Documents](https://github.com/codestates/TheKing-sLetters/wiki/API-Documents)
+
+<br>
+<details>
+<summary>📃 유저 관련 API</summary>
+<br>
+
+|                                                  유저 회원가입                                                  |                                                   유저 로그인                                                   |
+| :-------------------------------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------------------------------: |
+| <img src="https://cdn.discordapp.com/attachments/859214492265480213/907830705168478248/signup.png" width=500px> | <img src="https://cdn.discordapp.com/attachments/859214492265480213/907831800917786634/signin.png" width=500px> |
+
+<br>
+
+|                                                                                                유저 로그아웃                                                                                                |                                                                                                  유저 탈퇴                                                                                                  |
+| :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
+| <img src="https://cdn.discordapp.com/attachments/859214492265480213/907958070242594816/screencapture-app-gitbook-s-FteI4l6nI5i8uuTJZ1SD-undefined-api-documents-users-2021-11-10-20_37_31.png" width=500px> | <img src="https://cdn.discordapp.com/attachments/859214492265480213/907958073019219968/screencapture-app-gitbook-s-FteI4l6nI5i8uuTJZ1SD-undefined-api-documents-users-2021-11-10-20_37_31.png" width=500px> |
+
+<br>
+
+|                                                                                               유저 정보 수정                                                                                                |                                                                                             유저 정보 가져오기                                                                                              |
+| :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
+| <img src="https://cdn.discordapp.com/attachments/859214492265480213/907958075875524618/screencapture-app-gitbook-s-FteI4l6nI5i8uuTJZ1SD-undefined-api-documents-users-2021-11-10-20_37_31.png" width=500px> | <img src="https://cdn.discordapp.com/attachments/859214492265480213/907958083689525288/screencapture-app-gitbook-s-FteI4l6nI5i8uuTJZ1SD-undefined-api-documents-users-2021-11-10-20_37_31.png" width=500px> |
+
+|                                                                                                 랭킹 가져오기                                                                                                 |                                                                                            본인이 만든 퀴즈 삭제                                                                                            |
+| :-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
+| <img src="https://cdn.discordapp.com/attachments/859214492265480213/907837773694783498/screencapture-otter9459-gitbook-io-thekingsletters-undefined-api-documents-users-2021-11-10-12_08_18.png" width=500px> | <img src="https://cdn.discordapp.com/attachments/859214492265480213/907958085535031296/screencapture-app-gitbook-s-FteI4l6nI5i8uuTJZ1SD-undefined-api-documents-users-2021-11-10-20_37_31.png" width=500px> |
+
+<br>
+
+|                                              새로운 유저 이메일 인증                                               |
+| :----------------------------------------------------------------------------------------------------------------: |
+| <img src="https://cdn.discordapp.com/attachments/859214492265480213/907894273016475678/emailauth.png" width=420px> |
+
+</details>
+
+<details>
+<summary>📃 소셜 로그인 관련 API</summary>
+<br>
+
+|                                                                                              구글 소셜 로그인                                                                                               |                                                                                              깃허브 소셜 로그인                                                                                               |
+| :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
+| <img src="https://cdn.discordapp.com/attachments/859214492265480213/907893343361585152/screencapture-app-gitbook-s-FteI4l6nI5i8uuTJZ1SD-undefined-api-documents-oauth-2021-11-10-16_14_57.png" width=500px> | <img src="https://cdn.discordapp.com/attachments/859214492265480213/907893356141613106/screencapture-otter9459-gitbook-io-thekingsletters-undefined-api-documents-oauth-2021-11-10-16_15_58.png" width=500px> |
+
+</details>
+
+<details>
+<summary>📃 퀴즈 관련 API</summary>
+<br>
+
+|                                                                                                  퀴즈 목록 API                                                                                                  |                                                                                             선택한 퀴즈 데이터 API                                                                                              |
+| :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
+| <img src="https://cdn.discordapp.com/attachments/859214492265480213/907902866142924800/screencapture-otter9459-gitbook-io-thekingsletters-undefined-api-documents-quizzes-2021-11-10-16_30_30.png" width=500px> | <img src="https://cdn.discordapp.com/attachments/859214492265480213/907902883360567306/screencapture-otter9459-gitbook-io-thekingsletters-undefined-api-documents-quizzes-2021-11-10-16_30_30.png" width=500px> |
+
+<br>
+
+|                                                                                                  퀴즈 생성 API                                                                                                  |                                                                                                  정답 제출 API                                                                                                  |
+| :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
+| <img src="https://cdn.discordapp.com/attachments/859214492265480213/907902886330130433/screencapture-otter9459-gitbook-io-thekingsletters-undefined-api-documents-quizzes-2021-11-10-16_30_30.png" width=500px> | <img src="https://cdn.discordapp.com/attachments/859214492265480213/907902892676087808/screencapture-otter9459-gitbook-io-thekingsletters-undefined-api-documents-quizzes-2021-11-10-16_30_30.png" width=500px> |
+
+<br>
+
+|                                                                                               선택한 퀴즈 추천 API                                                                                                |                                                                                           본인이 생성한 퀴즈 리스트 API                                                                                           |
+| :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
+| <img src="https://media.discordapp.net/attachments/859214492265480213/907902898095161404/screencapture-otter9459-gitbook-io-thekingsletters-undefined-api-documents-quizzes-2021-11-10-16_30_30.png" width=500px> | <img src="https://media.discordapp.net/attachments/859214492265480213/907902904139145216/screencapture-otter9459-gitbook-io-thekingsletters-undefined-api-documents-quizzes-2021-11-10-16_30_30.png" width=500px> |
+
+<br>
+
+|                                                                                              개인 서재 퀴즈 추가 API                                                                                              |                                                                                              개인 서재 퀴즈 삭제 API                                                                                              |
+| :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
+| <img src="https://media.discordapp.net/attachments/859214492265480213/907902914524225546/screencapture-otter9459-gitbook-io-thekingsletters-undefined-api-documents-quizzes-2021-11-10-16_30_30.png" width=500px> | <img src="https://media.discordapp.net/attachments/859214492265480213/907902918563340318/screencapture-otter9459-gitbook-io-thekingsletters-undefined-api-documents-quizzes-2021-11-10-16_30_30.png" width=500px> |
+
+<br>
+
+|                                                                                             개인 서재 퀴즈 목록 API                                                                                             |
+| :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
+| <img src="https://cdn.discordapp.com/attachments/859214492265480213/907902908102746122/screencapture-otter9459-gitbook-io-thekingsletters-undefined-api-documents-quizzes-2021-11-10-16_30_30.png" width=420px> |
+
+</details>
+
+<details>
+<summary>📃 상품 관련 API</summary>
+<br>
+
+|                                                                                                 상품 목록 API                                                                                                 |                                                                                                 상품 구매 API                                                                                                 |
+| :-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
+| <img src="https://cdn.discordapp.com/attachments/859214492265480213/907955129100161024/screencapture-otter9459-gitbook-io-thekingsletters-undefined-api-documents-items-2021-11-10-20_26_43.png" width=500px> | <img src="https://cdn.discordapp.com/attachments/859214492265480213/907955133743259648/screencapture-otter9459-gitbook-io-thekingsletters-undefined-api-documents-items-2021-11-10-20_26_43.png" width=500px> |
+
+<br>
+
+|                                                                                                 구매 내역 API                                                                                                 |
+| :-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
+| <img src="https://cdn.discordapp.com/attachments/859214492265480213/907955137329373204/screencapture-otter9459-gitbook-io-thekingsletters-undefined-api-documents-items-2021-11-10-20_26_43.png" width=420px> |
+
+</details>
+
+<details>
+<summary>📃 관리자 관련 API</summary>
+<br>
+
+|                                                                                                         관리자 로그인 API                                                                                                          |                                                                                                        관리자 로그아웃 API                                                                                                         |
+| :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
+| <img src="https://cdn.discordapp.com/attachments/859214492265480213/907960346050973726/screencapture-app-gitbook-s-FteI4l6nI5i8uuTJZ1SD-c-Tt2xua2rCbyUQKmyhDzW-undefined-api-documents-admin-2021-11-10-20_47_30.png" width=500px> | <img src="https://cdn.discordapp.com/attachments/859214492265480213/907960349175722024/screencapture-app-gitbook-s-FteI4l6nI5i8uuTJZ1SD-c-Tt2xua2rCbyUQKmyhDzW-undefined-api-documents-admin-2021-11-10-20_47_30.png" width=500px> |
+
+<br>
+
+|                                                                                                        관리자 퀴즈 승인 API                                                                                                        |                                                                                                           퀴즈 삭제 API                                                                                                            |
+| :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
+| <img src="https://cdn.discordapp.com/attachments/859214492265480213/907960359875412018/screencapture-app-gitbook-s-FteI4l6nI5i8uuTJZ1SD-c-Tt2xua2rCbyUQKmyhDzW-undefined-api-documents-admin-2021-11-10-20_47_30.png" width=500px> | <img src="https://cdn.discordapp.com/attachments/859214492265480213/907960363377635349/screencapture-app-gitbook-s-FteI4l6nI5i8uuTJZ1SD-c-Tt2xua2rCbyUQKmyhDzW-undefined-api-documents-admin-2021-11-10-20_47_30.png" width=500px> |
+
+<br>
+
+|                                                                                                    관리자 페이지 퀴즈 목록 API                                                                                                     |
+| :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
+| <img src="https://cdn.discordapp.com/attachments/859214492265480213/907960354154364948/screencapture-app-gitbook-s-FteI4l6nI5i8uuTJZ1SD-c-Tt2xua2rCbyUQKmyhDzW-undefined-api-documents-admin-2021-11-10-20_47_30.png" width=420px> |
+
+</details>
 
 <br>
 <br>
@@ -184,7 +369,7 @@
 
 [System Architecture](https://github.com/codestates/TheKing-sLetters/wiki/System-Architecture)
 
-<img src="https://cdn.discordapp.com/attachments/894796696494682135/895179317607301130/2021-10-06_14-22-53.png" width="650px" >
+<img src="https://cdn.discordapp.com/attachments/859214492265480213/907970714596962314/2.png?width=786&height=466" width="650px" >
 
 <br>
 <br>

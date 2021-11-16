@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
+import dotenv from 'dotenv';
+dotenv.config();
 
 import { useUserState, useUserDispatch } from '../../context/UserContext';
 import GitHubLogo from './Assets/github-1.png';
@@ -35,7 +37,7 @@ const ModalView = styled.div`
   left: 50%;
   transform: translate(-50%, -50%);
   width: 500px;
-  height: 680px;
+  height: min(100vh, 680px);
   z-index: 301;
   @media (max-width: 768px) {
     transition: all 0.4s;
@@ -112,7 +114,7 @@ const Sign = styled.div`
     outline: none;
     color: #fff;
     background: #00800099;
-    width: 400px;
+    width: min(80vw, 400px);
     padding: 10px 20px;
     cursor: pointer;
     border-radius: 5px;
@@ -149,7 +151,7 @@ const Img = styled.div`
   //-----------git logo
   > .github_link {
     display: block;
-    width: 350px;
+    width: min(80vw, 350px);
     height: 50px;
     border-radius: 12px;
     overflow: hidden;
@@ -165,6 +167,9 @@ const Img = styled.div`
         left: 50%;
         top: 50%;
         transform: translate(-50%, -50%);
+        @media (max-width: 460px) {
+          font-size: 14px;
+        }
       }
       > .gitHubImg {
         position: absolute;
@@ -179,7 +184,7 @@ const Img = styled.div`
   //-----------google logo
   > .google_link {
     display: block;
-    width: 350px;
+    width: min(80vw, 350px);
     height: 50px;
     border: 1px solid black;
     border-radius: 12px;
@@ -197,6 +202,9 @@ const Img = styled.div`
         left: 50%;
         top: 50%;
         transform: translate(-50%, -50%);
+        @media (max-width: 460px) {
+          font-size: 14px;
+        }
       }
       > .googleImg {
         position: absolute;
@@ -219,6 +227,8 @@ const SignInModal = ({isOpen, setIsOpen, switcher}) => {
   const userState = useUserState();
   /* 유저 로그인 정보 수정 */
   const dispatch = useUserDispatch();
+  const gitOAuthUrl = process.env.GIT_OAUTH_URL;
+  const googleOAuthUrl = process.env.GOOGLE_OAUTH_URL;
 
   /* 모달창 온오프 핸들러 */
   const modalOpenHandler = () => {
@@ -339,13 +349,13 @@ const SignInModal = ({isOpen, setIsOpen, switcher}) => {
           </Sign>
 
           <Img>
-            <a className="github_link" href="https://github.com/login/oauth/authorize?client_id=a27b9ace9f66b90ffe4d&scope=user">
+            <a className="github_link" href={gitOAuthUrl}>
               <div className="gitBox">
                 <p className="gitlogoTitle">GitHub 로그인</p>  
                 <img className="gitHubImg" src={GitHubLogo} alt="gitHubLogo"/>
               </div>
               </a>
-              <a className="google_link" href="https://accounts.google.com/o/oauth2/v2/auth?client_id=992308342199-tdkmk92urgpuam42mo74pmq7m8c17ud3.apps.googleusercontent.com&redirect_uri=https://thekingsletters.ml/auth/google&response_type=code&scope=https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email openid">
+              <a className="google_link" href={googleOAuthUrl}>
                 <div className="googleBox">
                   <p className="googleTitle">Google 로그인</p>
                   <img className="googleImg" src={GoogleLogo} alt="googleLogo"/>

@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
-import { useUserDispatch } from '../../../context/UserContext';
 
 axios.defaults.baseURL = `https://api.thekingsletters.ml`;
 axios.defaults.withCredentials = true;
@@ -76,10 +75,8 @@ const ModalBtn = styled.button`
   cursor: pointer;
 `;
 
-const MessageResign = () => {
+const MessageResign = ({ setIsResigned, setIsLogin }) => {
   const [isOpen, setIsOpen] = useState(false);
-  // 유저 컨텍스트 불러오기
-  const dispatch = useUserDispatch();
 
   const modalOpenHandler = () => {
     setIsOpen(!isOpen);
@@ -94,10 +91,14 @@ const MessageResign = () => {
       });
       DEBUG_MODE && console.log('DELETE /resign 요청에 성공했습니다.');
       if (response.status === 200) {
-        // 로그아웃으로 state 변경
-        dispatch({type: "USER_LOGOUT"});
-        // 유저 정보 초기화
-        dispatch({type: "SET_USER_DATA_NULL"});
+
+        setIsResigned(true);
+        setTimeout(() => {
+          // 로그아웃으로 state 변경
+          setIsLogin(false);
+          // 메인으로
+          window.location = "/";
+        }, 3000);
       }
     } catch(error) {
       response = error.response;

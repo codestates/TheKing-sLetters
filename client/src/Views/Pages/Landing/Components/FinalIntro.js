@@ -82,6 +82,12 @@ const FinalIntroContainer = styled.div`
     .final__btn {
       width: 100%;
     }
+    .h1 {
+      font-size: 24px;
+    }
+    .h2, .contents {
+      font-size: 18px;
+    } 
   }
 `;
 

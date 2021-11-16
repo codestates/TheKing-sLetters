@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
-import { useUserState, useUserDispatch } from '../../context/UserContext';
+import { useUserDispatch, useUserState } from '../../context/UserContext';
+import { useModalState, useModalDispatch } from '../../context/ModalContext';
 import PleaseLogin from './Components/PleaseLogin';
 import MessageResign from './Components/MessageResign';
 import ResignSuccess from './Components/ResignSuccess';
 import Upload from '../../functions/upload';
 
-const DEBUG_MODE = false;
+const DEBUG_MODE = true;
 axios.defaults.baseURL = `https://api.thekingsletters.ml`;
 axios.defaults.withCredentials = true;
 
@@ -99,6 +100,7 @@ export const ModalView = styled.div`
   }
   // 프로필 사진 제목
   > .modal_form .profile_image_title {
+    font-family: 'EBSHMJESaeronRA';
     color: blueviolet;
     font-weight: 600;
   }
@@ -214,12 +216,13 @@ const initialValue = {
   name: "",
   mobile: "",
   image: "",
+  image_object: "",
   gender: "",
   password: "",
   passwordCheck: "",
 };
 
-const MyPageModal = ({ isOpen, setIsOpen }) => {
+const MyPageModal = () => {
   const [modifiedUserInfo, setModifiedUserInfo] = useState(initialValue);
   const [isPasswordMatched, setIsPasswordMatched] = useState(true);
   const [isPasswordEmpty, setIsPasswordEmpty] = useState(true);
@@ -227,13 +230,50 @@ const MyPageModal = ({ isOpen, setIsOpen }) => {
   const [isVaildMobile, setIsVaildMobile] = useState(true);
   const [isVaildName, setIsVaildName] = useState(true);
   const [submitEnabled, setSubmitEnabled] = useState(true);
+  const [isResigned, setIsResigned] = useState(false);
   /* context에서 유저 정보 state를 불러옴 */
   const userState = useUserState();
-  const dispatch = useUserDispatch();
+  const userDispatch = useUserDispatch();
+  const isLogin = userState.isUserLoggedIn;
+  const setIsLogin = (onOff) => {
+    if (onOff)
+      userDispatch({type: "USER_LOGIN"});
+    else
+      userDispatch({type: "USER_LOGOUT"});
+  };
+
+  /* context에서 모달 state를 불러옴 */
+  const modalState = useModalState();
+  const modalDispatch = useModalDispatch();
+  const isOpen = modalState.modalUserMypage;
+  const setIsOpen = (onOff) => {
+    modalDispatch({type: "MODAL_USER_MYPAGE", value: onOff});
+  };
 
   useEffect(() => {
-    setModifiedUserInfo(initialValue);
-  }, [isOpen]);
+    const initiate = async () => {
+      if(isOpen) {
+        const data = userState.userData;
+        const newValue = {
+          email: data.email,
+          name: data.name,
+          mobile: data.mobile,
+          image: data.image,
+          image_object: "",
+          gender: data.gender,
+          password: "",
+          passwordCheck: "",
+        };
+        setModifiedUserInfo(newValue);
+      }
+    }
+    initiate();
+    DEBUG_MODE && console.log('유저 정보 초기화됨');
+  }, [isOpen, userState]);
+
+  useEffect(() => {
+    DEBUG_MODE && console.log('유저 정보 수정됨', modifiedUserInfo);
+  }, [modifiedUserInfo]);
 
   const inputUserInfoHandler = (e, tag) => {
     const inputValue = e.target.value;
@@ -249,15 +289,16 @@ const MyPageModal = ({ isOpen, setIsOpen }) => {
     } else if (tag === 'passwordCheck') {
       const newValue = {...modifiedUserInfo, passwordCheck: inputValue};
       setModifiedUserInfo(newValue);
-    } else if (tag === 'image') {
-      // 소스 코드 테스트
-      let img = e.target.files[0];
-      Upload(img, (result) => {
-        const url = result.url;
-        const newValue = {...modifiedUserInfo, image: url};
-        setModifiedUserInfo(newValue);
-      });
-    }
+    } else return;
+  };
+
+  const inputUserImageHandler = (e) => {
+    if (!e.target.files) return;
+    DEBUG_MODE && console.log(e.target.value);
+    const file = e.target.files[0];
+    const localUrl = URL.createObjectURL(file);
+    const newValue = {...modifiedUserInfo, image: localUrl, image_object: file};
+    setModifiedUserInfo(newValue);
   };
 
   const vaildMobileCheck = (input) => {
@@ -277,24 +318,51 @@ const MyPageModal = ({ isOpen, setIsOpen }) => {
   };
 
   const submitButtonHandler = async (e) => {
-    e.preventDefault();
     if (!submitEnabled) return;
     if (isPasswordMatched && isVaildPassword && isVaildName && isVaildMobile) {
-      setSubmitEnabled(false);
-      await fetchUserInfo();
-      setSubmitEnabled(true);
+      try {
+        setSubmitEnabled(false);
+        if(modifiedUserInfo.image_object !== '') {
+          const result = await Upload(modifiedUserInfo.image_object);
+          const newUrl = result.Location;
+          URL.revokeObjectURL(modifiedUserInfo.image);
+          const PAYLOAD = {
+            email: modifiedUserInfo.email,
+            name: modifiedUserInfo.name,
+            image: newUrl,
+            mobile: modifiedUserInfo.mobile,
+            password: modifiedUserInfo.password,
+          };
+          DEBUG_MODE && console.log('프로필 사진 업로드 완료');
+          await fetchUserInfo(PAYLOAD);
+          userDispatch({type: "USER_LOGOUT"});
+          userDispatch({type: "SET_USER_DATA_NULL"});
+          alert('회원정보가 수정되었습니다');
+          window.location = "/";
+        } else {
+          const PAYLOAD = {
+            email: modifiedUserInfo.email,
+            name: modifiedUserInfo.name,
+            image: modifiedUserInfo.image,
+            mobile: modifiedUserInfo.mobile,
+            password: modifiedUserInfo.password,
+          };
+          await fetchUserInfo(PAYLOAD);
+          userDispatch({type: "USER_LOGOUT"});
+          userDispatch({type: "SET_USER_DATA_NULL"});
+          alert('회원정보가 수정되었습니다');
+          window.location = "/";
+        }
+      } catch (err) {
+        DEBUG_MODE && console.log(err);
+      } finally {
+        setSubmitEnabled(true);
+      }
     }
   }
 
-  const fetchUserInfo = async () => {
+  const fetchUserInfo = async (PAYLOAD) => {
     const URL = `/users/edit`;
-    const PAYLOAD = {
-      email: modifiedUserInfo.email,
-      name: modifiedUserInfo.name,
-      image: modifiedUserInfo.image,
-      mobile: modifiedUserInfo.mobile,
-      password: modifiedUserInfo.password,
-    };
 
     let response = null;
     try {
@@ -369,145 +437,136 @@ const MyPageModal = ({ isOpen, setIsOpen }) => {
     }, 1000);
   }, [modifiedUserInfo]);
 
-  useEffect(() => {
-    const initiate = async () => {
-      if(isOpen) {
-        const data = userState.userData;
-        const newValue = {
-          email: data.email,
-          name: data.name,
-          mobile: data.mobile,
-          image: data.image,
-          gender: data.gender,
-          password: "",
-          passwordCheck: "",
-        };
-        setModifiedUserInfo(newValue);
-      }
-    }
-    initiate();
-  }, [isOpen, userState]);
-
   // 모달창 온오프 핸들러
   const modalOpenHandler = () => {
+    console.log(isOpen);
     setIsOpen(!isOpen);
   }
+
+  useEffect(() => {
+    console.log(isOpen, isLogin, isResigned);
+  }, [isOpen]);
 
   return (
     <>
     <ModalBtn onClick={modalOpenHandler}>내 정보</ModalBtn>
-    {isOpen ?
+    {/* 유저가 회원 탈퇴했을 때 표시하는 페이지*/}
+    {isResigned ?
     <ModalBackdrop>
-        <ModalView>
-          {/* 유저가 로그인하지 않았을 때 로그인을 요구하는 페이지 */}
-          {!userState.isUserLoggedIn ?
-          <PleaseLogin openHandler={modalOpenHandler} />
-          : null}
+      <ModalView>
+        <ResignSuccess setIsLogin={setIsLogin} />
+      </ModalView>
+    </ModalBackdrop>
+    : null}
+    
+    {/* 유저가 로그인하지 않았을 때 로그인을 요구하는 페이지 */}
+    {isOpen && !isLogin && !isResigned ?
+    <ModalBackdrop>
+      <ModalView>
+        <PleaseLogin modalOpenHandler={modalOpenHandler} />
+      </ModalView>
+    </ModalBackdrop>
+    : null}
 
-          {userState.isUserLoggedIn && 0?
-          <ResignSuccess openHandler={modalOpenHandler} />
-          : null}
-
-          {/* 유저가 로그인 했다면 본문을 표시 */}
-          {userState.isUserLoggedIn ?
-          <>
-          <span onClick={modalOpenHandler} className='close_btn'>&times;</span>
-          <h1 className="modal_title">내 정보 수정</h1>
-          <div className="modal_form">
-            <p className="profile_image_title">내 사진</p>
-            <p className="profile_image_message">클릭하시면 수정할 수 있습니다</p>
-            <div className="imageBox">
-              <label htmlFor="profile_upload"></label>
-              <img src={modifiedUserInfo.image} alt="이미지 100px*100px"></img>
-              <input type="file" id="profile_upload"onChange={(e) => inputUserInfoHandler(e, 'image')} accept="image/*"></input>
-            </div>
-
-            <div className="inputBox">
-              <input type="text" name="email" autocomplete="off" value={modifiedUserInfo.email} readonly required />
-              <label 
-                className={modifiedUserInfo.email === '' ?
-                '' : 'label_active'}>
-                이메일
-                </label>
-            </div>
-            <div className="inputBox">
-              <input type="text" name="text" autocomplete="off"  defaultValue={modifiedUserInfo.name} onChange={(e) => inputUserInfoHandler(e, 'name')} required />
-              <label 
-                className={modifiedUserInfo.name === '' ?
-                '' : 'label_active'}>
-                이름
-                </label>
-            </div>
-            <div className="vaildCheck">
-              <p 
-                className="valid_check_msg"
-                style={{visibility: !isVaildName ? "visible" : "hidden"}}>
-                닉네임은 2 ~ 10자, 영문, 한글, 숫자, 띄어쓰기만 가능합니다
-                </p>
-            </div>
-
-            <div className="user_gender">
-              <p className="user_gender_title">성별</p>
-              <p>{modifiedUserInfo.gender === 'MALE' ? "남" : "여"}</p>
-            </div> 
-
-            <div className="inputBox">
-              <input type="password" name="password" onChange={(e) => inputUserInfoHandler(e, 'password')} autocomplete="off" required />
-              <label 
-                className={modifiedUserInfo.password === '' ?
-                '' : 'label_active'}>
-                비밀번호
-                </label>
-            </div> 
-            
-            <div className="inputBox">
-              <input type="password" name="passwordCheck" onChange={(e) => inputUserInfoHandler(e, 'passwordCheck')} autocomplete="off" required />
-              <label 
-                className={modifiedUserInfo.passwordCheck === '' ?
-                '' : 'label_active'}>
-                비밀번호 확인
-                </label>
-            </div> 
-
-            <div className="vaildCheck">
-              <p
-                className="valid_check_msg"
-                style={{visibility: !isPasswordEmpty && !isPasswordMatched ? "visible" : "hidden"}}>
-                비밀번호가 일치하지 않습니다
-                </p>
-              <p
-                className="valid_check_msg"
-                style={{visibility: !isVaildPassword && isPasswordMatched ? "visible" : "hidden"}}>
-                비밀번호는 영문자 6 ~ 20자로, 최소 1개의 숫자 또는 특수 문자를 포함해야 합니다
-                </p>
-            </div>
-
-            <div className="inputBox">
-              <input type="tel" name="tel" autocomplete="off" defaultValue={modifiedUserInfo.mobile} onChange={(e) => inputUserInfoHandler(e, 'mobile')} required />
-              <label 
-                className={modifiedUserInfo.mobile === '' ?
-                '' : 'label_active'}>
-                연락처
-                </label>
-            </div>  
-            
-            <div className="vaildCheck">
-              <p 
-                className="valid_check_msg"
-                style={{visibility: !isVaildMobile ? "visible" : "hidden"}}>
-                휴대폰 번호가 형식에 맞지 않습니다
-                </p>
-            </div>
+    {/* 유저가 로그인 했다면 본문을 표시 */}
+    {isOpen && isLogin && !isResigned ?
+    <ModalBackdrop>
+      <ModalView>
+        <span onClick={modalOpenHandler} className='close_btn'>&times;</span>
+        <h1 className="modal_title">내 정보 수정</h1>
+        <div className="modal_form">
+          <p className="profile_image_title">내 사진</p>
+          <p className="profile_image_message">클릭하시면 수정할 수 있습니다</p>
+          <div className="imageBox">
+            <label htmlFor="profile_uploader_1"></label>
+            <img src={modifiedUserInfo.image} alt="이미지 100px*100px"></img>
+            <input type="file" id="profile_uploader_1"onChange={(e) => inputUserImageHandler(e)}></input>
           </div>
-          <div className="button_container">
-              <button className="button_yes" onClick={submitButtonHandler}>수정 완료</button>
-              <button className="button_no" onClick={modalOpenHandler}>취소</button>
-              <MessageResign />
-            </div>
-          </>
-        : null}
-        </ModalView>
-      </ModalBackdrop>
+
+          <div className="inputBox">
+            <input type="text" name="email" autocomplete="off" defaultValue={modifiedUserInfo.email} readonly required />
+            <label 
+              className={modifiedUserInfo.email === '' ?
+              '' : 'label_active'}>
+              이메일
+              </label>
+          </div>
+          <div className="inputBox">
+            <input type="text" name="text" autocomplete="off"  defaultValue={modifiedUserInfo.name} onChange={(e) => inputUserInfoHandler(e, 'name')} required />
+            <label 
+              className={modifiedUserInfo.name === '' ?
+              '' : 'label_active'}>
+              이름
+              </label>
+          </div>
+          <div className="vaildCheck">
+            <p 
+              className="valid_check_msg"
+              style={{visibility: !isVaildName ? "visible" : "hidden"}}>
+              닉네임은 2 ~ 10자, 영문, 한글, 숫자, 띄어쓰기만 가능합니다
+              </p>
+          </div>
+
+          <div className="user_gender">
+            <p className="user_gender_title">성별</p>
+            <p>{modifiedUserInfo.gender === 'MALE' ? "남" : "여"}</p>
+          </div> 
+
+          <div className="inputBox">
+            <input type="password" name="password" onChange={(e) => inputUserInfoHandler(e, 'password')} autocomplete="off" required />
+            <label 
+              className={modifiedUserInfo.password === '' ?
+              '' : 'label_active'}>
+              비밀번호
+              </label>
+          </div> 
+          
+          <div className="inputBox">
+            <input type="password" name="passwordCheck" onChange={(e) => inputUserInfoHandler(e, 'passwordCheck')} autocomplete="off" required />
+            <label 
+              className={modifiedUserInfo.passwordCheck === '' ?
+              '' : 'label_active'}>
+              비밀번호 확인
+              </label>
+          </div> 
+
+          <div className="vaildCheck">
+            <p
+              className="valid_check_msg"
+              style={{visibility: !isPasswordEmpty && !isPasswordMatched ? "visible" : "hidden"}}>
+              비밀번호가 일치하지 않습니다
+              </p>
+            <p
+              className="valid_check_msg"
+              style={{visibility: !isVaildPassword && isPasswordMatched ? "visible" : "hidden"}}>
+              비밀번호는 영문자 6 ~ 20자로, 최소 1개의 숫자 또는 특수 문자를 포함해야 합니다
+              </p>
+          </div>
+
+          <div className="inputBox">
+            <input type="tel" name="tel" autocomplete="off" defaultValue={modifiedUserInfo.mobile} onChange={(e) => inputUserInfoHandler(e, 'mobile')} required />
+            <label 
+              className={modifiedUserInfo.mobile === '' ?
+              '' : 'label_active'}>
+              연락처
+              </label>
+          </div>  
+          
+          <div className="vaildCheck">
+            <p 
+              className="valid_check_msg"
+              style={{visibility: !isVaildMobile ? "visible" : "hidden"}}>
+              휴대폰 번호가 형식에 맞지 않습니다
+              </p>
+          </div>
+        </div>
+        <div className="button_container">
+          <button className="button_yes" onClick={submitButtonHandler}>수정 완료</button>
+          <button className="button_no" onClick={modalOpenHandler}>취소</button>
+          <MessageResign setIsResigned={setIsResigned} setIsLogin={setIsLogin}></MessageResign>
+        </div>
+      </ModalView>
+    </ModalBackdrop>
     : null}
     </>
   );

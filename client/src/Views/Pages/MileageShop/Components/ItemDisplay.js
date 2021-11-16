@@ -34,19 +34,17 @@ const ItemDisplayWrapper = styled.div`
 
 const ItemContainerWrapper = styled.div`
   font-family: 'EBSHMJESaeronRA';
-  padding: 2.5em 1% 2.5em 1%;
+  padding: 2% 1% 2% 1%;
   flex: 1 0 0;
   height: auto;
   /* flex 설정 */
-  display: flex;
-  flex-flow: row wrap;
-  justify-content: space-between;
-
-
-  // space-between 마지막 공간 채우기
-  &::after {
-    content: '';
-    flex: 20rem 1 1;
+  display: grid;
+  grid-gap: 3vh 3vw;
+  justify-items: center;
+  
+  grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+  @media (max-width: 480px) {
+    grid-template-columns: repeat(auto-fit, minmax(80vw, 1fr));
   }
   > .item_container {
     position: relative;
@@ -54,24 +52,33 @@ const ItemContainerWrapper = styled.div`
     border-radius: 5px;
     margin: 1rem;
     padding: 0.5% 0.5% 0.5% 0.5%;
-    width: 20em;
-    height: 33em;
     display: flex;
     flex-direction: column;
     gap: 1px;
+
+    width: 20rem;
+    height: 33rem;
+    @media (max-width: 480px) {
+      width: 80vw;
+      height: 120vw;
+    }
     > .image_container {
       background-color: gray;
       margin: 0px 0px 3px 0px;
       border: none;
       border-radius: 5px;
       outline: 1px dotted black;
-      width: 260px;
-      height: 260px;
+      max-width: 320px;
+      max-height: 320px;
       overflow: hidden;
+      @media (max-width: 480px) {
+        max-width: 100%;
+        max-height: 80vw;
+      }
     }
+
     > .image_container .item_image {
-      width: 100%;
-      height: 100%;
+      object-fit: contain;
     }
     > .item_selected_msg {
       position: absolute;
@@ -119,10 +126,6 @@ const ItemContainerWrapper = styled.div`
   > .selected {
     border: none;
     outline: 2px solid blueviolet;
-  }
-  @media (max-width: 768px) {
-    justify-content: center;
-    align-items: center;
   }
 `;
 

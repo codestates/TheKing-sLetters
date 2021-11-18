@@ -14,7 +14,7 @@
     "aws-sdk": "^2.1005.0",
     "axios": "^0.22.0",
     "dotenv": "^10.0.0",
-    "node-sass": "^4.14.1",
+    "node-sass": "^6.0.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-image-crop": "^9.0.4",

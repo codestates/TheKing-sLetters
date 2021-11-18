@@ -503,8 +503,7 @@ const MyPage = (props) => {
 
   useEffect(() => {
     if(userState.isUserLoggedIn) {
-      axios.get("/users/info")
-      // 로그인시 받은 토큰을 헤더에 담아 로그인 된상태고 get요청을 한 이유는 mypage에서 사용하기 위해  요청한 것  
+      axios.get("/users/info") 
       .then((response) => {
         setUserData({
           email : response.data.data.userData.email,
@@ -514,8 +513,7 @@ const MyPage = (props) => {
         })    
       });
 
-      axios.get("/mypublish")
-      // 로그인시 받은 토큰을 헤더에 담아 로그인 된상태고 get요청을 한 이유는 mypage에서 사용하기 위해  요청한 것  
+      axios.get("/mypublish") 
       .then((response)=> {
         setQuiz(response.data.data.madeQuiz)
         DEBUG_MODE && console.log(response.data.data.madeQuiz)

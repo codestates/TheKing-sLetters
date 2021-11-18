@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 import dotenv from 'dotenv';
-dotenv.config();
 
 import { useUserState, useUserDispatch } from '../../context/UserContext';
 import GitHubLogo from './Assets/github-1.png';
 import GoogleLogo from './Assets/google-1.png';
+dotenv.config();
 
 axios.defaults.baseURL = `https://api.thekingsletters.ml`;
 axios.defaults.withCredentials = true;
@@ -227,8 +227,8 @@ const SignInModal = ({isOpen, setIsOpen, switcher}) => {
   const userState = useUserState();
   /* 유저 로그인 정보 수정 */
   const dispatch = useUserDispatch();
-  const gitOAuthUrl = process.env.GIT_OAUTH_URL;
-  const googleOAuthUrl = process.env.GOOGLE_OAUTH_URL;
+  const gitOAuthUrl = process.env.REACT_APP_GIT_OAUTH_URL;
+  const googleOAuthUrl = process.env.REACT_APP_GOOGLE_OAUTH_URL;
 
   /* 모달창 온오프 핸들러 */
   const modalOpenHandler = () => {

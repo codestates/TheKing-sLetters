@@ -425,13 +425,8 @@ const MyPageModal = () => {
 
   // 모달창 온오프 핸들러
   const modalOpenHandler = () => {
-    console.log(isOpen);
     setIsOpen(!isOpen);
   }
-
-  useEffect(() => {
-    console.log(isOpen, isLogin, isResigned);
-  }, [isOpen]);
 
   return (
     <>

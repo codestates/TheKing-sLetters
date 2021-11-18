@@ -33,7 +33,6 @@ const GoogleAuth = (props) => {
 
   useEffect(() => {
     const url = new URL(window.location.href)
-    console.log(url)
     if(url.searchParams.get('code')) {
       const authorizationCode = url.searchParams.get('code')
       axios.get(`https://api.thekingsletters.ml/auth/google?code=${authorizationCode}`)

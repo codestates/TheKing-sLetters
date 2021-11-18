@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-// import "./Modal.css";
 import styled from 'styled-components';
 import axios from 'axios';
 import RankModalImg from './RankModalImg.png'
@@ -31,7 +30,6 @@ const ModalBackground = styled.div`
     }
   width: 40em;
   
-  /* height: 600px; */
   border-radius: 12px;
   background-color: white;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
@@ -116,14 +114,12 @@ top: 25px;
       width: 29.5em;
     } 
     //scroll
-    /* background-color: #a5d6a7; */
 
     overflow: auto;
     height: 440px;
     width: 39em;
     border: 1px solid black;
     margin-top: 35px;
-    /* border-radius: 12px; */
     margin-bottom: 10px;
     color: #263238;
 
@@ -176,7 +172,6 @@ top: 25px;
   background-color: rgba(77, 109, 254, 0.9);
  
   color: white; 
-  /* color: #f1f8e9; */
   border-radius: 8px;
   font-size: 20px;
   cursor: pointer;
@@ -185,7 +180,6 @@ top: 25px;
   bottom: -20px;  
 }
 > .trueBtn:hover {
-    /* border: 1px solid green; */
     border: 1px solid #0066ff;
     background-color: #0066ff;
   }
@@ -231,7 +225,7 @@ const Modal6 = ({ setOpenModal }) => {
     }).catch((err) => {
       DEBUG_MODE && console.log(err);
     });
-  }, [limit]) //useEffect 를 한번 더 사용한 이유 
+  }, [limit])
 
   return (
     <ModalBackground>
@@ -243,7 +237,6 @@ const Modal6 = ({ setOpenModal }) => {
             }}
           >
             &times;
-            {/* <FontAwesomeIcon icon={faWindowClose} size="2x" ></FontAwesomeIcon> */}
           </button>
         </TitleCloseBtn>
         <Title>

@@ -301,25 +301,24 @@ const settings = {
 };
 
 const MainHot = ({ MainHotData }) => {
-  const [RandomMainHot, setRandomMainHot] = useState([]);
+  const [HeartMainHot, setHeartMainHot] = useState([]);
   useEffect(() => {
-    handleRandomMainhot();
-  });
-  const handleRandomMainhot = () => {
-    let randomList = [];
-    for (let i = 0; i < 4; i++) {
-      let random = Math.floor(Math.random() * MainHotData.length);
-      randomList.push(MainHotData[random]);
-    }
-    let reRandom = randomList.filter((el, i) => randomList.indexOf(el) === i);
-    while (reRandom.length === 4) {
-      if (reRandom.length === 4) {
-        return setRandomMainHot(reRandom);
-      } else {
-        let reList = Math.floor(Math.random() * MainHotData.length);
-        reRandom.push(MainHotData[reList]);
+    handleHeartMainHot();
+  }, [MainHotData]);
+  const handleHeartMainHot = () => {
+    let mainData = MainHotData.sort((a, b) => b.heart - a.heart);
+    let result = [];
+    for (let i = 0; i < mainData.length; i++) {
+      if (result.length !== 4) {
+        result.push(mainData[i]);
+      } else if (
+        result.legth > 4 &&
+        mainData[i].heart === mainData[i + 1].heart
+      ) {
+        result.push(mainData[i + 1]);
       }
     }
+    setHeartMainHot(result);
   };
   const handleQuizClick = async (event) => {
     await axios
@@ -341,7 +340,7 @@ const MainHot = ({ MainHotData }) => {
       <div className="main__banner">
         <h2>조회수 多</h2>
         <Slider {...settings}>
-          {RandomMainHot.map((el, i) => {
+          {HeartMainHot.map((el, i) => {
             return (
               <Link to={`/quizsolve/${el.id}`} key={i}>
                 <div
